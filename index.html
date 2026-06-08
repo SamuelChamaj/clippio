@@ -68,6 +68,7 @@
             gap: 25px;
         }
 
+        /* Skupina sociálnych ikoniek v menu */
         .social-icons-group {
             display: flex;
             align-items: center;
@@ -133,6 +134,7 @@
             filter: grayscale(100%);
         }
 
+        /* Hero sekcia */
         .hero {
             padding: 100px 0 60px 0;
             text-align: center;
@@ -181,6 +183,7 @@
             box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
         }
 
+        /* Nadpisy sekcií */
         section h2.section-title {
             font-size: 32px;
             font-weight: 800;
@@ -196,6 +199,7 @@
             font-size: 16px;
         }
 
+        /* Služby */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -221,6 +225,7 @@
             font-size: 15px;
         }
 
+        /* PORTFÓLIO (KOLONKY) */
         .portfolio-section {
             padding: 60px 0;
             border-top: 1px solid var(--border-color);
@@ -276,6 +281,7 @@
             letter-spacing: 0.5px;
         }
 
+        /* Sekcia: O mne */
         .about-section {
             padding: 60px 0;
             border-top: 1px solid var(--border-color);
@@ -319,6 +325,7 @@
             font-size: 14px;
         }
 
+        /* Sekcia: FAQ */
         .faq-section {
             padding: 60px 0;
             border-top: 1px solid var(--border-color);
@@ -347,6 +354,7 @@
             font-size: 15px;
         }
 
+        /* Formulár */
         .form-section {
             background-color: var(--card-bg);
             padding: 60px 40px;
@@ -417,6 +425,7 @@
             color: var(--primary-blue);
         }
 
+        /* Pätička */
         footer {
             text-align: center;
             padding: 40px 0;
@@ -494,6 +503,7 @@
                     <h3>Ahoj, ja som Samuel.</h3>
                     <p>Vizuálna tvorba pre mňa nie je len práca, kde odklikám osem hodín a idem domov. Clippio som založil preto, aby som firmám a značkám pomohol vystúpiť zo šedej zóny internetu.</p>
                     <p>Keď natáčam video alebo lietam s dronom, hľadám správne uhly a hrám sa s dynamikou. Moje pôsobisko je primárne okolie miest <strong>Nitra, Levice, Zlaté Moravce a Vráble</strong>, kde rád prídem osobne natočiť vašu akciu, firmu či svadobný obrad.</p>
+                    <p>Ak však potrebujete iba postrihať dodané zábery, vytvoriť moderné logo alebo pripraviť vizuálnu identitu, <strong>všetko vieme vyriešiť na diaľku online</strong>. Zakladám si na flexibilite a ľudskom prístupe – na všetkom sa dá dohodnúť.</p>
                 </div>
                 <div class="about-text">
                     <div class="about-features">
@@ -505,7 +515,39 @@
                             <strong>🎯 Orientácia na cieľ</strong>
                             <p>Pekný vizuál nestačí. Moje videá a dizajn navrhujem tak, aby reálne predávali, oslovili vašu cieľovku a budovali brand.</p>
                         </div>
+                        <div class="feat-item">
+                            <strong>🛸 Certifikovaný let</strong>
+                            <p>Zábery z dronu nerobím „na čierno“. Lietam bezpečne, zodpovedne a s citom pre filmové kompozície.</p>
+                        </div>
+                        <div class="feat-item">
+                            <strong>🤝 Flexibilita</strong>
+                            <p>Každá firma má iné potreby a možnosti. Netlačím nikoho do nezmyselných balíkov služieb, tvorím ponuky na mieru.</p>
+                        </div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <h2 class="section-title">Často kladené otázky</h2>
+            <p class="section-subtitle">Všetko, čo potrebujete vedieť pred začiatkom spolupráce.</p>
+            
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h4>Koľko stojí video alebo dizajn?</h4>
+                    <p>Fixný cenník nemám z jednoduchého dôvodu – každý projekt je jedinečný. Cena závisí od náročnosti strihu, dĺžky natáčania či rozsahu grafiky. Napíšte mi vašu predstavu (a pokojne aj rozpočet) a navrhnem riešenie.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>Ako dlho trvá dodanie hotovej práce?</h4>
+                    <p>Kratšie formáty ako Reels alebo produktové fotky dodávam zvyčajne do niekoľkých dní. Pri komplexnejších reklamných videách alebo kompletnej identite značky sa vopred dohodneme na presnom termíne, ktorý vždy dodržím.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>Aké dopyty na dron vieme zrealizovať?</h4>
+                    <p>Prakticky čokoľvek, na čom sa dohodneme. Od emotívnych obletov a emotívnych momentov na svadbách, cez zachytenie živej atmosféry z rôznych akcií a podujatí, až po užitočné technické projekty ako vizuálna kontrola striech.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>Čo ak budem chcieť vo videu niečo prerobiť?</h4>
+                    <p>V cene každej služby máte započítané kolá pripomienok. Hotové video vám pošlem na schválenie a spoločne ho doladíme tak, aby ste s ním boli na 100 % spokojný. Sme predsa ľudia – dohodneme sa.</p>
                 </div>
             </div>
         </section>
@@ -541,16 +583,39 @@
             
             <form action="https://api.web3forms.com/submit" method="POST">
                 <input type="hidden" name="access_key" value="TU_VLOZ_SVOJ_KLUC">
+                <input type="hidden" name="subject" value="Nový dopyt z webu Clippio">
+                
                 <input type="text" name="Meno / Firma" placeholder="Vaše meno / Názov firmy" required>
                 <input type="email" name="E-mail klienta" placeholder="Váš e-mail" required>
-                <textarea name="Detaily o projekte" rows="4" placeholder="Napíšte mi stručnú predstavu..." required></textarea>
+                
+                <select name="Vybraná služba" required>
+                    <option value="" disabled selected>Čo budeme tvoriť?</option>
+                    <option value="Natáčanie & Strih videa">Natáčanie & Strih videa</option>
+                    <option value="Zábery z dronu">Zábery z dronu (svadby, akcie, strechy...)</option>
+                    <option value="Grafický dizajn">Grafický dizajn</option>
+                    <option value="Kombinácia služieb na mieru">Kombinácia služieb na mieru</option>
+                </select>
+                
+                <textarea name="Detaily o projekte" rows="4" placeholder="Napíšte mi stručnú predstavu alebo rozpočet. Prispôsobím sa..." required></textarea>
+                
                 <button type="submit">Odoslať nezáväzný dopyt</button>
             </form>
+
+            <div class="direct-contact">
+                Alebo mi napíšte/zavolajte priamo: 
+                <a href="tel:+421949286294">+421 949 286 294</a> | 
+                <a href="mailto:info@clippio.sk">info@clippio.sk</a>
+            </div>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2026 Clippio. Vytvoril Samuel.</p>
+        <div class="footer-contacts">
+            Tel: <a href="tel:+421949286294">+421 949 286 294</a> | 
+            E-mail: <a href="mailto:info@clippio.sk">info@clippio.sk</a> | 
+            IG: <a href="https://www.instagram.com/clippio_sk/" target="_blank">@clippio_sk</a>
+        </div>
+        <p>&copy; 2026 Clippio. Vytvoril Samuel. Na všetkom sa dá dohodnúť.</p>
     </footer>
 
     <script>
