@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clippio | Samuel</title>
     <style>
+        /* Pridané pre plynulé posúvanie na formulár */
+        html { scroll-behavior: smooth; }
+
         :root {
             --bg-color: #ffffff;
             --text-color: #0f172a;
@@ -56,10 +59,10 @@
         }
 
         .logo {
-            font-size: 26px;
+            font-size: 34px;
             font-weight: 800;
             color: var(--primary-blue);
-            letter-spacing: -0.5px;
+            letter-spacing: -1px;
         }
 
         .header-right {
@@ -133,7 +136,6 @@
             filter: grayscale(100%);
         }
 
-        /* Hero sekcia */
         .hero {
             padding: 100px 0 60px 0;
             text-align: center;
@@ -171,6 +173,7 @@
             background-color: rgba(59, 130, 246, 0.15);
         }
 
+        /* Upravené tlačidlo s animáciou */
         .cta-btn {
             background-color: var(--primary-blue);
             color: var(--btn-text);
@@ -180,9 +183,15 @@
             font-weight: 700;
             display: inline-block;
             box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+            /* Plynulá animácia */
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
         }
 
-        /* Nadpisy sekcií */
+        .cta-btn:active {
+            transform: scale(0.96); /* Jemné stlačenie */
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+        }
+
         section h2.section-title {
             font-size: 32px;
             font-weight: 800;
@@ -198,7 +207,6 @@
             font-size: 16px;
         }
 
-        /* Služby */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -224,7 +232,6 @@
             font-size: 15px;
         }
 
-        /* PORTFÓLIO (KOLONKY) */
         .portfolio-section {
             padding: 60px 0;
             border-top: 1px solid var(--border-color);
@@ -238,15 +245,24 @@
             margin: 0 auto;
         }
 
-        /* UPRAVENÉ MEDIA QUERIES PRE RESPONSIVITU */
+        /* RESPONSIVITA */
         @media (max-width: 768px) {
-            .container { padding: 0 20px; } /* Pridaný padding */
-            .about-content { grid-template-columns: 1fr; gap: 30px; }
-            .about-features { grid-template-columns: 1fr; } /* Opravené pre mobily */
-            .faq-grid { grid-template-columns: 1fr; }
+            .container { padding: 0 20px; }
             .hero h1 { font-size: 36px; }
             header { flex-direction: column; gap: 15px; text-align: center; }
             .theme-switcher { border-left: none; padding-left: 0; }
+            
+            .about-content { 
+                grid-template-columns: 1fr !important; 
+                gap: 30px !important; 
+            }
+            .about-features { 
+                grid-template-columns: 1fr !important; 
+                gap: 20px !important;
+            }
+            .faq-grid { grid-template-columns: 1fr !important; }
+            .services-grid { grid-template-columns: 1fr !important; }
+            .disk-portfolio-grid { grid-template-columns: 1fr !important; }
         }
 
         .disk-card {
@@ -284,7 +300,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* Sekcia: O mne */
         .about-section {
             padding: 60px 0;
             border-top: 1px solid var(--border-color);
@@ -328,7 +343,6 @@
             font-size: 14px;
         }
 
-        /* Sekcia: FAQ */
         .faq-section {
             padding: 60px 0;
             border-top: 1px solid var(--border-color);
@@ -353,7 +367,6 @@
             font-size: 15px;
         }
 
-        /* Formulár */
         .form-section {
             background-color: var(--card-bg);
             padding: 60px 40px;
@@ -424,7 +437,6 @@
             color: var(--primary-blue);
         }
 
-        /* Pätička */
         footer {
             text-align: center;
             padding: 40px 0;
@@ -585,7 +597,7 @@
                 <input type="hidden" name="subject" value="Nový dopyt z webu Clippio">
                 
                 <input type="text" name="Meno / Firma" placeholder="Vaše meno / Názov firmy" required>
-                <input type="email" name="E-mail klienta" placeholder="Váš e-mail" required>
+                <input type="email" name="E-mail klienta" placeholder="Vaš e-mail" required>
                 
                 <select name="Vybraná služba" required>
                     <option value="" disabled selected>Čo budeme tvoriť?</option>
@@ -618,21 +630,24 @@
     </footer>
 
     <script>
-        const lightBtn = document.getElementById('lightBtn');
-        const darkBtn = document.getElementById('darkBtn');
-        
-        lightBtn.addEventListener('click', () => {
-            document.documentElement.removeAttribute('data-theme');
-            lightBtn.classList.add('active');
-            darkBtn.classList.remove('active');
-        });
+        document.addEventListener('DOMContentLoaded', () => {
+            const lightBtn = document.getElementById('lightBtn');
+            const darkBtn = document.getElementById('darkBtn');
+            
+            if (lightBtn && darkBtn) {
+                lightBtn.addEventListener('click', () => {
+                    document.documentElement.removeAttribute('data-theme');
+                    lightBtn.classList.add('active');
+                    darkBtn.classList.remove('active');
+                });
 
-        darkBtn.addEventListener('click', () => {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            darkBtn.classList.add('active');
-            lightBtn.classList.remove('active');
+                darkBtn.addEventListener('click', () => {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    darkBtn.classList.add('active');
+                    lightBtn.classList.remove('active');
+                });
+            }
         });
     </script>
 </body>
 </html>
-
