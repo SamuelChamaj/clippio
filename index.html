@@ -68,7 +68,6 @@
             gap: 25px;
         }
 
-        /* Skupina sociálnych ikoniek v menu */
         .social-icons-group {
             display: flex;
             align-items: center;
@@ -239,8 +238,12 @@
             margin: 0 auto;
         }
 
+        /* UPRAVENÉ MEDIA QUERIES PRE RESPONSIVITU */
         @media (max-width: 768px) {
+            .container { padding: 0 20px; } /* Pridaný padding */
             .about-content { grid-template-columns: 1fr; gap: 30px; }
+            .about-features { grid-template-columns: 1fr; } /* Opravené pre mobily */
+            .faq-grid { grid-template-columns: 1fr; }
             .hero h1 { font-size: 36px; }
             header { flex-direction: column; gap: 15px; text-align: center; }
             .theme-switcher { border-left: none; padding-left: 0; }
@@ -337,10 +340,6 @@
             gap: 30px;
             max-width: 900px;
             margin: 0 auto;
-        }
-
-        @media (max-width: 768px) {
-            .faq-grid { grid-template-columns: 1fr; }
         }
 
         .faq-item h4 {
@@ -636,3 +635,4 @@
     </script>
 </body>
 </html>
+
