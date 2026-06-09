@@ -6,6 +6,8 @@
     
     <!-- SEO Úpravy -->
     <title>Clippio | Video produkcia, Dron a Grafika | Samuel</title>
+    <link rel="icon" type="image/png" href="logo.png">
+
     <meta name="description" content="Clippio – Samuel. Tvorba profesionálnych videí, zábery z dronu a grafický dizajn pre váš biznis. Pôsobím v regióne Nitra, Levice, Zlaté Moravce a online.">
     <meta name="keywords" content="Clippio, Samuel, video produkcia, strih videa, dron Nitra, grafický dizajn, tvorba obsahu, Zlaté Moravce">
     <link rel="canonical" href="https://www.clippio.sk/" />
@@ -254,6 +256,22 @@
             background-color: var(--toggle-bg-active);
             opacity: 1;
             filter: grayscale(100%);
+        }
+
+        .toggle-icon svg {
+            width: 18px;
+            height: 18px;
+            stroke: var(--text-color);
+            stroke-width: 2;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: stroke 0.2s ease;
+        }
+
+        .toggle-icon:hover svg,
+        .toggle-icon.active svg {
+            stroke: var(--primary-blue);
         }
 
         .hero {
@@ -591,13 +609,29 @@
                     <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
                 </a>
                 <a href="https://drive.google.com/drive/folders/1fFyYO3gz5sYHFI8faHus__VncU36Lw2O?usp=sharing" target="_blank" class="social-icon-link" aria-label="Google Drive">
-                    <svg viewBox="0 0 24 24"><path d="M10 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2h-8l-2-2z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M7.71 3.5L1.15 15l3.43 5.5h6.56L7.71 14.5H4.58l3.13-5.5zM16.29 3.5H7.71l3.43 6h8.58zM12.86 14.5l-3.43 6h8.57L24.57 15l-3.43-5.5z"/></svg>
                 </a>
             </div>
             
             <div class="theme-switcher">
-                <button class="toggle-icon active" id="lightBtn" aria-label="Svetlý režim">☀️</button>
-                <button class="toggle-icon" id="darkBtn" aria-label="Tmavý režim">🌙</button>
+                <button class="toggle-icon active" id="lightBtn" aria-label="Svetlý režim">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="12" cy="12" r="4"></circle>
+                        <path d="M12 2v2"></path>
+                        <path d="M12 20v2"></path>
+                        <path d="M4.93 4.93l1.41 1.41"></path>
+                        <path d="M17.66 17.66l1.41 1.41"></path>
+                        <path d="M2 12h2"></path>
+                        <path d="M20 12h2"></path>
+                        <path d="M4.93 19.07l1.41-1.41"></path>
+                        <path d="M17.66 6.34l1.41-1.41"></path>
+                    </svg>
+                </button>
+                <button class="toggle-icon" id="darkBtn" aria-label="Tmavý režim">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.5 6.5 0 0 0 9.8 9.8z"></path>
+                    </svg>
+                </button>
             </div>
         </div>
     </header>
