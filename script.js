@@ -14,3 +14,19 @@ document.addEventListener('DOMContentLoaded',()=>{
   const render=items=>{box.innerHTML=items.filter(x=>x.title||x.text).slice(0,5).map(x=>`<article class="update-card"><div class="update-date">${esc(x.date||'Novinka')}</div><div><h3>${esc(x.title)}</h3><p>${esc(x.text)}</p></div></article>`).join('')||'<p>Žiadne novinky.</p>'};
   fetch(url).then(r=>{if(!r.ok)throw Error();return r.text()}).then(t=>{const rows=t.trim().split(/\r?\n/).slice(1).map(parseLine);render(rows.map(c=>({date:c[0],title:c[2]||c[1],text:c[3]||c[2]})).reverse())}).catch(()=>render(fallback));
 });
+
+document.addEventListener('DOMContentLoaded',()=>{
+  const rowsBox=document.getElementById('photo-price-rows');
+  const status=document.getElementById('price-status');
+  if(!rowsBox) return;
+  const url='https://docs.google.com/spreadsheets/d/1Un2kgEMQ2jxUuFsdzAhXkSab8Z0hJ41qsATHA6Ojdig/gviz/tq?tqx=out:csv';
+  const esc=v=>String(v||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+  const parseLine=line=>{let a=[],c='',q=false;for(let i=0;i<line.length;i++){let ch=line[i],n=line[i+1];if(ch==='"'&&q&&n==='"'){c+='"';i++}else if(ch==='"')q=!q;else if(ch===','&&!q){a.push(c.trim());c=''}else c+=ch}a.push(c.trim());return a};
+  fetch(url).then(r=>{if(!r.ok)throw Error();return r.text()}).then(t=>{
+    const lines=t.trim().split(/\r?\n/).filter(Boolean);
+    const data=lines.slice(1).map(parseLine).filter(c=>c[0]&&c[1]);
+    if(!data.length) throw Error();
+    rowsBox.innerHTML=data.map(c=>`<tr><td>${esc(c[0])}</td><td>${esc(c[1])}</td><td>${esc(c[2]||'')}</td></tr>`).join('');
+    if(status) status.textContent='Aktuálne ceny vytlačených fotiek.';
+  }).catch(()=>{ if(status) status.textContent='Zobrazujem základné ceny. Aktuálne ceny sa dajú upraviť v cenníku.'; });
+});
