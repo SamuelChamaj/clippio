@@ -1,0 +1,66 @@
+# Clippio web – v4.7
+
+Statický HTML web pripravený pre GitHub Pages.
+
+## Ako nahrať na GitHub
+
+Nahraj obsah priečinka `clippio-main` priamo do rootu repozitára.
+Správne:
+
+```
+index.html
+sluzby.html
+portfolio.html
+assets/
+favicon/
+robots.txt
+sitemap.xml
+```
+
+Nesprávne:
+
+```
+clippio-main/index.html
+```
+
+## Štruktúra
+
+```
+/
+├── index.html
+├── sluzby.html
+├── portfolio.html
+├── kontakt.html
+├── weby.html
+├── cookies.html
+├── ochrana-osobnych-udajov.html
+├── 404.html
+├── assets/
+│   ├── css/
+│   │   └── style.css
+│   ├── js/
+│   │   └── main.js
+│   ├── images/
+│   │   ├── hero/
+│   │   ├── portfolio/
+│   │   ├── services/
+│   │   ├── logos/
+│   │   └── backgrounds/
+│   └── icons/
+│       └── social/
+├── favicon/
+├── data/
+├── docs/
+├── robots.txt
+├── sitemap.xml
+├── CNAME
+└── .nojekyll
+```
+
+## Portfólio webov
+
+Portfólio hotových webov je napojené na Google Spreadsheet. Nové weby dopĺňaj v tabuľke, nie priamo v HTML.
+
+## Poznámka
+
+Navbar a footer sú priamo v HTML, aby web fungoval aj pri otvorení zo ZIPu cez `file://`, nielen na GitHub Pages.
