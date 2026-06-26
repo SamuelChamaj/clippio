@@ -1,4 +1,4 @@
-// Clippio v4.6
+// Clippio v5.0.0
 // Stabilná verzia: navbar a footer sú priamo v HTML, aby web fungoval aj po otvorení cez file://.
 
 function escapeHtml(v){
@@ -32,7 +32,9 @@ function initNavigation(){
       burger.setAttribute('aria-expanded','false');
     }));
   }
-  const file=(location.pathname.split('/').pop()||'index.html').replace('.html','');
+  const parts=location.pathname.split('/').filter(Boolean);
+  let file=(parts[parts.length-1]||'index').replace('.html','');
+  if(file==='index' && parts.length>1) file=parts[parts.length-2];
   const servicePages=['tvorba-videi','video-z-akcie','fotenie-akcii-skol','dronove-zabery','grafika','svadobne-video'];
   const active=servicePages.includes(file)?'sluzby':file;
   document.querySelectorAll('[data-nav]').forEach(a=>{

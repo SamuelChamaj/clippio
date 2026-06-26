@@ -64,3 +64,14 @@ Portfólio hotových webov je napojené na Google Spreadsheet. Nové weby dopĺ�
 ## Poznámka
 
 Navbar a footer sú priamo v HTML, aby web fungoval aj pri otvorení zo ZIPu cez `file://`, nielen na GitHub Pages.
+
+
+## v5.0.0 – čisté URL bez .html
+
+Podstránky sú presunuté do priečinkov s vlastným `index.html`, napríklad:
+
+- `sluzby/index.html` → `/sluzby/`
+- `portfolio/index.html` → `/portfolio/`
+- `kontakt/index.html` → `/kontakt/`
+
+Staré `.html` súbory ostávajú len ako jednoduché presmerovania, aby staré odkazy nepadali na chybu.
