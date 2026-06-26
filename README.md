@@ -90,3 +90,21 @@ Nesprávne:
 - `clippio-main/index.html`
 
 Clean URL fungujú cez priečinky s `index.html`, napríklad `/sluzby/`.
+
+
+## Clippio v5.1 – Trust & Conversion Update
+- Pridané CTA prvky na zvýšenie počtu dopytov
+- Pridaná sekcia Pre koho je Clippio
+- Rozšírená dôveryhodnosť hlavnej stránky
+- Pridané FAQ
+- Pripravený placeholder pre Google recenzie
+- Upravený text O Clippio
+- Zlepšené texty pri formulári
+- Pridané floating CTA
+
+
+## Clippio v5.1.1 – Floating Smart CTA
+- Smart floating CTA pridané na všetky stránky webu.
+- Jemné upozornenie po 60 sekundách alebo po 70 % scrollu.
+- CTA sa skryje pri vypĺňaní formulára na mobile a neprekrýva cookie banner.
+- Kliknutie sa ukladá do localStorage.

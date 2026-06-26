@@ -1,4 +1,4 @@
-// Clippio v5.0.0
+// Clippio v5.1 – Trust & Conversion Update
 // Stabilná verzia: navbar a footer sú priamo v HTML, aby web fungoval aj po otvorení cez file://.
 
 function escapeHtml(v){
@@ -106,13 +106,106 @@ function initCookieConsent(){
   if(localStorage.getItem(KEY)) return;
   const banner=document.createElement('div');
   banner.className='cookie-banner show';
+  document.body.classList.add('cookie-banner-visible');
   banner.innerHTML=`<div class="cookie-inner"><div class="cookie-text"><strong>Cookies na Clippio.sk</strong><p>Používame nevyhnutné cookies pre fungovanie webu. Analytické cookies pomáhajú merať návštevnosť cez Google Analytics a vložený obsah z YouTube môže používať vlastné cookies.</p><div class="cookie-panel" id="cookie-panel"><label class="cookie-option"><input type="checkbox" checked disabled> Nevyhnutné cookies <span>– potrebné pre základné fungovanie webu.</span></label><label class="cookie-option"><input type="checkbox" id="cookie-analytics"> Analytické cookies <span>– meranie návštevnosti a zlepšovanie webu.</span></label><label class="cookie-option"><input type="checkbox" id="cookie-media"> Mediálne cookies <span>– vložený obsah, napríklad YouTube.</span></label></div></div><div class="cookie-actions"><button class="settings" type="button" id="cookie-settings">Nastavenia</button><button type="button" id="cookie-necessary">Len nevyhnutné</button><button class="accept" type="button" id="cookie-accept">Prijať všetko</button></div></div>`;
   document.body.appendChild(banner);
-  const save=(data)=>{localStorage.setItem(KEY,JSON.stringify(data));banner.classList.remove('show');document.dispatchEvent(new CustomEvent('clippioConsent',{detail:data}));};
+  const save=(data)=>{localStorage.setItem(KEY,JSON.stringify(data));banner.classList.remove('show');document.body.classList.remove('cookie-banner-visible');document.dispatchEvent(new CustomEvent('clippioConsent',{detail:data}));};
   const panel=banner.querySelector('#cookie-panel');
   banner.querySelector('#cookie-settings').addEventListener('click',()=>panel.classList.toggle('open'));
   banner.querySelector('#cookie-necessary').addEventListener('click',()=>save({necessary:true,analytics:false,media:false,date:new Date().toISOString()}));
   banner.querySelector('#cookie-accept').addEventListener('click',()=>save({necessary:true,analytics:true,media:true,date:new Date().toISOString()}));
+}
+
+function initFaq(){
+  document.querySelectorAll('.faq-question').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const item=btn.closest('.faq-item');
+      if(!item) return;
+      const open=!item.classList.contains('open');
+      item.classList.toggle('open',open);
+      btn.setAttribute('aria-expanded',String(open));
+    });
+  });
+}
+
+function initReveal(){
+  const items=document.querySelectorAll('.section,.audience-card,.trust-grid article,.process-steps article,.testimonial,.stat');
+  if(!items.length) return;
+  items.forEach(el=>el.classList.add('reveal'));
+  if(!('IntersectionObserver' in window)){
+    items.forEach(el=>el.classList.add('visible'));
+    return;
+  }
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  },{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
+  items.forEach(el=>io.observe(el));
+}
+
+function initFloatingCta(){
+  const cta=document.querySelector('.floating-cta');
+  if(!cta) return;
+
+  const label=cta.querySelector('strong');
+  const defaultText=label ? label.textContent : '';
+  const CLICK_KEY='clippio_last_cta_click';
+  const SESSION_CLICK_KEY='clippio_cta_clicked_this_visit';
+  let clicked=false;
+  let reminded=false;
+
+  try{ clicked=sessionStorage.getItem(SESSION_CLICK_KEY)==='1'; }catch(e){}
+
+  const markClicked=()=>{
+    clicked=true;
+    try{
+      localStorage.setItem(CLICK_KEY,new Date().toISOString());
+      sessionStorage.setItem(SESSION_CLICK_KEY,'1');
+    }catch(e){}
+  };
+
+  const remind=()=>{
+    if(clicked || reminded || !document.body.contains(cta)) return;
+    reminded=true;
+    cta.classList.add('is-reminding','is-question');
+    if(label) label.textContent='Máte otázku? Ponuka →';
+    window.setTimeout(()=>cta.classList.remove('is-reminding'),800);
+    window.setTimeout(()=>{
+      cta.classList.remove('is-question');
+      if(label) label.textContent=defaultText;
+    },4000);
+  };
+
+  const scrollHandler=()=>{
+    if(clicked || reminded) return;
+    const doc=document.documentElement;
+    const max=doc.scrollHeight-window.innerHeight;
+    if(max>0 && ((window.scrollY || doc.scrollTop)/max)>0.70){
+      remind();
+      window.removeEventListener('scroll',scrollHandler);
+    }
+  };
+
+  cta.addEventListener('click',markClicked,{passive:true});
+  window.setTimeout(remind,60000);
+  window.addEventListener('scroll',scrollHandler,{passive:true});
+
+  document.addEventListener('focusin',(event)=>{
+    if(event.target && event.target.closest && event.target.closest('form')){
+      document.body.classList.add('form-focus-active');
+    }
+  });
+  document.addEventListener('focusout',()=>{
+    window.setTimeout(()=>{
+      if(!document.activeElement || !document.activeElement.closest || !document.activeElement.closest('form')){
+        document.body.classList.remove('form-focus-active');
+      }
+    },0);
+  });
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
@@ -121,4 +214,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   initPhotoPrices();
   initWebProjects();
   initCookieConsent();
+  initFaq();
+  initReveal();
+  initFloatingCta();
 });
