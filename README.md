@@ -75,3 +75,18 @@ Podstránky sú presunuté do priečinkov s vlastným `index.html`, napríklad:
 - `kontakt/index.html` → `/kontakt/`
 
 Staré `.html` súbory ostávajú len ako jednoduché presmerovania, aby staré odkazy nepadali na chybu.
+
+
+## Nasadenie na GitHub Pages
+
+Nahraj obsah priečinka `clippio-main` priamo do koreňa repozitára. Neuploaduj celý priečinok ako podpriečinok.
+
+Správne:
+- `index.html`
+- `sluzby/index.html`
+- `assets/css/style.css`
+
+Nesprávne:
+- `clippio-main/index.html`
+
+Clean URL fungujú cez priečinky s `index.html`, napríklad `/sluzby/`.

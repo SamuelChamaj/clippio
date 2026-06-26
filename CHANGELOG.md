@@ -1,5 +1,13 @@
 # Changelog
 
+## v5.0.1
+
+### Opravené
+- Opravené načítanie CSS, JavaScriptu, obrázkov a favicon pri čistých URL typu `/sluzby/`.
+- Všetky interné odkazy a asset cesty zmenené na root-relative tvar pre GitHub Pages.
+- Staré `.html` stránky ponechané ako presmerovania na nové URL.
+
+
 ## v5.0.0
 
 ### Zmenené
