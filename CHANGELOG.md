@@ -1,4 +1,12 @@
 
+## v6.0.3 – Package detail and layout fix
+- Opravený prekrytý badge „Najvýhodnejšie“ v balíku Rast.
+- Zväčšená medzera medzi spoločným základom webových balíkov a kartami balíkov.
+- Rozšírený opis balíkov Štart, Rast a Predaj na stránke Tvorba webov aj v cenníku.
+- Rozšírená sekcia O Clippio na homepage a stránke O Clippio.
+- Zachované existujúce napojenia, formuláre, cookie banner a floating CTA.
+
+
 ## v6.0.2 – finálny obsahový patch
 - Rozšírené webové balíky na stránke Tvorba webov aj v cenníku.
 - Balík Rast doplnený ako profesionálny firemný web s konkrétnym rozsahom.

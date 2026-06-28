@@ -800,3 +800,14 @@ body.cookie-banner-visible .floating-cta{bottom:116px;}
 .about-detail-section{padding-top:0}
 @media(max-width:1100px){.package-rich{padding:28px!important}.package-rich .price{font-size:46px}.about-detail-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:720px){.about-detail-grid{grid-template-columns:1fr}.package-rich{padding:23px!important}.package-rich li{font-size:14.5px}}
+
+
+/* v6.0.3 package spacing and badge fix */
+.web-included-compact{margin-bottom:44px!important}
+.package-rich-grid{gap:22px!important}
+.package-rich.featured{padding-top:62px!important}
+.package-rich.featured .badge{top:20px;left:32px;right:32px;text-align:center;display:block;padding:9px 14px}
+.package-rich.featured .tag{margin-top:2px}
+.package-rich ul{gap:10px!important}
+.package-rich li{line-height:1.38!important}
+@media(max-width:720px){.package-rich.featured{padding-top:58px!important}.package-rich.featured .badge{left:24px;right:24px}.web-included-compact{margin-bottom:34px!important}}
