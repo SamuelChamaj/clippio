@@ -1,12 +1,10 @@
-# Clippio v6.0.0 – Brand Book Implementation
+# Clippio v6.0.1 Brand Book Hotfix
 
-Dátum: 28. 6. 2026
-
-## Zmeny
-- Kompletné zosúladenie textov, CTA, SEO a predajnej logiky s Brand Bookom.
-- Nový positioning: profesionálna digitálna prezentácia pre firmy a značky.
-- Webové stránky sú nastavené ako najsilnejší obchodný pilier.
-- Foto, video, grafika, marketingový obsah a dron sú prezentované ako podporný ekosystém.
-- Doplnené hranice garancií: koncept, prototyp, platba po schválení, revízie, nový rozsah práce.
-- Upravené formuláre, FAQ, footer, metadata, schema markup, sitemap a 404.
-- Dizajn, farebná paleta, Liquid Glass štýl, CSS layout a JS funkcionalita ostali zachované.
+- Opravené portfólio: odstránené zavádzajúce klikateľné vizuálne karty s nesediacimi fotkami.
+- Vrátené a zachované napojenie cenníka tlačených fotiek na Google Spreadsheet.
+- Rozšírené webové balíky Štart, Rast, Predaj s výhodami a jasným označením e-shop/objednávkový web.
+- Doplnená komunikácia AI spolupráce: AI zrýchľuje prípravu, finálny web prechádza ručnou kontrolou.
+- Doplnená možnosť platby na faktúru v hero, balíkoch, cenníku, kontakte, footeri a FAQ.
+- Doplnená homepage sekcia Google recenzií pripravená na napojenie, bez falošných recenzií.
+- Rozšírená stránka O Clippio.
+- Zachovaný pôvodný vizuálny štýl, CSS/JS funkcie a spreadsheet moduly.
