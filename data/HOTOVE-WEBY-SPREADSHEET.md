@@ -1,19 +1,9 @@
-# Hotové weby – Google Spreadsheet
+# Hotové weby – dynamický zdroj
 
-Sekcia Hotové weby v portfóliu je napojená na Google Spreadsheet.
+Sekcia Hotové weby v portfóliu používa dynamický externý zdroj a má lokálnu zálohu, aby sa pri výpadku stále zobrazili základné ukážky.
 
-## Ako to používať
-
-V tabuľke upravuj hlavne:
-
-- názov webu
-- URL webu
-- krátky popis
-- zadanie projektu
-- štítok, napríklad `Web pre klienta` alebo `Vlastný projekt`
-
-Web si dáta načíta automaticky. Nemusíš upravovať HTML, pokiaľ nemeníš samotnú štruktúru portfólia.
-
-## Dôležité
-
-Google Sheet musí zostať verejne dostupný pre čítanie. Inak sa použije náhradný fallback obsah priamo vo webe.
+Odporúčané stĺpce:
+- nazov
+- url
+- popis
+- zadanie

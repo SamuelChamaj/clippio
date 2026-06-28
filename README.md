@@ -59,7 +59,7 @@ clippio-main/index.html
 
 ## Portfólio webov
 
-Portfólio hotových webov je napojené na Google Spreadsheet. Nové weby dopĺňaj v tabuľke, nie priamo v HTML.
+Portfólio hotových webov používa dynamicky načítané údaje a má aj lokálnu zálohu pre prípad nedostupnosti externého zdroja.
 
 ## Poznámka
 

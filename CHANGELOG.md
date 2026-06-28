@@ -22,4 +22,11 @@
 - Webové balíky rozšírené na Štart, Rast a Predaj/e-shop s jasnými výhodami, hranicami, faktúrou, prototypom a zárukou.
 - Recenzie nahradené pripraveným dôkazovým blokom bez falošných hodnotení.
 - Portfólio prepracované na reálne projekty a overiteľné odkazy.
+## v6.0.1 – oprava portfólia, cenníka a balíkov
+- Zvýraznený YouTube blok ako jasný preklik na YouTube portfólio.
+- Doplnený preklik na Google Drive s grafikou v portfóliu.
+- Odstránené návštevnícky nevhodné interné vysvetlenie pri hotových weboch.
+- Rozšírený cenník o viac informácií, priame CTA na dopyt a jasnejšie vysvetlenie cien.
+- Skrátené a skompaktnené webové balíky, aby karty nepôsobili zbytočne roztiahnuto.
+- Zachované napojenia, formuláre, cookie banner, floating CTA a existujúce sekcie.
 

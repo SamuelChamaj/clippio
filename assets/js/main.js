@@ -1,4 +1,4 @@
-// Clippio v6.0 – Controlled Brand Book Update
+// Clippio v6.0.1 – Controlled Brand Book Update
 // Stabilná verzia: navbar a footer sú priamo v HTML, aby web fungoval aj po otvorení cez file://.
 
 function escapeHtml(v){
