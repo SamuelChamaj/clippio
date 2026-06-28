@@ -1,3 +1,11 @@
+
+## v6.0.2 – finálny obsahový patch
+- Rozšírené webové balíky na stránke Tvorba webov aj v cenníku.
+- Balík Rast doplnený ako profesionálny firemný web s konkrétnym rozsahom.
+- Balík Predaj jasnejšie označený ako objednávkový web / menší e-shop.
+- Stránka O Clippio doplnená o viac kontextu, prístup a dôvody spolupráce.
+- Zachované existujúce napojenia, formuláre, cookie banner, floating CTA a lokálna štruktúra URL.
+
 # Changelog
 
 ## v5.0.1
