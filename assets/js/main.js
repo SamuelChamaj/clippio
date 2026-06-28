@@ -210,6 +210,38 @@ function initFloatingCta(){
 
 
 
+
+function showThankYouModal(){
+  let modal=document.querySelector('.thankyou-modal');
+  if(!modal){
+    modal=document.createElement('div');
+    modal.className='thankyou-modal';
+    modal.setAttribute('role','dialog');
+    modal.setAttribute('aria-modal','true');
+    modal.setAttribute('aria-label','Dopyt bol odoslaný');
+    modal.innerHTML='<div class="thankyou-dialog"><div class="thankyou-icon" aria-hidden="true">✓</div><h2>Ďakujem, dopyt bol odoslaný.</h2><p>Správa odišla úspešne. Ozvem sa vám čo najskôr na uvedený kontakt.</p><div class="thankyou-actions"><button class="btn btn-primary thankyou-close" type="button">Zavrieť</button><a class="btn btn-secondary" href="/portfolio/">Pozrieť portfólio</a></div></div>';
+    document.body.appendChild(modal);
+    modal.addEventListener('click',event=>{
+      if(event.target===modal || event.target.closest('.thankyou-close')){
+        closeThankYouModal();
+      }
+    });
+    document.addEventListener('keydown',event=>{
+      if(event.key==='Escape' && modal.classList.contains('is-open')) closeThankYouModal();
+    });
+  }
+  modal.classList.add('is-open');
+  document.body.classList.add('modal-open');
+  const close=modal.querySelector('.thankyou-close');
+  if(close) close.focus();
+}
+
+function closeThankYouModal(){
+  const modal=document.querySelector('.thankyou-modal');
+  if(modal) modal.classList.remove('is-open');
+  document.body.classList.remove('modal-open');
+}
+
 function initWeb3Forms(){
   const forms=document.querySelectorAll('form[action*="api.web3forms.com/submit"]');
   if(!forms.length) return;
@@ -251,7 +283,8 @@ function initWeb3Forms(){
         if(response.ok && result.success){
           form.reset();
           message.className='form-message success';
-          message.innerHTML='<strong>Dopyt bol odoslaný.</strong><span>Ďakujem. Ozvem sa vám čo najskôr na uvedený kontakt.</span>';
+          message.innerHTML='<strong>Dopyt bol odoslaný.</strong><span>Ďakovacie okno sa zobrazilo. Ozvem sa vám čo najskôr na uvedený kontakt.</span>';
+          showThankYouModal();
         }else{
           const serverMessage=result.message ? String(result.message) : 'Formulár sa nepodarilo odoslať.';
           throw new Error(serverMessage);

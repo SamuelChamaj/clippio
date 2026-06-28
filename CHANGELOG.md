@@ -1,3 +1,11 @@
+## v6.0.6 – Ďakovacie okno po odoslaní dopytu
+
+- Doplnené viditeľné modálne okno „Ďakujem, dopyt bol odoslaný“ po úspešnom odoslaní formulára.
+- Zachovaná inline spätná väzba pri formulári.
+- Zachovaná záložná stránka `/dakujeme/` pre prípad vypnutého JavaScriptu.
+- Aktualizované cache verzie CSS/JS na `v=6.0.6`.
+- Bez zásahu do Web3Forms access key, spreadsheet napojení, cookie banneru a floating CTA.
+
 ## v6.0.5 – Web3Forms odosielanie fix
 - Opravené správanie kontaktných formulárov po odoslaní dopytu.
 - Formuláre sa už nemajú presmerovať na technickú stránku `api.web3forms.com/submit/success` s JSON hláškou.

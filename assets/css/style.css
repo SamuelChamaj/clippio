@@ -814,3 +814,16 @@ body.cookie-banner-visible .floating-cta{bottom:116px;}
 
 /* v6.0.5 Web3Forms fix: lokálna spätná väzba po odoslaní formulára */
 .form-message{display:none;grid-column:1/-1;border-radius:18px;padding:14px 16px;font-weight:800;line-height:1.45;border:1px solid transparent}.form-message strong,.form-message span{display:block}.form-message span{font-weight:650;margin-top:3px}.form-message.success{display:block;background:rgba(48,187,120,.12);border-color:rgba(48,187,120,.28);color:#115c38}.form-message.error{display:block;background:rgba(255,87,87,.10);border-color:rgba(255,87,87,.24);color:#7a1e1e}.form-message a{text-decoration:underline}button[disabled]{opacity:.72;cursor:not-allowed;transform:none!important}
+
+/* v6.0.6: ďakovacie okno po odoslaní dopytu */
+.thankyou-modal{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(7,16,24,.54);backdrop-filter:blur(12px)}
+.thankyou-modal.is-open{display:flex}
+.thankyou-dialog{width:min(520px,100%);background:#fff;border:1px solid rgba(7,16,24,.12);border-radius:30px;padding:32px;box-shadow:0 28px 90px rgba(7,16,24,.28);text-align:left}
+.thankyou-icon{width:58px;height:58px;border-radius:999px;background:rgba(48,187,120,.14);display:grid;place-items:center;font-size:30px;margin-bottom:18px}
+.thankyou-dialog h2{font-size:clamp(30px,4vw,44px);line-height:.98;letter-spacing:-1.5px;margin:0 0 12px;color:#071018}
+.thankyou-dialog p{margin:0 0 22px;color:#6f766f;font-size:17px}
+.thankyou-actions{display:flex;gap:10px;flex-wrap:wrap}
+.thankyou-actions .btn{border:0;cursor:pointer}
+.thankyou-actions .btn-secondary{background:#f5f6f7;color:#071018;border:1px solid rgba(7,16,24,.12)}
+body.modal-open{overflow:hidden}
+@media(max-width:560px){.thankyou-dialog{padding:24px;border-radius:24px}.thankyou-actions .btn{width:100%}}
