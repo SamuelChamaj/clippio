@@ -811,3 +811,6 @@ body.cookie-banner-visible .floating-cta{bottom:116px;}
 .package-rich ul{gap:10px!important}
 .package-rich li{line-height:1.38!important}
 @media(max-width:720px){.package-rich.featured{padding-top:58px!important}.package-rich.featured .badge{left:24px;right:24px}.web-included-compact{margin-bottom:34px!important}}
+
+/* v6.0.5 Web3Forms fix: lokálna spätná väzba po odoslaní formulára */
+.form-message{display:none;grid-column:1/-1;border-radius:18px;padding:14px 16px;font-weight:800;line-height:1.45;border:1px solid transparent}.form-message strong,.form-message span{display:block}.form-message span{font-weight:650;margin-top:3px}.form-message.success{display:block;background:rgba(48,187,120,.12);border-color:rgba(48,187,120,.28);color:#115c38}.form-message.error{display:block;background:rgba(255,87,87,.10);border-color:rgba(255,87,87,.24);color:#7a1e1e}.form-message a{text-decoration:underline}button[disabled]{opacity:.72;cursor:not-allowed;transform:none!important}

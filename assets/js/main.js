@@ -1,4 +1,4 @@
-// Clippio v6.0.1 – Controlled Brand Book Update
+// Clippio v6.0.5 – Controlled Brand Book Update
 // Stabilná verzia: navbar a footer sú priamo v HTML, aby web fungoval aj po otvorení cez file://.
 
 function escapeHtml(v){
@@ -208,6 +208,67 @@ function initFloatingCta(){
   });
 }
 
+
+
+function initWeb3Forms(){
+  const forms=document.querySelectorAll('form[action*="api.web3forms.com/submit"]');
+  if(!forms.length) return;
+  forms.forEach(form=>{
+    const button=form.querySelector('button[type="submit"]');
+    const originalText=button ? button.textContent : '';
+    let message=form.querySelector('.form-message');
+    if(!message){
+      message=document.createElement('div');
+      message.className='form-message';
+      message.setAttribute('role','status');
+      message.setAttribute('aria-live','polite');
+      const legal=form.querySelector('.form-legal');
+      if(legal) form.insertBefore(message,legal);
+      else form.appendChild(message);
+    }
+
+    form.addEventListener('submit',async event=>{
+      if(!window.fetch || !window.FormData) return;
+      event.preventDefault();
+
+      const trap=form.querySelector('[name="botcheck"]');
+      if(trap && trap.checked) return;
+
+      message.className='form-message';
+      message.textContent='';
+      if(button){
+        button.disabled=true;
+        button.textContent='Odosielam dopyt...';
+      }
+
+      try{
+        const data=new FormData(form);
+        data.delete('redirect');
+        const response=await fetch(form.action,{method:'POST',body:data,headers:{'Accept':'application/json'}});
+        let result={};
+        try{ result=await response.json(); }catch(e){ result={}; }
+
+        if(response.ok && result.success){
+          form.reset();
+          message.className='form-message success';
+          message.innerHTML='<strong>Dopyt bol odoslaný.</strong><span>Ďakujem. Ozvem sa vám čo najskôr na uvedený kontakt.</span>';
+        }else{
+          const serverMessage=result.message ? String(result.message) : 'Formulár sa nepodarilo odoslať.';
+          throw new Error(serverMessage);
+        }
+      }catch(error){
+        message.className='form-message error';
+        message.innerHTML='<strong>Dopyt sa nepodarilo odoslať.</strong><span>Skúste to znova alebo napíšte priamo na <a href="mailto:info@clippio.sk">info@clippio.sk</a>.</span>';
+      }finally{
+        if(button){
+          button.disabled=false;
+          button.textContent=originalText;
+        }
+      }
+    });
+  });
+}
+
 document.addEventListener('DOMContentLoaded',()=>{
   initNavigation();
   initUpdates();
@@ -217,4 +278,5 @@ document.addEventListener('DOMContentLoaded',()=>{
   initFaq();
   initReveal();
   initFloatingCta();
+  initWeb3Forms();
 });

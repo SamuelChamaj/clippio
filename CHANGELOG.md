@@ -1,3 +1,15 @@
+## v6.0.5 – Web3Forms odosielanie fix
+- Opravené správanie kontaktných formulárov po odoslaní dopytu.
+- Formuláre sa už nemajú presmerovať na technickú stránku `api.web3forms.com/submit/success` s JSON hláškou.
+- Doplnené JavaScriptové odosielanie cez `fetch` so správou priamo na webe.
+- Doplnená záložná stránka `/dakujeme/` pre prípad, že JavaScript nebude dostupný.
+- Doplnené základné štýly pre úspešnú a chybovú hlášku formulára.
+- Bez zásahu do ostatných napojení a obsahu webu.
+
+## v6.0.4 – README fix
+- Aktualizovaný hlavný README.md, ktorý predtým zostal pri starom označení v4.7/v5.1.1.
+- Doplnený aktuálny popis verzie v6.x, štruktúry, balíkov, napojení a nasadenia.
+- Bez zásahu do funkcií webu.
 
 ## v6.0.3 – Package detail and layout fix
 - Opravený prekrytý badge „Najvýhodnejšie“ v balíku Rast.
