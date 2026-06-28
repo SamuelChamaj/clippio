@@ -1,3 +1,10 @@
+## v6.0.7 – Pravdivé formulácie histórie značky
+
+- Opravené formulácie okolo roku 2019, aby web netvrdil, že Clippio ako štúdio stabilne funguje od roku 2019.
+- Homepage štatistika zmenená na „skúsenosti z osobných projektov“.
+- Stránka O Clippio upravená tak, aby jasne komunikovala osobné projekty, vlastnú tvorbu a postupnú klientsku prácu.
+- Bez zásahu do formulárov, Web3Forms, spreadsheet napojení, cookie banneru a floating CTA.
+
 ## v6.0.6 – Ďakovacie okno po odoslaní dopytu
 
 - Doplnené viditeľné modálne okno „Ďakujem, dopyt bol odoslaný“ po úspešnom odoslaní formulára.

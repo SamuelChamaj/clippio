@@ -1,4 +1,4 @@
-# Clippio web – v6.0.6
+# Clippio web – v6.0.7
 
 Statický HTML web pre **Clippio** pripravený na GitHub Pages. Verzia v6.x vychádza z funkčného základu **v5.1.1** a pridáva kontrolovaný Brand Book positioning bez rozbitia pôvodných napojení a funkcií.
 
@@ -20,7 +20,7 @@ Tieto služby nemajú pôsobiť ako nesúvisiace ponuky. Ich cieľ je podporiť 
 
 ## Stav verzie
 
-Aktuálna verzia: **v6.0.6 – ďakovacie okno po odoslaní dopytu**
+Aktuálna verzia: **v6.0.7 – pravdivé formulácie histórie značky**
 
 Obsahovo vychádza z:
 - **v6.0.0** – Brand Book positioning update,
@@ -28,10 +28,11 @@ Obsahovo vychádza z:
 - **v6.0.2** – rozšírenie webových balíkov a O Clippio,
 - **v6.0.3** – oprava layoutu balíkov, väčšie medzery a detailnejší opis balíkov,
 - **v6.0.4** – oprava dokumentácie,
+- **v6.0.7** – opravené formulácie okolo roku 2019: web už netvrdí, že Clippio stabilne funguje od roku 2019, ale že skúsenosti vznikali cez osobné projekty, vlastnú tvorbu a postupne klientsku prácu.
 - **v6.0.6** – doplnené viditeľné ďakovacie okno po úspešnom odoslaní dopytu.
 - **v6.0.5** – oprava správania formulára po odoslaní dopytu.
 
-Verzia **v6.0.6** dopĺňa jasné ďakovacie okno po úspešnom odoslaní dopytu. Formulár ostáva odosielaný cez Web3Forms bez presmerovania na technickú Web3Forms stránku a zároveň má záložnú stránku `/dakujeme/` pre prípad vypnutého JavaScriptu.
+Verzia **v6.0.7** opravuje formulácie histórie značky, aby web netvrdil, že Clippio ako štúdio stabilne funguje od roku 2019. Rok 2019 je použitý iba ako začiatok skúseností z osobných projektov, vlastnej tvorby a postupnej klientskej práce. Funkcie z v6.0.6 ostávajú zachované: Web3Forms bez technického presmerovania, ďakovacie okno a záložná stránka `/dakujeme/`.
 
 ## Zachované funkcie
 
