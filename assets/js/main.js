@@ -1,4 +1,4 @@
-// Clippio v5.1 – Trust & Conversion Update
+// Clippio v6.0.0 – Brand Book Implementation
 // Stabilná verzia: navbar a footer sú priamo v HTML, aby web fungoval aj po otvorení cez file://.
 
 function escapeHtml(v){
@@ -47,9 +47,9 @@ function initUpdates(){
   if(!box) return;
   const url='https://docs.google.com/spreadsheets/d/1SaqFBIfwYhrTbSzLGQW-mK2BPK2dgUZR9QolSdxKot4/gviz/tq?tqx=out:csv';
   const fallback=[
-    {date:'11.06.2026',title:'Nový web Clippio',text:'Spustená nová prezentácia služieb, portfólia a kontaktného dopytu.'},
-    {date:'10.06.2026',title:'Dronové zábery a eventy',text:'Pribúdajú ukážky z podujatí, miest a krátkych promo videí.'},
-    {date:'09.06.2026',title:'Grafika a video pod jednou značkou',text:'Clippio spája videoprodukciu, dron a vizuálnu identitu.'}
+    {date:'11.06.2026',title:'Clippio v6.0 – nový positioning',text:'Web je zosúladený s novou stratégiou: profesionálna digitálna prezentácia pre firmy a značky.'},
+    {date:'10.06.2026',title:'Weby ako hlavný pilier',text:'Tvorba webov je nastavená ako najsilnejší obchodný pilier Clippia.'},
+    {date:'09.06.2026',title:'Foto, video a grafika ako podpora webu',text:'Podporné služby majú posilniť dôveru, značku a online prezentáciu klienta.'}
   ];
   const render=items=>{
     box.innerHTML=items.filter(x=>x.title||x.text).slice(0,5).map(x=>`<article class="update-card"><div class="update-date">${escapeHtml(x.date||'Novinka')}</div><div><h3>${escapeHtml(x.title)}</h3><p>${escapeHtml(x.text)}</p></div></article>`).join('')||'<p>Žiadne novinky.</p>';

@@ -1,17 +1,12 @@
-# Changelog
+# Clippio v6.0.0 – Brand Book Implementation
 
-## v5.0.1
+Dátum: 28. 6. 2026
 
-### Opravené
-- Opravené načítanie CSS, JavaScriptu, obrázkov a favicon pri čistých URL typu `/sluzby/`.
-- Všetky interné odkazy a asset cesty zmenené na root-relative tvar pre GitHub Pages.
-- Staré `.html` stránky ponechané ako presmerovania na nové URL.
-
-
-## v5.0.0
-
-### Zmenené
-- Podstránky sú presunuté do priečinkov s `index.html`, aby URL fungovali bez `.html`.
-- Interné odkazy, canonical URL a sitemap boli upravené na čisté URL.
-- Staré `.html` adresy ostávajú ako presmerovania na nové čisté URL.
-
+## Zmeny
+- Kompletné zosúladenie textov, CTA, SEO a predajnej logiky s Brand Bookom.
+- Nový positioning: profesionálna digitálna prezentácia pre firmy a značky.
+- Webové stránky sú nastavené ako najsilnejší obchodný pilier.
+- Foto, video, grafika, marketingový obsah a dron sú prezentované ako podporný ekosystém.
+- Doplnené hranice garancií: koncept, prototyp, platba po schválení, revízie, nový rozsah práce.
+- Upravené formuláre, FAQ, footer, metadata, schema markup, sitemap a 404.
+- Dizajn, farebná paleta, Liquid Glass štýl, CSS layout a JS funkcionalita ostali zachované.
