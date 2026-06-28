@@ -1,4 +1,4 @@
-// Clippio v6.0.1 – Brand Book hotfix, preserved spreadsheet modules
+// Clippio v6.0 – Controlled Brand Book Update
 // Stabilná verzia: navbar a footer sú priamo v HTML, aby web fungoval aj po otvorení cez file://.
 
 function escapeHtml(v){
@@ -80,8 +80,8 @@ function initWebProjects(){
   if(!section||!box) return;
   const url=(section.getAttribute('data-sheet-url')||'').trim();
   const fallback=[
-    {nazov:'RCHbau',url:'https://rchbau.sk',popis:'Firemná prezentácia pre stavebné služby, sadrokartón a maľovanie.',zadanie:'Cieľ: jasne vysvetliť ponuku, podporiť dôveru a zjednodušiť kontakt.'},
-    {nazov:'Clippio.sk',url:'https://www.clippio.sk',popis:'Vlastný web značky Clippio a ukážka štýlu tvorby webov.',zadanie:'Cieľ: prezentovať služby, portfólio, cenník, dôveru a kontaktný dopyt.'}
+    {nazov:'RCHbau',url:'https://rchbau.sk',popis:'Firemná prezentácia pre stavebné služby, sadrokartón a maľovanie.',zadanie:'Jednoduchý a dôveryhodný web s prehľadom služieb, kontaktom a technickou prípravou pre vyhľadávače.'},
+    {nazov:'Clippio',url:'https://www.clippio.sk',popis:'Vlastný web značky Clippio a živá ukážka štýlu tvorby webov.',zadanie:'Moderná prezentácia služieb, portfólia, cenníka, kontaktu a technickej SEO prípravy.'}
   ];
   const safeUrl=v=>{try{const u=new URL(String(v||''));return /^https?:$/.test(u.protocol)?u.href:'#'}catch(e){return '#'}};
   const render=items=>{
@@ -98,28 +98,6 @@ function initWebProjects(){
   fetch(url).then(r=>{if(!r.ok)throw Error();return r.text()}).then(t=>{
     const rows=t.trim().split(/\r?\n/).filter(Boolean).slice(1).map(parseCsvLine);
     render(rows.map(c=>({nazov:c[0],url:c[1],popis:c[2],zadanie:c[3]})));
-  }).catch(()=>render(fallback));
-}
-
-
-function initGoogleReviews(){
-  const section=document.getElementById('recenzie');
-  const box=document.getElementById('google-reviews-list');
-  if(!section||!box) return;
-  const sheet=(section.getAttribute('data-sheet-url')||'').trim();
-  const googleUrl=(section.getAttribute('data-google-place-url')||'https://www.google.com/search?q=Clippio+recenzie').trim();
-  const fallback=[
-    {meno:'Google recenzie',text:'Sekcia je pripravená na napojenie po získaní reálnych hodnotení. Bez reálnych recenzií je lepšie ukázať portfólio než vymýšľať social proof.',detail:'pripravené na napojenie'},
-    {meno:'Portfólio Clippio',text:'Kým recenzie nebudú dostatočné, dôveru majú niesť konkrétne ukážky: hotové weby, videá, grafika a proces práce.',detail:'reálne výstupy'}
-  ];
-  const render=(items)=>{
-    const clean=items.filter(x=>x.meno||x.text).slice(0,6);
-    box.innerHTML=clean.map(x=>`<article class="testimonial"><p>${escapeHtml(x.text||'Recenzia bude doplnená.')}</p><strong>${escapeHtml(x.meno||'Google recenzia')}</strong><span>${escapeHtml(x.detail||'Google profil Clippio')}</span></article>`).join('');
-  };
-  if(!sheet){ render(fallback); return; }
-  fetch(sheet).then(r=>{if(!r.ok)throw Error();return r.text()}).then(t=>{
-    const rows=t.trim().split(/\r?\n/).filter(Boolean).slice(1).map(parseCsvLine);
-    render(rows.map(c=>({meno:c[0],text:c[1],detail:c[2]||'Google recenzia'})));
   }).catch(()=>render(fallback));
 }
 
@@ -235,7 +213,6 @@ document.addEventListener('DOMContentLoaded',()=>{
   initUpdates();
   initPhotoPrices();
   initWebProjects();
-  initGoogleReviews();
   initCookieConsent();
   initFaq();
   initReveal();
