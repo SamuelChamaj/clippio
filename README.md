@@ -1,4 +1,4 @@
-# Clippio web – v6.0.7
+# Clippio web – v6.1.0
 
 Statický HTML web pre **Clippio** pripravený na GitHub Pages. Verzia v6.x vychádza z funkčného základu **v5.1.1** a pridáva kontrolovaný Brand Book positioning bez rozbitia pôvodných napojení a funkcií.
 
@@ -20,7 +20,7 @@ Tieto služby nemajú pôsobiť ako nesúvisiace ponuky. Ich cieľ je podporiť 
 
 ## Stav verzie
 
-Aktuálna verzia: **v6.0.7 – pravdivé formulácie histórie značky**
+Aktuálna verzia: **v6.1.0 – webové balíky a obchodné hranice**
 
 Obsahovo vychádza z:
 - **v6.0.0** – Brand Book positioning update,
@@ -28,11 +28,11 @@ Obsahovo vychádza z:
 - **v6.0.2** – rozšírenie webových balíkov a O Clippio,
 - **v6.0.3** – oprava layoutu balíkov, väčšie medzery a detailnejší opis balíkov,
 - **v6.0.4** – oprava dokumentácie,
-- **v6.0.7** – opravené formulácie okolo roku 2019: web už netvrdí, že Clippio stabilne funguje od roku 2019, ale že skúsenosti vznikali cez osobné projekty, vlastnú tvorbu a postupne klientsku prácu.
-- **v6.0.6** – doplnené viditeľné ďakovacie okno po úspešnom odoslaní dopytu.
+- **v6.1.0** – opravené formulácie okolo roku 2019: web už netvrdí, že Clippio stabilne funguje od roku 2019, ale že skúsenosti vznikali cez osobné projekty, vlastnú tvorbu a postupne klientsku prácu.
+- **v6.1.0** – doplnené viditeľné ďakovacie okno po úspešnom odoslaní dopytu.
 - **v6.0.5** – oprava správania formulára po odoslaní dopytu.
 
-Verzia **v6.0.7** opravuje formulácie histórie značky, aby web netvrdil, že Clippio ako štúdio stabilne funguje od roku 2019. Rok 2019 je použitý iba ako začiatok skúseností z osobných projektov, vlastnej tvorby a postupnej klientskej práce. Funkcie z v6.0.6 ostávajú zachované: Web3Forms bez technického presmerovania, ďakovacie okno a záložná stránka `/dakujeme/`.
+Verzia **v6.1.0** upravuje webové balíky tak, aby hlavné karty zostali jednoduché, ale pod nimi pribudli presné podrobnosti, férové obchodné hranice a FAQ k doméne, hostingu, úpravám a fakturácii. Doména na prvý rok je uvedená ako súčasť každého webového balíka.
 
 ## Zachované funkcie
 
@@ -267,3 +267,17 @@ Na GitHub Pages musí byť obsah priečinka `clippio-main` v roote repozitára, 
 - Podstránky sú presunuté do priečinkov s `index.html`, aby URL fungovali bez `.html`.
 - Interné odkazy, canonical URL a sitemap boli upravené na čisté URL.
 - Staré `.html` adresy ostávajú ako presmerovania na nové čisté URL.
+
+
+## v6.1.0 – Webové balíky a obchodné hranice
+
+Zmeny:
+
+- doplnená informácia, že doména na prvý rok je v cene každého webového balíka,
+- zachované jednoduché karty balíkov s checklist výhodami,
+- pridaná sekcia „Podrobnosti webových balíkov“,
+- doplnené rozpisy, čo jednotlivé balíky obsahujú a čo neobsahujú,
+- doplnené spoločné obchodné pravidlá pre webové balíky,
+- doplnené vysvetlenie rozdielu medzi menšou úpravou a novou prácou,
+- doplnené FAQ otázky k doméne, hostingu, úpravám a fakturácii,
+- upravené cache verzie súborov na `6.1.0`.

@@ -1,16 +1,16 @@
-## v6.0.7 – Pravdivé formulácie histórie značky
+## v6.1.0 – Pravdivé formulácie histórie značky
 
 - Opravené formulácie okolo roku 2019, aby web netvrdil, že Clippio ako štúdio stabilne funguje od roku 2019.
 - Homepage štatistika zmenená na „skúsenosti z osobných projektov“.
 - Stránka O Clippio upravená tak, aby jasne komunikovala osobné projekty, vlastnú tvorbu a postupnú klientsku prácu.
 - Bez zásahu do formulárov, Web3Forms, spreadsheet napojení, cookie banneru a floating CTA.
 
-## v6.0.6 – Ďakovacie okno po odoslaní dopytu
+## v6.1.0 – Ďakovacie okno po odoslaní dopytu
 
 - Doplnené viditeľné modálne okno „Ďakujem, dopyt bol odoslaný“ po úspešnom odoslaní formulára.
 - Zachovaná inline spätná väzba pri formulári.
 - Zachovaná záložná stránka `/dakujeme/` pre prípad vypnutého JavaScriptu.
-- Aktualizované cache verzie CSS/JS na `v=6.0.6`.
+- Aktualizované cache verzie CSS/JS na `v=6.1.0`.
 - Bez zásahu do Web3Forms access key, spreadsheet napojení, cookie banneru a floating CTA.
 
 ## v6.0.5 – Web3Forms odosielanie fix
