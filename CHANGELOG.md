@@ -1,5 +1,14 @@
 ## v6.1.0 – Pravdivé formulácie histórie značky
 
+## v6.1.1 – STAVEXON ukážka balíka Rast
+
+- Pridaný ukážkový firemný web STAVEXON pod `/ukazkovy-web-stavexon/`.
+- STAVEXON doplnený do portfólia pod kartu Clippio.sk v sekcii hotových webov.
+- Na stránku Tvorba webov pridaná ukážka balíka Rast v praxi.
+- Doplnené CTA odkazy na ukážku a dopyt podobného webu.
+- Doplnené URL STAVEXON do hlavného sitemap.xml.
+- Zachovaná obchodná logika: STAVEXON zodpovedá približne balíku Rast, nie balíku Štart.
+
 - Opravené formulácie okolo roku 2019, aby web netvrdil, že Clippio ako štúdio stabilne funguje od roku 2019.
 - Homepage štatistika zmenená na „skúsenosti z osobných projektov“.
 - Stránka O Clippio upravená tak, aby jasne komunikovala osobné projekty, vlastnú tvorbu a postupnú klientsku prácu.

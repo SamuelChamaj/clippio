@@ -20,7 +20,7 @@ Tieto služby nemajú pôsobiť ako nesúvisiace ponuky. Ich cieľ je podporiť 
 
 ## Stav verzie
 
-Aktuálna verzia: **v6.1.0 – webové balíky a obchodné hranice**
+Aktuálna verzia: **v6.1.1 – STAVEXON ukážka balíka Rast**
 
 Obsahovo vychádza z:
 - **v6.0.0** – Brand Book positioning update,
@@ -268,6 +268,15 @@ Na GitHub Pages musí byť obsah priečinka `clippio-main` v roote repozitára, 
 - Interné odkazy, canonical URL a sitemap boli upravené na čisté URL.
 - Staré `.html` adresy ostávajú ako presmerovania na nové čisté URL.
 
+
+## v6.1.1 – STAVEXON ukážka balíka Rast
+
+- Pridaný ukážkový firemný web STAVEXON do priečinka `/ukazkovy-web-stavexon/`.
+- STAVEXON doplnený do portfólia hneď pod kartu Clippio.sk v sekcii hotových webov.
+- Na stránku `/weby/` pridaná sekcia „Pozri si ukážku balíka Rast v praxi“.
+- Doplnené CTA na ukážkový web a dopyt na podobný web.
+- Doplnené URL STAVEXON do hlavného sitemap.xml.
+- Zachovaný positioning Clippio: STAVEXON je dôkaz balíka Rast, nie lacné demo balíka Štart.
 
 ## v6.1.0 – Webové balíky a obchodné hranice
 
