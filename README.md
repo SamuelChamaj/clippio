@@ -1,4 +1,4 @@
-# Clippio web – v6.1.0
+# Clippio web – v6.1.3
 
 Statický HTML web pre **Clippio** pripravený na GitHub Pages. Verzia v6.x vychádza z funkčného základu **v5.1.1** a pridáva kontrolovaný Brand Book positioning bez rozbitia pôvodných napojení a funkcií.
 
@@ -20,7 +20,7 @@ Tieto služby nemajú pôsobiť ako nesúvisiace ponuky. Ich cieľ je podporiť 
 
 ## Stav verzie
 
-Aktuálna verzia: **v6.1.1 – STAVEXON ukážka balíka Rast**
+Aktuálna verzia: **v6.1.3 – ukážkové weby pre balíky Štart a Rast**
 
 Obsahovo vychádza z:
 - **v6.0.0** – Brand Book positioning update,
@@ -268,6 +268,16 @@ Na GitHub Pages musí byť obsah priečinka `clippio-main` v roote repozitára, 
 - Interné odkazy, canonical URL a sitemap boli upravené na čisté URL.
 - Staré `.html` adresy ostávajú ako presmerovania na nové čisté URL.
 
+
+
+## v6.1.3 – ukážkové weby pre balíky Štart a Rast
+
+- Pridaný ukážkový jednostránkový web FreshCar Nitra do priečinka `/ukazkovy-web-start/`.
+- FreshCar doplnený do homepage portfólia a do sekcie hotových webov ako príklad rozsahu balíka Štart.
+- Sekcia na stránke Tvorba webov zmenená z jednej ukážky balíka Rast na sekciu „Ukážkové weby“ s dvomi kartami: Štart a Rast.
+- Označenie v kartách upravené na „ukážkové weby“, aby nepôsobilo, že portfólio ukazuje iba jeden balík.
+- FreshCar ukážka má spätný odkaz na Clippio v hornej lište, navigácii aj footeri.
+- Ukážka Štart ostáva `noindex, follow`, pretože ide o fiktívnu firmu s ukážkovými údajmi.
 
 ## v6.1.1 – STAVEXON ukážka balíka Rast
 

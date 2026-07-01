@@ -1,3 +1,11 @@
+## v6.1.3 – ukážkové weby pre balíky Štart a Rast
+
+- Pridaný ukážkový jednostránkový web FreshCar Nitra pre balík Štart do `/ukazkovy-web-start/`.
+- Homepage a portfólio už označujú ukážky všeobecnejšie ako „ukážkové weby“.
+- Na stránke Tvorba webov pribudla dvojica ukážok: Štart a Rast.
+- FreshCar má spätnú navigáciu na Clippio v hornej lište, navigácii a päte.
+- Ukážka Štart ostáva `noindex, follow`, keďže ide o fiktívnu firmu.
+
 ## v6.1.0 – Pravdivé formulácie histórie značky
 
 ## v6.1.1 – STAVEXON ukážka balíka Rast
