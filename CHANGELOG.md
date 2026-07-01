@@ -1,3 +1,12 @@
+# Changelog
+
+## v6.1.4 – spoločná karta Ukážkové weby
+
+- Na homepage a v portfóliu boli dve samostatné ukážkové karty zlúčené do jednej karty „Ukážkové weby“.
+- FreshCar Nitra a STAVEXON sú teraz prezentované ako dve položky v jednej kategórii ukážkových webov.
+- Na stránke Tvorba webov bola sekcia ukážok zjednotená do jednej väčšej karty s porovnaním balíkov Štart a Rast.
+- Cieľom je znížiť vizuálnu duplicitu a jasnejšie ukázať, že ide o ukážkové weby podľa rozsahu balíka.
+
 ## v6.1.3 – ukážkové weby pre balíky Štart a Rast
 
 - Pridaný ukážkový jednostránkový web FreshCar Nitra pre balík Štart do `/ukazkovy-web-start/`.

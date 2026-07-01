@@ -270,6 +270,13 @@ Na GitHub Pages musí byť obsah priečinka `clippio-main` v roote repozitára, 
 
 
 
+
+## v6.1.4 – spoločná karta Ukážkové weby
+
+- Dve samostatné karty FreshCar Nitra a STAVEXON boli na homepage a v portfóliu zlúčené do jednej karty „Ukážkové weby“.
+- Na stránke Tvorba webov sú ukážky balíkov Štart a Rast zobrazené v jednej spoločnej sekcii.
+- Úprava znižuje duplicitu a lepšie vysvetľuje, že ide o porovnanie rozsahu webov podľa balíka.
+
 ## v6.1.3 – ukážkové weby pre balíky Štart a Rast
 
 - Pridaný ukážkový jednostránkový web FreshCar Nitra do priečinka `/ukazkovy-web-start/`.
