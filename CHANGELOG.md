@@ -82,3 +82,9 @@
 - Skrátené a skompaktnené webové balíky, aby karty nepôsobili zbytočne roztiahnuto.
 - Zachované napojenia, formuláre, cookie banner, floating CTA a existujúce sekcie.
 
+## v6.1.2 – spätná navigácia zo STAVEXON ukážky
+
+- Doplnená horná lišta s návratom späť na Clippio v ukážkovom webe STAVEXON.
+- Doplnený odkaz späť na Clippio do mobilnej navigácie aj päty ukážky.
+- Cieľ: návštevník sa po otvorení ukážkového webu nezasekne mimo hlavnej stránky Clippio.
+

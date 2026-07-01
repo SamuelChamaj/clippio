@@ -201,3 +201,56 @@ body{
   body{background-size:34px 34px}
   .hero{background-size:22px 22px,auto}
 }
+
+
+/* Návrat zo STAVEXON ukážky späť na Clippio */
+.demo-return-bar{
+  position:relative;
+  z-index:60;
+  background:#111827;
+  color:rgba(255,255,255,.86);
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+.demo-return-inner{
+  min-height:42px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  font-size:.9rem;
+  font-weight:750;
+}
+.demo-return-inner span{color:rgba(255,255,255,.78)}
+.demo-return-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.demo-return-link{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:30px;
+  padding:0 12px;
+  color:#fff;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:8px;
+  font-size:.84rem;
+  font-weight:900;
+}
+.demo-return-link:hover,.demo-return-link:focus-visible,.clippio-back-link:hover,.clippio-back-link:focus-visible,.footer-clippio-link:hover,.footer-clippio-link:focus-visible{
+  color:#fff;
+  text-decoration:underline;
+}
+.demo-return-secondary{background:rgba(197,106,33,.28);border-color:rgba(197,106,33,.46)}
+.clippio-back-link{
+  color:var(--color-accent-dark)!important;
+  font-weight:900!important;
+}
+.footer-clippio-link{
+  color:#fff!important;
+  font-weight:900;
+}
+@media (max-width:760px){
+  .demo-return-inner{align-items:flex-start;flex-direction:column;padding-top:10px;padding-bottom:10px;gap:8px}
+  .demo-return-actions{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .demo-return-link{width:100%;text-align:center}
+  .clippio-back-link{background:#f8fafc!important}
+}

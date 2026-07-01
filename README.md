@@ -290,3 +290,8 @@ Zmeny:
 - doplnené vysvetlenie rozdielu medzi menšou úpravou a novou prácou,
 - doplnené FAQ otázky k doméne, hostingu, úpravám a fakturácii,
 - upravené cache verzie súborov na `6.1.0`.
+
+### v6.1.2
+
+Fix: Ukážkový web STAVEXON má viditeľný návrat späť na hlavný web Clippio cez hornú lištu, navigáciu a footer.
+
