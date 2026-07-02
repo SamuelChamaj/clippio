@@ -32,7 +32,7 @@ function Header() {
   return (
     <header className="site-header">
       <a className="brand" href="#top" aria-label="Clippio Function Web">
-        <img src="/logo-clippio.png" alt="Logo Clippio" />
+        <img src="./logo-clippio.png" alt="Logo Clippio" />
         <span>Clippio.</span>
       </a>
       <nav aria-label="Hlavná navigácia">
@@ -70,7 +70,7 @@ function Hero() {
       </div>
 
       <aside className="hero__panel" aria-label="Ukážka funkcie">
-        <img src="/logo-clippio.png" alt="Logo Clippio" />
+        <img src="./logo-clippio.png" alt="Logo Clippio" />
         <ShinyText text="Funkcie, ktoré majú dôvod" />
         <div className="panel-grid">
           <span>Text efekty</span>
@@ -132,7 +132,7 @@ function FinalCTA() {
       </p>
       <div className="hero__actions">
         <a className="button button-light" href="mailto:info@clippio.sk">Kontaktovať Clippio</a>
-        <a className="button button-outline-light" href="https://clippio.sk" target="_blank" rel="noreferrer">Pozrieť balíky webov</a>
+        <a className="button button-outline-light" href="/weby/">Pozrieť balíky webov</a>
       </div>
     </section>
   );

@@ -1,3 +1,13 @@
+# Changelog
+
+## v6.1.10 – aktualizovaný Clippio Function Web
+
+- Nahradená ukážka `Clippio Function Web` novou opravenou verziou zo súboru `clippio-function-web-fixed(1).zip`.
+- Aktualizovaný koreňový deploy build v `clippio-function-web/index.html` a `clippio-function-web/assets/`.
+- Zachovaný celý zdrojový Vite/React projekt: `src/`, `public/`, `package.json`, `package-lock.json`, `.gitignore`, `dist/` a `index.vite-source.html`.
+- Upravené cesty assetov tak, aby ukážka fungovala v podpriečinku `/clippio-function-web/` na GitHub Pages.
+- Aktualizované názvy výstupných ZIP balíkov na verziu v6.1.10.
+
 
 ## v6.1.8 – Ukážka funkcií v katalógu webov
 

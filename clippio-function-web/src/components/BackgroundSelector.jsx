@@ -46,7 +46,7 @@ export default function BackgroundSelector({ activeBackground, setActiveBackgrou
         <span className="eyebrow">Výber pozadia</span>
         <h2>Pozadie nemá byť dekorácia. Má podporiť značku.</h2>
         <p>
-          Prepínač ukazuje, ako sa mení dojem z rovnakej sekcie podľa vizuálneho štýlu. Toto je presne vec, ktorú treba vyberať podľa cieľa webu, nie podľa nálady.
+          Prepínač teraz nemení iba malý box. Mení pozadie celého webu, aby klient videl reálny rozdiel v celkovom dojme stránky. Toto treba vyberať podľa cieľa webu, nie podľa nálady.
         </p>
       </div>
 
@@ -68,7 +68,7 @@ export default function BackgroundSelector({ activeBackground, setActiveBackgrou
         <div className={`background-preview preview-${activeBackground}`}>
           <div className="preview-orb" />
           <div className="preview-card">
-            <span className="eyebrow">Aktívny štýl</span>
+            <span className="eyebrow">Aktívny štýl celého webu</span>
             <h3>{current.name}</h3>
             <p><strong>Kde sa hodí:</strong> {current.fit}.</p>
             <p><strong>Dojem:</strong> {current.mood}.</p>
