@@ -882,3 +882,63 @@ body.modal-open{overflow:hidden}
 .sample-web-item{background:rgba(255,255,255,.86)}
 @media(max-width:1180px){.portfolio-proof-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:720px){.portfolio-proof-grid{grid-template-columns:1fr}.portfolio-proof-head .hero-actions{margin-top:18px}.proof-card .mini-btn{width:100%}}
+
+/* v6.1.7 – jemné React Bits inšpirované textové efekty bez pridania React buildu */
+.rb-shiny-text{
+  --rb-color:#b5b5b5;
+  --rb-shine:#ffffff;
+  --rb-angle:120deg;
+  --rb-speed:2.8s;
+  --rb-delay:0s;
+  display:inline-block;
+  color:var(--rb-color);
+  background-image:linear-gradient(var(--rb-angle),var(--rb-color) 0%,var(--rb-color) 35%,var(--rb-shine) 50%,var(--rb-color) 65%,var(--rb-color) 100%);
+  background-size:200% auto;
+  background-position:150% center;
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:rbShinyText var(--rb-speed) linear infinite;
+  animation-delay:var(--rb-delay);
+}
+.rb-shiny-kicker{--rb-color:var(--lime);--rb-shine:#fff;--rb-angle:115deg;--rb-speed:3.1s}
+.rb-shiny-on-dark{--rb-color:rgba(255,255,255,.82);--rb-shine:var(--lime);--rb-angle:110deg;--rb-speed:3.4s}
+@keyframes rbShinyText{0%{background-position:150% center}100%{background-position:-50% center}}
+
+.rb-gradient-text{
+  display:inline-block;
+  color:transparent;
+  background-image:linear-gradient(90deg,var(--blue),#82edff,var(--lime),var(--blue));
+  background-size:300% 100%;
+  background-position:0% 50%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:rbGradientText 5.5s ease-in-out infinite alternate;
+}
+.rb-gradient-brand{font-weight:inherit}
+@keyframes rbGradientText{0%{background-position:0% 50%}100%{background-position:100% 50%}}
+
+.rb-rotating-text{
+  --rb-rotate-min:auto;
+  display:inline-block;
+  position:relative;
+  min-width:var(--rb-rotate-min);
+  vertical-align:baseline;
+  color:var(--lime);
+  white-space:nowrap;
+}
+.rb-rotating-wide{color:var(--blue)}
+.rb-rotate-word{display:inline-block;will-change:transform,opacity;animation:rbRotateIn .52s cubic-bezier(.2,.8,.2,1) both}
+.rb-rotate-word.is-exiting{animation:rbRotateOut .22s ease-in both}
+@keyframes rbRotateIn{0%{transform:translateY(85%);opacity:0}100%{transform:translateY(0);opacity:1}}
+@keyframes rbRotateOut{0%{transform:translateY(0);opacity:1}100%{transform:translateY(-70%);opacity:0}}
+
+@media(max-width:560px){
+  .rb-rotating-text{white-space:normal;min-width:0}
+  .hero-copy h1 .rb-rotating-text,.page-hero h1 .rb-rotating-text{display:inline}
+}
+@media(prefers-reduced-motion:reduce){
+  .rb-shiny-text,.rb-gradient-text{animation:none;background-position:50% 50%}
+  .rb-rotate-word,.rb-rotate-word.is-exiting{animation:none}
+}

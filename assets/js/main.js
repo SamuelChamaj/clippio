@@ -302,6 +302,37 @@ function initWeb3Forms(){
   });
 }
 
+
+function initReactBitsTextEffects(){
+  const reduceMotion=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.rb-rotating-text[data-rotate-texts]').forEach(el=>{
+    const texts=(el.getAttribute('data-rotate-texts')||'').split('|').map(t=>t.trim()).filter(Boolean);
+    if(texts.length<2) return;
+    const maxLen=Math.max(...texts.map(t=>t.length));
+    el.style.setProperty('--rb-rotate-min',`${Math.max(maxLen,6)}ch`);
+    let index=0;
+    const render=text=>{
+      el.textContent='';
+      const word=document.createElement('span');
+      word.className='rb-rotate-word';
+      word.textContent=text;
+      el.appendChild(word);
+      el.setAttribute('aria-label',text);
+    };
+    render(texts[0]);
+    if(reduceMotion) return;
+    const interval=Math.max(parseInt(el.getAttribute('data-rotation-interval')||'2400',10),1400);
+    window.setInterval(()=>{
+      const current=el.querySelector('.rb-rotate-word');
+      if(current) current.classList.add('is-exiting');
+      window.setTimeout(()=>{
+        index=(index+1)%texts.length;
+        render(texts[index]);
+      },220);
+    },interval);
+  });
+}
+
 document.addEventListener('DOMContentLoaded',()=>{
   initNavigation();
   initUpdates();
@@ -312,4 +343,5 @@ document.addEventListener('DOMContentLoaded',()=>{
   initReveal();
   initFloatingCta();
   initWeb3Forms();
+  initReactBitsTextEffects();
 });
