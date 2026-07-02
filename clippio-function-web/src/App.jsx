@@ -122,11 +122,13 @@ export default function App() {
 function Header() {
   return (
     <header className="topbar">
-      <a className="brand" href="#top" aria-label="Clippio Function Web">
+      <a className="brand" href="/" aria-label="Späť na hlavnú stránku Clippio">
         <img src="/logo-clippio.png" alt="Clippio logo" />
         <span>Clippio Function Web</span>
       </a>
       <nav className="nav">
+        <a className="nav-home-link" href="/">← Clippio.sk</a>
+        <a href="/weby/#katalog-ukazkovych-webov">Katalóg webov</a>
         <a href="#pozadia">Pozadia</a>
         <a href="#web">Web v praxi</a>
         <a href="#ukazky">Ukážky</a>
@@ -153,6 +155,7 @@ function Hero({ activeTheme }) {
         <div className="hero-actions">
           <a className="btn primary magnet" href="#pozadia">Prepínať pozadia</a>
           <a className="btn secondary" href="#ukazky">Pozrieť ukážky</a>
+          <a className="btn secondary" href="/">Späť na Clippio</a>
         </div>
         <p className="boundary-note">Toto nie je kompletný zoznam všetkého, čo sa dá na webe spraviť. Je to výber použiteľných funkcií z priložených promptov, spracovaný ako funkčný web.</p>
       </div>
@@ -373,7 +376,8 @@ function FinalCTA() {
       </div>
       <div className="hero-actions">
         <a className="btn primary" href="mailto:info@clippio.sk">Kontaktovať Clippio</a>
-        <a className="btn secondary" href="#web">Pozrieť balíky webov</a>
+        <a className="btn secondary" href="/weby/#katalog-ukazkovych-webov">Katalóg ukážkových webov</a>
+        <a className="btn secondary" href="/">Späť na Clippio.sk</a>
       </div>
     </section>
   );

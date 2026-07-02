@@ -1,3 +1,11 @@
+
+## v6.1.12 – oprava Function Webu a katalógu ukážkových webov
+
+- Pridaný jasný návrat z Clippio Function Webu späť na hlavnú stránku Clippio a do katalógu ukážkových webov.
+- Upravené karty funkcií vo Function Webe, aby neboli zbytočne natiahnuté a text sa nelámal do úzkych stĺpcov.
+- Upravený katalóg ukážkových webov na stránke Tvorba webov do kompaktnejšieho 2×2 rozloženia.
+- Aktualizovaný cache-busting CSS verzie na v6.1.12.
+
 # Changelog
 
 ## v6.1.11 – aktualizovaný Clippio Function Web Redone

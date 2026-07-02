@@ -1,16 +1,14 @@
-Nahraj do koreňa GitHub repozitára presne tieto upravené súbory a zachovaj priečinky:
+CLIPPIO v6.1.12 – NAHRAŤ NA GITHUB
 
-index.html
-weby/index.html
-sluzby/index.html
-assets/css/style.css
-assets/js/main.js
+Najdôležitejšie súbory a priečinky:
 
-Čo bolo upravené:
-- jemný shiny efekt v hero labele na úvodnej stránke,
-- gradient efekt na dôležitých slovách v hero nadpisoch,
-- rotujúci text na úvodnej stránke a stránke služieb,
-- CSS/JS cache verzia na upravených stránkach posunutá na v6.1.7.
+- assets/css/style.css
+- index.html
+- weby/index.html
+- portfolio/index.html
+- clippio-function-web/
+- CHANGELOG.md
+- README.md
 
 Poznámka:
-Web nie je React aplikácia, preto tu nie je pridaný React ani motion. Efekty sú spravené ľahko cez existujúce HTML/CSS/JS, aby sa web nerozbil a nespomalil.
+Clippio Function Web má v priečinku aj zdrojový Vite/React projekt aj hotový deploy build. Funkčný súbor pre GitHub Pages je clippio-function-web/index.html.

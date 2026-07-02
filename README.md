@@ -1,4 +1,4 @@
-# Clippio web – v6.1.11
+# Clippio web – v6.1.12
 
 Statický HTML web pre **Clippio** pripravený na GitHub Pages. Verzia v6.x vychádza z funkčného základu **v5.1.1** a pridáva kontrolovaný Brand Book positioning bez rozbitia pôvodných napojení a funkcií.
 
@@ -20,7 +20,7 @@ Tieto služby nemajú pôsobiť ako nesúvisiace ponuky. Ich cieľ je podporiť 
 
 ## Stav verzie
 
-Aktuálna verzia: **v6.1.11 – aktualizovaný Clippio Function Web Redone**
+Aktuálna verzia: **v6.1.12 – aktualizovaný Clippio Function Web Redone**
 
 Obsahovo vychádza z:
 - **v6.0.0** – Brand Book positioning update,
@@ -271,7 +271,7 @@ Na GitHub Pages musí byť obsah priečinka `clippio-main` v roote repozitára, 
 
 
 
-## v6.1.11 – aktualizovaný Clippio Function Web Redone
+## v6.1.12 – aktualizovaný Clippio Function Web Redone
 
 - Vymenený ukážkový web Clippio Function Web za novú redone verziu.
 - V projekte ostal celý zdrojový Vite/React projekt aj funkčná deploy verzia pre GitHub Pages.
