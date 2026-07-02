@@ -1,5 +1,12 @@
 # Changelog
 
+## v6.1.11 – aktualizovaný Clippio Function Web Redone
+
+- Vymenený ukážkový web `clippio-function-web` za novú redone verziu.
+- Zachovaný celý zdrojový Vite/React projekt aj deploy build pre GitHub Pages.
+- Upravené cesty k JS, CSS a logu tak, aby ukážka fungovala v podpriečinku `/clippio-function-web/`.
+- Pôvodný Vite vstup ponechaný ako `index.vite-source.html`, deploy vstup ostáva `index.html`.
+
 ## v6.1.10 – aktualizovaný Clippio Function Web
 
 - Nahradená ukážka `Clippio Function Web` novou opravenou verziou zo súboru `clippio-function-web-fixed(1).zip`.

@@ -1,6 +1,6 @@
 {
-  "name": "clippio-function-web",
-  "version": "1.0.0",
+  "name": "clippio-function-web-redone",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
   "scripts": {

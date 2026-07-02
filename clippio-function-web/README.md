@@ -1,50 +1,22 @@
 # Clippio Function Web
 
-Táto verzia je vložená do hlavného webu Clippio ako samostatná ukážka na URL:
+Samostatný React/Vite projekt, ktorý slúži ako ukážkový web pre klientov Clippio. Nie je postavený ako suchý katalóg „naše funkcie“, ale ako funkčná stránka, kde sú efekty použité v reálnych sekciách: hero, výber pozadia, predajný blok, mini e-shop prvok, proces spolupráce a živé ukážky jednotlivých efektov.
 
-`/clippio-function-web/`
+## Čo je opravené vo verzii 2.0.0
 
-## Dôležité pre nasadenie
+- Prepínač pozadia mení vzhľad celej stránky, nie iba jedného preview boxu.
+- Stránka používa 55/55 prvkov z priloženého súboru promptov ako živé ukážky.
+- Každý prvok má krátky obchodný popis, kde sa hodí a do akého typu balíka patrí.
+- Na stránke je jasne napísané, že nejde o kompletný zoznam všetkého, ale o výber použiteľných funkcií.
+- Efekty sú zasadené do funkčného webu: hero, CTA, služby, proces, mini shop, bento sekcie a ukážkové karty.
+- Nepoužíva sa text promptov ako obsah stránky. Prompty slúžili iba ako zdroj funkcií.
 
-Koreňový `index.html` je upravená statická verzia z `dist/`, pripravená pre GitHub Pages v podpriečinku. Preto sa má na webe používať hlavne:
-
-- `index.html`
-- `assets/`
-- `logo-clippio.png`
-
-Zdrojový Vite/React projekt je ponechaný kvôli ďalším úpravám:
-
-- `src/`
-- `public/`
-- `package.json`
-- `package-lock.json`
-- `.gitignore`
-- `index.vite-source.html`
-- `dist/`
-
-Súbor `index.vite-source.html` je pôvodný Vite vstup. Neprepisuj ním koreňový `index.html`, lebo ten je deploy verzia pre Clippio.sk.
-
----
-
-Samostatný React/Vite projekt, ktorý slúži ako katalóg webových funkcií, efektov, pozadí a obchodných sekcií použiteľných pri tvorbe webov od Clippio.
-
-## Čo projekt ukazuje
-
-- 55 promptových komponentov z priloženého `prompts.txt` spracovaných ako samostatné ukážkové karty.
-- Prepínač pozadia, ktorý mení vzhľad celého webu, nie iba malého preview boxu.
-- Katalóg funkcií s filtrovaním podľa typu: textové efekty, pozadia, interakcie, predajné sekcie, e-shop a prémiové efekty.
-- Obchodný popis pri každej funkcii: čo robí, kde sa hodí a do akého balíka dáva zmysel.
-- Ukážky predajných prvkov: FAQ, cenníkové karty, proces, mini e-shop / košík.
-- Logo Clippio použité v hlavičke aj hero sekcii.
-
-## Spustenie projektu
+## Spustenie
 
 ```bash
 npm install
 npm run dev
 ```
-
-Lokálny server bude dostupný podľa výpisu Vite, typicky na adrese `http://localhost:5173`.
 
 ## Build
 
@@ -52,22 +24,24 @@ Lokálny server bude dostupný podľa výpisu Vite, typicky na adrese `http://lo
 npm run build
 ```
 
-Výsledok sa vytvorí do priečinka `dist/`.
+Hotový build je v priečinku `dist`.
 
-## Závislosti
+## Štruktúra
 
-Projekt používa:
+```text
+index.html
+package.json
+public/logo-clippio.png
+src/main.jsx
+src/App.jsx
+src/styles/global.css
+README.md
+```
 
-- React
-- React DOM
-- Vite
+## Poznámka
 
-Ťažké knižnice z pôvodných promptov nie sú nasilu pridané do produkčného balíka. Efekty sú spracované ako ľahšie ukážkové varianty, aby stránka ostala použiteľná, rýchla a vhodná ako obchodná prezentácia funkcií.
+Animácie sú spravené tak, aby projekt bežal bez ťažkých externých animačných knižníc. Cieľom je stabilný ukážkový web pripravený na ďalšie dopracovanie alebo vloženie do hlavného webu Clippio.
 
-## Poznámka k promptom
+## Poznámka k nasadeniu v Clippio
 
-Priložené prompty boli použité ako zdroj funkcií a názvov komponentov. Nie sú vložené na stránku ako text ani ako technické zadanie. Stránka ukazuje výber funkcií obchodne zrozumiteľne pre klienta.
-
-## Obchodná hranica
-
-Táto stránka nie je sľub, že všetky funkcie sú automaticky v každom balíku. Konkrétny rozsah webu sa vyberá podľa cieľa projektu, rozpočtu a technickej náročnosti.
+V hlavnom projekte Clippio je súbor `index.html` pripravený ako deploy verzia pre `/clippio-function-web/`. Pôvodný Vite vstup je ponechaný ako `index.vite-source.html`, aby sa zdrojový projekt dal ďalej upravovať bez rozbitia GitHub Pages nasadenia.
