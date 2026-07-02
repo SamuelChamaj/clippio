@@ -1,19 +1,14 @@
-CLIPPIO v6.1.5 – iba upravené/pridané veci
+CLIPPIO v6.1.6 – FIX PORTFÓLIO SEKCIE
 
-Nahraj obsah tohto ZIPu do koreňa GitHub repozitára clippio-main.
+Nahraj tieto súbory do koreňa GitHub repozitára a prepíš existujúce:
+
+- index.html
+- portfolio/index.html
+- weby/index.html
+- assets/css/style.css
+- CHANGELOG.md
+- README.md
 
 Dôležité:
-- Zachovaj rovnakú štruktúru priečinkov.
-- Existujúce súbory s rovnakým názvom prepíš.
-- Nový priečinok ukazkovy-eshop-liora/ pridaj celý.
-- Nenahrávaj samotný vrchný priečinok ZIPu ako nový priečinok na web, ale jeho obsah.
-
-Obsahuje hlavne:
-- index.html
-- weby/index.html
-- portfolio/index.html
-- sitemap.xml
-- README.md
-- CHANGELOG.md
-- assets/css/style.css
-- ukazkovy-eshop-liora/ celý ukážkový e-shop
+Tento ZIP neobsahuje celý e-shop Liora. Ten už máš z predchádzajúceho ZIPu.
+Toto je len oprava rozloženia a textov portfóliovej sekcie.

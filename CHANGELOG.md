@@ -1,3 +1,12 @@
+
+## v6.1.6 – oprava portfóliovej sekcie
+
+- Upravená homepage sekcia Portfólio, aby nepôsobila natiahnuto a prázdne.
+- Grid portfólia zmenený na maximálne 3 karty v riadku na desktope.
+- Doplnený vecnejší text a krátke body ku kartám.
+- Ukážkový e-shop Liora ostáva označený ako balík Predaj / e-shop.
+- Aktualizovaný cache parameter CSS na `v=6.1.6`.
+
 # Changelog
 
 ## v6.1.5 – ukážkový e-shop pre balík Predaj

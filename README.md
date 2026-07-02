@@ -1,4 +1,4 @@
-# Clippio web – v6.1.5
+# Clippio web – v6.1.6
 
 Statický HTML web pre **Clippio** pripravený na GitHub Pages. Verzia v6.x vychádza z funkčného základu **v5.1.1** a pridáva kontrolovaný Brand Book positioning bez rozbitia pôvodných napojení a funkcií.
 
@@ -20,7 +20,7 @@ Tieto služby nemajú pôsobiť ako nesúvisiace ponuky. Ich cieľ je podporiť 
 
 ## Stav verzie
 
-Aktuálna verzia: **v6.1.5 – ukážkový e-shop pre balík Predaj**
+Aktuálna verzia: **v6.1.6 – ukážkový e-shop pre balík Predaj**
 
 Obsahovo vychádza z:
 - **v6.0.0** – Brand Book positioning update,
@@ -271,7 +271,7 @@ Na GitHub Pages musí byť obsah priečinka `clippio-main` v roote repozitára, 
 
 
 
-## v6.1.5 – ukážkový e-shop pre balík Predaj
+## v6.1.6 – ukážkový e-shop pre balík Predaj
 
 - Pridaný ukážkový e-shop Saténové ruže Liora do priečinka `/ukazkovy-eshop-liora/`.
 - Ukážka doplnená na homepage do spoločnej karty „Ukážkové weby“ ako príklad balíka Predaj/e-shop.
@@ -320,3 +320,8 @@ Zmeny:
 
 Fix: Ukážkový web STAVEXON má viditeľný návrat späť na hlavný web Clippio cez hornú lištu, navigáciu a footer.
 
+
+
+## Oprava portfólia v6.1.6
+
+Táto verzia opravuje natiahnutú sekciu portfólia na homepage a portfóliovej stránke. Karty majú viac kontextu, profesionálnejší text a rozumnejšie rozloženie.
