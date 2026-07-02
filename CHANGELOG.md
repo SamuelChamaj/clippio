@@ -1,5 +1,12 @@
 # Changelog
 
+## v6.1.5 – ukážkový e-shop pre balík Predaj
+
+- Pridaný ukážkový e-shop Saténové ruže Liora pod `/ukazkovy-eshop-liora/`.
+- Homepage, portfólio a stránka Tvorba webov teraz ukazujú tri rozsahy webov: Štart, Rast a Predaj/e-shop.
+- E-shop ukážka obsahuje produktový katalóg, detail produktu, frontend košík, objednávkový formulár, galériu, kontakt a spätný odkaz na Clippio.
+- Ukážka má vlastný sitemap.xml, robots.txt, canonical URL a `noindex, follow`, aby nepôsobila ako reálny obchod vo vyhľadávaní.
+
 ## v6.1.4 – spoločná karta Ukážkové weby
 
 - Na homepage a v portfóliu boli dve samostatné ukážkové karty zlúčené do jednej karty „Ukážkové weby“.

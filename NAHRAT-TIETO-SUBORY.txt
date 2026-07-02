@@ -1,0 +1,19 @@
+CLIPPIO v6.1.5 – iba upravené/pridané veci
+
+Nahraj obsah tohto ZIPu do koreňa GitHub repozitára clippio-main.
+
+Dôležité:
+- Zachovaj rovnakú štruktúru priečinkov.
+- Existujúce súbory s rovnakým názvom prepíš.
+- Nový priečinok ukazkovy-eshop-liora/ pridaj celý.
+- Nenahrávaj samotný vrchný priečinok ZIPu ako nový priečinok na web, ale jeho obsah.
+
+Obsahuje hlavne:
+- index.html
+- weby/index.html
+- portfolio/index.html
+- sitemap.xml
+- README.md
+- CHANGELOG.md
+- assets/css/style.css
+- ukazkovy-eshop-liora/ celý ukážkový e-shop
