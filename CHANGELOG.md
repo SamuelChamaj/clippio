@@ -1,4 +1,12 @@
 
+## v6.1.8 – Ukážka funkcií v katalógu webov
+
+- Pridaný samostatný ukážkový web `Clippio Function Web` na URL `/clippio-function-web/`.
+- Na hlavnej stránke je karta „Ukážkové weby“ zjednodušená na jedno tlačidlo do katalógu.
+- Sekcia `/weby/` bola upravená na katalóg ukážkových webov vrátane ukážky funkcií.
+- Portfólio obsahuje novú kartu pre ukážku funkcií a efektov.
+
+
 ## v6.1.6 – oprava portfóliovej sekcie
 
 - Upravená homepage sekcia Portfólio, aby nepôsobila natiahnuto a prázdne.
@@ -120,4 +128,10 @@
 - Doplnená horná lišta s návratom späť na Clippio v ukážkovom webe STAVEXON.
 - Doplnený odkaz späť na Clippio do mobilnej navigácie aj päty ukážky.
 - Cieľ: návštevník sa po otvorení ukážkového webu nezasekne mimo hlavnej stránky Clippio.
+
+## v6.1.9 – doplnený zdrojový projekt Clippio Function Web
+
+- Do priečinka `clippio-function-web/` boli doplnené aj zdrojové Vite/React súbory.
+- Funkčná statická verzia pre GitHub Pages ostáva v koreňovom `clippio-function-web/index.html`.
+- Pôvodný Vite vstupný súbor je uložený ako `clippio-function-web/index.vite-source.html`, aby neprepísal deploy verziu.
 

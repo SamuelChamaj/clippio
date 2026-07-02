@@ -942,3 +942,24 @@ body.modal-open{overflow:hidden}
   .rb-shiny-text,.rb-gradient-text{animation:none;background-position:50% 50%}
   .rb-rotate-word,.rb-rotate-word.is-exiting{animation:none}
 }
+
+
+/* v6.1.8 – ukážkové weby: katalóg + Clippio Function Web */
+.web-example-comparison{grid-template-columns:repeat(4,minmax(0,1fr))}
+.web-example-mini-feature{background:linear-gradient(145deg,rgba(7,16,24,.96),rgba(0,71,255,.88));color:#fff;border-color:rgba(255,255,255,.18);position:relative;overflow:hidden}
+.web-example-mini-feature:before{content:"";position:absolute;right:-70px;top:-80px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(215,255,85,.55),rgba(255,255,255,.12) 44%,transparent 72%);pointer-events:none}
+.web-example-mini-feature>*{position:relative;z-index:1}
+.web-example-mini-feature>span{background:rgba(255,255,255,.14);color:var(--lime);border:1px solid rgba(255,255,255,.18)}
+.web-example-mini-feature p{color:rgba(255,255,255,.78)}
+.web-example-mini-feature .example-points span{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.16)}
+.web-example-mini-feature .mini-btn{background:var(--lime);color:var(--ink)}
+.function-web-portfolio-card{background:linear-gradient(135deg,rgba(7,16,24,.96),rgba(0,71,255,.88));border-color:rgba(255,255,255,.16);color:#fff;position:relative;overflow:hidden}
+.function-web-portfolio-card:before{content:"";position:absolute;right:-90px;top:-90px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(215,255,85,.55),rgba(255,255,255,.12) 44%,transparent 72%)}
+.function-web-portfolio-card>*{position:relative;z-index:1}
+.function-web-portfolio-card h3{color:#fff}
+.function-web-portfolio-card p{color:rgba(255,255,255,.78)}
+.function-web-portfolio-card .project-points li{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.16);color:#fff}
+.function-web-portfolio-card .mini-btn{background:var(--lime);color:var(--ink)}
+.function-web-portfolio-card .mini-btn-secondary{background:rgba(255,255,255,.10);color:#fff;border-color:rgba(255,255,255,.22)}
+@media(max-width:1180px){.web-example-comparison{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:720px){.web-example-comparison{grid-template-columns:1fr}}
