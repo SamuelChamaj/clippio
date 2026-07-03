@@ -376,10 +376,70 @@ document.addEventListener('DOMContentLoaded',()=>{
   initReactBitsTextEffects();
 });
 
-// v6.1.22 hard marquee fallback
-(function(){
-  const track = document.querySelector('.strip[data-real-marquee="true"] .strip-track');
-  if(!track) return;
-  track.style.animation = 'clippioRealInfiniteStrip 12s linear infinite';
-  track.style.willChange = 'transform';
-})();
+
+// v6.1.23 – real pixel-based infinite marquee, independent from CSS animation
+function initRealPixelMarquee(){
+  const strips = document.querySelectorAll('.strip[data-real-marquee="true"], .strip.strip-real-loop');
+  strips.forEach(strip=>{
+    const track = strip.querySelector('.strip-track');
+    if(!track) return;
+
+    strip.classList.add('js-marquee');
+    track.style.animation = 'none';
+    track.style.willChange = 'transform';
+
+    let firstGroup = track.querySelector('.strip-group');
+    if(!firstGroup){
+      const group = document.createElement('div');
+      group.className = 'strip-group';
+      group.innerHTML = track.innerHTML;
+      track.innerHTML = '';
+      track.appendChild(group);
+      firstGroup = group;
+    }
+
+    // Keep one clean source group, then duplicate enough times to cover any viewport.
+    const sourceHTML = firstGroup.innerHTML;
+    track.innerHTML = '';
+    for(let i=0;i<12;i++){
+      const group = document.createElement('div');
+      group.className = 'strip-group';
+      group.setAttribute('aria-hidden', i === 0 ? 'false' : 'true');
+      group.innerHTML = sourceHTML;
+      track.appendChild(group);
+    }
+
+    let segmentWidth = 0;
+    let offset = 0;
+    let lastTime = null;
+    const speed = window.innerWidth < 700 ? 64 : 82; // px/s
+
+    const measure = ()=>{
+      const group = track.querySelector('.strip-group');
+      segmentWidth = group ? group.getBoundingClientRect().width : 0;
+    };
+
+    const tick = (time)=>{
+      if(!segmentWidth) measure();
+      if(!segmentWidth){
+        requestAnimationFrame(tick);
+        return;
+      }
+      if(lastTime === null) lastTime = time;
+      const delta = Math.min((time - lastTime) / 1000, 0.05);
+      lastTime = time;
+      offset = (offset + speed * delta) % segmentWidth;
+      track.style.transform = `translate3d(${-offset}px,0,0)`;
+      requestAnimationFrame(tick);
+    };
+
+    measure();
+    if(document.fonts && document.fonts.ready){
+      document.fonts.ready.then(measure).catch(()=>{});
+    }
+    window.addEventListener('resize', measure, {passive:true});
+    requestAnimationFrame(tick);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', initRealPixelMarquee);

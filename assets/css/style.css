@@ -1509,3 +1509,46 @@ body{overflow-x:hidden}
   .strip.strip-real-loop .strip-track,
   .strip[data-real-marquee="true"] .strip-track{animation:clippioRealInfiniteStrip 12s linear infinite!important}
 }
+
+
+/* v6.1.23 – DEFINITÍVNY JS MARQUEE FIX
+   CSS animácie vypnuté, pohyb rieši requestAnimationFrame v main.js. */
+.strip[data-real-marquee="true"],
+.strip.strip-real-loop,
+.strip{
+  overflow:hidden!important;
+  width:100%!important;
+  max-width:100%!important;
+  white-space:nowrap!important;
+}
+.strip[data-real-marquee="true"] .strip-track,
+.strip.strip-real-loop .strip-track,
+.strip.js-marquee .strip-track{
+  display:flex!important;
+  flex-wrap:nowrap!important;
+  align-items:center!important;
+  width:max-content!important;
+  min-width:max-content!important;
+  animation:none!important;
+  transform:translate3d(0,0,0);
+  will-change:transform!important;
+}
+.strip[data-real-marquee="true"] .strip-group,
+.strip.strip-real-loop .strip-group,
+.strip.js-marquee .strip-group{
+  display:flex!important;
+  flex:0 0 auto!important;
+  align-items:center!important;
+  gap:28px!important;
+  padding:18px 28px!important;
+  white-space:nowrap!important;
+}
+.strip[data-real-marquee="true"] span,
+.strip.strip-real-loop span,
+.strip.js-marquee span{
+  animation:none!important;
+  transform:none!important;
+  display:inline-flex!important;
+  flex:0 0 auto!important;
+  white-space:nowrap!important;
+}

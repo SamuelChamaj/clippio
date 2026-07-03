@@ -228,3 +228,8 @@
 - Funkčná statická verzia pre GitHub Pages ostáva v koreňovom `clippio-function-web/index.html`.
 - Pôvodný Vite vstupný súbor je uložený ako `clippio-function-web/index.vite-source.html`, aby neprepísal deploy verziu.
 
+
+
+## v6.1.23
+- Definitívna oprava nekonečnej lišty: pohyb rieši JS cez requestAnimationFrame, nie CSS animácia.
+- Lišta si sama duplikuje obsah a posúva sa pixelovo bez skoku.
