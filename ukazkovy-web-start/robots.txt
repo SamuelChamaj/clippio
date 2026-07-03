@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://www.clippio.sk/ukazkovy-web-start/sitemap.xml

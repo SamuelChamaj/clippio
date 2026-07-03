@@ -1,4 +1,4 @@
-# Clippio web – v6.1.13
+# Clippio web – v6.1.15
 
 Statický HTML web pre **Clippio** pripravený na GitHub Pages. Verzia v6.x vychádza z funkčného základu **v5.1.1** a pridáva kontrolovaný Brand Book positioning bez rozbitia pôvodných napojení a funkcií.
 
@@ -20,9 +20,11 @@ Tieto služby nemajú pôsobiť ako nesúvisiace ponuky. Ich cieľ je podporiť 
 
 ## Stav verzie
 
-Aktuálna verzia: **v6.1.13 – animation cleanup & consistency update**
+Aktuálna verzia: **v6.1.15 – clean URL cleanup**
 
 Obsahovo vychádza z:
+- **v6.1.15** – odstránené koreňové `.html` presmerovania, interné odkazy ponechané na čistých URL a cache verzia aktualizovaná na 6.1.15.
+- **v6.1.14** – vyčistenie produkčného ZIPu od duplicitných assetov, zdrojových Vite súborov a interných poznámok, ktoré nie sú potrebné na GitHub Pages.
 - **v6.0.0** – Brand Book positioning update,
 - **v6.0.1** – oprava portfólia, cenníka a balíkov,
 - **v6.0.2** – rozšírenie webových balíkov a O Clippio,
@@ -38,7 +40,6 @@ Verzia **v6.1.0** upravuje webové balíky tak, aby hlavné karty zostali jednod
 
 - statický web vhodný pre GitHub Pages,
 - čisté URL cez priečinky s `index.html`,
-- staré `.html` adresy ponechané ako presmerovania,
 - Web3Forms kontaktné formuláre s lokálnou úspešnou/chybovou hláškou,
 - floating Smart CTA,
 - cookie banner,
@@ -62,7 +63,7 @@ Verzia **v6.1.0** upravuje webové balíky tak, aby hlavné karty zostali jednod
 - `/cookies/` – cookies
 - `/ochrana-osobnych-udajov/` – ochrana osobných údajov
 
-Staré adresy ako `sluzby.html`, `portfolio.html`, `kontakt.html` ostávajú v projekte kvôli presmerovaniu a spätnej kompatibilite.
+Staré koreňové `.html` presmerovania boli odstránené. Web používa čisté URL cez priečinky s `index.html`.
 
 ## Webové balíky
 
@@ -269,13 +270,13 @@ Na GitHub Pages musí byť obsah priečinka `clippio-main` v roote repozitára, 
 
 - Opravené načítanie CSS, JavaScriptu, obrázkov a favicon pri čistých URL typu `/sluzby/`.
 - Všetky interné odkazy a asset cesty zmenené na root-relative tvar pre GitHub Pages.
-- Staré `.html` stránky ponechané ako presmerovania na nové URL.
+- Staré koreňové `.html` presmerovania odstránené; web používa čisté URL cez priečinky.
 
 ### v5.0.0
 
 - Podstránky sú presunuté do priečinkov s `index.html`, aby URL fungovali bez `.html`.
 - Interné odkazy, canonical URL a sitemap boli upravené na čisté URL.
-- Staré `.html` adresy ostávajú ako presmerovania na nové čisté URL.
+- Koreňové `.html` presmerovania odstránené, aby bol deploy čistejší.
 
 
 
