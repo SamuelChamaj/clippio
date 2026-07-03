@@ -193,7 +193,6 @@ Na GitHub Pages musí byť obsah priečinka `clippio-main` v roote repozitára, 
 
 - Navbar a footer sú priamo v HTML, aby web fungoval aj pri otvorení zo ZIPu cez `file://`.
 - Pri úpravách textov treba zachovať positioning: web ako hlavný pilier, ostatné kreatívne služby ako podpora digitálnej prezentácie.
-- Nepoužívať interné vety určené pre vývojára v texte pre návštevníka.
 - Nepoužívať falošné recenzie, vymyslené čísla ani náhodné vizuály ako klientsku prácu.
 - Cenník a dynamické bloky musia zostať napojené na existujúci JavaScript a spreadsheet/fallback systém.
 

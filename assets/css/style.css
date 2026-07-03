@@ -1099,12 +1099,8 @@ body{overflow-x:hidden}
 .floating-cta:hover,.floating-cta:focus-visible{transform:var(--button-lift);box-shadow:0 22px 62px rgba(7,16,24,.28)}
 .floating-cta.is-reminding{animation:none}
 
-.rb-shiny-text,
-.rb-gradient-text{
-  animation:none!important;
-  background-position:50% 50%;
-}
-.rb-rotate-word,.rb-rotate-word.is-exiting{animation:none!important;transform:none!important;opacity:1!important}
+/* v6.1.20 – React Bits textové efekty znovu zapnuté.
+   Animácie sa vypnú iba pri systémovej voľbe reduced motion. */
 
 /* Stabilná navigácia a jednoduché mobilné menu. */
 .links a{position:relative;transition:color var(--transition-fast),opacity var(--transition-fast)}
@@ -1364,3 +1360,74 @@ body{overflow-x:hidden}
 @keyframes clippioStripLoop{from{transform:translate3d(0,0,0)}to{transform:translate3d(-25%,0,0)}}
 @media(max-width:700px){.strip-track{animation-duration:54s!important}.strip-track span{padding:14px 0!important;font-size:13px!important;letter-spacing:1.5px!important}.strip-track b{margin:0 16px}}
 @media(prefers-reduced-motion:reduce){.strip-track{animation:none!important;transform:none!important}}
+
+
+/* v6.1.20 – oprava nekonečnej lišty bez sekania a bez statického fallbacku */
+.strip{
+  width:100%!important;
+  overflow:hidden!important;
+  display:block!important;
+  padding:0!important;
+  border-top:1px solid var(--line)!important;
+  border-bottom:1px solid var(--line)!important;
+  background:rgba(245,248,238,.76)!important;
+  white-space:nowrap!important;
+}
+.strip .strip-track{
+  display:flex!important;
+  flex-wrap:nowrap!important;
+  width:max-content!important;
+  min-width:max-content!important;
+  transform:translate3d(0,0,0);
+  animation-name:clippioMarqueeFixed!important;
+  animation-duration:18s!important;
+  animation-timing-function:linear!important;
+  animation-iteration-count:infinite!important;
+  will-change:transform!important;
+}
+.strip .strip-group{
+  display:flex!important;
+  align-items:center!important;
+  flex:0 0 auto!important;
+  gap:26px!important;
+  padding:18px 26px!important;
+}
+.strip .strip-group span{
+  display:inline-flex!important;
+  align-items:center!important;
+  flex:0 0 auto!important;
+  padding:0!important;
+  white-space:nowrap!important;
+  text-transform:uppercase!important;
+  font-weight:950!important;
+  letter-spacing:2px!important;
+  color:var(--ink)!important;
+  animation:none!important;
+}
+.strip .strip-group b{
+  display:inline-flex!important;
+  flex:0 0 auto!important;
+  margin:0!important;
+  color:var(--blue)!important;
+  line-height:1!important;
+}
+.strip:hover .strip-track{
+  animation-play-state:paused!important;
+}
+@keyframes clippioMarqueeFixed{
+  from{transform:translate3d(0,0,0)}
+  to{transform:translate3d(-50%,0,0)}
+}
+@media(max-width:700px){
+  .strip .strip-track{animation-duration:20s!important}
+  .strip .strip-group{gap:18px!important;padding:14px 18px!important}
+  .strip .strip-group span{font-size:13px!important;letter-spacing:1.4px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .strip .strip-track{
+    animation-name:clippioMarqueeFixed!important;
+    animation-duration:18s!important;
+    animation-timing-function:linear!important;
+    animation-iteration-count:infinite!important;
+  }
+}

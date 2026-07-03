@@ -1,3 +1,22 @@
+
+## v6.1.21 – Function Web static fix
+
+- Clippio Function Web bol nahradený stabilnou statickou verziou bez React/Vite buildu.
+- Opravené relatívne asset cesty pre GitHub Pages.
+- Pridané funkčné prepínanie pozadí, shiny text, typewriter, CountUp, accordion, tabs, formulár, spotlight a nekonečný pás.
+- Odstránené staré nepoužívané build chunk súbory z ukážky funkcií.
+
+# Changelog
+
+## v6.1.20
+- Opravené vypnuté React Bits textové efekty: shiny text, gradient text a rotujúce slová sú znovu aktívne.
+- Aktualizovaný cache query parameter na `v=6.1.20`.
+
+## v6.1.19
+- Opravená nekonečná lišta služieb na hlavnej stránke.
+- Lišta má teraz pevne oddelené dve rovnaké skupiny a animuje sa cez `translate3d(-50%, 0, 0)`, takže plynulo pokračuje bez statického zalomenia.
+- Aktualizovaný cache query parameter na `v=6.1.19`.
+
 ## v6.1.17 – Function Web improvement pass
 
 - Prepracovaný `clippio-function-web` z ťažšieho React/Vite buildu na jednoduchú statickú HTML/CSS/JS ukážku vhodnú pre GitHub Pages.
