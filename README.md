@@ -1,4 +1,4 @@
-# Clippio web – v6.1.26
+# Clippio web – v6.1.27
 
 Statický HTML web pre **Clippio** pripravený na GitHub Pages. Verzia v6.x vychádza z funkčného základu **v5.1.1** a pridáva kontrolovaný Brand Book positioning bez rozbitia pôvodných napojení a funkcií.
 
@@ -20,10 +20,10 @@ Tieto služby nemajú pôsobiť ako nesúvisiace ponuky. Ich cieľ je podporiť 
 
 ## Stav verzie
 
-Aktuálna verzia: **v6.1.26 – pricing and trust cleanup**
+Aktuálna verzia: **v6.1.27 – pricing and trust cleanup**
 
 Obsahovo vychádza z:
-- **v6.1.26** – pricing and trust cleanup: Štart web upravený na 199 €, jasnejšie oddelenie webových balíkov od kreatívnych služieb, silnejšia sekcia dôkazov na homepage, civilnejšie formulácie o moderných nástrojoch a redirect `/o-clippio.html` na čistú URL.
+- **v6.1.27** – pricing and trust cleanup: Štart web upravený na 199 €, jasnejšie oddelenie webových balíkov od kreatívnych služieb, silnejšia sekcia dôkazov na homepage, civilnejšie formulácie o moderných nástrojoch a redirect `/o-clippio.html` na čistú URL.
 - **v6.1.17** – Function Web improvement pass: nahradený ťažší React/Vite build jednoduchšou statickou ukážkou, prepracovaný katalóg funkcií, celostránkový prepínač vizuálu, čistejšie CTA a menší počet assetov.
 - **v6.1.16** – smoothness performance pass: vypnutá nekonečná pohybujúca sa lišta, odstránený ťažký blur na sticky/fixed prvkoch, odľahčené tiene, stabilnejšie mobilné správanie a optimalizované ikony.
 - **v6.1.15** – clean URL cleanup: odstránené koreňové `.html` presmerovania, interné odkazy ponechané na čistých URL a cache verzia aktualizovaná na 6.1.15.
@@ -343,3 +343,8 @@ Fix: Ukážkový web STAVEXON má viditeľný návrat späť na hlavný web Clip
 ## Oprava portfólia v6.1.6
 
 Táto verzia opravuje natiahnutú sekciu portfólia na homepage a portfóliovej stránke. Karty majú viac kontextu, profesionálnejší text a rozumnejšie rozloženie.
+
+
+## v6.1.27
+
+Oprava duplicity: odstránený samostatný koreňový redirect `o-clippio.html`; presmerovanie starého odkazu rieši `404.html`.

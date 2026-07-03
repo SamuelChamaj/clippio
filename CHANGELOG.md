@@ -1,4 +1,11 @@
 
+## v6.1.27 – odstránenie duplicitného redirect súboru
+
+- Odstránený koreňový súbor `o-clippio.html`, aby nevznikala duplicitná HTML stránka k `/o-clippio/`.
+- Legacy presmerovanie `/o-clippio.html` je riešené cez `404.html` bez samostatného duplicitného súboru.
+- Aktualizovaná cache verzia assetov na `v=6.1.27`.
+
+
 ## v6.1.26 – pricing and trust cleanup
 - Štart web updated to 199 € across web packages and function demo.
 - Homepage proof section now shows clearer package-based examples: Rast, Štart and e-shop.
