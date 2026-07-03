@@ -2678,3 +2678,75 @@ a,button,.btn,.nav-link,.service-mini-nav a{
   }
 }
 
+
+
+/* v6.1.36 – hero cleanup
+   Cieľ: odstrániť tvrdý horizontálny prechod v hero a vyvážiť pravú vizuálnu kartu. Bez zásahu do JS. */
+@media(min-width:901px){
+  .hero{
+    padding-top:34px;
+  }
+  .hero-grid{
+    grid-template-columns:minmax(0,1fr) minmax(360px,.88fr);
+    gap:22px;
+  }
+  .hero-copy,
+  .hero-photo{
+    min-height:520px;
+  }
+  .hero-copy{
+    padding:44px 46px;
+    background:
+      radial-gradient(circle at 84% 12%,rgba(0,71,255,.38),transparent 36%),
+      radial-gradient(circle at 10% 4%,rgba(215,255,85,.12),transparent 30%),
+      linear-gradient(145deg,#071018 0%,#0a1424 58%,#0d234c 100%)!important;
+  }
+  .hero-copy:before{
+    inset:18px;
+    border:1px solid rgba(255,255,255,.10);
+    border-radius:24px;
+    background:none!important;
+    opacity:1!important;
+    -webkit-mask-image:none!important;
+    mask-image:none!important;
+  }
+  .hero-copy:after{
+    opacity:.48!important;
+    filter:blur(6px);
+  }
+  .hero-copy h1{
+    font-size:clamp(48px,5.15vw,74px)!important;
+    line-height:.98!important;
+    letter-spacing:-2.9px!important;
+    max-width:760px;
+  }
+  .hero-copy .lead{
+    font-size:18px!important;
+    line-height:1.48;
+    max-width:680px;
+  }
+  .hero-photo{
+    background-position:center 58%!important;
+    background-size:cover!important;
+    background-color:#e7ebe6;
+  }
+  .hero-photo:before{
+    background:linear-gradient(180deg,rgba(7,16,24,.03),rgba(7,16,24,.24))!important;
+  }
+  .hero-photo:after{
+    background:
+      radial-gradient(circle at 78% 18%,rgba(215,255,85,.10),transparent 26%),
+      linear-gradient(180deg,rgba(255,255,255,.06),rgba(7,16,24,.18))!important;
+  }
+  .hero-note{
+    max-width:560px;
+  }
+}
+@media(max-width:900px){
+  .hero-copy:before{
+    background:none!important;
+    border:1px solid rgba(255,255,255,.10);
+    -webkit-mask-image:none!important;
+    mask-image:none!important;
+  }
+}
