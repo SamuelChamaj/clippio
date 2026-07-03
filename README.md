@@ -1,4 +1,4 @@
-# Clippio web – v6.1.12
+# Clippio web – v6.1.13
 
 Statický HTML web pre **Clippio** pripravený na GitHub Pages. Verzia v6.x vychádza z funkčného základu **v5.1.1** a pridáva kontrolovaný Brand Book positioning bez rozbitia pôvodných napojení a funkcií.
 
@@ -20,7 +20,7 @@ Tieto služby nemajú pôsobiť ako nesúvisiace ponuky. Ich cieľ je podporiť 
 
 ## Stav verzie
 
-Aktuálna verzia: **v6.1.12 – aktualizovaný Clippio Function Web Redone**
+Aktuálna verzia: **v6.1.13 – animation cleanup & consistency update**
 
 Obsahovo vychádza z:
 - **v6.0.0** – Brand Book positioning update,
@@ -195,6 +195,15 @@ Na GitHub Pages musí byť obsah priečinka `clippio-main` v roote repozitára, 
 - Cenník a dynamické bloky musia zostať napojené na existujúci JavaScript a spreadsheet/fallback systém.
 
 ## Changelog
+## v6.1.13 – animation cleanup & consistency update
+
+- Zjednotené animácie na pokojný fade-up systém.
+- Upravené hover efekty kariet a CTA tlačidiel na jednotné hodnoty.
+- Zlepšené mobilné menu, mobilná plynulosť a stabilita kariet.
+- Zjednotený spacing sekcií a vizuálne správanie hlavných blokov.
+- Upravené referencie a katalóg ukážkových webov do obchodnejšej podoby.
+- Pridaná a rozšírená podpora `prefers-reduced-motion`.
+
 
 ### v6.0.4 – README fix
 

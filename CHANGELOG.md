@@ -1,3 +1,15 @@
+## v6.1.13 – animation cleanup & consistency update
+
+- Zjednotené animácie na pokojný fade-up systém s kratším posunom a jednotným easingom.
+- Upravené hover efekty kariet, portfólia, ukážkových webov, referencií a CTA tlačidiel.
+- Zlepšené mobilné menu: jednoduchý opacity + translateY prechod a stabilnejší hamburger.
+- Znížená intenzita animácií na mobile a odstránené rušivé priebežné textové animácie.
+- Zjednotený spacing sekcií, radius, tiene a správanie hlavných kariet.
+- Upravené referencie do štruktúry klient/projekt, čo sa riešilo, čo bolo dodané a praktický prínos.
+- Upravený katalóg ukážkových webov do obchodnejšej a kratšej podoby.
+- Doplnená podpora `prefers-reduced-motion` pre prístupnosť.
+- Aktualizovaný cache-busting CSS/JS verzie na v6.1.13.
+
 
 ## v6.1.12 – oprava Function Webu a katalógu ukážkových webov
 
