@@ -256,3 +256,12 @@
 ## v6.1.23
 - Definitívna oprava nekonečnej lišty: pohyb rieši JS cez requestAnimationFrame, nie CSS animácia.
 - Lišta si sama duplikuje obsah a posúva sa pixelovo bez skoku.
+
+## v6.1.35 – final hardening patch
+
+- Zjednotené cache verzie hlavného CSS na `v=6.1.35` na hlavných stránkach Clippio.
+- Doplnená ochrana proti horizontálnemu pretekaniu na mobile.
+- Doplnené bezpečné focus stavy pre klávesnicu a formuláre.
+- Doplnená redukcia pohybu pre používateľov s nastavením `prefers-reduced-motion`.
+- Bez zásahu do JavaScriptu, formulárov, navigácie, SEO súborov a ukážkových webov.
+

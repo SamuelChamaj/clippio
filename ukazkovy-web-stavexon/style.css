@@ -254,3 +254,94 @@ body{
   .demo-return-link{width:100%;text-align:center}
   .clippio-back-link{background:#f8fafc!important}
 }
+
+/* v6.1.34 – demo polish: STAVEXON proof page depth and clearer Clippio return */
+body{
+  background:
+    radial-gradient(circle at 8% 0%,rgba(242,140,40,.075),transparent 30%),
+    radial-gradient(circle at 95% 12%,rgba(15,39,66,.075),transparent 34%),
+    var(--color-bg);
+}
+.demo-return-bar{
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 94% 0%,rgba(242,140,40,.22),transparent 34%),
+    linear-gradient(135deg,#0b1627 0%,#111827 74%,#172b46 130%);
+  box-shadow:0 12px 34px rgba(15,39,66,.16);
+}
+.demo-return-bar::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);
+  opacity:.54;
+}
+.demo-return-inner{position:relative;z-index:1}
+.demo-return-link{
+  border-radius:999px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12);
+  transition:transform .18s ease,background .18s ease,border-color .18s ease;
+}
+.demo-return-link:hover,.demo-return-link:focus-visible{
+  transform:translateY(-1px);
+  text-decoration:none;
+  background:rgba(255,255,255,.18);
+  border-color:rgba(255,255,255,.26);
+}
+.hero{
+  isolation:isolate;
+  background:
+    radial-gradient(circle at 10% 6%,rgba(242,140,40,.15),transparent 32%),
+    radial-gradient(circle at 92% 18%,rgba(15,39,66,.10),transparent 34%),
+    linear-gradient(180deg,#fff 0%,var(--color-bg) 100%);
+}
+.hero-card,
+.service-card,
+.realization-card,
+.process-card,
+.trust-card,
+.contact-card,
+.feature-card{
+  border-color:rgba(15,39,66,.12);
+  box-shadow:0 18px 52px rgba(15,39,66,.075);
+}
+.service-card,
+.realization-card,
+.process-card,
+.trust-card,
+.contact-card,
+.feature-card{
+  background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(247,250,253,.91));
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+}
+.service-card:hover,
+.realization-card:hover,
+.process-card:hover,
+.trust-card:hover,
+.contact-card:hover,
+.feature-card:hover{
+  transform:translateY(-3px);
+  border-color:rgba(242,140,40,.28);
+  box-shadow:0 24px 66px rgba(15,39,66,.12);
+}
+.cta-section,
+.cta-band{
+  position:relative;
+  overflow:hidden;
+}
+.cta-section::before,
+.cta-band::before{
+  content:"";
+  position:absolute;
+  right:-90px;
+  top:-90px;
+  width:280px;
+  height:280px;
+  border-radius:999px;
+  background:radial-gradient(circle,rgba(242,140,40,.18),transparent 70%);
+  pointer-events:none;
+}
+@media(max-width:760px){
+  .service-card:hover,.realization-card:hover,.process-card:hover,.trust-card:hover,.contact-card:hover,.feature-card:hover{transform:none}
+}
