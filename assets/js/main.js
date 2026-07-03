@@ -1,4 +1,4 @@
-// Clippio v6.1.15 – clean URL cleanup
+// Clippio v6.1.16 – smoothness performance pass
 // Stabilná verzia: navbar a footer sú priamo v HTML, aby web fungoval aj po otvorení cez file://.
 
 function escapeHtml(v){
@@ -164,14 +164,19 @@ function initReveal(){
   if(!items.length) return;
 
   const reduceMotion=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  items.forEach((el,index)=>{
+  const lightMotion=window.matchMedia && window.matchMedia('(max-width: 780px)').matches;
+
+  items.forEach(el=>{
     el.classList.add('reveal');
+    if(reduceMotion || lightMotion){
+      el.classList.add('visible');
+      return;
+    }
     const localIndex=Array.prototype.indexOf.call(el.parentElement ? el.parentElement.children : [], el);
-    const delay=Math.min(Math.max(localIndex,0),4);
+    const delay=Math.min(Math.max(localIndex,0),2);
     if(delay>0) el.setAttribute('data-reveal-delay',String(delay));
-    if(reduceMotion) el.classList.add('visible');
   });
-  if(reduceMotion) return;
+  if(reduceMotion || lightMotion) return;
 
   if(!('IntersectionObserver' in window)){
     items.forEach(el=>el.classList.add('visible'));
@@ -184,7 +189,7 @@ function initReveal(){
         io.unobserve(entry.target);
       }
     });
-  },{threshold:0.10,rootMargin:'0px 0px -32px 0px'});
+  },{threshold:0.08,rootMargin:'0px 0px -16px 0px'});
   items.forEach(el=>io.observe(el));
 }
 
@@ -233,8 +238,7 @@ function initFloatingCta(){
   };
 
   cta.addEventListener('click',markClicked,{passive:true});
-  window.setTimeout(remind,60000);
-  window.addEventListener('scroll',scrollHandler,{passive:true});
+  // v6.1.16: bez automatického pulzu CTA, aby sa stránka nepohybovala sama od seba.
 
   document.addEventListener('focusin',(event)=>{
     if(event.target && event.target.closest && event.target.closest('form')){

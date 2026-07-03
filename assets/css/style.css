@@ -976,7 +976,7 @@ body.modal-open{overflow:hidden}
 @media(max-width:900px){.web-example-comparison{grid-template-columns:1fr}.web-example-card-combined{max-width:760px}}
 @media(max-width:560px){.web-example-mini .mini-btn{width:100%}}
 
-/* v6.1.15 – clean URL cleanup */
+/* v6.1.16 – smoothness performance pass */
 :root{
   --transition-fast:180ms ease-out;
   --transition-base:220ms ease-out;
@@ -1223,6 +1223,133 @@ body{overflow-x:hidden}
   .strip-track{animation:none!important;transform:none!important}
 }
 
-/* v6.1.15 – pokojnejšia nekonečná lišta */
+/* v6.1.16 – pokojnejšia nekonečná lišta */
 .strip-track{animation-duration:44s!important}
 @media(max-width:700px){.strip-track{animation-duration:56s!important}}
+
+/* v6.1.16 – smoothness performance pass
+   Cieľ: odstrániť prvky, ktoré môžu spôsobovať vizuálne sekanie na scrolli. */
+:root{
+  --transition-slow:480ms cubic-bezier(0.22,1,0.36,1);
+  --card-shadow:0 12px 34px rgba(7,16,24,.055);
+  --card-shadow-hover:0 16px 42px rgba(7,16,24,.085);
+  --shadow:0 16px 44px rgba(7,16,24,.10);
+}
+
+/* Nekonečne bežiaca lišta vyzerala efektne, ale znižovala pokoj webu a mohla trhať. */
+.strip span,
+.strip-track{
+  animation:none!important;
+  transform:none!important;
+}
+.strip-track{
+  width:auto;
+  flex-wrap:wrap;
+  row-gap:0;
+}
+.strip-track span{
+  white-space:normal;
+}
+
+/* Blur na sticky/fixed prvkoch je častý dôvod sekania pri scrollovaní. */
+.topbar,
+.hero-note,
+.floating-cta,
+.cookie-banner,
+.thankyou-modal,
+.package-detail-card,
+.package-rule-card,
+.web-example-card{
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+.topbar{background:rgba(247,244,238,.97)}
+.hero-note{background:rgba(255,255,255,.93)}
+.cookie-banner{background:rgba(255,255,255,.96)}
+
+/* Menej drahé tiene. Stále prémiové, ale ľahšie pre render. */
+.panel,
+.creator-card,
+.testimonial,
+.home-form,
+.update-card,
+.web-value article,
+.price-card,
+.addon-grid article,
+.web-info-grid article,
+.html-note,
+.web-project-card,
+.proof-card,
+.trust-grid article,
+.process-steps article,
+.audience-card,
+.conversion-cta,
+.package-detail-card,
+.package-rule-card,
+.web-example-card,
+.legal-card,
+.cookie-banner,
+.thankyou-dialog,
+.faq-item,
+.reference-card{
+  box-shadow:var(--card-shadow)!important;
+}
+
+/* Zjednotenie hoveru bez veľkého zdvíhania a bez scale dojmu. */
+.price-card.featured:hover,
+.price-card:hover,
+.service:hover,
+.service-link:hover,
+.web-value article:hover,
+.addon-grid article:hover,
+.web-info-grid article:hover,
+.html-note:hover,
+.update-card:hover,
+.testimonial:hover,
+.stat:hover,
+.audience-card:hover,
+.trust-grid article:hover,
+.process-steps article:hover,
+.problem-grid article:hover,
+.proof-card:hover,
+.web-project-card:hover,
+.web-self-portfolio:hover,
+.web-example-mini:hover,
+.detail-card:hover,
+.package-detail-card:hover,
+.package-rule-card:hover,
+.faq-item:hover,
+.reference-card:hover,
+.sample-web-item:hover{
+  transform:translateY(-3px)!important;
+  box-shadow:var(--card-shadow-hover)!important;
+}
+.tile img{transition:transform 260ms ease-out!important}
+.tile:hover img{transform:scale(1.01)!important}
+
+/* Reveal animácia kratšia a bez dlhých staggerov. */
+.reveal{
+  transition:opacity 420ms cubic-bezier(0.22,1,0.36,1),transform 420ms cubic-bezier(0.22,1,0.36,1)!important;
+}
+.reveal[data-reveal-delay="1"]{transition-delay:50ms!important}
+.reveal[data-reveal-delay="2"]{transition-delay:80ms!important}
+.reveal[data-reveal-delay="3"],
+.reveal[data-reveal-delay="4"]{transition-delay:0ms!important}
+
+/* Mobil: stabilita > animácie. */
+@media(max-width:780px){
+  html{scroll-behavior:auto}
+  .topbar{background:rgba(247,244,238,.99)}
+  .reveal{opacity:1!important;transform:none!important;transition:none!important}
+  .tile:hover img,
+  .btn:hover,
+  .mini-btn:hover,
+  .form-btn:hover,
+  .nav-cta:hover,
+  .package-detail-link:hover,
+  .card-actions a:hover,
+  .floating-cta:hover{
+    transform:none!important;
+  }
+  .floating-cta{box-shadow:0 10px 28px rgba(7,16,24,.18)!important}
+}

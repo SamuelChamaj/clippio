@@ -1,3 +1,14 @@
+## v6.1.16 – smoothness performance pass
+
+- Vypnutá nekonečná pohybujúca sa lišta, ktorá mohla opticky sekať.
+- Odstránený ťažký `backdrop-filter` zo sticky/fixed prvkov.
+- Odľahčené veľké tiene na kartách a CTA blokoch.
+- Na mobile vypnuté scroll reveal animácie pre stabilnejší pohyb.
+- Skrátené reveal prechody a znížený stagger delay.
+- Vypnutý automatický CTA pulz / pripomienka počas scrollu.
+- Optimalizované veľké ikony a favicony.
+- Aktualizovaný cache-busting CSS/JS na v6.1.16.
+
 ## v6.1.15 – clean URL cleanup
 
 - Odstránené koreňové `.html` presmerovania, ktoré duplikovali priečinkové URL.
