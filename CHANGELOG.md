@@ -1,4 +1,20 @@
 
+## v6.1.26 – pricing and trust cleanup
+- Štart web updated to 199 € across web packages and function demo.
+- Homepage proof section now shows clearer package-based examples: Rast, Štart and e-shop.
+- Cenník separates web packages from smaller creative services more clearly.
+- AI wording reduced and reframed around modern tools plus manual quality control.
+- Added legacy redirect for `/o-clippio.html` to `/o-clippio/`.
+
+## v6.1.25 – SEO/cache cleanup po oprave lišty
+
+- Zjednotené cache verzie CSS/JS na `6.1.25` vo všetkých hlavných HTML súboroch.
+- Doplnený canonical a robots meta pre `/clippio-function-web/`.
+- Pridaný `/ukazkovy-web-start/` do hlavného sitemap.xml, keďže sa naň odkazuje z webu aj portfólia.
+- Odstránený nepoužívaný starý JS marquee fallback, aby sa už nemiešal s novou `service-marquee` lištou.
+- `noindex` ostáva iba na technických stránkach `404.html` a `/dakujeme/`, ktoré nemajú byť v indexe.
+
+
 ## v6.1.22 – Function Web static fix
 
 - Clippio Function Web bol nahradený stabilnou statickou verziou bez React/Vite buildu.

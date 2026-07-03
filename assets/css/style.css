@@ -1611,3 +1611,8 @@ body{overflow-x:hidden}
 @media(prefers-reduced-motion:reduce){
   .service-marquee__track{animation-duration:48s}
 }
+
+/* v6.1.26 – clearer pricing separation */
+.price-section-divider{display:flex;align-items:center;gap:16px;margin:-14px 0 28px;color:var(--blue);font-size:12px;font-weight:950;letter-spacing:2px;text-transform:uppercase}
+.price-section-divider:before,.price-section-divider:after{content:"";height:1px;background:var(--line);flex:1}
+.creative-pricing-section{border-top:1px solid var(--line)}
