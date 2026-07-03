@@ -1353,3 +1353,14 @@ body{overflow-x:hidden}
   }
   .floating-cta{box-shadow:0 10px 28px rgba(7,16,24,.18)!important}
 }
+
+
+/* v6.1.17 – finálne zapnutie nekonečnej lišty */
+.strip{width:100%;overflow:hidden;display:block;padding:0;border-block:1px solid var(--line);white-space:nowrap;background:rgba(245,248,238,.72)}
+.strip-track{display:flex!important;width:max-content!important;min-width:max-content!important;flex-wrap:nowrap!important;animation:clippioStripLoop 42s linear infinite!important;will-change:transform;transform:translate3d(0,0,0)}
+.strip-track span{display:inline-flex!important;align-items:center!important;flex:0 0 auto!important;padding:18px 0!important;font-weight:950!important;letter-spacing:2px!important;white-space:nowrap!important;animation:none!important;text-transform:uppercase}
+.strip-track b{color:var(--blue);margin:0 22px}
+.strip:hover .strip-track{animation-play-state:paused!important}
+@keyframes clippioStripLoop{from{transform:translate3d(0,0,0)}to{transform:translate3d(-25%,0,0)}}
+@media(max-width:700px){.strip-track{animation-duration:54s!important}.strip-track span{padding:14px 0!important;font-size:13px!important;letter-spacing:1.5px!important}.strip-track b{margin:0 16px}}
+@media(prefers-reduced-motion:reduce){.strip-track{animation:none!important;transform:none!important}}
