@@ -294,7 +294,7 @@ Na GitHub Pages musí byť obsah priečinka `clippio-main` v roote repozitára, 
 - Ukážka doplnená na homepage do spoločnej karty „Ukážkové weby“ ako príklad balíka Predaj/e-shop.
 - Stránka `/weby/` rozšírená z dvoch ukážok na tri: Štart, Rast a Predaj/e-shop.
 - Portfólio doplnené o samostatnú kartu e-shopu s vysvetlením, čo ukážka obsahuje a čo už patrí do individuálneho nacenenia.
-- E-shop ukážka má spätnú navigáciu na Clippio, canonical URL, sitemap, robots.txt a `noindex, follow`.
+- E-shop ukážka má spätnú navigáciu na Clippio, canonical URL, sitemap, robots.txt.
 
 ## v6.1.4 – spoločná karta Ukážkové weby
 
@@ -309,7 +309,7 @@ Na GitHub Pages musí byť obsah priečinka `clippio-main` v roote repozitára, 
 - Sekcia na stránke Tvorba webov zmenená z jednej ukážky balíka Rast na sekciu „Ukážkové weby“ s dvomi kartami: Štart a Rast.
 - Označenie v kartách upravené na „ukážkové weby“, aby nepôsobilo, že portfólio ukazuje iba jeden balík.
 - FreshCar ukážka má spätný odkaz na Clippio v hornej lište, navigácii aj footeri.
-- Ukážka Štart ostáva `noindex, follow`, pretože ide o fiktívnu firmu s ukážkovými údajmi.
+- Ukážka Štart má vlastný canonical a môže byť indexovaná ako ukážkový web v portfóliu.
 
 ## v6.1.1 – STAVEXON ukážka balíka Rast
 

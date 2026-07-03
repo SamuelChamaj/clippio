@@ -115,7 +115,7 @@
 - Pridaný ukážkový e-shop Saténové ruže Liora pod `/ukazkovy-eshop-liora/`.
 - Homepage, portfólio a stránka Tvorba webov teraz ukazujú tri rozsahy webov: Štart, Rast a Predaj/e-shop.
 - E-shop ukážka obsahuje produktový katalóg, detail produktu, frontend košík, objednávkový formulár, galériu, kontakt a spätný odkaz na Clippio.
-- Ukážka má vlastný sitemap.xml, robots.txt, canonical URL a `noindex, follow`, aby nepôsobila ako reálny obchod vo vyhľadávaní.
+- Ukážka má vlastný sitemap.xml, robots.txt, canonical URL, aby nepôsobila ako reálny obchod vo vyhľadávaní.
 
 ## v6.1.4 – spoločná karta Ukážkové weby
 
@@ -130,7 +130,7 @@
 - Homepage a portfólio už označujú ukážky všeobecnejšie ako „ukážkové weby“.
 - Na stránke Tvorba webov pribudla dvojica ukážok: Štart a Rast.
 - FreshCar má spätnú navigáciu na Clippio v hornej lište, navigácii a päte.
-- Ukážka Štart ostáva `noindex, follow`, keďže ide o fiktívnu firmu.
+- Ukážka Štart má vlastný canonical a môže byť indexovaná ako ukážkový web v portfóliu.
 
 ## v6.1.0 – Pravdivé formulácie histórie značky
 

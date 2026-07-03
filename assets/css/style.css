@@ -1552,3 +1552,62 @@ body{overflow-x:hidden}
   flex:0 0 auto!important;
   white-space:nowrap!important;
 }
+
+
+/* v6.1.24 – clean rebuilt homepage service marquee.
+   Uses unique classes so older strip fixes cannot override it. */
+.service-marquee{
+  width:100%;
+  overflow:hidden;
+  background:rgba(245,248,238,.86);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.65);
+  margin:0;
+}
+.service-marquee__track{
+  display:flex;
+  width:max-content;
+  will-change:transform;
+  transform:translate3d(0,0,0);
+  animation:serviceMarqueeLoop 24s linear infinite;
+}
+.service-marquee__group{
+  display:flex;
+  flex:0 0 auto;
+  align-items:center;
+  gap:34px;
+  padding:20px 34px;
+  white-space:nowrap;
+}
+.service-marquee__group span{
+  display:inline-flex;
+  flex:0 0 auto;
+  align-items:center;
+  font-size:clamp(14px,1.25vw,20px);
+  line-height:1;
+  font-weight:950;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--ink);
+}
+.service-marquee__group b{
+  display:inline-flex;
+  flex:0 0 auto;
+  align-items:center;
+  line-height:1;
+  color:var(--blue);
+  font-size:18px;
+}
+@keyframes serviceMarqueeLoop{
+  from{transform:translate3d(0,0,0)}
+  to{transform:translate3d(-50%,0,0)}
+}
+@media(max-width:700px){
+  .service-marquee__track{animation-duration:18s}
+  .service-marquee__group{gap:20px;padding:16px 20px}
+  .service-marquee__group span{font-size:13px;letter-spacing:.14em}
+}
+@media(prefers-reduced-motion:reduce){
+  .service-marquee__track{animation-duration:48s}
+}
