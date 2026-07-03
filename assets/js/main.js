@@ -375,3 +375,11 @@ document.addEventListener('DOMContentLoaded',()=>{
   initWeb3Forms();
   initReactBitsTextEffects();
 });
+
+// v6.1.22 hard marquee fallback
+(function(){
+  const track = document.querySelector('.strip[data-real-marquee="true"] .strip-track');
+  if(!track) return;
+  track.style.animation = 'clippioRealInfiniteStrip 12s linear infinite';
+  track.style.willChange = 'transform';
+})();

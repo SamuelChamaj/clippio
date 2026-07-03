@@ -1,5 +1,5 @@
 
-## v6.1.21 – Function Web static fix
+## v6.1.22 – Function Web static fix
 
 - Clippio Function Web bol nahradený stabilnou statickou verziou bez React/Vite buildu.
 - Opravené relatívne asset cesty pre GitHub Pages.
