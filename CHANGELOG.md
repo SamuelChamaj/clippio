@@ -1,3 +1,13 @@
+## v6.1.17 – Function Web improvement pass
+
+- Prepracovaný `clippio-function-web` z ťažšieho React/Vite buildu na jednoduchú statickú HTML/CSS/JS ukážku vhodnú pre GitHub Pages.
+- Pridaný obchodnejší hero blok: funkcie sú prezentované podľa problému, ktorý riešia, nie ako náhodná galéria efektov.
+- Doplnil sa celostránkový prepínač vizuálneho režimu: Clean Light, Liquid Glass, Blue Gradient, Dark Premium a Warm Accent.
+- Katalóg funkcií má filtre podľa použitia: vizuál, text, interakcie a predaj.
+- Zachované sú jasné odkazy späť na Clippio, tvorbu webov, portfólio a kontakt.
+- Odstránené staré hashované Vite assety vo Function Webe a ponechané iba produkčné súbory potrebné pre túto ukážku.
+- Pridané stabilnejšie mobilné správanie, `prefers-reduced-motion` a jednoduchšie reveal animácie.
+
 ## v6.1.16 – smoothness performance pass
 
 - Vypnutá nekonečná pohybujúca sa lišta, ktorá mohla opticky sekať.

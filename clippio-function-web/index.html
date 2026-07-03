@@ -1,19 +1,268 @@
 <!doctype html>
 <html lang="sk">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Clippio Function Web – ukážkový katalóg animácií, interakcií, pozadí a moderných UI komponentov pre weby." />
-    <meta property="og:title" content="Clippio Function Web" />
-    <meta property="og:description" content="Ukážkový web funkcií pre moderné stránky." />
-    <meta property="og:type" content="website" />
-    <title>Clippio Function Web</title>
-    <meta property="og:image" content="./assets/clippio-logo-BKyHu7AT.png" />
-    <link rel="icon" href="./assets/clippio-logo-BKyHu7AT.png" />
-    <script type="module" crossorigin src="./assets/index-ixr1vVMN.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-CV_ktHIL.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clippio Function Web | Funkcie pre moderné weby</title>
+  <meta name="description" content="Clippio Function Web je obchodný katalóg vybraných efektov, pozadí, CTA prvkov, kariet a mini funkcií pre moderné webové stránky." />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Clippio Function Web" />
+  <meta property="og:description" content="Prehľad funkcií, ktoré môžu zlepšiť web – iba tam, kde majú obchodný zmysel." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="./assets/clippio-logo.png" />
+  <link rel="icon" href="./assets/clippio-logo.png" />
+  <link rel="stylesheet" href="./assets/function-web.css?v=6.1.17" />
+</head>
+<body data-theme="clean">
+  <a class="skip-link" href="#main">Preskočiť na obsah</a>
+
+  <div class="site-bg" aria-hidden="true">
+    <span class="orb orb-one"></span>
+    <span class="orb orb-two"></span>
+    <span class="grid-layer"></span>
+  </div>
+
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="Späť na Clippio">
+      <img src="./assets/clippio-logo.png" alt="Clippio logo" />
+      <span>Clippio<span class="brand-dot">.</span></span>
+    </a>
+
+    <nav class="main-nav" aria-label="Hlavná navigácia">
+      <a href="#funkcie">Funkcie</a>
+      <a href="#pozadia">Pozadia</a>
+      <a href="#pouzitie">Použitie</a>
+      <a href="/weby/#katalog-ukazkovych-webov">Ukážkové weby</a>
+    </nav>
+
+    <div class="header-actions">
+      <a class="btn btn-ghost" href="/weby/">Späť na weby</a>
+      <a class="btn btn-primary" href="/kontakt/">Nezáväzne sa ozvať</a>
+      <button class="menu-toggle" type="button" aria-label="Otvoriť menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <a href="#funkcie">Funkcie</a>
+    <a href="#pozadia">Pozadia</a>
+    <a href="#pouzitie">Použitie</a>
+    <a href="/weby/#katalog-ukazkovych-webov">Ukážkové weby</a>
+    <a href="/">Späť na Clippio</a>
+  </div>
+
+  <main id="main">
+    <section class="hero section reveal">
+      <div class="hero-copy">
+        <p class="eyebrow">Clippio Function Web</p>
+        <h1>Funkcie pre web, ktoré majú dôvod. Nie efekty pre efekt.</h1>
+        <p class="lead">Toto je čistý výber vizuálnych režimov, kariet, textových efektov, CTA prvkov a mini funkcií. Pri reálnom projekte sa používa len to, čo podporí dôveru, predaj alebo orientáciu návštevníka.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#funkcie">Pozrieť funkcie</a>
+          <a class="btn btn-secondary" href="#pozadia">Prepnúť vizuál</a>
+        </div>
+        <div class="hero-note">
+          <strong>Rozumné pravidlo:</strong> web má byť najprv zrozumiteľný, potom pekný. Animácie sú doplnok, nie základ hodnoty.
+        </div>
+      </div>
+
+      <aside class="hero-preview" aria-label="Ukážka funkčného webového bloku">
+        <div class="preview-window">
+          <div class="window-top"><span></span><span></span><span></span></div>
+          <div class="preview-card electric-card">
+            <span class="mini-label">Live section</span>
+            <h2>Predajná sekcia</h2>
+            <p>Jasný nadpis, stručná hodnota, jedno hlavné CTA a doplnkové dôkazy.</p>
+            <div class="preview-actions">
+              <span>Kontakt</span>
+              <span>Portfólio</span>
+            </div>
+          </div>
+          <div class="preview-row">
+            <div><strong>CTA</strong><span>priorita</span></div>
+            <div><strong>FAQ</strong><span>odpovede</span></div>
+            <div><strong>SEO</strong><span>štruktúra</span></div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section reveal" id="pozadia">
+      <div class="section-head">
+        <p class="eyebrow">Vizuálny režim</p>
+        <h2>Prepínač mení atmosféru celej stránky.</h2>
+        <p>Klient nevyberá iba farbu pozadia. Vyberá pocit značky: čistý, prémiový, tmavší, teplejší alebo technologickejší.</p>
+      </div>
+
+      <div class="theme-switcher" role="group" aria-label="Prepínač vizuálneho režimu">
+        <button class="theme-btn active" data-theme-value="clean" type="button">Clean Light</button>
+        <button class="theme-btn" data-theme-value="liquid" type="button">Liquid Glass</button>
+        <button class="theme-btn" data-theme-value="blue" type="button">Blue Gradient</button>
+        <button class="theme-btn" data-theme-value="dark" type="button">Dark Premium</button>
+        <button class="theme-btn" data-theme-value="warm" type="button">Warm Accent</button>
+      </div>
+
+      <div class="visual-grid">
+        <article class="visual-card" data-preview="strands">
+          <span>Strands</span><h3>Jemné línie v pozadí</h3><p>Vhodné na technologickejší web, kde má pozadie ostať pokojné.</p>
+        </article>
+        <article class="visual-card" data-preview="cubes">
+          <span>Cubes</span><h3>Geometrická štruktúra</h3><p>Dobré pre služby, kde chce značka pôsobiť presne a technicky.</p>
+        </article>
+        <article class="visual-card" data-preview="metallic">
+          <span>Metallic Paint</span><h3>Prémiový lesk</h3><p>Použiť opatrne pri luxusnejšom vizuáli, nie na každej sekcii.</p>
+        </article>
+        <article class="visual-card" data-preview="noise">
+          <span>Noise</span><h3>Jemná textúra</h3><p>Znižuje sterilný AI dojem a dodáva webu prirodzenejší povrch.</p>
+        </article>
+        <article class="visual-card" data-preview="shape">
+          <span>Shape Blur</span><h3>Mäkké svetelné plochy</h3><p>Vhodné pre hero sekciu alebo blok s hlavným CTA.</p>
+        </article>
+        <article class="visual-card" data-preview="meta">
+          <span>MetaBalls</span><h3>Organický pohyb</h3><p>Len ako jemný detail. Pri veľkej intenzite rýchlo pôsobí lacno.</p>
+        </article>
+        <article class="visual-card" data-preview="ferro">
+          <span>Ferrofluid</span><h3>Experimentálny detail</h3><p>Pre výrazné kampane, nie pre seriózny firemný web bez dôvodu.</p>
+        </article>
+        <article class="visual-card" data-preview="waves">
+          <span>Line Waves</span><h3>Pokojný pohyb</h3><p>Dobré na oddelenie sekcií alebo jemné zvýraznenie služby.</p>
+        </article>
+        <article class="visual-card" data-preview="grid">
+          <span>Grid Distortion</span><h3>Technický efekt</h3><p>Vhodný pre ukážkové bloky, ale nie za dlhý text.</p>
+        </article>
+        <article class="visual-card" data-preview="prism">
+          <span>Prismatic Burst</span><h3>Farebný akcent</h3><p>Použiť iba na jeden silný moment, inak berie pozornosť CTA.</p>
+        </article>
+        <article class="visual-card" data-preview="chrome">
+          <span>Liquid Chrome</span><h3>Moderný glass look</h3><p>Najbližšie k prémiovému Clippio štýlu, keď je použitý striedmo.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section reveal" id="funkcie">
+      <div class="section-head split">
+        <div>
+          <p class="eyebrow">Katalóg funkcií</p>
+          <h2>Funkcie zoradené podľa obchodného použitia.</h2>
+        </div>
+        <p>Nie je cieľ nasadiť všetko naraz. Cieľ je vybrať 2–4 prvky, ktoré reálne zlepšia web.</p>
+      </div>
+
+      <div class="filter-bar" role="group" aria-label="Filtrovanie funkcií">
+        <button class="filter-btn active" type="button" data-filter="all">Všetko</button>
+        <button class="filter-btn" type="button" data-filter="visual">Vizuál</button>
+        <button class="filter-btn" type="button" data-filter="text">Text</button>
+        <button class="filter-btn" type="button" data-filter="interaction">Interakcie</button>
+        <button class="filter-btn" type="button" data-filter="sales">Predaj</button>
+      </div>
+
+      <div class="function-grid">
+        <article class="function-card" data-category="visual">
+          <div class="function-demo demo-glow"></div>
+          <span>Vizuál</span><h3>Background switcher</h3><p>Prepína celý vizuálny režim stránky podľa typu značky.</p><strong>Vhodné pre:</strong><small>prémiové ukážky, landing pages, výber smeru dizajnu</small>
+        </article>
+        <article class="function-card" data-category="visual">
+          <div class="function-demo demo-border"></div>
+          <span>Vizuál</span><h3>Electric Border</h3><p>Jemne zvýrazní dôležitú kartu bez agresívneho glow efektu.</p><strong>Vhodné pre:</strong><small>balík, službu, hlavné CTA</small>
+        </article>
+        <article class="function-card" data-category="text">
+          <div class="function-demo demo-shiny">Shiny Text</div>
+          <span>Text</span><h3>Shiny / Highlight text</h3><p>Krátke zvýraznenie kľúčovej vety, nie celý odsek.</p><strong>Vhodné pre:</strong><small>hero claim, benefit, mikro nadpis</small>
+        </article>
+        <article class="function-card" data-category="text">
+          <div class="function-demo demo-count"><b data-count="30">30+</b></div>
+          <span>Text</span><h3>CountUp bloky</h3><p>Čísla môžu pomôcť, ale iba keď sú pravdivé a obhájiteľné.</p><strong>Vhodné pre:</strong><small>overené realizácie, roky praxe, počet služieb</small>
+        </article>
+        <article class="function-card" data-category="interaction">
+          <div class="function-demo demo-magnet"><button type="button">CTA</button></div>
+          <span>Interakcia</span><h3>Magnet CTA</h3><p>Jemný pohyb tlačidla, ktorý podporí klik bez herného dojmu.</p><strong>Vhodné pre:</strong><small>hlavné tlačidlo, dopyt, portfólio</small>
+        </article>
+        <article class="function-card" data-category="interaction">
+          <div class="function-demo demo-tabs"><i></i><i></i><i></i></div>
+          <span>Interakcia</span><h3>Tabs / filtre</h3><p>Pomáhajú skrátiť dlhý obsah a dajú návštevníkovi kontrolu.</p><strong>Vhodné pre:</strong><small>služby, portfólio, FAQ, balíky</small>
+        </article>
+        <article class="function-card" data-category="sales">
+          <div class="function-demo demo-pricing"><i></i><i></i><i></i></div>
+          <span>Predaj</span><h3>Pricing cards</h3><p>Balíky musia vysvetliť rozdiel v hodnote, nie len ukázať cenu.</p><strong>Vhodné pre:</strong><small>Štart, Rast, Predaj</small>
+        </article>
+        <article class="function-card" data-category="sales">
+          <div class="function-demo demo-form"></div>
+          <span>Predaj</span><h3>Lead form</h3><p>Formulár má pýtať len veci, ktoré pomôžu naceniť projekt.</p><strong>Vhodné pre:</strong><small>dopyt, rezerváciu, predbežné zadanie</small>
+        </article>
+        <article class="function-card" data-category="sales">
+          <div class="function-demo demo-faq"><i></i><i></i><i></i></div>
+          <span>Predaj</span><h3>FAQ accordion</h3><p>Znižuje neistotu klienta pred kontaktovaním.</p><strong>Vhodné pre:</strong><small>cena, termín, úpravy, faktúra</small>
+        </article>
+      </div>
+    </section>
+
+    <section class="section reveal" id="pouzitie">
+      <div class="section-head">
+        <p class="eyebrow">Ako to vyberať</p>
+        <h2>Najlepší výsledok nie je najviac funkcií. Je to správna kombinácia.</h2>
+      </div>
+
+      <div class="use-grid">
+        <article class="use-card featured">
+          <span>01</span>
+          <h3>Prezentačný web</h3>
+          <p>Stačí čistý vizuál, dôvera, služby, referencie a jednoduché CTA. Efekty majú byť minimálne.</p>
+          <ul>
+            <li>fade-up sekcie</li>
+            <li>jemné karty</li>
+            <li>FAQ + kontakt</li>
+          </ul>
+        </article>
+        <article class="use-card">
+          <span>02</span>
+          <h3>Firemný web Rast</h3>
+          <p>Tu dáva zmysel viac štruktúry: podstránky, portfólio, jasné dôkazy a lepšie vysvetlenie ponuky.</p>
+          <ul>
+            <li>filtre portfólia</li>
+            <li>pricing cards</li>
+            <li>referencie a proces</li>
+          </ul>
+        </article>
+        <article class="use-card">
+          <span>03</span>
+          <h3>Predajný web / e-shop</h3>
+          <p>Funkcie musia tlačiť na objednávku alebo dopyt. Tu má zmysel košík, formuláre a silnejšie CTA.</p>
+          <ul>
+            <li>lead form</li>
+            <li>produktové karty</li>
+            <li>objednávkový tok</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section reveal final-cta">
+      <div>
+        <p class="eyebrow">Záver</p>
+        <h2>Vyber funkciu podľa problému, nie podľa toho, čo vyzerá najefektnejšie.</h2>
+        <p>Ak má web pôsobiť dôveryhodne, väčšinou stačí lepší obsah, jasnejšie CTA, dôkazy a 1–2 vizuálne prvky. Zvyšok je často iba hluk.</p>
+      </div>
+      <div class="final-actions">
+        <a class="btn btn-primary" href="/kontakt/">Chcem naceniť web</a>
+        <a class="btn btn-secondary" href="/weby/">Pozrieť balíky</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div>
+      <strong>Clippio Function Web</strong>
+      <p>Výber funkcií pre weby Clippio. Nie záväzok, že každý projekt má obsahovať všetko.</p>
+    </div>
+    <nav aria-label="Pätička">
+      <a href="/">Clippio.sk</a>
+      <a href="/weby/">Tvorba webov</a>
+      <a href="/portfolio/">Portfólio</a>
+      <a href="/kontakt/">Kontakt</a>
+    </nav>
+  </footer>
+
+  <script src="./assets/function-web.js?v=6.1.17" defer></script>
+</body>
 </html>

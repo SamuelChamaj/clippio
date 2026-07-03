@@ -1,4 +1,4 @@
-# Clippio web – v6.1.16
+# Clippio web – v6.1.17
 
 Statický HTML web pre **Clippio** pripravený na GitHub Pages. Verzia v6.x vychádza z funkčného základu **v5.1.1** a pridáva kontrolovaný Brand Book positioning bez rozbitia pôvodných napojení a funkcií.
 
@@ -20,9 +20,10 @@ Tieto služby nemajú pôsobiť ako nesúvisiace ponuky. Ich cieľ je podporiť 
 
 ## Stav verzie
 
-Aktuálna verzia: **v6.1.16 – smoothness performance pass**
+Aktuálna verzia: **v6.1.17 – Function Web improvement pass**
 
 Obsahovo vychádza z:
+- **v6.1.17** – Function Web improvement pass: nahradený ťažší React/Vite build jednoduchšou statickou ukážkou, prepracovaný katalóg funkcií, celostránkový prepínač vizuálu, čistejšie CTA a menší počet assetov.
 - **v6.1.16** – smoothness performance pass: vypnutá nekonečná pohybujúca sa lišta, odstránený ťažký blur na sticky/fixed prvkoch, odľahčené tiene, stabilnejšie mobilné správanie a optimalizované ikony.
 - **v6.1.15** – clean URL cleanup: odstránené koreňové `.html` presmerovania, interné odkazy ponechané na čistých URL a cache verzia aktualizovaná na 6.1.15.
 - **v6.1.14** – vyčistenie produkčného ZIPu od duplicitných assetov, zdrojových Vite súborov a interných poznámok, ktoré nie sú potrebné na GitHub Pages.
