@@ -975,3 +975,254 @@ body.modal-open{overflow:hidden}
 .web-example-mini .mini-btn{width:max-content;max-width:100%}
 @media(max-width:900px){.web-example-comparison{grid-template-columns:1fr}.web-example-card-combined{max-width:760px}}
 @media(max-width:560px){.web-example-mini .mini-btn{width:100%}}
+
+/* v6.1.13 – animation cleanup & consistency update */
+:root{
+  --transition-fast:180ms ease-out;
+  --transition-base:220ms ease-out;
+  --transition-slow:550ms cubic-bezier(0.22,1,0.36,1);
+  --hover-lift:translateY(-4px);
+  --button-lift:translateY(-2px);
+  --section-reveal-distance:18px;
+  --card-radius:24px;
+  --card-padding:24px;
+  --card-shadow:0 16px 55px rgba(7,16,24,.06);
+  --card-shadow-hover:0 22px 70px rgba(7,16,24,.10);
+  --card-border-hover:rgba(0,71,255,.22);
+}
+
+html{scroll-behavior:smooth}
+body{overflow-x:hidden}
+
+/* Jeden pohybový systém: žiadne agresívne scale/rotate/glow efekty na hlavnom Clippio webe. */
+.btn,
+.mini-btn,
+.form-btn,
+.nav-cta,
+.package-detail-link,
+.card-actions a,
+.cookie-actions button,
+.footer-col a,
+.social-icons a,
+.floating-cta{
+  transition:transform var(--transition-fast),box-shadow var(--transition-fast),background var(--transition-fast),border-color var(--transition-fast),color var(--transition-fast),opacity var(--transition-fast);
+}
+.btn:hover,
+.btn:focus-visible,
+.mini-btn:hover,
+.mini-btn:focus-visible,
+.form-btn:hover,
+.form-btn:focus-visible,
+.nav-cta:hover,
+.nav-cta:focus-visible,
+.package-detail-link:hover,
+.package-detail-link:focus-visible,
+.card-actions a:hover,
+.card-actions a:focus-visible,
+.cookie-actions button:hover,
+.cookie-actions button:focus-visible{
+  transform:var(--button-lift);
+}
+.btn:focus-visible,
+.mini-btn:focus-visible,
+.form-btn:focus-visible,
+.package-detail-link:focus-visible,
+.cookie-actions button:focus-visible,
+.links a:focus-visible{
+  outline:3px solid rgba(0,71,255,.18);
+  outline-offset:3px;
+}
+
+.service,
+.service-link,
+.tile,
+.web-value article,
+.price-card,
+.addon-grid article,
+.web-info-grid article,
+.html-note,
+.update-card,
+.testimonial,
+.stat,
+.fact,
+.panel,
+.creator-card,
+.audience-card,
+.trust-grid article,
+.process-steps article,
+.problem-grid article,
+.proof-card,
+.web-project-card,
+.web-self-portfolio,
+.web-example-card,
+.web-example-mini,
+.detail-card,
+.package-detail-card,
+.package-rule-card,
+.faq-item,
+.legal-card{
+  transition:transform var(--transition-base),box-shadow var(--transition-base),border-color var(--transition-base),background var(--transition-base),opacity var(--transition-base);
+  will-change:auto;
+}
+.service:hover,
+.service-link:hover,
+.web-value article:hover,
+.price-card:hover,
+.addon-grid article:hover,
+.web-info-grid article:hover,
+.html-note:hover,
+.update-card:hover,
+.testimonial:hover,
+.stat:hover,
+.audience-card:hover,
+.trust-grid article:hover,
+.process-steps article:hover,
+.problem-grid article:hover,
+.proof-card:hover,
+.web-project-card:hover,
+.web-self-portfolio:hover,
+.web-example-mini:hover,
+.detail-card:hover,
+.package-detail-card:hover,
+.package-rule-card:hover,
+.faq-item:hover{
+  transform:var(--hover-lift);
+  box-shadow:var(--card-shadow-hover);
+  border-color:var(--card-border-hover);
+}
+.price-card.featured:hover{transform:translateY(-16px)}
+@media(max-width:1100px){.price-card.featured:hover{transform:var(--hover-lift)}}
+
+.tile:hover img{transform:scale(1.015)}
+.tile img{transition:transform var(--transition-slow)}
+.proof-card-youtube:hover{transform:var(--hover-lift);border-color:rgba(215,255,85,.55)!important}
+.floating-cta:hover,.floating-cta:focus-visible{transform:var(--button-lift);box-shadow:0 22px 62px rgba(7,16,24,.28)}
+.floating-cta.is-reminding{animation:none}
+
+.rb-shiny-text,
+.rb-gradient-text{
+  animation:none!important;
+  background-position:50% 50%;
+}
+.rb-rotate-word,.rb-rotate-word.is-exiting{animation:none!important;transform:none!important;opacity:1!important}
+
+/* Stabilná navigácia a jednoduché mobilné menu. */
+.links a{position:relative;transition:color var(--transition-fast),opacity var(--transition-fast)}
+.links a:hover,.links a.active{color:var(--blue)}
+.links a.active:after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-9px;
+  height:2px;
+  border-radius:999px;
+  background:var(--blue);
+  opacity:.65;
+}
+.burger span{transition:transform var(--transition-base),opacity var(--transition-base),background var(--transition-base)}
+.burger.is-open span:nth-child(1){transform:translateY(9px) rotate(45deg)}
+.burger.is-open span:nth-child(2){opacity:0}
+.burger.is-open span:nth-child(3){transform:translateY(-9px) rotate(-45deg)}
+@media(max-width:880px){
+  .links{
+    display:flex!important;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transform:translateY(-8px);
+    transition:opacity 240ms ease-out,transform 240ms ease-out,visibility 0s linear 240ms;
+  }
+  .links.open{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+    transform:translateY(0);
+    transition:opacity 240ms ease-out,transform 240ms ease-out,visibility 0s;
+  }
+  .links a.active:after{display:none}
+}
+
+/* Konzistentné reveal animácie. */
+.reveal{
+  opacity:0;
+  transform:translateY(var(--section-reveal-distance));
+  transition:opacity var(--transition-slow),transform var(--transition-slow);
+}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal[data-reveal-delay="1"]{transition-delay:80ms}
+.reveal[data-reveal-delay="2"]{transition-delay:120ms}
+.reveal[data-reveal-delay="3"]{transition-delay:160ms}
+.reveal[data-reveal-delay="4"]{transition-delay:200ms}
+
+/* Zjednotenie spacingu a kariet bez zmeny identity. */
+.section{padding:82px 0;scroll-margin-top:96px}
+.section-head{margin-bottom:30px;gap:28px}
+.section-head .sub{line-height:1.62}
+.service,
+.panel,
+.testimonial,
+.update-card,
+.proof-card,
+.web-project-card,
+.web-self-portfolio,
+.web-example-card,
+.web-example-mini,
+.package-detail-card,
+.package-rule-card,
+.detail-card,
+.audience-card,
+.trust-grid article,
+.process-steps article,
+.problem-grid article{
+  border-radius:var(--card-radius);
+  box-shadow:var(--card-shadow);
+}
+.proof-card,.web-example-mini,.web-self-portfolio{padding:var(--card-padding)}
+.web-example-mini .example-points{gap:8px;margin:16px 0 0}
+.example-points span,.project-points li{font-size:14px;line-height:1.25}
+.card-actions,.hero-actions{gap:10px}
+
+.reference-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:stretch}
+.reference-card{background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(247,251,255,.90));border:1px solid rgba(7,16,24,.10);border-radius:var(--card-radius);padding:var(--card-padding);box-shadow:var(--card-shadow);display:flex;flex-direction:column;gap:12px;transition:transform var(--transition-base),box-shadow var(--transition-base),border-color var(--transition-base)}
+.reference-card:hover{transform:var(--hover-lift);box-shadow:var(--card-shadow-hover);border-color:var(--card-border-hover)}
+.reference-card span{display:inline-flex;width:max-content;border-radius:999px;background:rgba(0,71,255,.08);color:var(--blue);padding:7px 10px;font-size:12px;font-weight:950;text-transform:uppercase;letter-spacing:1.2px}
+.reference-card h3{font-size:clamp(22px,2.4vw,30px);line-height:1.02;letter-spacing:-.8px;margin:0}
+.reference-card p{margin:0;color:var(--muted);line-height:1.56}
+.reference-card ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.reference-card li{position:relative;padding-left:18px;font-weight:850;color:var(--ink);font-size:14px;line-height:1.35}
+.reference-card li:before{content:"";position:absolute;left:0;top:.55em;width:7px;height:7px;border-radius:999px;background:var(--blue)}
+.reference-card .mini-btn{margin-top:auto;width:max-content}
+
+/* Mobil: menej práce pre GPU, kratšie a stabilnejšie prechody. */
+@media(max-width:700px){
+  :root{--section-reveal-distance:10px;--hover-lift:translateY(0);--transition-slow:360ms ease-out}
+  .section{padding:58px 0}
+  .section-head{margin-bottom:22px}
+  .hero-copy:before,.web-hero-box:before,.contact-grid .panel.dark:before{display:none}
+  .tile:hover img{transform:none}
+  .service:hover,.service-link:hover,.web-value article:hover,.price-card:hover,.addon-grid article:hover,.web-info-grid article:hover,.html-note:hover,.update-card:hover,.testimonial:hover,.stat:hover,.audience-card:hover,.trust-grid article:hover,.process-steps article:hover,.problem-grid article:hover,.proof-card:hover,.web-project-card:hover,.web-self-portfolio:hover,.web-example-mini:hover,.detail-card:hover,.package-detail-card:hover,.package-rule-card:hover,.faq-item:hover{transform:none;box-shadow:var(--card-shadow)}
+  .reference-grid{grid-template-columns:1fr}
+  .reference-card:hover{transform:none;box-shadow:var(--card-shadow)}
+  .btn:hover,.mini-btn:hover,.form-btn:hover,.nav-cta:hover,.package-detail-link:hover,.card-actions a:hover{transform:none}
+  .strip-track{animation-duration:42s}
+}
+@media(max-width:560px){
+  .proof-card,.web-example-mini,.web-self-portfolio,.reference-card{padding:22px;border-radius:22px}
+  .reference-card .mini-btn{width:100%}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:0.01ms!important;
+    animation-iteration-count:1!important;
+    scroll-behavior:auto!important;
+    transition-duration:0.01ms!important;
+  }
+  .reveal{opacity:1!important;transform:none!important}
+  .strip-track{animation:none!important;transform:none!important}
+}
+
+/* v6.1.13 – pokojnejšia nekonečná lišta */
+.strip-track{animation-duration:44s!important}
+@media(max-width:700px){.strip-track{animation-duration:56s!important}}

@@ -1,4 +1,4 @@
-// Clippio v6.0.5 – Controlled Brand Book Update
+// Clippio v6.1.13 – animation cleanup & consistency update
 // Stabilná verzia: navbar a footer sú priamo v HTML, aby web fungoval aj po otvorení cez file://.
 
 function escapeHtml(v){
@@ -26,10 +26,12 @@ function initNavigation(){
       const open=!links.classList.contains('open');
       links.classList.toggle('open',open);
       burger.setAttribute('aria-expanded',String(open));
+      burger.classList.toggle('is-open',open);
     });
     links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
       links.classList.remove('open');
       burger.setAttribute('aria-expanded','false');
+      burger.classList.remove('is-open');
     }));
   }
   const parts=location.pathname.split('/').filter(Boolean);
@@ -129,9 +131,48 @@ function initFaq(){
 }
 
 function initReveal(){
-  const items=document.querySelectorAll('.section,.audience-card,.trust-grid article,.process-steps article,.testimonial,.stat');
+  const selector=[
+    '.hero',
+    '.web-hero',
+    '.page-hero',
+    '.section-head',
+    '.cta-box',
+    '.conversion-cta',
+    '.web-cta',
+    '.about-band',
+    '.service',
+    '.price-card',
+    '.package-detail-card',
+    '.package-rule-card',
+    '.web-example-mini',
+    '.web-example-card',
+    '.web-self-portfolio',
+    '.web-project-card',
+    '.proof-card',
+    '.reference-card',
+    '.audience-card',
+    '.trust-grid article',
+    '.process-steps article',
+    '.testimonial',
+    '.stat',
+    '.update-card',
+    '.detail-card',
+    '.panel',
+    '.faq-item'
+  ].join(',');
+  const items=Array.from(document.querySelectorAll(selector));
   if(!items.length) return;
-  items.forEach(el=>el.classList.add('reveal'));
+
+  const reduceMotion=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  items.forEach((el,index)=>{
+    el.classList.add('reveal');
+    const localIndex=Array.prototype.indexOf.call(el.parentElement ? el.parentElement.children : [], el);
+    const delay=Math.min(Math.max(localIndex,0),4);
+    if(delay>0) el.setAttribute('data-reveal-delay',String(delay));
+    if(reduceMotion) el.classList.add('visible');
+  });
+  if(reduceMotion) return;
+
   if(!('IntersectionObserver' in window)){
     items.forEach(el=>el.classList.add('visible'));
     return;
@@ -143,9 +184,10 @@ function initReveal(){
         io.unobserve(entry.target);
       }
     });
-  },{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
+  },{threshold:0.10,rootMargin:'0px 0px -32px 0px'});
   items.forEach(el=>io.observe(el));
 }
+
 
 function initFloatingCta(){
   const cta=document.querySelector('.floating-cta');
@@ -304,34 +346,18 @@ function initWeb3Forms(){
 
 
 function initReactBitsTextEffects(){
-  const reduceMotion=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.querySelectorAll('.rb-rotating-text[data-rotate-texts]').forEach(el=>{
     const texts=(el.getAttribute('data-rotate-texts')||'').split('|').map(t=>t.trim()).filter(Boolean);
-    if(texts.length<2) return;
-    const maxLen=Math.max(...texts.map(t=>t.length));
-    el.style.setProperty('--rb-rotate-min',`${Math.max(maxLen,6)}ch`);
-    let index=0;
-    const render=text=>{
-      el.textContent='';
-      const word=document.createElement('span');
-      word.className='rb-rotate-word';
-      word.textContent=text;
-      el.appendChild(word);
-      el.setAttribute('aria-label',text);
-    };
-    render(texts[0]);
-    if(reduceMotion) return;
-    const interval=Math.max(parseInt(el.getAttribute('data-rotation-interval')||'2400',10),1400);
-    window.setInterval(()=>{
-      const current=el.querySelector('.rb-rotate-word');
-      if(current) current.classList.add('is-exiting');
-      window.setTimeout(()=>{
-        index=(index+1)%texts.length;
-        render(texts[index]);
-      },220);
-    },interval);
+    if(!texts.length) return;
+    const word=document.createElement('span');
+    word.className='rb-rotate-word';
+    word.textContent=texts[0];
+    el.textContent='';
+    el.appendChild(word);
+    el.setAttribute('aria-label',texts[0]);
   });
 }
+
 
 document.addEventListener('DOMContentLoaded',()=>{
   initNavigation();
