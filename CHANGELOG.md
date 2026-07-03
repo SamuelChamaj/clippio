@@ -1,3 +1,9 @@
+# v6.1.28 – Premium depth pass
+
+- Pridaná samostatná vizuálna vrstva `assets/css/premium-depth.css` pre hlbší hero, prémiovejšie karty, výraznejšie CTA a lepší rytmus sekcií.
+- Zachované existujúce texty, ceny, odkazy, formuláre, SEO súbory a štruktúra podstránok.
+- Doplnený stabilnejší service marquee setup a skutočná rotácia textu v hero bez pridania knižníc.
+
 
 ## v6.1.27 – odstránenie duplicitného redirect súboru
 

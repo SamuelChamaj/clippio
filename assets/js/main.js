@@ -349,16 +349,56 @@ function initWeb3Forms(){
 }
 
 
+function initServiceMarquee(){
+  document.querySelectorAll('.service-marquee__track').forEach(track=>{
+    const first=track.querySelector('.service-marquee__group');
+    if(!first) return;
+    while(track.children.length<4){
+      const clone=first.cloneNode(true);
+      clone.setAttribute('aria-hidden','true');
+      track.appendChild(clone);
+    }
+  });
+}
+
 function initReactBitsTextEffects(){
+  const reduceMotion=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.querySelectorAll('.rb-rotating-text[data-rotate-texts]').forEach(el=>{
     const texts=(el.getAttribute('data-rotate-texts')||'').split('|').map(t=>t.trim()).filter(Boolean);
     if(!texts.length) return;
-    const word=document.createElement('span');
-    word.className='rb-rotate-word';
-    word.textContent=texts[0];
+
+    let index=0;
+    const render=(value,exiting=false)=>{
+      const word=document.createElement('span');
+      word.className='rb-rotate-word'+(exiting?' is-exiting':'');
+      word.textContent=value;
+      return word;
+    };
+
     el.textContent='';
-    el.appendChild(word);
+    el.appendChild(render(texts[0]));
     el.setAttribute('aria-label',texts[0]);
+
+    if(reduceMotion || texts.length<2) return;
+
+    const interval=Math.max(parseInt(el.getAttribute('data-rotation-interval')||'2400',10),1600);
+    window.setInterval(()=>{
+      const current=el.querySelector('.rb-rotate-word');
+      index=(index+1)%texts.length;
+      const nextText=texts[index];
+      if(current){
+        current.classList.add('is-exiting');
+        window.setTimeout(()=>{
+          el.textContent='';
+          el.appendChild(render(nextText));
+          el.setAttribute('aria-label',nextText);
+        },220);
+      }else{
+        el.textContent='';
+        el.appendChild(render(nextText));
+        el.setAttribute('aria-label',nextText);
+      }
+    },interval);
   });
 }
 
@@ -370,6 +410,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   initWebProjects();
   initCookieConsent();
   initFaq();
+  initServiceMarquee();
   initReveal();
   initFloatingCta();
   initWeb3Forms();
