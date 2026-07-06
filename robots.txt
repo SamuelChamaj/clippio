@@ -1,7 +1,5 @@
 User-agent: *
 Allow: /
+Allow: /llms.txt
 
 Sitemap: https://www.clippio.sk/sitemap.xml
-
-# AI and LLM discovery
-Allow: /llms.txt

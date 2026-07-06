@@ -1,4 +1,4 @@
-# Clippio web – v6.1.27
+# Clippio web – v6.1.28
 
 Statický HTML web pre **Clippio** pripravený na GitHub Pages. Verzia v6.x vychádza z funkčného základu **v5.1.1** a pridáva kontrolovaný Brand Book positioning bez rozbitia pôvodných napojení a funkcií.
 
@@ -20,9 +20,10 @@ Tieto služby nemajú pôsobiť ako nesúvisiace ponuky. Ich cieľ je podporiť 
 
 ## Stav verzie
 
-Aktuálna verzia: **v6.1.27 – pricing and trust cleanup**
+Aktuálna verzia: **v6.1.28 – SEO/GEO and llms update**
 
 Obsahovo vychádza z:
+- **v6.1.28** – SEO/GEO and llms update: doplnený `/llms.txt`, upravený `robots.txt`, posilnené lokálne SEO texty na homepage a stránke `/weby/`, doplnené FAQ structured data a lokálne výrazy pre malé firmy, živnostníkov a regióny Zlaté Moravce, Nitra, Levice a Vráble.
 - **v6.1.27** – pricing and trust cleanup: Štart web upravený na 199 €, jasnejšie oddelenie webových balíkov od kreatívnych služieb, silnejšia sekcia dôkazov na homepage, civilnejšie formulácie o moderných nástrojoch a redirect `/o-clippio.html` na čistú URL.
 - **v6.1.17** – Function Web improvement pass: nahradený ťažší React/Vite build jednoduchšou statickou ukážkou, prepracovaný katalóg funkcií, celostránkový prepínač vizuálu, čistejšie CTA a menší počet assetov.
 - **v6.1.16** – smoothness performance pass: vypnutá nekonečná pohybujúca sa lišta, odstránený ťažký blur na sticky/fixed prvkoch, odľahčené tiene, stabilnejšie mobilné správanie a optimalizované ikony.
@@ -36,6 +37,8 @@ Obsahovo vychádza z:
 - **v6.1.0** – opravené formulácie okolo roku 2019: web už netvrdí, že Clippio stabilne funguje od roku 2019, ale že skúsenosti vznikali cez osobné projekty, vlastnú tvorbu a postupne klientsku prácu.
 - **v6.1.0** – doplnené viditeľné ďakovacie okno po úspešnom odoslaní dopytu.
 - **v6.0.5** – oprava správania formulára po odoslaní dopytu.
+
+Verzia **v6.1.28** nemení vizuálny systém ani JavaScript. Je zameraná na obsah, lokálne SEO, AI/GEO čitateľnosť a dokumentáciu. Hlavné zásahy sú `index.html`, `weby/index.html`, `robots.txt`, `llms.txt` a `README.md`.
 
 Verzia **v6.1.0** upravuje webové balíky tak, aby hlavné karty zostali jednoduché, ale pod nimi pribudli presné podrobnosti, férové obchodné hranice a FAQ k doméne, hostingu, úpravám a fakturácii. Doména na prvý rok je uvedená ako súčasť každého webového balíka.
 
@@ -51,7 +54,8 @@ Verzia **v6.1.0** upravuje webové balíky tak, aby hlavné karty zostali jednod
 - napojenie cenníka fotiek na Google Spreadsheet,
 - napojenie portfólia hotových webov na Google Spreadsheet,
 - lokálne fallback dáta pre dynamické bloky,
-- sitemap, robots, favicon, Open Graph a základné SEO prvky.
+- sitemap, robots, favicon, Open Graph a základné SEO prvky,
+- `llms.txt` pre lepšiu čitateľnosť webu pre AI/LLM nástroje.
 
 ## Najdôležitejšie stránky
 
@@ -63,6 +67,7 @@ Verzia **v6.1.0** upravuje webové balíky tak, aby hlavné karty zostali jednod
 - `/o-clippio/` – informácie o Clippio
 - `/kontakt/` – kontaktný formulár
 - `/dakujeme/` – záložná ďakovacia stránka po odoslaní formulára
+- `/llms.txt` – stručný prehľad webu, služieb, lokálnych výrazov a dôležitých URL pre AI/LLM nástroje
 - `/cookies/` – cookies
 - `/ochrana-osobnych-udajov/` – ochrana osobných údajov
 
@@ -158,8 +163,10 @@ Dôležité: tieto výhody neznamenajú neobmedzené úpravy, nové sekcie zadar
 ├── data/
 ├── docs/
 ├── robots.txt
+├── llms.txt
 ├── sitemap.xml
 ├── CNAME
+├── README.md
 └── .nojekyll
 ```
 
@@ -176,6 +183,7 @@ portfolio/index.html
 assets/css/style.css
 assets/js/main.js
 robots.txt
+llms.txt
 sitemap.xml
 CNAME
 .nojekyll
@@ -198,6 +206,15 @@ Na GitHub Pages musí byť obsah priečinka `clippio-main` v roote repozitára, 
 - Cenník a dynamické bloky musia zostať napojené na existujúci JavaScript a spreadsheet/fallback systém.
 
 ## Changelog
+
+### v6.1.28 – SEO/GEO and llms update
+
+- Doplnený `llms.txt` s prehľadom služieb, balíkov, lokálneho pôsobenia a dôležitých URL.
+- Upravený `robots.txt` tak, aby explicitne povoľoval `/llms.txt` a ponechal sitemap.
+- Posilnené lokálne SEO na homepage a stránke `/weby/` pre výrazy ako tvorba webov Zlaté Moravce, tvorba web stránok Nitra, web pre živnostníka a firemný web pre malú firmu.
+- Doplnené FAQ structured data na homepage a stránke `/weby/`.
+- Zachované existujúce CSS, JS, formuláre, navigácia, spreadsheet napojenia a dizajnový systém.
+
 ## v6.1.13 – animation cleanup & consistency update
 
 - Zjednotené animácie na pokojný fade-up systém.
