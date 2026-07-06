@@ -1,4 +1,4 @@
-# Clippio web – v6.1.28
+# Clippio web – v6.1.29
 
 Statický HTML web pre **Clippio** pripravený na GitHub Pages. Verzia v6.x vychádza z funkčného základu **v5.1.1** a pridáva kontrolovaný Brand Book positioning bez rozbitia pôvodných napojení a funkcií.
 
@@ -20,9 +20,10 @@ Tieto služby nemajú pôsobiť ako nesúvisiace ponuky. Ich cieľ je podporiť 
 
 ## Stav verzie
 
-Aktuálna verzia: **v6.1.28 – SEO/GEO and llms update**
+Aktuálna verzia: **v6.1.29 – Web Finder compact auto-advance update**
 
 Obsahovo vychádza z:
+- **v6.1.29** – Web Finder compact auto-advance update: zmenšený vizuál Web Finderu, kompaktnejší krokový formulár, menšie karty odpovedí, nižšie medzery a automatický prechod na ďalšiu otázku po kliknutí na odpoveď. Aktualizované cache verzie CSS/JS na `v=7.0.1`.
 - **v6.1.28** – SEO/GEO and llms update: doplnený `/llms.txt`, upravený `robots.txt`, posilnené lokálne SEO texty na homepage a stránke `/weby/`, doplnené FAQ structured data a lokálne výrazy pre malé firmy, živnostníkov a regióny Zlaté Moravce, Nitra, Levice a Vráble.
 - **v6.1.27** – pricing and trust cleanup: Štart web upravený na 199 €, jasnejšie oddelenie webových balíkov od kreatívnych služieb, silnejšia sekcia dôkazov na homepage, civilnejšie formulácie o moderných nástrojoch a redirect `/o-clippio.html` na čistú URL.
 - **v6.1.17** – Function Web improvement pass: nahradený ťažší React/Vite build jednoduchšou statickou ukážkou, prepracovaný katalóg funkcií, celostránkový prepínač vizuálu, čistejšie CTA a menší počet assetov.
@@ -38,7 +39,7 @@ Obsahovo vychádza z:
 - **v6.1.0** – doplnené viditeľné ďakovacie okno po úspešnom odoslaní dopytu.
 - **v6.0.5** – oprava správania formulára po odoslaní dopytu.
 
-Verzia **v6.1.28** nemení vizuálny systém ani JavaScript. Je zameraná na obsah, lokálne SEO, AI/GEO čitateľnosť a dokumentáciu. Hlavné zásahy sú `index.html`, `weby/index.html`, `robots.txt`, `llms.txt` a `README.md`.
+Verzia **v6.1.29** nemení hlavný vizuálny systém webu. Upravuje iba Web Finder: zmenšenie veľkosti formulára, kompaktnejší layout a automatický prechod medzi otázkami po výbere odpovede. Hlavné zásahy sú `web-finder/index.html`, `assets/css/web-finder-redesign.css`, `assets/js/main.js` a `README.md`.
 
 Verzia **v6.1.0** upravuje webové balíky tak, aby hlavné karty zostali jednoduché, ale pod nimi pribudli presné podrobnosti, férové obchodné hranice a FAQ k doméne, hostingu, úpravám a fakturácii. Doména na prvý rok je uvedená ako súčasť každého webového balíka.
 
@@ -56,6 +57,7 @@ Verzia **v6.1.0** upravuje webové balíky tak, aby hlavné karty zostali jednod
 - lokálne fallback dáta pre dynamické bloky,
 - sitemap, robots, favicon, Open Graph a základné SEO prvky,
 - `llms.txt` pre lepšiu čitateľnosť webu pre AI/LLM nástroje.
+- Web Finder s automatickým prechodom na ďalšiu otázku po výbere odpovede.
 
 ## Najdôležitejšie stránky
 
@@ -68,6 +70,7 @@ Verzia **v6.1.0** upravuje webové balíky tak, aby hlavné karty zostali jednod
 - `/kontakt/` – kontaktný formulár
 - `/dakujeme/` – záložná ďakovacia stránka po odoslaní formulára
 - `/llms.txt` – stručný prehľad webu, služieb, lokálnych výrazov a dôležitých URL pre AI/LLM nástroje
+- `/web-finder/` – interaktívny výber vhodného webového balíka
 - `/cookies/` – cookies
 - `/ochrana-osobnych-udajov/` – ochrana osobných údajov
 
@@ -146,6 +149,8 @@ Dôležité: tieto výhody neznamenajú neobmedzené úpravy, nové sekcie zadar
 │   └── index.html
 ├── cennik/
 │   └── index.html
+├── web-finder/
+│   └── index.html
 ├── o-clippio/
 │   └── index.html
 ├── cookies/
@@ -154,7 +159,8 @@ Dôležité: tieto výhody neznamenajú neobmedzené úpravy, nové sekcie zadar
 │   └── index.html
 ├── assets/
 │   ├── css/
-│   │   └── style.css
+│   │   ├── style.css
+│   │   └── web-finder-redesign.css
 │   ├── js/
 │   │   └── main.js
 │   ├── images/
@@ -206,6 +212,14 @@ Na GitHub Pages musí byť obsah priečinka `clippio-main` v roote repozitára, 
 - Cenník a dynamické bloky musia zostať napojené na existujúci JavaScript a spreadsheet/fallback systém.
 
 ## Changelog
+
+### v6.1.29 – Web Finder compact auto-advance update
+
+- Zmenšený desktopový layout Web Finderu, aby nepôsobil nafúknuto na veľkých obrazovkách.
+- Zmenšené nadpisy, medzery, karty odpovedí, krokové bodky a kontajner formulára.
+- Po kliknutí na odpoveď sa Web Finder automaticky presunie na ďalšiu otázku.
+- Na poslednej otázke sa po výbere odpovede automaticky zobrazí výsledné odporúčanie.
+- Aktualizované cache verzie `web-finder-redesign.css` a `main.js` na `v=7.0.1`.
 
 ### v6.1.28 – SEO/GEO and llms update
 

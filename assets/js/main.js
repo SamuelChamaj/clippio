@@ -985,11 +985,31 @@ function initWebFinder(){
     return summary;
   };
 
+  let autoAdvanceTimer=null;
+
+  const finishFinder=()=>{
+    completed=true;
+    calculate();
+    updateStepper(1);
+    if(window.matchMedia('(max-width: 980px)').matches && resultCard){
+      resultCard.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+  };
+
   root.querySelectorAll('input[type="radio"]').forEach(input=>input.addEventListener('change',()=>{
     completed=false;
     calculate();
     updateStepper(0);
     updateOptionStyles();
+
+    if(autoAdvanceTimer) window.clearTimeout(autoAdvanceTimer);
+    autoAdvanceTimer=window.setTimeout(()=>{
+      if(currentStep<totalSteps){
+        goToStep(currentStep+1);
+      }else{
+        finishFinder();
+      }
+    },160);
   }));
 
   indicators.forEach(indicator=>indicator.addEventListener('click',()=>{
@@ -1004,15 +1024,11 @@ function initWebFinder(){
 
   if(nextBtn){
     nextBtn.addEventListener('click',()=>{
+      if(autoAdvanceTimer) window.clearTimeout(autoAdvanceTimer);
       if(currentStep<totalSteps){
         goToStep(currentStep+1);
       }else{
-        completed=true;
-        calculate();
-        updateStepper(1);
-        if(window.matchMedia('(max-width: 980px)').matches && resultCard){
-          resultCard.scrollIntoView({behavior:'smooth',block:'start'});
-        }
+        finishFinder();
       }
     });
   }
