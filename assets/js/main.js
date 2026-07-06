@@ -1,4 +1,4 @@
-// Clippio v6.4.1 – Alerts + dynamic availability status
+// Clippio v6.5.2 – Alerts + availability + exact Web Finder stepper
 // Stabilná verzia: navbar a footer sú priamo v HTML, aby web fungoval aj po otvorení cez file://.
 
 function escapeHtml(v){
@@ -640,9 +640,22 @@ function initWebFinder(){
   const description=root.querySelector('[data-finder-description]');
   const reasonsEl=root.querySelector('[data-finder-reasons]');
   const warningsEl=root.querySelector('[data-finder-warnings]');
-  const nextEl=root.querySelector('[data-finder-next]');
+  const nextEl=root.querySelector('[data-finder-next-list]');
   const summaryEl=document.querySelector('[data-finder-summary]');
   const copyBtn=root.querySelector('[data-finder-copy]');
+  const resultCard=root.querySelector('[data-finder-result]');
+  const resultEyebrow=root.querySelector('[data-finder-result-eyebrow]');
+  const stepper=root.querySelector('[data-web-finder-stepper]');
+  const steps=Array.from(root.querySelectorAll('[data-finder-step]'));
+  const indicators=Array.from(root.querySelectorAll('[data-step-indicator]'));
+  const connectors=Array.from(root.querySelectorAll('[data-step-connector]'));
+  const backBtn=root.querySelector('[data-finder-back]');
+  const nextBtn=root.querySelector('[data-finder-next]');
+  const footer=root.querySelector('[data-finder-footer]');
+  const stepContent=root.querySelector('.finder-step-content');
+  const totalSteps=steps.length || 1;
+  let currentStep=1;
+  let completed=false;
 
   const read=name=>{
     const checked=root.querySelector(`input[name="${name}"]:checked`);
@@ -654,6 +667,59 @@ function initWebFinder(){
     if(!checked) return '';
     const label=checked.closest('label');
     return label ? label.textContent.replace(/\s+/g,' ').trim() : checked.value;
+  };
+
+  const updateOptionStyles=()=>{
+    root.querySelectorAll('.finder-step label').forEach(label=>{
+      const input=label.querySelector('input[type="radio"]');
+      label.classList.toggle('is-selected',!!(input&&input.checked));
+    });
+  };
+
+  const updateStepper=(direction=0)=>{
+    if(!stepper) return;
+    stepper.dataset.direction=direction<0?'back':'forward';
+    steps.forEach(step=>{
+      const stepNumber=Number(step.dataset.finderStep||0);
+      const isActive=stepNumber===currentStep;
+      step.hidden=!isActive;
+      step.classList.toggle('is-active',isActive);
+    });
+    if(stepContent){
+      const activeStep=steps.find(step=>Number(step.dataset.finderStep||0)===currentStep);
+      if(activeStep){
+        window.requestAnimationFrame(()=>{
+          stepContent.style.height=`${activeStep.offsetHeight}px`;
+        });
+      }
+    }
+    indicators.forEach(indicator=>{
+      const stepNumber=Number(indicator.dataset.stepIndicator||0);
+      const isActive=stepNumber===currentStep;
+      const isComplete=stepNumber<currentStep || completed;
+      indicator.classList.toggle('is-active',isActive&&!completed);
+      indicator.classList.toggle('is-complete',isComplete);
+      indicator.classList.toggle('is-inactive',!isActive&&!isComplete);
+      indicator.setAttribute('aria-current',isActive&&!completed?'step':'false');
+    });
+    connectors.forEach(connector=>{
+      const stepNumber=Number(connector.dataset.stepConnector||0);
+      connector.classList.toggle('is-complete',stepNumber<currentStep || completed);
+    });
+    if(backBtn) backBtn.hidden=currentStep===1;
+    if(footer) footer.classList.toggle('spread',currentStep!==1);
+    if(footer) footer.classList.toggle('end',currentStep===1);
+    if(nextBtn) nextBtn.textContent=currentStep===totalSteps?'Zobraziť odporúčanie':'Pokračovať';
+    if(resultEyebrow) resultEyebrow.textContent=completed?'Finálne odporúčanie':'Priebežné odporúčanie';
+    if(resultCard) resultCard.classList.toggle('is-final',completed);
+  };
+
+  const goToStep=(stepNumber)=>{
+    const nextStep=Math.max(1,Math.min(totalSteps,Number(stepNumber)||1));
+    const direction=nextStep>=currentStep?1:-1;
+    currentStep=nextStep;
+    completed=false;
+    updateStepper(direction);
   };
 
   const packages={
@@ -751,10 +817,40 @@ function initWebFinder(){
     ].join('\n');
 
     if(summaryEl) summaryEl.value=summary;
+    updateOptionStyles();
     return summary;
   };
 
-  root.querySelectorAll('input[type="radio"]').forEach(input=>input.addEventListener('change',calculate));
+  root.querySelectorAll('input[type="radio"]').forEach(input=>input.addEventListener('change',()=>{
+    calculate();
+    updateOptionStyles();
+  }));
+
+  indicators.forEach(indicator=>indicator.addEventListener('click',()=>{
+    goToStep(indicator.dataset.stepIndicator);
+  }));
+
+  if(backBtn){
+    backBtn.addEventListener('click',()=>{
+      if(currentStep>1) goToStep(currentStep-1);
+    });
+  }
+
+  if(nextBtn){
+    nextBtn.addEventListener('click',()=>{
+      if(currentStep<totalSteps){
+        goToStep(currentStep+1);
+      }else{
+        completed=true;
+        calculate();
+        updateStepper(1);
+        if(window.matchMedia('(max-width: 980px)').matches && resultCard){
+          resultCard.scrollIntoView({behavior:'smooth',block:'start'});
+        }
+      }
+    });
+  }
+
   if(copyBtn){
     copyBtn.addEventListener('click',async()=>{
       const summary=calculate();
@@ -767,6 +863,8 @@ function initWebFinder(){
       }
     });
   }
+
+  updateStepper(0);
   calculate();
 }
 

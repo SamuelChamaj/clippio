@@ -1,3 +1,16 @@
+## v6.5.2 – Web Finder presná postupová tabuľka
+- Web Finder krokový výber je vizuálne prerobený presne podľa dodaného Stepper vzoru.
+- Stepper karta používa `outer-container`, `step-circle-container`, kruhové indikátory, spojnice, aktívnu bodku a fajku dokončených krokov.
+- Doplnil sa presnejší fialový akcent `#5227ff`, úzka postupová karta a výškové správanie obsahu podľa aktívneho kroku.
+- Zachovaná je statická HTML/CSS/JS implementácia pre GitHub Pages bez React buildu.
+
+
+## v6.5.1 – Web Finder stepper UI
+- Web Finder prerobený na krokový stepper podľa dodaného návrhu: indikátory krokov, späť/pokračovať, finálne odporúčanie.
+- Zachovaná statická HTML/JS kompatibilita pre GitHub Pages bez React buildu.
+- Výsledok sa stále automaticky vkladá do dopytového formulára.
+- Cache verzia Web Finder stránky zvýšená na `v=6.5.1`.
+
 # Changelog
 
 ## v6.5.0 – Clippio Web Finder

@@ -1967,3 +1967,261 @@ body{overflow-x:hidden}
   .finder-group{padding:16px}
   .finder-group label{font-size:15px}
 }
+
+/* v6.5.1: Web Finder stepper UI – static HTML/JS adaptation of the requested React Stepper */
+.web-finder-layout--stepper{grid-template-columns:minmax(0,1.05fr) minmax(320px,.95fr)}
+.web-finder-stepper{padding:0!important;overflow:hidden;position:relative;background:rgba(255,255,255,.94)}
+.web-finder-stepper-head{padding:34px 34px 0;margin-bottom:0!important}
+.web-finder-stepper-head .sub{max-width:760px}
+.finder-step-indicator-row{display:flex;width:100%;align-items:center;padding:28px 34px 20px}
+.step-indicator{position:relative;cursor:pointer;outline:none;border:0;background:transparent;padding:0;display:inline-flex;align-items:center;justify-content:center}
+.step-indicator:focus-visible .step-indicator-inner{box-shadow:0 0 0 4px rgba(0,71,255,.16)}
+.step-indicator-inner{display:flex;height:2rem;width:2rem;align-items:center;justify-content:center;border-radius:9999px;font-weight:900;background:#222;color:#a3a3a3;transition:background-color .3s ease,color .3s ease,transform .3s ease,box-shadow .3s ease}
+.step-indicator.is-active .step-indicator-inner{background:var(--blue);color:var(--blue);box-shadow:0 0 0 7px rgba(0,71,255,.12);transform:scale(1.03)}
+.step-indicator.is-complete .step-indicator-inner{background:var(--blue);color:#fff}
+.active-dot{display:none;height:.75rem;width:.75rem;border-radius:9999px;background:#fff}
+.step-number{font-size:.875rem;line-height:1}
+.check-icon{display:none;height:1rem;width:1rem;color:#fff;stroke-dasharray:28;stroke-dashoffset:0}
+.step-indicator.is-active .active-dot{display:block}
+.step-indicator.is-active .step-number,.step-indicator.is-complete .step-number{display:none}
+.step-indicator.is-complete .check-icon{display:block;animation:webFinderCheck .28s ease-out both}
+.step-connector{position:relative;margin-left:.5rem;margin-right:.5rem;height:.125rem;flex:1;overflow:hidden;border-radius:.25rem;background:#d4d9df}
+.step-connector-inner{position:absolute;left:0;top:0;height:100%;width:0;background:var(--blue);transition:width .4s ease,background-color .4s ease}
+.step-connector.is-complete .step-connector-inner{width:100%}
+.step-content-default.finder-step-content{position:relative;overflow:hidden;padding:0 34px;min-height:372px}
+.finder-step{margin:0!important;min-height:340px;display:grid;align-content:start}
+.finder-step[hidden]{display:none!important}
+.finder-step.is-active{animation:webFinderStepEnterForward .36s ease both}
+.web-finder-stepper[data-direction="back"] .finder-step.is-active{animation-name:webFinderStepEnterBack}
+.finder-step label.is-selected{border-color:rgba(0,71,255,.28);background:linear-gradient(135deg,rgba(0,71,255,.08),rgba(255,255,255,.94));box-shadow:0 12px 34px rgba(0,71,255,.08)}
+.finder-stepper-footer{padding:24px 34px 34px}
+.footer-nav{margin-top:0;display:flex;gap:12px;align-items:center}
+.footer-nav.spread{justify-content:space-between}
+.footer-nav.end{justify-content:flex-end}
+.back-button{transition:all .35s ease;border:1px solid rgba(7,16,24,.10);background:rgba(255,255,255,.76);border-radius:999px;padding:11px 16px;color:#7d8694;cursor:pointer;font-weight:900}
+.back-button:hover{color:var(--ink);border-color:rgba(7,16,24,.18);transform:translateY(-1px)}
+.back-button[hidden]{display:none!important}
+.next-button{transition:all .35s ease;display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:9999px;background:var(--blue);color:#fff;font-weight:950;letter-spacing:-.025em;padding:12px 18px;cursor:pointer;box-shadow:0 16px 40px rgba(0,71,255,.22)}
+.next-button:hover{transform:translateY(-1px);box-shadow:0 20px 48px rgba(0,71,255,.28)}
+.next-button:active{transform:translateY(0)}
+.web-finder-result .finder-send-link{width:100%;margin-top:12px;justify-content:center}
+.web-finder-result.is-final{border-color:rgba(48,187,120,.32);box-shadow:0 26px 90px rgba(48,187,120,.12)}
+.web-finder-result.is-final .result-eyebrow{background:rgba(48,187,120,.12);color:#167548}
+@keyframes webFinderStepEnterForward{from{transform:translateX(-9%);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes webFinderStepEnterBack{from{transform:translateX(9%);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes webFinderCheck{from{stroke-dashoffset:28;opacity:.3}to{stroke-dashoffset:0;opacity:1}}
+@media(max-width:980px){.web-finder-layout--stepper{grid-template-columns:1fr}.step-content-default.finder-step-content{min-height:0}.finder-step{min-height:0}.web-finder-result .finder-send-link{display:flex}}
+@media(max-width:620px){.web-finder-stepper-head{padding:22px 22px 0}.finder-step-indicator-row{padding:22px 22px 16px}.step-indicator-inner{height:1.8rem;width:1.8rem}.step-connector{margin-left:.35rem;margin-right:.35rem}.step-content-default.finder-step-content{padding:0 22px}.finder-stepper-footer{padding:20px 22px 24px}.footer-nav{width:100%}.next-button,.back-button{padding:12px 14px}.footer-nav.spread .next-button,.footer-nav.spread .back-button{flex:1}}
+@media(prefers-reduced-motion:reduce){.finder-step.is-active,.step-indicator.is-complete .check-icon{animation:none!important}.step-indicator-inner,.step-connector-inner,.next-button,.back-button{transition:none!important}}
+
+/* v6.5.2: Web Finder exact stepper table style */
+.web-finder-layout--exact-stepper{
+  grid-template-columns:minmax(0,1fr) minmax(340px,.96fr);
+  gap:28px;
+}
+.web-finder-stepper-column{min-width:0}
+.web-finder-stepper-head--outside{
+  margin:0 0 18px!important;
+}
+.web-finder-stepper-head--outside h2{
+  font-size:clamp(34px,4vw,52px);
+}
+.clippio-stepper-outer.outer-container{
+  display:flex;
+  min-height:100%;
+  flex:1 1 0%;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:1rem;
+}
+.web-finder-stepper.step-circle-container{
+  margin-left:auto;
+  margin-right:auto;
+  width:100%;
+  max-width:28rem;
+  border-radius:2rem;
+  box-shadow:0 20px 25px -5px rgba(0,0,0,.1),0 10px 10px -5px rgba(0,0,0,.04);
+  border:1px solid #222!important;
+  background:#fff!important;
+  padding:0!important;
+  overflow:hidden;
+}
+.web-finder-stepper .step-indicator-row{
+  display:flex;
+  width:100%;
+  align-items:center;
+  padding:2rem;
+}
+.web-finder-stepper .step-content-default{
+  position:relative;
+  overflow:hidden;
+}
+.web-finder-stepper .step-default{
+  padding-left:2rem;
+  padding-right:2rem;
+}
+.web-finder-stepper .footer-container{
+  padding-left:2rem;
+  padding-right:2rem;
+  padding-bottom:2rem;
+}
+.web-finder-stepper .footer-nav{
+  margin-top:2.5rem;
+  display:flex;
+}
+.web-finder-stepper .footer-nav.spread{justify-content:space-between}
+.web-finder-stepper .footer-nav.end{justify-content:flex-end}
+.web-finder-stepper .back-button{
+  transition:all 350ms;
+  border-radius:.25rem;
+  padding:.25rem .5rem;
+  color:#a3a3a3;
+  cursor:pointer;
+  border:0;
+  background:transparent;
+  font-weight:700;
+}
+.web-finder-stepper .back-button:hover{color:#52525b}
+.web-finder-stepper .back-button.inactive{
+  pointer-events:none;
+  opacity:.5;
+  color:#a3a3a3;
+}
+.web-finder-stepper .next-button{
+  transition:all 350ms;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:9999px;
+  background-color:#5227ff;
+  color:#fff;
+  font-weight:700;
+  letter-spacing:-.025em;
+  padding:.375rem .875rem;
+  cursor:pointer;
+  border:0;
+}
+.web-finder-stepper .next-button:hover,
+.web-finder-stepper .next-button:active{background-color:#5227ff}
+.web-finder-stepper .step-indicator{
+  position:relative;
+  cursor:pointer;
+  outline:none;
+  border:0;
+  background:transparent;
+  padding:0;
+}
+.web-finder-stepper .step-indicator[aria-disabled="true"]{pointer-events:none;opacity:.5}
+.web-finder-stepper .step-indicator-inner{
+  display:flex;
+  height:2rem;
+  width:2rem;
+  align-items:center;
+  justify-content:center;
+  border-radius:9999px;
+  font-weight:600;
+  background:#222;
+  color:#a3a3a3;
+  box-shadow:none;
+  transition:background-color .3s ease,color .3s ease,transform .3s ease;
+}
+.web-finder-stepper .step-indicator.is-inactive .step-indicator-inner{background:#222;color:#a3a3a3;transform:scale(1)}
+.web-finder-stepper .step-indicator.is-active .step-indicator-inner{scale:1;background:#5227ff;color:#5227ff;box-shadow:none;transform:scale(1)}
+.web-finder-stepper .step-indicator.is-complete .step-indicator-inner{scale:1;background:#5227ff;color:#3b82f6;transform:scale(1)}
+.web-finder-stepper .active-dot{
+  height:.75rem;
+  width:.75rem;
+  border-radius:9999px;
+  background-color:#fff;
+  display:none;
+}
+.web-finder-stepper .step-number{font-size:.875rem;line-height:1}
+.web-finder-stepper .step-indicator.is-active .active-dot{display:block}
+.web-finder-stepper .step-indicator.is-active .step-number,
+.web-finder-stepper .step-indicator.is-complete .step-number{display:none}
+.web-finder-stepper .step-indicator.is-complete .check-icon{display:block;color:#fff;height:1rem;width:1rem;animation:webFinderCheck .28s ease-out both}
+.web-finder-stepper .step-connector{
+  position:relative;
+  margin-left:.5rem;
+  margin-right:.5rem;
+  height:.125rem;
+  flex:1;
+  overflow:hidden;
+  border-radius:.25rem;
+  background-color:#52525b;
+}
+.web-finder-stepper .step-connector-inner{
+  position:absolute;
+  left:0;
+  top:0;
+  height:100%;
+  width:0;
+  background-color:transparent;
+  transition:width .4s ease,background-color .4s ease;
+}
+.web-finder-stepper .step-connector.is-complete .step-connector-inner{
+  width:100%;
+  background-color:#5227ff;
+}
+.web-finder-stepper .finder-step-content{
+  position:relative;
+  overflow:hidden;
+  min-height:0!important;
+  padding:0!important;
+  transition:height .4s cubic-bezier(.2,.8,.2,1);
+}
+.web-finder-stepper .finder-step{
+  margin:0!important;
+  min-height:0!important;
+  border:0;
+  background:transparent;
+  border-radius:0;
+  display:grid;
+  align-content:start;
+}
+.web-finder-stepper .finder-step[hidden]{display:none!important}
+.web-finder-stepper .finder-step.is-active{animation:webFinderExactEnterForward .4s ease both}
+.web-finder-stepper[data-direction="back"] .finder-step.is-active{animation-name:webFinderExactEnterBack}
+.web-finder-stepper .finder-step legend{
+  display:block;
+  width:100%;
+  padding:0;
+  margin:0 0 14px;
+  color:#111a24;
+  font-size:1.05rem;
+  font-weight:900;
+}
+.web-finder-stepper .finder-step label{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  margin:10px 0 0;
+  padding:12px 13px;
+  border-radius:15px;
+  background:#fff;
+  border:1px solid rgba(7,16,24,.08);
+  font-weight:800;
+  cursor:pointer;
+  line-height:1.35;
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,background-color .18s ease;
+}
+.web-finder-stepper .finder-step label:hover,
+.web-finder-stepper .finder-step label.is-selected{
+  transform:translateY(-1px);
+  border-color:rgba(82,39,255,.28);
+  box-shadow:0 10px 28px rgba(82,39,255,.08);
+  background:rgba(82,39,255,.045);
+}
+.web-finder-stepper .finder-step input{
+  width:18px;
+  height:18px;
+  margin-top:2px;
+  accent-color:#5227ff;
+}
+@keyframes webFinderExactEnterForward{from{transform:translateX(-100%);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes webFinderExactEnterBack{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+@media(min-width:640px){.clippio-stepper-outer.outer-container{aspect-ratio:4/3}}
+@media(min-width:768px){.clippio-stepper-outer.outer-container{aspect-ratio:2/1}}
+@media(max-width:980px){.web-finder-layout--exact-stepper{grid-template-columns:1fr}.web-finder-stepper.step-circle-container{max-width:34rem}.web-finder-stepper .finder-step-content{height:auto!important}.web-finder-result{position:relative;top:auto}}
+@media(max-width:620px){.clippio-stepper-outer.outer-container{padding:.25rem 0}.web-finder-stepper.step-circle-container{border-radius:1.6rem}.web-finder-stepper .step-indicator-row{padding:1.35rem}.web-finder-stepper .step-default{padding-left:1.35rem;padding-right:1.35rem}.web-finder-stepper .footer-container{padding-left:1.35rem;padding-right:1.35rem;padding-bottom:1.35rem}.web-finder-stepper .footer-nav{margin-top:1.6rem}.web-finder-stepper .footer-nav.spread .next-button,.web-finder-stepper .footer-nav.spread .back-button{flex:0 1 auto}.web-finder-stepper .next-button{padding:.55rem .9rem}.web-finder-stepper .back-button{padding:.55rem .65rem}}
