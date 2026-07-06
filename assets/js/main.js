@@ -657,7 +657,6 @@ function initWebFinder(){
   const indicators=Array.from(root.querySelectorAll('[data-step-indicator]'));
   const connectors=Array.from(root.querySelectorAll('[data-step-connector]'));
   const backBtn=root.querySelector('[data-finder-back]');
-  const nextBtn=root.querySelector('[data-finder-next]');
   const footer=root.querySelector('[data-finder-footer]');
   const stepContent=root.querySelector('.finder-step-content');
   const progressBar=root.querySelector('[data-finder-progress]');
@@ -742,9 +741,11 @@ function initWebFinder(){
       connector.classList.toggle('is-complete',stepNumber<currentStep || completed);
     });
     if(backBtn) backBtn.hidden=currentStep===1;
-    if(footer) footer.classList.toggle('spread',currentStep!==1);
-    if(footer) footer.classList.toggle('end',currentStep===1);
-    if(nextBtn) nextBtn.textContent=currentStep===totalSteps?'Zobraziť odporúčanie':'Pokračovať';
+    if(footer){
+      footer.hidden=currentStep===1 && !completed;
+      footer.classList.toggle('spread',currentStep!==1);
+      footer.classList.toggle('end',currentStep===1);
+    }
     if(resultEyebrow) resultEyebrow.textContent='Finálne odporúčanie';
     if(resultCard){
       resultCard.hidden=!completed;
@@ -987,6 +988,25 @@ function initWebFinder(){
 
   let autoAdvanceTimer=null;
 
+  const scheduleAutoAdvance=()=>{
+    if(autoAdvanceTimer) window.clearTimeout(autoAdvanceTimer);
+    autoAdvanceTimer=window.setTimeout(()=>{
+      if(currentStep<totalSteps){
+        goToStep(currentStep+1);
+      }else{
+        finishFinder();
+      }
+    },140);
+  };
+
+  const refreshFinderAfterSelection=()=>{
+    completed=false;
+    calculate();
+    updateStepper(0);
+    updateOptionStyles();
+    scheduleAutoAdvance();
+  };
+
   const finishFinder=()=>{
     completed=true;
     calculate();
@@ -996,20 +1016,14 @@ function initWebFinder(){
     }
   };
 
-  root.querySelectorAll('input[type="radio"]').forEach(input=>input.addEventListener('change',()=>{
-    completed=false;
-    calculate();
-    updateStepper(0);
-    updateOptionStyles();
+  root.querySelectorAll('input[type="radio"]').forEach(input=>input.addEventListener('change',refreshFinderAfterSelection));
 
-    if(autoAdvanceTimer) window.clearTimeout(autoAdvanceTimer);
-    autoAdvanceTimer=window.setTimeout(()=>{
-      if(currentStep<totalSteps){
-        goToStep(currentStep+1);
-      }else{
-        finishFinder();
-      }
-    },160);
+  root.querySelectorAll('.finder-step label').forEach(label=>label.addEventListener('click',()=>{
+    const input=label.querySelector('input[type="radio"]');
+    if(!input) return;
+    window.setTimeout(()=>{
+      if(input.checked) refreshFinderAfterSelection();
+    },0);
   }));
 
   indicators.forEach(indicator=>indicator.addEventListener('click',()=>{
@@ -1022,16 +1036,6 @@ function initWebFinder(){
     });
   }
 
-  if(nextBtn){
-    nextBtn.addEventListener('click',()=>{
-      if(autoAdvanceTimer) window.clearTimeout(autoAdvanceTimer);
-      if(currentStep<totalSteps){
-        goToStep(currentStep+1);
-      }else{
-        finishFinder();
-      }
-    });
-  }
 
   if(copyBtn){
     copyBtn.addEventListener('click',async()=>{

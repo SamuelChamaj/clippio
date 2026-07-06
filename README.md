@@ -1,4 +1,4 @@
-# Clippio web – v6.1.29
+# Clippio web – v6.1.30
 
 Statický HTML web pre **Clippio** pripravený na GitHub Pages. Verzia v6.x vychádza z funkčného základu **v5.1.1** a pridáva kontrolovaný Brand Book positioning bez rozbitia pôvodných napojení a funkcií.
 
@@ -20,9 +20,10 @@ Tieto služby nemajú pôsobiť ako nesúvisiace ponuky. Ich cieľ je podporiť 
 
 ## Stav verzie
 
-Aktuálna verzia: **v6.1.29 – Web Finder compact auto-advance update**
+Aktuálna verzia: **v6.1.30 – Web Finder no-continue-button update**
 
 Obsahovo vychádza z:
+- **v6.1.30** – Web Finder no-continue-button update: odstránené viditeľné tlačidlo „Pokračovať“, výber odpovede posúva formulár automaticky aj pri kliknutí na už vybranú možnosť. Aktualizované cache verzie CSS/JS na `v=7.0.2`.
 - **v6.1.29** – Web Finder compact auto-advance update: zmenšený vizuál Web Finderu, kompaktnejší krokový formulár, menšie karty odpovedí, nižšie medzery a automatický prechod na ďalšiu otázku po kliknutí na odpoveď. Aktualizované cache verzie CSS/JS na `v=7.0.1`.
 - **v6.1.28** – SEO/GEO and llms update: doplnený `/llms.txt`, upravený `robots.txt`, posilnené lokálne SEO texty na homepage a stránke `/weby/`, doplnené FAQ structured data a lokálne výrazy pre malé firmy, živnostníkov a regióny Zlaté Moravce, Nitra, Levice a Vráble.
 - **v6.1.27** – pricing and trust cleanup: Štart web upravený na 199 €, jasnejšie oddelenie webových balíkov od kreatívnych služieb, silnejšia sekcia dôkazov na homepage, civilnejšie formulácie o moderných nástrojoch a redirect `/o-clippio.html` na čistú URL.
@@ -39,7 +40,7 @@ Obsahovo vychádza z:
 - **v6.1.0** – doplnené viditeľné ďakovacie okno po úspešnom odoslaní dopytu.
 - **v6.0.5** – oprava správania formulára po odoslaní dopytu.
 
-Verzia **v6.1.29** nemení hlavný vizuálny systém webu. Upravuje iba Web Finder: zmenšenie veľkosti formulára, kompaktnejší layout a automatický prechod medzi otázkami po výbere odpovede. Hlavné zásahy sú `web-finder/index.html`, `assets/css/web-finder-redesign.css`, `assets/js/main.js` a `README.md`.
+Verzia **v6.1.30** nemení hlavný vizuálny systém webu. Upravuje iba Web Finder: odstraňuje viditeľné tlačidlo „Pokračovať“ a ponecháva automatický prechod medzi otázkami po kliknutí na odpoveď. Hlavné zásahy sú `web-finder/index.html`, `assets/css/web-finder-redesign.css`, `assets/js/main.js` a `README.md`.
 
 Verzia **v6.1.0** upravuje webové balíky tak, aby hlavné karty zostali jednoduché, ale pod nimi pribudli presné podrobnosti, férové obchodné hranice a FAQ k doméne, hostingu, úpravám a fakturácii. Doména na prvý rok je uvedená ako súčasť každého webového balíka.
 
@@ -212,6 +213,13 @@ Na GitHub Pages musí byť obsah priečinka `clippio-main` v roote repozitára, 
 - Cenník a dynamické bloky musia zostať napojené na existujúci JavaScript a spreadsheet/fallback systém.
 
 ## Changelog
+
+### v6.1.30 – Web Finder no-continue-button update
+
+- Odstránené viditeľné tlačidlo „Pokračovať“ z Web Finderu.
+- Automatický prechod funguje po kliknutí na odpoveď vrátane už predvolene vybranej možnosti.
+- Na ďalších krokoch ostáva iba tlačidlo „Späť“.
+- Aktualizované cache verzie `web-finder-redesign.css` a `main.js` na `v=7.0.2`.
 
 ### v6.1.29 – Web Finder compact auto-advance update
 
