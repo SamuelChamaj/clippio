@@ -1,4 +1,4 @@
-// Clippio v6.2.0 – Clippio Alerts final
+// Clippio v6.4.1 – Alerts + dynamic availability status
 // Stabilná verzia: navbar a footer sú priamo v HTML, aby web fungoval aj po otvorení cez file://.
 
 function escapeHtml(v){
@@ -165,6 +165,76 @@ function csvRowsToObjects(text){
     return obj;
   });
 }
+
+
+const CLIPPIO_CMS_CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vQypNgFRbB3PsaKHmxL4wfWYFu_kh8eR6U2wkwr0b-qOJzLwKeIn-vySWHU4MY1nIGe3twrqZ7nqd6Q/pub?gid=2127962883&single=true&output=csv';
+
+function cleanAvailabilityStatusText(value){
+  return String(value||'')
+    .replace(/^[\s🟢🔴🟡🟠🟣✅❌⚠️]+/u,'')
+    .trim();
+}
+
+function normalizeAvailabilityMode(value){
+  const raw=String(value||'').trim().toLowerCase();
+  if(['false','0','no','nie','closed','close','zatvorene','zatvorené','neprijima','neprijímam','neprijíma','full','busy'].includes(raw)) return 'closed';
+  if(['limited','limit','obmedzene','obmedzené','holiday','dovolenka','pause','paused'].includes(raw)) return 'limited';
+  if(['true','1','yes','ano','áno','open','opened','prijima','prijímam','prijíma'].includes(raw)) return 'open';
+  return '';
+}
+
+function inferAvailabilityMode(statusText,textValue){
+  const combined=(String(statusText||'')+' '+String(textValue||'')).toLowerCase();
+  if(/neprij[ií]ma|pozastaven|obsaden|pln[áa]|dovolenka|nedostupn/.test(combined)) return 'closed';
+  if(/obmedzen|limitovan|čiastočne|ciastocne/.test(combined)) return 'limited';
+  return 'open';
+}
+
+function initAvailabilityStatus(){
+  const root=document.querySelector('[data-clippio-availability]');
+  if(!root) return;
+
+  const statusEl=root.querySelector('[data-availability-status]');
+  const textEl=root.querySelector('[data-availability-text]');
+  if(!statusEl||!textEl) return;
+
+  const fallbackStatus=cleanAvailabilityStatusText(statusEl.textContent);
+  const fallbackText=textEl.textContent;
+
+  const applyState=(mode,statusText,bodyText)=>{
+    const normalized=normalizeAvailabilityMode(mode) || inferAvailabilityMode(statusText,bodyText);
+    root.classList.remove('availability-open','availability-closed','availability-limited','availability-loading');
+    root.classList.add(`availability-${normalized}`);
+    statusEl.textContent=cleanAvailabilityStatusText(statusText) || fallbackStatus;
+    textEl.textContent=bodyText || fallbackText;
+  };
+
+  root.classList.add('availability-loading');
+
+  fetch(CLIPPIO_CMS_CSV_URL,{cache:'no-store'})
+    .then(response=>{ if(!response.ok) throw new Error('CMS unavailable'); return response.text(); })
+    .then(text=>{
+      const rows=csvRowsToObjects(text).filter(row=>normalizeAlertKey(row.section)==='settings');
+      const byKey=(key)=>{
+        const normalizedKey=normalizeAlertKey(key);
+        return rows.find(row=>normalizeAlertKey(row.key)===normalizedKey);
+      };
+      const valueFor=(key)=>{
+        const row=byKey(key);
+        if(!row) return '';
+        return String(row.value||row.text||row.title||'').trim();
+      };
+
+      const status=valueFor('availabilityStatus') || fallbackStatus;
+      const description=valueFor('availabilityText') || fallbackText;
+      const explicitMode=valueFor('availabilityOpen') || valueFor('availabilityMode') || valueFor('availabilityState') || valueFor('acceptingProjects');
+      applyState(explicitMode,status,description);
+    })
+    .catch(()=>{
+      applyState('open',fallbackStatus,fallbackText);
+    });
+}
+
 
 function initClippioAlerts(){
   const root=document.querySelector('[data-clippio-alerts]');
@@ -562,6 +632,7 @@ function initReactBitsTextEffects(){
 
 document.addEventListener('DOMContentLoaded',()=>{
   initNavigation();
+  initAvailabilityStatus();
   initClippioAlerts();
   initUpdates();
   initPhotoPrices();

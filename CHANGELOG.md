@@ -1,3 +1,15 @@
+# v6.4.1 – Dynamická dostupnosť cez Google Sheets
+
+- Pridané napojenie sekcie „Aktuálna dostupnosť“ na Google Sheets CMS CSV.
+- Stavový bod sa mení podľa hodnoty `availabilityMode` / `availabilityOpen`:
+  - `TRUE` / `open` = zelený pulz
+  - `FALSE` / `closed` = červený pulz
+  - `limited` / `dovolenka` = žltý pulz
+- Text dostupnosti sa dá meniť cez `availabilityStatus`.
+- Popis dostupnosti sa dá meniť cez `availabilityText`.
+- Odstránená potreba dávať zelený emoji priamo do textu.
+- Cache verzia hlavnej stránky navýšená na `v=6.4.1`.
+
 ## v6.4.0 – portfólio a referencie
 
 - Prepracovaná sekcia referencií na hlavnej stránke na jasnejší dôkazový systém.

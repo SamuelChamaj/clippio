@@ -1797,3 +1797,65 @@ body{overflow-x:hidden}
 .case-study-card dt{font-size:12px;font-weight:950;letter-spacing:1.3px;text-transform:uppercase;color:var(--blue);margin-bottom:4px}.case-study-primary dt{color:var(--lime)}.case-study-card dd{margin:0;color:var(--muted);font-size:14px;line-height:1.5}.case-study-card .mini-btn{margin-top:auto;width:max-content}.proof-standard-portfolio{margin-top:20px}
 @media(max-width:1180px){.reference-case-layout{grid-template-columns:1fr}.case-study-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.case-facts{grid-template-columns:1fr}}
 @media(max-width:720px){.reference-case,.reference-card-compact,.case-study-card{padding:22px;border-radius:22px}.case-study-grid{grid-template-columns:1fr}.proof-standard{display:block}.proof-standard strong{display:block;margin-bottom:6px}.reference-card-compact .mini-btn,.case-study-card .mini-btn{width:100%;justify-content:center}.btn-on-light{width:100%}}
+
+
+/* v6.4.1 – Google Sheets availability status */
+.availability-bar strong{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+}
+.availability-status-dot{
+  width:12px;
+  height:12px;
+  border-radius:999px;
+  flex:0 0 auto;
+  background:#30bb78;
+  box-shadow:0 0 0 5px rgba(48,187,120,.12),0 0 0 0 rgba(48,187,120,.35);
+  animation:clippioAvailabilityPulseGreen 1.8s ease-out infinite;
+}
+.availability-status-text{
+  color:var(--ink)!important;
+  line-height:1.25!important;
+}
+.availability-bar.availability-closed{
+  background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(255,244,244,.86));
+  border-color:rgba(214,57,57,.18);
+}
+.availability-bar.availability-closed .availability-status-dot{
+  background:#d94343;
+  box-shadow:0 0 0 5px rgba(217,67,67,.12),0 0 0 0 rgba(217,67,67,.35);
+  animation-name:clippioAvailabilityPulseRed;
+}
+.availability-bar.availability-limited{
+  background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(255,249,235,.88));
+  border-color:rgba(255,176,32,.24);
+}
+.availability-bar.availability-limited .availability-status-dot{
+  background:#ffb020;
+  box-shadow:0 0 0 5px rgba(255,176,32,.14),0 0 0 0 rgba(255,176,32,.38);
+  animation-name:clippioAvailabilityPulseAmber;
+}
+.availability-bar.availability-loading .availability-status-dot{
+  background:#8a96a8;
+  box-shadow:0 0 0 5px rgba(138,150,168,.12);
+  animation:none;
+}
+@keyframes clippioAvailabilityPulseGreen{
+  0%{box-shadow:0 0 0 5px rgba(48,187,120,.12),0 0 0 0 rgba(48,187,120,.36)}
+  70%{box-shadow:0 0 0 5px rgba(48,187,120,.12),0 0 0 12px rgba(48,187,120,0)}
+  100%{box-shadow:0 0 0 5px rgba(48,187,120,.12),0 0 0 0 rgba(48,187,120,0)}
+}
+@keyframes clippioAvailabilityPulseRed{
+  0%{box-shadow:0 0 0 5px rgba(217,67,67,.12),0 0 0 0 rgba(217,67,67,.36)}
+  70%{box-shadow:0 0 0 5px rgba(217,67,67,.12),0 0 0 12px rgba(217,67,67,0)}
+  100%{box-shadow:0 0 0 5px rgba(217,67,67,.12),0 0 0 0 rgba(217,67,67,0)}
+}
+@keyframes clippioAvailabilityPulseAmber{
+  0%{box-shadow:0 0 0 5px rgba(255,176,32,.14),0 0 0 0 rgba(255,176,32,.38)}
+  70%{box-shadow:0 0 0 5px rgba(255,176,32,.14),0 0 0 12px rgba(255,176,32,0)}
+  100%{box-shadow:0 0 0 5px rgba(255,176,32,.14),0 0 0 0 rgba(255,176,32,0)}
+}
+@media(prefers-reduced-motion:reduce){
+  .availability-status-dot{animation:none!important;}
+}
