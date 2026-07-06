@@ -1,3 +1,10 @@
+## v6.4.0 – portfólio a referencie
+
+- Prepracovaná sekcia referencií na hlavnej stránke na jasnejší dôkazový systém.
+- Pridané case studies do portfólia: klientsky web, vlastný systém, obsah/grafika a modelové weby.
+- Projekty sú rozlíšené podľa dôkazovej sily: klientská realizácia, vlastný projekt, ukážka alebo externé portfólio.
+- Doplnený dôkazový štandard: bez vymyslených percent a bez miešania ukážok s klientskymi realizáciami.
+- Aktualizované cache verzie na `v=6.4.0` pre upravené stránky.
 
 ## v6.1.27 – odstránenie duplicitného redirect súboru
 

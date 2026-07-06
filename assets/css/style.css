@@ -1617,7 +1617,7 @@ body{overflow-x:hidden}
 .price-section-divider:before,.price-section-divider:after{content:"";height:1px;background:var(--line);flex:1}
 .creative-pricing-section{border-top:1px solid var(--line)}
 
-/* v6.2.0 — Clippio Alerts final */
+/* v6.4.0 — Clippio Alerts final */
 .nav-alert{
   position:relative;
   display:inline-flex;
@@ -1770,3 +1770,30 @@ body{overflow-x:hidden}
   .burger{order:3;}
   .links{order:4;}
 }
+
+
+/* v6.4.0 – portfolio and reference proof system */
+.reference-case-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:16px;align-items:stretch}
+.reference-case,.reference-card-compact,.case-study-card{background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:28px;padding:28px;box-shadow:0 18px 60px rgba(7,16,24,.07)}
+.reference-case-featured{background:linear-gradient(140deg,rgba(7,16,24,.98),rgba(0,71,255,.88));color:#fff;position:relative;overflow:hidden}
+.reference-case-featured:before{content:"";position:absolute;right:-95px;top:-110px;width:310px;height:310px;border-radius:50%;background:radial-gradient(circle,rgba(215,255,85,.72),rgba(255,255,255,.16) 44%,transparent 72%)}
+.reference-case-featured>*{position:relative;z-index:1}
+.reference-case span,.case-study-card span{display:inline-flex;width:max-content;max-width:100%;border-radius:999px;background:rgba(0,71,255,.08);color:var(--blue);padding:7px 10px;font-size:12px;font-weight:950;text-transform:uppercase;letter-spacing:1.2px}
+.reference-case-featured span,.case-study-primary span{background:rgba(255,255,255,.12);color:var(--lime);border:1px solid rgba(255,255,255,.14)}
+.reference-case h3,.case-study-card h3{font-size:clamp(28px,3.4vw,46px);line-height:1;letter-spacing:-1.4px;margin:16px 0 12px}
+.reference-case .case-lead,.case-study-card p{color:var(--muted);font-size:16px;line-height:1.62;margin:0 0 18px}
+.reference-case-featured .case-lead,.reference-case-featured .case-facts p,.reference-case-featured .proof-points li,.case-study-primary p,.case-study-primary dd{color:rgba(255,255,255,.78)}
+.case-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:24px 0 18px}
+.case-facts div{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.08);border-radius:18px;padding:16px}
+.case-facts strong{display:block;color:var(--lime);margin-bottom:6px}.case-facts p{margin:0;font-size:14px}
+.reference-side-stack{display:grid;gap:16px}.reference-card-compact{display:flex;flex-direction:column}.reference-card-compact .mini-btn{margin-top:auto;width:max-content}
+.proof-standard{margin-top:18px;display:flex;gap:12px;align-items:flex-start;background:rgba(7,16,24,.045);border:1px solid rgba(7,16,24,.08);border-radius:22px;padding:18px;color:var(--muted)}
+.proof-standard strong{color:var(--ink);flex:0 0 auto}.btn-on-light{border-color:rgba(7,16,24,.16);color:var(--ink);background:rgba(255,255,255,.74)}
+.portfolio-v640-hero .lead{max-width:860px}.portfolio-case-section{padding-top:34px}
+.case-study-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;align-items:stretch}
+.case-study-card{display:flex;flex-direction:column;min-height:100%}.case-study-primary{background:linear-gradient(140deg,rgba(7,16,24,.98),rgba(0,71,255,.88));color:#fff;position:relative;overflow:hidden;border-color:rgba(255,255,255,.14)}
+.case-study-primary:before{content:"";position:absolute;right:-90px;top:-100px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(215,255,85,.62),rgba(255,255,255,.12) 46%,transparent 72%)}
+.case-study-primary>*{position:relative;z-index:1}.case-study-card dl{display:grid;gap:10px;margin:8px 0 22px}.case-study-card dl div{border-top:1px solid rgba(7,16,24,.10);padding-top:10px}.case-study-primary dl div{border-top-color:rgba(255,255,255,.16)}
+.case-study-card dt{font-size:12px;font-weight:950;letter-spacing:1.3px;text-transform:uppercase;color:var(--blue);margin-bottom:4px}.case-study-primary dt{color:var(--lime)}.case-study-card dd{margin:0;color:var(--muted);font-size:14px;line-height:1.5}.case-study-card .mini-btn{margin-top:auto;width:max-content}.proof-standard-portfolio{margin-top:20px}
+@media(max-width:1180px){.reference-case-layout{grid-template-columns:1fr}.case-study-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.case-facts{grid-template-columns:1fr}}
+@media(max-width:720px){.reference-case,.reference-card-compact,.case-study-card{padding:22px;border-radius:22px}.case-study-grid{grid-template-columns:1fr}.proof-standard{display:block}.proof-standard strong{display:block;margin-bottom:6px}.reference-card-compact .mini-btn,.case-study-card .mini-btn{width:100%;justify-content:center}.btn-on-light{width:100%}}
