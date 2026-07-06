@@ -1,4 +1,4 @@
-// Clippio v6.5.4 – Alerts + availability + Web Finder advisor with price estimate
+// Clippio v6.5.10 – Alerts + availability + Web Finder advisor with price estimate
 // Stabilná verzia: navbar a footer sú priamo v HTML, aby web fungoval aj po otvorení cez file://.
 
 function escapeHtml(v){

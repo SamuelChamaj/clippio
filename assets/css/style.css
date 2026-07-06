@@ -2901,3 +2901,24 @@ body{overflow-x:hidden}
 .web-finder-layout--brandas.is-result-hidden .web-finder-stepper-column{
   width:100%;
 }
+
+
+/* v6.5.10 – Tvorba webov: zachovaná oprava CTA tlačidla v sekcii Portfólio webov */
+.web-portfolio-cta .btn{
+  flex:0 0 auto;
+  min-width:220px;
+  min-height:62px;
+  padding:16px 30px;
+  text-align:center;
+  line-height:1.12;
+  white-space:nowrap;
+  align-self:center;
+}
+@media(max-width:950px){
+  .web-portfolio-cta .btn{
+    width:100%;
+    min-width:0;
+    min-height:56px;
+    white-space:normal;
+  }
+}

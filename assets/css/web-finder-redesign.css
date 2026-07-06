@@ -1,4 +1,4 @@
-/* Clippio Web Finder redesign v7.0.1 - compact stepper + auto advance */
+/* Clippio Web Finder redesign v6.5.10 - compact stepper + auto advance + clean back control */
 .wf-page{
   background:
     radial-gradient(circle at 12% 8%, rgba(0,71,255,.08), transparent 28%),
@@ -409,24 +409,33 @@
   line-height:1.35;
   font-weight:750;
 }
-.wf-stepper__footer.finder-stepper-footer{
-  padding:0 16px 16px!important;
+.wf-progress__left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
 }
-.wf-stepper__footer .footer-nav{
-  margin:0;
-}
-.wf-stepper .back-button{
-  min-height:38px;
-}
-.wf-stepper .back-button{
+.wf-progress-back{
+  appearance:none;
   border:1px solid rgba(7,16,24,.10);
-  background:#fff;
-  color:#596474;
+  border-radius:999px;
+  padding:7px 10px;
+  background:rgba(255,255,255,.86);
+  color:#4b5565;
+  font-size:12px;
+  line-height:1;
+  font-weight:950;
+  cursor:pointer;
+  box-shadow:0 8px 22px rgba(7,16,24,.055);
+  transition:color .18s ease,border-color .18s ease,background .18s ease,transform .18s ease;
 }
-.wf-stepper .back-button:hover{
+.wf-progress-back:hover{
+  transform:translateY(-1px);
   color:var(--ink);
-  border-color:rgba(0,71,255,.22);
+  border-color:rgba(0,71,255,.26);
+  background:#fff;
 }
+.wf-progress-back[hidden]{display:none!important}
 .wf-result.web-finder-result{
   position:sticky;
   top:96px;
@@ -550,7 +559,6 @@
   .wf-question-stage .finder-step legend{font-size:28px}
   .wf-question-stage .finder-step label{min-height:66px;padding:13px;border-radius:17px}
   .wf-option-title{font-size:15px}
-  .wf-stepper__footer.finder-stepper-footer{padding:0 16px 16px!important}
   .wf-progress__meta{display:block}
   .wf-progress__meta strong{display:block;text-align:left;margin-top:4px}
 }
@@ -559,8 +567,8 @@
   .wf-hero__proof span{width:100%;justify-content:center}
   .wf-dashboard__score{gap:9px}
   .wf-progress{padding:13px;border-radius:18px}
-  .wf-stepper__footer .footer-nav.spread{justify-content:flex-start}
-  .wf-stepper__footer .back-button{padding:11px 13px}
+  .wf-progress__left{gap:8px}
+  .wf-progress-back{padding:7px 9px;font-size:11px}
 }
 @media(prefers-reduced-motion:reduce){
   .wf-progress__track span,

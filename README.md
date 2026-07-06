@@ -1,4 +1,4 @@
-# Clippio web – v6.1.30
+# Clippio web – v6.5.10
 
 Statický HTML web pre **Clippio** pripravený na GitHub Pages. Verzia v6.x vychádza z funkčného základu **v5.1.1** a pridáva kontrolovaný Brand Book positioning bez rozbitia pôvodných napojení a funkcií.
 
@@ -20,12 +20,15 @@ Tieto služby nemajú pôsobiť ako nesúvisiace ponuky. Ich cieľ je podporiť 
 
 ## Stav verzie
 
-Aktuálna verzia: **v6.1.30 – Web Finder no-continue-button update**
+Aktuálna verzia: **v6.5.10 – Web Finder clean back control**
 
 Obsahovo vychádza z:
-- **v6.1.30** – Web Finder no-continue-button update: odstránené viditeľné tlačidlo „Pokračovať“, výber odpovede posúva formulár automaticky aj pri kliknutí na už vybranú možnosť. Aktualizované cache verzie CSS/JS na `v=7.0.2`.
-- **v6.1.29** – Web Finder compact auto-advance update: zmenšený vizuál Web Finderu, kompaktnejší krokový formulár, menšie karty odpovedí, nižšie medzery a automatický prechod na ďalšiu otázku po kliknutí na odpoveď. Aktualizované cache verzie CSS/JS na `v=7.0.1`.
-- **v6.1.28** – SEO/GEO and llms update: doplnený `/llms.txt`, upravený `robots.txt`, posilnené lokálne SEO texty na homepage a stránke `/weby/`, doplnené FAQ structured data a lokálne výrazy pre malé firmy, živnostníkov a regióny Zlaté Moravce, Nitra, Levice a Vráble.
+- **v6.5.10** – Web Finder clean back control: odstránené neprofesionálne spodné tlačidlo „Späť“ z formulára, ovládanie späť presunuté do hornej časti progress panelu ako malé čisté tlačidlo, bez prekrývania kariet odpovedí. Aktualizované cache verzie CSS/JS na `v=6.5.10`.
+- **v6.5.9** – SEO canonical and meta description cleanup: skrátené meta descriptions na hlavných upravených stránkach, canonical tagy zapísané v štandardnom tvare `rel="canonical" href="..."` a aktualizované cache verzie CSS/JS na `v=6.5.9`.
+- **v6.5.8** – Web Finder + portfolio CTA cleanup: balíček zahŕňa predchádzajúci Web Finder update bez tlačidla „Pokračovať“ a zároveň opravuje CTA tlačidlo „Otvoriť hotové weby“ v sekcii Portfólio webov na stránke `/weby/`, aby text sedel v strede a nelámal sa zle na desktope. Aktualizované cache verzie CSS/JS na `v=6.5.8`.
+- **v6.5.7** – Web Finder no-continue-button update: odstránené viditeľné tlačidlo „Pokračovať“, výber odpovede posúva formulár automaticky aj pri kliknutí na už vybranú možnosť. Aktualizované cache verzie CSS/JS na `v=6.5.7`.
+- **v6.5.6** – Web Finder compact auto-advance update: zmenšený vizuál Web Finderu, kompaktnejší krokový formulár, menšie karty odpovedí, nižšie medzery a automatický prechod na ďalšiu otázku po kliknutí na odpoveď. Aktualizované cache verzie CSS/JS na `v=6.5.6`.
+- **v6.5.5** – SEO/GEO and llms update: doplnený `/llms.txt`, upravený `robots.txt`, posilnené lokálne SEO texty na homepage a stránke `/weby/`, doplnené FAQ structured data a lokálne výrazy pre malé firmy, živnostníkov a regióny Zlaté Moravce, Nitra, Levice a Vráble.
 - **v6.1.27** – pricing and trust cleanup: Štart web upravený na 199 €, jasnejšie oddelenie webových balíkov od kreatívnych služieb, silnejšia sekcia dôkazov na homepage, civilnejšie formulácie o moderných nástrojoch a redirect `/o-clippio.html` na čistú URL.
 - **v6.1.17** – Function Web improvement pass: nahradený ťažší React/Vite build jednoduchšou statickou ukážkou, prepracovaný katalóg funkcií, celostránkový prepínač vizuálu, čistejšie CTA a menší počet assetov.
 - **v6.1.16** – smoothness performance pass: vypnutá nekonečná pohybujúca sa lišta, odstránený ťažký blur na sticky/fixed prvkoch, odľahčené tiene, stabilnejšie mobilné správanie a optimalizované ikony.
@@ -40,7 +43,7 @@ Obsahovo vychádza z:
 - **v6.1.0** – doplnené viditeľné ďakovacie okno po úspešnom odoslaní dopytu.
 - **v6.0.5** – oprava správania formulára po odoslaní dopytu.
 
-Verzia **v6.1.30** nemení hlavný vizuálny systém webu. Upravuje iba Web Finder: odstraňuje viditeľné tlačidlo „Pokračovať“ a ponecháva automatický prechod medzi otázkami po kliknutí na odpoveď. Hlavné zásahy sú `web-finder/index.html`, `assets/css/web-finder-redesign.css`, `assets/js/main.js` a `README.md`.
+Verzia **v6.5.10** rieši Web Finder: spodné tlačidlo „Späť“ už nevytvára neprofesionálny prekrývajúci prvok pod odpoveďami. Ovládanie späť je presunuté do progress panelu a balíček zároveň obsahuje všetky úpravy z v6.5.9.
 
 Verzia **v6.1.0** upravuje webové balíky tak, aby hlavné karty zostali jednoduché, ale pod nimi pribudli presné podrobnosti, férové obchodné hranice a FAQ k doméne, hostingu, úpravám a fakturácii. Doména na prvý rok je uvedená ako súčasť každého webového balíka.
 
@@ -214,22 +217,45 @@ Na GitHub Pages musí byť obsah priečinka `clippio-main` v roote repozitára, 
 
 ## Changelog
 
-### v6.1.30 – Web Finder no-continue-button update
+### v6.5.10 – Web Finder clean back control
+
+- Odstránené spodné tlačidlo „Späť“ z formulára Web Finderu.
+- Pridané malé čisté tlačidlo „← Späť“ do hornej časti progress panelu.
+- Tlačidlo sa nezobrazuje na prvom kroku a nezakrýva odpovede.
+- Aktualizované cache verzie `style.css`, `web-finder-redesign.css` a `main.js` na `v=6.5.10`.
+- Balíček obsahuje aj všetky úpravy z v6.5.9.
+
+### v6.5.9 – SEO canonical and meta description cleanup
+
+- Skrátené meta descriptions na stránkach `/`, `/weby/` a `/web-finder/`, aby ich SEO nástroje neoznačovali ako príliš dlhé.
+- Canonical tagy ponechané na týchto stránkach a zapísané v štandardnom tvare `rel="canonical" href="..."`.
+- Aktualizované cache verzie `style.css`, `web-finder-redesign.css` a `main.js` na `v=6.5.9`.
+- Balíček obsahuje aj všetky úpravy z v6.5.8.
+
+### v6.5.8 – Web Finder + portfolio CTA cleanup
+
+- Balíček obsahuje aj úpravy z v6.5.7: Web Finder bez viditeľného tlačidla „Pokračovať“ a automatický prechod po kliknutí na odpoveď.
+- Opravené CTA tlačidlo „Otvoriť hotové weby“ v sekcii Portfólio webov na stránke `/weby/`.
+- Tlačidlo má na desktope centrovaný text, pevnejšie proporcie a `white-space: nowrap`, aby sa text nelámal nepekne do dvoch riadkov.
+- Na menších obrazovkách ostáva tlačidlo responzívne cez `width:100%` a môže sa zalomiť normálne.
+- Aktualizované cache verzie `style.css`, `web-finder-redesign.css` a `main.js` na `v=6.5.8`.
+
+### v6.5.7 – Web Finder no-continue-button update
 
 - Odstránené viditeľné tlačidlo „Pokračovať“ z Web Finderu.
 - Automatický prechod funguje po kliknutí na odpoveď vrátane už predvolene vybranej možnosti.
 - Na ďalších krokoch ostáva iba tlačidlo „Späť“.
-- Aktualizované cache verzie `web-finder-redesign.css` a `main.js` na `v=7.0.2`.
+- Aktualizované cache verzie `web-finder-redesign.css` a `main.js` na `v=6.5.7`.
 
-### v6.1.29 – Web Finder compact auto-advance update
+### v6.5.6 – Web Finder compact auto-advance update
 
 - Zmenšený desktopový layout Web Finderu, aby nepôsobil nafúknuto na veľkých obrazovkách.
 - Zmenšené nadpisy, medzery, karty odpovedí, krokové bodky a kontajner formulára.
 - Po kliknutí na odpoveď sa Web Finder automaticky presunie na ďalšiu otázku.
 - Na poslednej otázke sa po výbere odpovede automaticky zobrazí výsledné odporúčanie.
-- Aktualizované cache verzie `web-finder-redesign.css` a `main.js` na `v=7.0.1`.
+- Aktualizované cache verzie `web-finder-redesign.css` a `main.js` na `v=6.5.6`.
 
-### v6.1.28 – SEO/GEO and llms update
+### v6.5.5 – SEO/GEO and llms update
 
 - Doplnený `llms.txt` s prehľadom služieb, balíkov, lokálneho pôsobenia a dôležitých URL.
 - Upravený `robots.txt` tak, aby explicitne povoľoval `/llms.txt` a ponechal sitemap.
