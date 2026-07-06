@@ -1,4 +1,4 @@
-// Clippio v6.5.2 – Alerts + availability + exact Web Finder stepper
+// Clippio v6.5.3 – Alerts + availability + Web Finder advisor with price estimate
 // Stabilná verzia: navbar a footer sú priamo v HTML, aby web fungoval aj po otvorení cez file://.
 
 function escapeHtml(v){
@@ -638,6 +638,12 @@ function initWebFinder(){
   const title=root.querySelector('[data-finder-title]');
   const price=root.querySelector('[data-finder-price]');
   const description=root.querySelector('[data-finder-description]');
+  const totalPriceEl=root.querySelector('[data-finder-total-price]');
+  const priceNoteEl=root.querySelector('[data-finder-price-note]');
+  const pathEl=root.querySelector('[data-finder-path]');
+  const addonsEl=root.querySelector('[data-finder-addons]');
+  const notNeededEl=root.querySelector('[data-finder-not-needed]');
+  const customNoteEl=root.querySelector('[data-finder-custom-note]');
   const reasonsEl=root.querySelector('[data-finder-reasons]');
   const warningsEl=root.querySelector('[data-finder-warnings]');
   const nextEl=root.querySelector('[data-finder-next-list]');
@@ -668,6 +674,20 @@ function initWebFinder(){
     const label=checked.closest('label');
     return label ? label.textContent.replace(/\s+/g,' ').trim() : checked.value;
   };
+
+  const unique=items=>[...new Set((items||[]).filter(Boolean))];
+
+  const renderList=(el,items,emptyText)=>{
+    if(!el) return;
+    const list=unique(items);
+    if(!list.length){
+      el.innerHTML=`<li>${escapeHtml(emptyText||'Nie je potrebné nič špeciálne dopĺňať.')}</li>`;
+      return;
+    }
+    el.innerHTML=list.map(item=>`<li>${escapeHtml(item)}</li>`).join('');
+  };
+
+  const money=n=>`${Math.round(n).toLocaleString('sk-SK')} €`;
 
   const updateOptionStyles=()=>{
     root.querySelectorAll('.finder-step label').forEach(label=>{
@@ -726,27 +746,70 @@ function initWebFinder(){
     start:{
       title:'Štart web',
       price:'od 199 €',
+      base:199,
       description:'Jednostránkový web alebo landing page pre základnú prezentáciu, rýchle spustenie a jasný kontakt.',
-      next:['pripraviť logo, kontakt a základnú ponuku','vybrať hlavný cieľ stránky','poslať 2–3 referenčné weby, ktoré sa vám páčia']
+      defaultPath:'Štart web + jasný kontakt + základné sekcie. Najprv overiť dopyt, až potom pridávať väčšie funkcie.',
+      customNote:'Web na mieru zatiaľ netreba. Dával by zmysel až pri objednávkovom toku, automatizácii alebo vlastnej databáze.',
+      next:['pripraviť logo, kontakt a základnú ponuku','vybrať jednu hlavnú akciu, ktorú má návštevník urobiť','poslať 2–3 referenčné weby, ktoré sa vám páčia']
     },
     rast:{
       title:'Rast firemný web',
       price:'od 499 €',
-      description:'Firemný web pre služby, dôveru, viac sekcií/podstránok a lepšie vysvetlenie ponuky.',
+      base:499,
+      description:'Firemný web pre služby, dôveru, viac podstránok, portfólio a lepšie vysvetlenie ponuky.',
+      defaultPath:'Rast firemný web + najnutnejšie doplnky. Toto je rozumnejšie než tlačiť veľký predajný systém bez dôkazov.',
+      customNote:'Web na mieru riešte až vtedy, keď bežné sekcie, formuláre, portfólio alebo jednoduché CMS nestačia.',
       next:['spísať služby a cieľové skupiny','dodať fotky, realizácie alebo dôkazy','určiť hlavné CTA: telefonát, formulár alebo dopyt']
     },
     predaj:{
       title:'Predaj / e-shop',
       price:'od 999 €',
+      base:999,
       description:'Predajný web, katalóg, objednávkový tok alebo menší e-shop. Tu už rozhoduje produktová štruktúra a proces objednávky.',
+      defaultPath:'Predaj / e-shop + iba tie predajné funkcie, ktoré sú potrebné na prvú funkčnú verziu.',
+      customNote:'Web na mieru dáva zmysel pri netypickej platbe, vlastnom účte zákazníka, napojeniach alebo komplikovanom objednávkovom procese.',
       next:['spísať produkty, varianty a spôsob objednávky','určiť platbu, dopravu alebo rezerváciu','počítať s väčším rozsahom testovania']
     },
     individual:{
-      title:'Individuálne riešenie',
-      price:'nacenenie podľa rozsahu',
-      description:'Projekt so špeciálnou funkciou, systémom, napojením alebo nejasným rozsahom. Tu balík nie je dobrý odhad.',
+      title:'Web na mieru',
+      price:'individuálne, orientačne od 1200 €+',
+      base:1200,
+      custom:true,
+      description:'Riešenie pre špeciálnu funkciu, automatizáciu, napojenie, databázu, klientsku zónu alebo nejasný veľký rozsah.',
+      defaultPath:'Najprv krátke zadanie a minimálna funkčná verzia. Veľký systém bez presného rozsahu je najrýchlejšia cesta k zbytočným nákladom.',
+      customNote:'Tu už balík nie je dobrý odhad. Cenu určuje hlavne logika funkcií, počet obrazoviek, dáta a napojenia.',
       next:['spísať presné funkcie a scenáre používania','oddeliť nutné funkcie od pekných nápadov','začať menším prototypom, nie veľkým systémom naslepo']
     }
+  };
+
+  const addonCatalog={
+    copy:{name:'Texty k webu',min:40,max:120},
+    editCopy:{name:'Úprava existujúcich textov',min:20,max:70},
+    photos:{name:'Fotografie',min:50,max:200},
+    graphics:{name:'Grafika / bannery',min:30,max:150},
+    logo:{name:'Logo alebo jednoduchá vizuálna úprava',min:50,max:180},
+    seo:{name:'SEO základ',min:40,max:120},
+    cms:{name:'Prepojenie na Google Sheets / jednoduché CMS',min:60,max:180},
+    advancedForm:{name:'Pokročilejší kontaktný formulár',min:30,max:90},
+    portfolio:{name:'Galéria / portfólio',min:30,max:100},
+    blog:{name:'Blog / novinky',min:50,max:150},
+    reservation:{name:'Rezervačný alebo objednávkový prvok',min:100,max:300},
+    catalog:{name:'Produktový katalóg',min:120,max:350},
+    ecommerce:{name:'E-shop funkcie',min:250,max:700},
+    video:{name:'Dron / video obsah',min:0,max:0,custom:'individuálne'},
+    custom:{name:'Individuálna funkcia na mieru',min:150,max:350,plus:true}
+  };
+
+  const addAddon=(addons,key)=>{
+    const item=addonCatalog[key];
+    if(item && !addons.some(addon=>addon.name===item.name)) addons.push(item);
+  };
+
+  const addonLabel=addon=>{
+    if(addon.custom) return `${addon.name} — ${addon.custom}`;
+    const plus=addon.plus?'+':'';
+    if(addon.min===0 && addon.max===0) return `${addon.name} — podľa rozsahu`;
+    return `${addon.name} — približne +${money(addon.min)} až ${money(addon.max)}${plus}`;
   };
 
   const calculate=()=>{
@@ -754,66 +817,147 @@ function initWebFinder(){
     const scope=read('wf-scope');
     const content=read('wf-content');
     const budget=read('wf-budget');
-    const urgency=read('wf-urgency');
+    const features=read('wf-features');
+    const approach=read('wf-approach');
     const score={start:0,rast:0,predaj:0,individual:0};
     const reasons=[];
     const warnings=[];
+    const notNeeded=[];
+    const addons=[];
 
-    if(purpose==='basic'){ score.start+=4; score.rast+=1; reasons.push('cieľ je skôr základná online prezentácia než veľký predajný systém'); }
-    if(purpose==='trust'){ score.rast+=4; score.start+=1; reasons.push('potrebujete budovať dôveru a vysvetliť služby, nie iba mať vizitku'); }
-    if(purpose==='leads'){ score.rast+=4; score.predaj+=1; reasons.push('cieľom sú dopyty, preto dáva zmysel firemná štruktúra a silnejšie CTA'); }
-    if(purpose==='sales'){ score.predaj+=5; reasons.push('predaj alebo objednávky vyžadujú viac než bežnú prezentačnú stránku'); }
-    if(purpose==='system'){ score.individual+=5; score.predaj+=2; reasons.push('špeciálne funkcie treba najprv presne zadefinovať'); }
+    if(purpose==='basic'){ score.start+=5; score.rast+=1; reasons.push('cieľ je základná online prezentácia, nie veľký systém'); }
+    if(purpose==='trust'){ score.rast+=5; score.start+=1; reasons.push('potrebujete pôsobiť dôveryhodnejšie a lepšie vysvetliť služby'); }
+    if(purpose==='leads'){ score.rast+=5; score.predaj+=1; reasons.push('cieľom sú dopyty, preto dáva zmysel silnejšia štruktúra a CTA'); }
+    if(purpose==='sales'){ score.predaj+=5; score.rast+=2; reasons.push('predaj alebo objednávky už potrebujú premyslený predajný tok'); }
+    if(purpose==='system'){ score.individual+=6; score.predaj+=2; reasons.push('špeciálne funkcie treba najprv presne zadefinovať'); }
 
-    if(scope==='one'){ score.start+=3; reasons.push('rozsah jednej stránky drží projekt jednoduchý a lacnejší'); }
-    if(scope==='few'){ score.rast+=3; reasons.push('viac podstránok už potrebuje lepšiu informačnú architektúru'); }
-    if(scope==='many'){ score.rast+=2; score.predaj+=2; reasons.push('väčší rozsah potrebuje viac plánovania a kontroly obsahu'); }
-    if(scope==='shop'){ score.predaj+=5; reasons.push('produkty, katalóg alebo košík sú predajný rozsah'); }
+    if(scope==='one'){ score.start+=4; reasons.push('rozsah jednej stránky drží cenu aj rozhodovanie pod kontrolou'); }
+    if(scope==='few'){ score.rast+=4; reasons.push('3–5 podstránok už potrebuje firemnú štruktúru, nie iba jednoduchú vizitku'); }
+    if(scope==='many'){ score.rast+=3; score.predaj+=1; reasons.push('viac obsahu potrebuje lepšiu architektúru a jasné rozdelenie služieb'); }
+    if(scope==='shop'){ score.predaj+=5; score.rast+=1; reasons.push('produkty alebo katalóg posúvajú projekt do predajného riešenia'); }
+    if(scope==='custom'){ score.individual+=5; reasons.push('individuálny tok znamená vyššie riziko rozsahu a ceny'); }
 
     if(content==='ready'){ score.start+=1; score.rast+=1; }
-    if(content==='partial'){ score.rast+=2; reasons.push('materiály treba upratať, takže najlacnejší postup nemusí stačiť'); }
-    if(content==='need'){ score.rast+=1; score.individual+=2; warnings.push('ak chýbajú texty, fotky alebo grafika, web sa predraží časom na prípravu obsahu'); }
+    if(content==='partial'){ score.rast+=2; addAddon(addons,'editCopy'); reasons.push('materiály existujú, ale treba ich upratať do predajnej štruktúry'); }
+    if(content==='needText'){ score.rast+=1; addAddon(addons,'copy'); warnings.push('ak chýbajú texty, cena sa zvýši o prípravu obsahu'); }
+    if(content==='needVisuals'){ score.rast+=1; addAddon(addons,'photos'); addAddon(addons,'graphics'); warnings.push('bez fotiek alebo grafiky bude web slabší, aj keď technicky funguje'); }
+    if(content==='unclear'){ score.individual+=2; addAddon(addons,'editCopy'); warnings.push('nejasné zadanie je väčšie riziko než samotná technická tvorba webu'); }
 
-    if(budget==='low'){ score.start+=4; if(purpose==='sales'||scope==='shop'||purpose==='system') warnings.push('rozpočet do 250 € nesedí na e-shop, systém ani väčší firemný web'); }
+    if(budget==='low'){ score.start+=5; if(['sales','system'].includes(purpose)||['shop','custom'].includes(scope)||['catalog','ecommerce','custom'].includes(features)) warnings.push('rozpočet do 250 € nesedí na e-shop, systém ani väčší firemný web'); }
     if(budget==='mid'){ score.rast+=4; }
-    if(budget==='high'){ score.predaj+=4; score.rast+=2; }
+    if(budget==='high'){ score.rast+=2; score.predaj+=4; }
+    if(budget==='premium'){ score.predaj+=3; score.individual+=2; }
+    if(budget==='unknown'){ score.rast+=1; }
 
-    if(urgency==='fast'){ score.start+=2; warnings.push('rýchly termín znižuje priestor na veľké experimenty a komplikované funkcie'); }
-    if(urgency==='normal'){ score.rast+=1; }
-    if(urgency==='custom'){ score.individual+=3; warnings.push('individuálny projekt bez presného zadania je riziko pre cenu aj termín'); }
+    if(features==='basic'){ score.start+=2; notNeeded.push('blog, CMS, katalóg a e-shop funkcie'); }
+    if(features==='formPortfolio'){ score.rast+=3; addAddon(addons,'portfolio'); reasons.push('formulár, CTA a portfólio zvyšujú dôveru aj počet dopytov'); }
+    if(features==='cms'){ score.rast+=3; addAddon(addons,'cms'); addAddon(addons,'blog'); reasons.push('správa obsahu má zmysel, ak budete web reálne aktualizovať'); }
+    if(features==='catalog'){ score.predaj+=2; score.rast+=2; addAddon(addons,'catalog'); addAddon(addons,'reservation'); reasons.push('katalóg alebo rezervácia je lacnejší medzikrok pred plným e-shopom'); }
+    if(features==='ecommerce'){ score.predaj+=5; addAddon(addons,'ecommerce'); reasons.push('e-shop funkcie vyžadujú viac testovania a presnejšie zadanie'); }
+    if(features==='custom'){ score.individual+=6; addAddon(addons,'custom'); warnings.push('vlastná funkcia bez presného rozsahu sa nedá naceniť presne'); }
+
+    if(approach==='fast'){ score.start+=3; warnings.push('rýchly a lacný prístup znamená obmedziť rozsah, nie pridávať funkcie'); }
+    if(approach==='quality'){ score.rast+=3; reasons.push('pri kvalitnom firemnom webe má zmysel investovať do štruktúry, dôvery a obsahu'); }
+    if(approach==='sales'){ score.predaj+=3; }
+    if(approach==='custom'){ score.individual+=4; warnings.push('individuálne riešenie treba rozsekať na nutné a voliteľné funkcie'); }
+    if(approach==='validate'){ score.start+=3; score.rast+=1; reasons.push('overenie nápadu lacnejšie je rozumnejšie než hneď stavať veľký web'); }
 
     let key=Object.entries(score).sort((a,b)=>b[1]-a[1])[0][0];
-    if((purpose==='sales'||scope==='shop') && budget!=='low') key='predaj';
-    if(purpose==='system' || urgency==='custom') key='individual';
-    if((purpose==='sales'||scope==='shop') && budget==='low'){
-      key='start';
-      warnings.push('ak chcete predaj, ale rozpočet je nízky, rozumnejší prvý krok je jednoduchý web/katalóg bez plného e-shopu');
+
+    const wantsSales=['sales'].includes(purpose)||['shop'].includes(scope)||['catalog','ecommerce'].includes(features)||approach==='sales';
+    const wantsCustom=purpose==='system'||scope==='custom'||features==='custom'||approach==='custom';
+    const budgetTooLowForShop=budget==='low'||budget==='mid';
+
+    if(wantsCustom){
+      key='individual';
+    }else if(wantsSales && budgetTooLowForShop){
+      key=(scope==='one'&&features!=='ecommerce')?'start':'rast';
+      warnings.push('plný e-shop by teraz pravdepodobne pálil rozpočet; lacnejšie je začať katalógom alebo dopytovým tokom');
+    }else if(wantsSales){
+      key='predaj';
+    }
+
+    if(key==='start'){
+      notNeeded.push('plný e-shop','klientska zóna','vlastná databáza','komplexné automatizácie');
+      if(features==='basic') notNeeded.push('viac podstránok bez jasného dôvodu');
+    }
+    if(key==='rast'){
+      notNeeded.push('vlastný systém na mieru','zložité automatizácie','plný e-shop, ak zatiaľ stačí dopyt alebo katalóg');
+      if(features==='formPortfolio') addAddon(addons,'advancedForm');
+      if(scope==='many'||purpose==='leads') addAddon(addons,'seo');
+    }
+    if(key==='predaj'){
+      notNeeded.push('netypické funkcie na mieru, kým nie je jasný základný predajný proces','klientska zóna, ak nie je nutná pre prvú verziu');
+      if(features==='ecommerce') addAddon(addons,'seo');
+    }
+    if(key==='individual'){
+      notNeeded.push('veľký systém bez prototypu','funkcie, ktoré nepodporujú predaj, úsporu času alebo lepšiu obsluhu klienta');
+      addAddon(addons,'custom');
+    }
+
+    if(key==='predaj'){
+      const ecommerceName=addonCatalog.ecommerce.name;
+      for(let i=addons.length-1;i>=0;i--){
+        if(addons[i].name===ecommerceName) addons.splice(i,1);
+      }
+      if(features==='ecommerce') addAddon(addons,'seo');
     }
 
     const data=packages[key];
-    if(!warnings.length) warnings.push('najväčšie riziko je nejasné zadanie: bez cieľa, obsahu a termínu sa cena nedá držať presne');
-    const uniqueReasons=[...new Set(reasons)].slice(0,4);
-    const uniqueWarnings=[...new Set(warnings)].slice(0,4);
+    const uniqueReasons=unique(reasons).slice(0,5);
+    const uniqueWarnings=unique(warnings.length ? warnings : ['najväčšie riziko je nejasné zadanie: bez cieľa, obsahu a termínu sa cena nedá držať presne']).slice(0,5);
+    const uniqueNotNeeded=unique(notNeeded).slice(0,5);
+    const addonItems=unique(addons.map(addon=>addon.name)).map(name=>addons.find(addon=>addon.name===name));
 
-    title.textContent=data.title;
-    price.textContent=data.price;
-    description.textContent=data.description;
-    reasonsEl.innerHTML=uniqueReasons.map(item=>`<li>${escapeHtml(item)}</li>`).join('');
-    warningsEl.innerHTML=uniqueWarnings.map(item=>`<li>${escapeHtml(item)}</li>`).join('');
-    nextEl.innerHTML=data.next.map(item=>`<li>${escapeHtml(item)}</li>`).join('');
+    const addonMin=addonItems.reduce((sum,addon)=>sum+(addon.custom?0:addon.min),0);
+    const addonMax=addonItems.reduce((sum,addon)=>sum+(addon.custom?0:addon.max),0);
+    const hasIndividualAddon=addonItems.some(addon=>addon.custom||addon.plus);
+    let estimateText='';
+    let priceNote='Presná cena sa dá určiť až po krátkom zadaní. Tento odhad slúži na rýchlu orientáciu, nie ako finálna cenová ponuka.';
+
+    if(data.custom){
+      estimateText='individuálne, orientačne od 1200 €+';
+      priceNote='Presná cena závisí hlavne od funkcií, napojení, dát a počtu obrazoviek. Bez zadania by bola presná suma iba hádanie.';
+    }else if(addonItems.length){
+      const min=data.base+addonMin;
+      const max=data.base+addonMax;
+      estimateText=hasIndividualAddon ? `približne od ${money(min)}+` : `približne ${money(min)} až ${money(max)}`;
+    }else{
+      estimateText=`približne od ${money(data.base)}`;
+    }
+
+    const addonText=addonItems.map(addonLabel);
+    const path=data.custom ? data.defaultPath : `${data.title} + ${addonItems.length ? addonItems.map(addon=>addon.name).slice(0,3).join(' + ') : 'bez zbytočných doplnkov'}. ${wantsSales&&budgetTooLowForShop?'Plný e-shop nechať až po overení záujmu.':data.defaultPath}`;
+
+    if(title) title.textContent=data.title;
+    if(price) price.textContent=data.price;
+    if(description) description.textContent=data.description;
+    if(totalPriceEl) totalPriceEl.textContent=estimateText;
+    if(priceNoteEl) priceNoteEl.textContent=priceNote;
+    if(pathEl) pathEl.textContent=path;
+    if(customNoteEl) customNoteEl.textContent=data.customNote;
+    renderList(reasonsEl,uniqueReasons,'Toto je najjednoduchší základ podľa zvolených odpovedí.');
+    renderList(warningsEl,uniqueWarnings,'Zatiaľ nevidno zásadné riziko, no presnosť ceny závisí od zadania.');
+    renderList(addonsEl,addonText,'Zatiaľ nie sú potrebné platené doplnky navyše.');
+    renderList(notNeededEl,uniqueNotNeeded,'Zatiaľ nevyzerá, že treba niečo odkladať.');
+    if(nextEl) nextEl.innerHTML=data.next.map(item=>`<li>${escapeHtml(item)}</li>`).join('');
 
     const summary=[
-      `Odporúčanie Web Finderu: ${data.title} (${data.price})`,
+      'Odporúčanie Web Finderu:',
+      `Balík: ${data.title} — ${data.price}`,
+      `Odhadovaná cena: ${estimateText}`,
+      `Najlacnejšia rozumná cesta: ${path}`,
       `Cieľ: ${optionText('wf-purpose')}`,
       `Rozsah: ${optionText('wf-scope')}`,
       `Obsah: ${optionText('wf-content')}`,
       `Rozpočet: ${optionText('wf-budget')}`,
-      `Termín/zložitosť: ${optionText('wf-urgency')}`,
-      '',
-      `Prečo: ${uniqueReasons.join('; ')}`,
+      `Funkcie: ${optionText('wf-features')}`,
+      `Termín/prístup: ${optionText('wf-approach')}`,
+      `Odporúčané doplnky: ${addonText.join('; ') || 'bez doplnkov navyše'}`,
+      `Čo zatiaľ netreba: ${uniqueNotNeeded.join('; ') || 'nič zásadné'}`,
       `Riziká: ${uniqueWarnings.join('; ')}`,
-      '',
-      'Doplňte ešte: termín, aktuálny web, konkurenciu/referencie a čo má návštevník po príchode na web urobiť.'
+      `Ďalší krok: ${data.next.join('; ')}`,
+      'Poznámka k cene: Presná cena závisí od rozsahu, obsahu, funkcií a dodaných materiálov.'
     ].join('\n');
 
     if(summaryEl) summaryEl.value=summary;
@@ -822,7 +966,9 @@ function initWebFinder(){
   };
 
   root.querySelectorAll('input[type="radio"]').forEach(input=>input.addEventListener('change',()=>{
+    completed=false;
     calculate();
+    updateStepper(0);
     updateOptionStyles();
   }));
 

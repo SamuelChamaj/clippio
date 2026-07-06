@@ -2225,3 +2225,106 @@ body{overflow-x:hidden}
 @media(min-width:768px){.clippio-stepper-outer.outer-container{aspect-ratio:2/1}}
 @media(max-width:980px){.web-finder-layout--exact-stepper{grid-template-columns:1fr}.web-finder-stepper.step-circle-container{max-width:34rem}.web-finder-stepper .finder-step-content{height:auto!important}.web-finder-result{position:relative;top:auto}}
 @media(max-width:620px){.clippio-stepper-outer.outer-container{padding:.25rem 0}.web-finder-stepper.step-circle-container{border-radius:1.6rem}.web-finder-stepper .step-indicator-row{padding:1.35rem}.web-finder-stepper .step-default{padding-left:1.35rem;padding-right:1.35rem}.web-finder-stepper .footer-container{padding-left:1.35rem;padding-right:1.35rem;padding-bottom:1.35rem}.web-finder-stepper .footer-nav{margin-top:1.6rem}.web-finder-stepper .footer-nav.spread .next-button,.web-finder-stepper .footer-nav.spread .back-button{flex:0 1 auto}.web-finder-stepper .next-button{padding:.55rem .9rem}.web-finder-stepper .back-button{padding:.55rem .65rem}}
+
+/* v6.5.3: Web Finder advisor upgrade + estimated pricing */
+.web-finder-hero--advisor{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(280px,380px);
+  gap:28px;
+  align-items:end;
+  padding-bottom:44px;
+}
+.web-finder-hero__copy{min-width:0}
+.web-finder-hero__panel{
+  border:1px solid rgba(7,16,24,.10);
+  border-radius:30px;
+  padding:26px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(215,255,85,.28), transparent 34%),
+    radial-gradient(circle at 0% 90%, rgba(0,71,255,.13), transparent 42%),
+    rgba(255,255,255,.86);
+  box-shadow:0 24px 70px rgba(7,16,24,.09);
+}
+.web-finder-hero__panel span,
+.result-estimate span,
+.finder-guide-card span{
+  display:inline-flex;
+  margin-bottom:10px;
+  border-radius:999px;
+  padding:7px 10px;
+  background:rgba(0,71,255,.09);
+  color:var(--blue);
+  font-size:11px;
+  font-weight:950;
+  letter-spacing:1.45px;
+  text-transform:uppercase;
+}
+.web-finder-hero__panel strong{display:block;font-size:clamp(24px,3vw,36px);line-height:1;letter-spacing:-1.2px;color:#101827}
+.web-finder-hero__panel p{margin:12px 0 0;color:var(--muted)}
+.web-finder-guide{padding-top:10px;padding-bottom:26px}
+.finder-guide-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.finder-guide-card{
+  min-height:100%;
+  border:1px solid rgba(7,16,24,.09);
+  border-radius:26px;
+  padding:24px;
+  background:rgba(255,255,255,.84);
+  box-shadow:0 16px 48px rgba(7,16,24,.055);
+}
+.finder-guide-card h2{font-size:22px;margin:0 0 8px;letter-spacing:-.6px}
+.finder-guide-card p{margin:0;color:var(--muted)}
+.web-finder-layout--advisor{grid-template-columns:minmax(0,1.08fr) minmax(360px,.92fr)}
+.web-finder-layout--advisor .clippio-stepper-outer.outer-container{align-items:stretch;justify-content:flex-start;padding:0}
+.web-finder-layout--advisor .web-finder-stepper.step-circle-container{
+  max-width:none;
+  border-color:rgba(7,16,24,.09)!important;
+  box-shadow:0 24px 80px rgba(7,16,24,.08);
+}
+.web-finder-layout--advisor .web-finder-stepper .step-indicator-row{padding:1.6rem 1.75rem 1.15rem}
+.web-finder-layout--advisor .web-finder-stepper .step-indicator-inner{background:#e9edf4;color:#667085;border:1px solid rgba(7,16,24,.07)}
+.web-finder-layout--advisor .web-finder-stepper .step-indicator.is-inactive .step-indicator-inner{background:#e9edf4;color:#667085}
+.web-finder-layout--advisor .web-finder-stepper .step-indicator.is-active .step-indicator-inner,
+.web-finder-layout--advisor .web-finder-stepper .step-indicator.is-complete .step-indicator-inner{background:var(--blue);color:var(--blue);border-color:var(--blue)}
+.web-finder-layout--advisor .web-finder-stepper .step-connector{background:#d8dee9;margin-left:.38rem;margin-right:.38rem}
+.web-finder-layout--advisor .web-finder-stepper .step-connector.is-complete .step-connector-inner{background:var(--blue)}
+.web-finder-layout--advisor .web-finder-stepper .finder-step{padding-left:1.75rem;padding-right:1.75rem}
+.web-finder-layout--advisor .web-finder-stepper .finder-step legend{font-size:1.12rem;margin-bottom:15px}
+.web-finder-layout--advisor .web-finder-stepper .finder-step label{padding:13px 14px;border-radius:16px}
+.web-finder-layout--advisor .web-finder-stepper .footer-container{padding-left:1.75rem;padding-right:1.75rem;padding-bottom:1.75rem}
+.web-finder-layout--advisor .web-finder-stepper .next-button{background:var(--blue);box-shadow:0 14px 34px rgba(0,71,255,.18);padding:.58rem 1rem;font-weight:900}
+.web-finder-layout--advisor .web-finder-stepper .back-button{border:1px solid rgba(7,16,24,.10);border-radius:999px;background:#fff;padding:.58rem .9rem;color:#667085}
+.web-finder-result--advisor{border-color:rgba(7,16,24,.10)}
+.web-finder-result--advisor h2{font-size:clamp(34px,4vw,56px)}
+.result-estimate{
+  margin:18px 0 20px;
+  border:1px solid rgba(0,71,255,.16);
+  border-radius:24px;
+  padding:18px;
+  background:linear-gradient(135deg,rgba(0,71,255,.08),rgba(255,255,255,.86));
+}
+.result-estimate strong{display:block;font-size:clamp(24px,3vw,36px);line-height:1.05;letter-spacing:-1px;color:#0f1c2a}
+.result-estimate p{margin:8px 0 0;color:var(--muted)}
+.web-finder-result--advisor .result-block p{margin:0;color:var(--muted)}
+.web-finder-result--advisor .result-block ul,
+.web-finder-result--advisor .result-block ol{padding-left:18px}
+.web-finder-result--advisor .result-block li strong{display:inline;font-size:inherit;text-transform:none;letter-spacing:0;margin:0;color:#12202d}
+@media(max-width:980px){
+  .web-finder-hero--advisor,
+  .finder-guide-grid,
+  .web-finder-layout--advisor{grid-template-columns:1fr}
+  .web-finder-hero--advisor{align-items:start}
+  .web-finder-layout--advisor .web-finder-stepper.step-circle-container{max-width:none}
+}
+@media(max-width:620px){
+  .web-finder-hero--advisor{gap:20px;padding-bottom:28px}
+  .web-finder-hero__panel,.finder-guide-card{border-radius:22px;padding:20px}
+  .web-finder-layout--advisor .web-finder-stepper .step-indicator-row{padding:1.1rem .95rem .9rem}
+  .web-finder-layout--advisor .web-finder-stepper .step-indicator-inner{width:1.55rem;height:1.55rem;font-size:.78rem}
+  .web-finder-layout--advisor .web-finder-stepper .active-dot{width:.55rem;height:.55rem}
+  .web-finder-layout--advisor .web-finder-stepper .check-icon{width:.82rem;height:.82rem}
+  .web-finder-layout--advisor .web-finder-stepper .step-connector{margin-left:.18rem;margin-right:.18rem;height:.1rem}
+  .web-finder-layout--advisor .web-finder-stepper .finder-step{padding-left:1rem;padding-right:1rem}
+  .web-finder-layout--advisor .web-finder-stepper .footer-container{padding-left:1rem;padding-right:1rem;padding-bottom:1.2rem}
+  .web-finder-layout--advisor .web-finder-stepper .finder-step label{font-size:14px;padding:11px 12px}
+}
+.web-finder-layout--advisor .clippio-stepper-outer.outer-container{aspect-ratio:auto!important}

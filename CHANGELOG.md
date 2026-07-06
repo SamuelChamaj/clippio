@@ -1,3 +1,10 @@
+## v6.5.3 – Web Finder poradca + odhad ceny
+- Web Finder rozšírený na 6 krokov: cieľ, rozsah, obsah, rozpočet, funkcie a prístup.
+- Výsledok teraz odporúča základný balík, najlacnejšiu rozumnú cestu, doplnkové služby, čo zatiaľ neplatiť a kedy už dáva zmysel web na mieru.
+- Doplnený orientačný výpočet ceny: základ balíka + odhad doplnkov + poznámka, že nejde o finálnu cenovú ponuku.
+- Opravené rozhranie Web Finderu tak, aby stránka pôsobila viac ako poradca a menej ako obyčajný formulár.
+- Cache verzia Web Finder stránky zvýšená na `v=6.5.3`.
+
 ## v6.5.2 – Web Finder presná postupová tabuľka
 - Web Finder krokový výber je vizuálne prerobený presne podľa dodaného Stepper vzoru.
 - Stepper karta používa `outer-container`, `step-circle-container`, kruhové indikátory, spojnice, aktívnu bodku a fajku dokončených krokov.
