@@ -1,3 +1,8 @@
+## v6.5.5 – Web Finder bez modrého pozadia
+- Odstránené tmavé modré pozadie hlavného Web Finder panelu.
+- Zachované Brandas-inšpirované usporiadanie, ale prefarbené do svetlého Clippio štýlu.
+- Stepper, výsledok a cenový odhad ostali funkčne nezmenené.
+
 ## v6.5.4 – Web Finder usporiadanie podľa Brandas smeru
 - Web Finder dostal kompaktnejšie dvojstĺpcové rozloženie inšpirované stránkou Brandas, ale bez 1:1 kopírovania.
 - Postupová tabuľka ostáva zachovaná, no je vložená do tmavšieho poradenského panelu s čistejším rozložením otázok a výsledku.
