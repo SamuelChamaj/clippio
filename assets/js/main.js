@@ -38,7 +38,7 @@ function initNavigation(){
   let file=(parts[parts.length-1]||'index').replace('.html','');
   if(file==='index' && parts.length>1) file=parts[parts.length-2];
   const servicePages=['tvorba-videi','video-z-akcie','fotenie-akcii-skol','dronove-zabery','grafika','svadobne-video'];
-  const active=servicePages.includes(file)?'sluzby':file;
+  const active=file==='web-finder'?'weby':(servicePages.includes(file)?'sluzby':file);
   document.querySelectorAll('[data-nav]').forEach(a=>{
     if(a.dataset.nav===active) a.classList.add('active');
   });
@@ -630,6 +630,146 @@ function initReactBitsTextEffects(){
 }
 
 
+
+function initWebFinder(){
+  const root=document.querySelector('[data-web-finder]');
+  if(!root) return;
+
+  const title=root.querySelector('[data-finder-title]');
+  const price=root.querySelector('[data-finder-price]');
+  const description=root.querySelector('[data-finder-description]');
+  const reasonsEl=root.querySelector('[data-finder-reasons]');
+  const warningsEl=root.querySelector('[data-finder-warnings]');
+  const nextEl=root.querySelector('[data-finder-next]');
+  const summaryEl=document.querySelector('[data-finder-summary]');
+  const copyBtn=root.querySelector('[data-finder-copy]');
+
+  const read=name=>{
+    const checked=root.querySelector(`input[name="${name}"]:checked`);
+    return checked ? checked.value : '';
+  };
+
+  const optionText=name=>{
+    const checked=root.querySelector(`input[name="${name}"]:checked`);
+    if(!checked) return '';
+    const label=checked.closest('label');
+    return label ? label.textContent.replace(/\s+/g,' ').trim() : checked.value;
+  };
+
+  const packages={
+    start:{
+      title:'Štart web',
+      price:'od 199 €',
+      description:'Jednostránkový web alebo landing page pre základnú prezentáciu, rýchle spustenie a jasný kontakt.',
+      next:['pripraviť logo, kontakt a základnú ponuku','vybrať hlavný cieľ stránky','poslať 2–3 referenčné weby, ktoré sa vám páčia']
+    },
+    rast:{
+      title:'Rast firemný web',
+      price:'od 499 €',
+      description:'Firemný web pre služby, dôveru, viac sekcií/podstránok a lepšie vysvetlenie ponuky.',
+      next:['spísať služby a cieľové skupiny','dodať fotky, realizácie alebo dôkazy','určiť hlavné CTA: telefonát, formulár alebo dopyt']
+    },
+    predaj:{
+      title:'Predaj / e-shop',
+      price:'od 999 €',
+      description:'Predajný web, katalóg, objednávkový tok alebo menší e-shop. Tu už rozhoduje produktová štruktúra a proces objednávky.',
+      next:['spísať produkty, varianty a spôsob objednávky','určiť platbu, dopravu alebo rezerváciu','počítať s väčším rozsahom testovania']
+    },
+    individual:{
+      title:'Individuálne riešenie',
+      price:'nacenenie podľa rozsahu',
+      description:'Projekt so špeciálnou funkciou, systémom, napojením alebo nejasným rozsahom. Tu balík nie je dobrý odhad.',
+      next:['spísať presné funkcie a scenáre používania','oddeliť nutné funkcie od pekných nápadov','začať menším prototypom, nie veľkým systémom naslepo']
+    }
+  };
+
+  const calculate=()=>{
+    const purpose=read('wf-purpose');
+    const scope=read('wf-scope');
+    const content=read('wf-content');
+    const budget=read('wf-budget');
+    const urgency=read('wf-urgency');
+    const score={start:0,rast:0,predaj:0,individual:0};
+    const reasons=[];
+    const warnings=[];
+
+    if(purpose==='basic'){ score.start+=4; score.rast+=1; reasons.push('cieľ je skôr základná online prezentácia než veľký predajný systém'); }
+    if(purpose==='trust'){ score.rast+=4; score.start+=1; reasons.push('potrebujete budovať dôveru a vysvetliť služby, nie iba mať vizitku'); }
+    if(purpose==='leads'){ score.rast+=4; score.predaj+=1; reasons.push('cieľom sú dopyty, preto dáva zmysel firemná štruktúra a silnejšie CTA'); }
+    if(purpose==='sales'){ score.predaj+=5; reasons.push('predaj alebo objednávky vyžadujú viac než bežnú prezentačnú stránku'); }
+    if(purpose==='system'){ score.individual+=5; score.predaj+=2; reasons.push('špeciálne funkcie treba najprv presne zadefinovať'); }
+
+    if(scope==='one'){ score.start+=3; reasons.push('rozsah jednej stránky drží projekt jednoduchý a lacnejší'); }
+    if(scope==='few'){ score.rast+=3; reasons.push('viac podstránok už potrebuje lepšiu informačnú architektúru'); }
+    if(scope==='many'){ score.rast+=2; score.predaj+=2; reasons.push('väčší rozsah potrebuje viac plánovania a kontroly obsahu'); }
+    if(scope==='shop'){ score.predaj+=5; reasons.push('produkty, katalóg alebo košík sú predajný rozsah'); }
+
+    if(content==='ready'){ score.start+=1; score.rast+=1; }
+    if(content==='partial'){ score.rast+=2; reasons.push('materiály treba upratať, takže najlacnejší postup nemusí stačiť'); }
+    if(content==='need'){ score.rast+=1; score.individual+=2; warnings.push('ak chýbajú texty, fotky alebo grafika, web sa predraží časom na prípravu obsahu'); }
+
+    if(budget==='low'){ score.start+=4; if(purpose==='sales'||scope==='shop'||purpose==='system') warnings.push('rozpočet do 250 € nesedí na e-shop, systém ani väčší firemný web'); }
+    if(budget==='mid'){ score.rast+=4; }
+    if(budget==='high'){ score.predaj+=4; score.rast+=2; }
+
+    if(urgency==='fast'){ score.start+=2; warnings.push('rýchly termín znižuje priestor na veľké experimenty a komplikované funkcie'); }
+    if(urgency==='normal'){ score.rast+=1; }
+    if(urgency==='custom'){ score.individual+=3; warnings.push('individuálny projekt bez presného zadania je riziko pre cenu aj termín'); }
+
+    let key=Object.entries(score).sort((a,b)=>b[1]-a[1])[0][0];
+    if((purpose==='sales'||scope==='shop') && budget!=='low') key='predaj';
+    if(purpose==='system' || urgency==='custom') key='individual';
+    if((purpose==='sales'||scope==='shop') && budget==='low'){
+      key='start';
+      warnings.push('ak chcete predaj, ale rozpočet je nízky, rozumnejší prvý krok je jednoduchý web/katalóg bez plného e-shopu');
+    }
+
+    const data=packages[key];
+    if(!warnings.length) warnings.push('najväčšie riziko je nejasné zadanie: bez cieľa, obsahu a termínu sa cena nedá držať presne');
+    const uniqueReasons=[...new Set(reasons)].slice(0,4);
+    const uniqueWarnings=[...new Set(warnings)].slice(0,4);
+
+    title.textContent=data.title;
+    price.textContent=data.price;
+    description.textContent=data.description;
+    reasonsEl.innerHTML=uniqueReasons.map(item=>`<li>${escapeHtml(item)}</li>`).join('');
+    warningsEl.innerHTML=uniqueWarnings.map(item=>`<li>${escapeHtml(item)}</li>`).join('');
+    nextEl.innerHTML=data.next.map(item=>`<li>${escapeHtml(item)}</li>`).join('');
+
+    const summary=[
+      `Odporúčanie Web Finderu: ${data.title} (${data.price})`,
+      `Cieľ: ${optionText('wf-purpose')}`,
+      `Rozsah: ${optionText('wf-scope')}`,
+      `Obsah: ${optionText('wf-content')}`,
+      `Rozpočet: ${optionText('wf-budget')}`,
+      `Termín/zložitosť: ${optionText('wf-urgency')}`,
+      '',
+      `Prečo: ${uniqueReasons.join('; ')}`,
+      `Riziká: ${uniqueWarnings.join('; ')}`,
+      '',
+      'Doplňte ešte: termín, aktuálny web, konkurenciu/referencie a čo má návštevník po príchode na web urobiť.'
+    ].join('\n');
+
+    if(summaryEl) summaryEl.value=summary;
+    return summary;
+  };
+
+  root.querySelectorAll('input[type="radio"]').forEach(input=>input.addEventListener('change',calculate));
+  if(copyBtn){
+    copyBtn.addEventListener('click',async()=>{
+      const summary=calculate();
+      try{
+        await navigator.clipboard.writeText(summary);
+        copyBtn.textContent='Skopírované';
+        window.setTimeout(()=>{copyBtn.textContent='Skopírovať odporúčanie';},1600);
+      }catch(e){
+        if(summaryEl){summaryEl.focus();summaryEl.select();}
+      }
+    });
+  }
+  calculate();
+}
+
 document.addEventListener('DOMContentLoaded',()=>{
   initNavigation();
   initAvailabilityStatus();
@@ -643,4 +783,5 @@ document.addEventListener('DOMContentLoaded',()=>{
   initFloatingCta();
   initWeb3Forms();
   initReactBitsTextEffects();
+  initWebFinder();
 });

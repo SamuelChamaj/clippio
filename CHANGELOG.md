@@ -1,3 +1,14 @@
+# Changelog
+
+## v6.5.0 – Clippio Web Finder
+- Pridaná nová podstránka `/web-finder/` s interaktívnym výberom vhodného webového balíka.
+- Web Finder odporúča Štart, Rast, Predaj/e-shop alebo individuálne riešenie podľa cieľa, rozsahu, obsahu, rozpočtu a zložitosti.
+- Výsledok obsahuje dôvody odporúčania, riziká a ďalšie kroky.
+- Doplnený formulár, ktorý automaticky preberá výsledok Web Finderu do dopytu cez Web3Forms.
+- Doplnené CTA odkazy z homepage a stránky Tvorba webov.
+- Doplnené štýly a JavaScript pre Web Finder.
+- Aktualizovaný sitemap a cache verzie na upravených stránkach na `v=6.5.0`.
+
 # v6.4.1 – Dynamická dostupnosť cez Google Sheets
 
 - Pridané napojenie sekcie „Aktuálna dostupnosť“ na Google Sheets CMS CSV.
