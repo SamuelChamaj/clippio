@@ -2922,3 +2922,6 @@ body{overflow-x:hidden}
     white-space:normal;
   }
 }
+
+
+/* v6.5.11 – Web Finder height safety note: actual clipping fix is isolated in assets/css/web-finder-redesign.css. */

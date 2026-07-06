@@ -1,4 +1,4 @@
-// Clippio v6.5.10 – Alerts + availability + Web Finder advisor with price estimate
+// Clippio v6.5.11 – Alerts + availability + Web Finder advisor with price estimate
 // Stabilná verzia: navbar a footer sú priamo v HTML, aby web fungoval aj po otvorení cez file://.
 
 function escapeHtml(v){
@@ -713,7 +713,11 @@ function initWebFinder(){
     const activeStep=steps.find(step=>Number(step.dataset.finderStep||0)===currentStep);
     if(stepContent && activeStep){
       window.requestAnimationFrame(()=>{
-        stepContent.style.height=`${activeStep.offsetHeight}px`;
+        if(stepContent.classList.contains('wf-question-stage')){
+          stepContent.style.height='auto';
+        }else{
+          stepContent.style.height=`${activeStep.offsetHeight}px`;
+        }
       });
     }
     if(progressBar){

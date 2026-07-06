@@ -1,4 +1,4 @@
-/* Clippio Web Finder redesign v6.5.10 - compact stepper + auto advance + clean back control */
+/* Clippio Web Finder redesign v6.5.11 - compact stepper + auto advance + question height fix */
 .wf-page{
   background:
     radial-gradient(circle at 12% 8%, rgba(0,71,255,.08), transparent 28%),
@@ -521,6 +521,17 @@
   box-shadow:0 24px 80px rgba(7,16,24,.08);
 }
 .wf-send textarea{min-height:180px}
+
+/* v6.5.11: Web Finder question height fix.
+   The active answer group must size naturally; a fixed JS height could clip the last option after font loading or viewport changes. */
+.wf-question-stage.finder-step-content{
+  height:auto!important;
+  min-height:0!important;
+  overflow:visible!important;
+}
+.wf-question-stage .finder-step[hidden]{
+  display:none!important;
+}
 
 @media(min-width:761px){
   .wf-shell.web-finder-layout.is-result-hidden .wf-stepper.web-finder-stepper{

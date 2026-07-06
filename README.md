@@ -1,4 +1,4 @@
-# Clippio web – v6.5.10
+# Clippio web – v6.5.11
 
 Statický HTML web pre **Clippio** pripravený na GitHub Pages. Verzia v6.x vychádza z funkčného základu **v5.1.1** a pridáva kontrolovaný Brand Book positioning bez rozbitia pôvodných napojení a funkcií.
 
@@ -20,9 +20,10 @@ Tieto služby nemajú pôsobiť ako nesúvisiace ponuky. Ich cieľ je podporiť 
 
 ## Stav verzie
 
-Aktuálna verzia: **v6.5.10 – Web Finder clean back control**
+Aktuálna verzia: **v6.5.11 – Web Finder question height fix**
 
 Obsahovo vychádza z:
+- **v6.5.11** – Web Finder question height fix: opravené orezávanie poslednej odpovede v kroku „Rozsah webu“. Výška aktívnej otázky sa už nesmie zamknúť na príliš nízku hodnotu po načítaní fontov alebo zmene viewportu. Aktualizované cache verzie CSS/JS na `v=6.5.11`.
 - **v6.5.10** – Web Finder clean back control: odstránené neprofesionálne spodné tlačidlo „Späť“ z formulára, ovládanie späť presunuté do hornej časti progress panelu ako malé čisté tlačidlo, bez prekrývania kariet odpovedí. Aktualizované cache verzie CSS/JS na `v=6.5.10`.
 - **v6.5.9** – SEO canonical and meta description cleanup: skrátené meta descriptions na hlavných upravených stránkach, canonical tagy zapísané v štandardnom tvare `rel="canonical" href="..."` a aktualizované cache verzie CSS/JS na `v=6.5.9`.
 - **v6.5.8** – Web Finder + portfolio CTA cleanup: balíček zahŕňa predchádzajúci Web Finder update bez tlačidla „Pokračovať“ a zároveň opravuje CTA tlačidlo „Otvoriť hotové weby“ v sekcii Portfólio webov na stránke `/weby/`, aby text sedel v strede a nelámal sa zle na desktope. Aktualizované cache verzie CSS/JS na `v=6.5.8`.
@@ -43,7 +44,7 @@ Obsahovo vychádza z:
 - **v6.1.0** – doplnené viditeľné ďakovacie okno po úspešnom odoslaní dopytu.
 - **v6.0.5** – oprava správania formulára po odoslaní dopytu.
 
-Verzia **v6.5.10** rieši Web Finder: spodné tlačidlo „Späť“ už nevytvára neprofesionálny prekrývajúci prvok pod odpoveďami. Ovládanie späť je presunuté do progress panelu a balíček zároveň obsahuje všetky úpravy z v6.5.9.
+Verzia **v6.5.11** rieši Web Finder: opravené je orezávanie poslednej odpovede v krokoch s vyšším obsahom. Balíček zároveň obsahuje všetky úpravy z v6.5.10.
 
 Verzia **v6.1.0** upravuje webové balíky tak, aby hlavné karty zostali jednoduché, ale pod nimi pribudli presné podrobnosti, férové obchodné hranice a FAQ k doméne, hostingu, úpravám a fakturácii. Doména na prvý rok je uvedená ako súčasť každého webového balíka.
 
@@ -216,6 +217,14 @@ Na GitHub Pages musí byť obsah priečinka `clippio-main` v roote repozitára, 
 - Cenník a dynamické bloky musia zostať napojené na existujúci JavaScript a spreadsheet/fallback systém.
 
 ## Changelog
+
+### v6.5.11 – Web Finder question height fix
+
+- Opravené orezávanie poslednej odpovede v kroku „Rozsah webu“.
+- Aktívny blok otázky už používa prirodzenú výšku namiesto rizikového pevného JS výpočtu.
+- Doplnená poistka v `main.js`, aby sa pri novej Web Finder štruktúre nenastavovala pevná výška obsahu.
+- Aktualizované cache verzie `style.css`, `web-finder-redesign.css` a `main.js` na `v=6.5.11`.
+- Balíček obsahuje aj všetky úpravy z v6.5.10.
 
 ### v6.5.10 – Web Finder clean back control
 
