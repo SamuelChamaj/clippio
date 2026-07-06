@@ -1,3 +1,10 @@
+## v6.5.4 – Web Finder usporiadanie podľa Brandas smeru
+- Web Finder dostal kompaktnejšie dvojstĺpcové rozloženie inšpirované stránkou Brandas, ale bez 1:1 kopírovania.
+- Postupová tabuľka ostáva zachovaná, no je vložená do tmavšieho poradenského panelu s čistejším rozložením otázok a výsledku.
+- Výsledkový panel je vizuálne súčasťou jedného rozhrania, nie odtrhnutá karta mimo kompozície.
+- Upravené breakpointy, aby sa na užších obrazovkách nerozťahoval stepper a výsledok neodchádzal mimo viewport.
+- Cache verzia Web Finder stránky zvýšená na `v=6.5.4`.
+
 ## v6.5.3 – Web Finder poradca + odhad ceny
 - Web Finder rozšírený na 6 krokov: cieľ, rozsah, obsah, rozpočet, funkcie a prístup.
 - Výsledok teraz odporúča základný balík, najlacnejšiu rozumnú cestu, doplnkové služby, čo zatiaľ neplatiť a kedy už dáva zmysel web na mieru.
