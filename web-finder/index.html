@@ -6,6 +6,7 @@
 <meta content="index,follow" name="robots"/><link href="https://www.clippio.sk/web-finder/" rel="canonical"/>
 <link href="/favicon/favicon.ico" rel="icon"/><link href="/favicon/apple-touch-icon.png" rel="apple-touch-icon"/>
 <link href="/assets/css/style.css?v=6.5.6" rel="stylesheet"/>
+<link href="/assets/css/web-finder-redesign.css?v=7.0.0" rel="stylesheet"/>
 <meta content="website" property="og:type"/><meta content="Web Finder | Clippio" property="og:title"/><meta content="Zistite odporúčaný webový balík, doplnkové služby a orientačný cenový rozsah bez zbytočného navyšovania ceny." property="og:description"/><meta content="https://www.clippio.sk/assets/images/hero/hero.webp" property="og:image"/>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Clippio Web Finder","url":"https://www.clippio.sk/web-finder/","applicationCategory":"BusinessApplication","operatingSystem":"All","description":"Interaktívny výber vhodného webového balíka Clippio vrátane doplnkov a orientačnej ceny podľa cieľa, rozsahu a rozpočtu."}</script>
 </head><body>
@@ -39,120 +40,156 @@
 <div class="nav-alert__panel" role="dialog" aria-label="Dôležité upozornenie" hidden><div class="nav-alert__eyebrow">Clippio upozornenie</div><strong class="nav-alert__title">Kontrolujem upozornenia…</strong><p class="nav-alert__message">Načítavam aktuálny oznam.</p><a class="nav-alert__link" href="/kontakt/" hidden>Kontaktovať</a><span class="nav-alert__meta" hidden></span></div>
 </div>
 </nav>
-</header><main>
-<section class="page-hero web-finder-hero web-finder-hero--advisor web-finder-hero--brandas wrap">
-  <div class="web-finder-hero__copy">
-    <div class="web-finder-status"><span>bez registrácie</span><span>60 sekúnd</span><span>orientačná cena</span></div>
-    <div class="kicker">Clippio Web Finder</div>
-    <h1>Vyberte web podľa potreby, nie podľa ega.</h1>
-    <p class="lead">Krátky výber odporučí balík, doplnkové služby a orientačnú cenu. Cieľ nie je predať najdrahší web, ale nájsť najlacnejšiu rozumnú cestu, ktorá ešte dáva obchodný zmysel.</p>
-    <div class="hero-actions"><a class="btn btn-primary" href="#finder">Spustiť Web Finder</a><a class="btn btn-outline-dark" href="/weby/">Pozrieť balíky webov</a></div>
+</header><main class="wf-page">
+<section class="wf-hero wrap" aria-labelledby="wf-hero-title">
+  <div class="wf-hero__copy">
+    <div class="wf-eyebrow"><span></span> Clippio Web Finder</div>
+    <h1 id="wf-hero-title">Najprv zisti, aký web má zmysel. Až potom rieš cenu.</h1>
+    <p class="lead">Šesť otázok oddelí reálnu potrebu od zbytočných funkcií. Výsledok odporučí jeden hlavný smer, orientačný rozpočet a veci, za ktoré zatiaľ nemá zmysel platiť.</p>
+    <div class="wf-hero__actions">
+      <a class="btn btn-primary" href="#finder">Spustiť výber</a>
+      <a class="btn btn-outline-dark" href="/weby/">Pozrieť balíky webov</a>
+    </div>
+    <div class="wf-hero__proof" aria-label="Hlavné výhody Web Finderu">
+      <span>bez registrácie</span>
+      <span>cca 60 sekúnd</span>
+      <span>výsledok do dopytu</span>
+    </div>
   </div>
-  <div class="web-finder-hero__panel" aria-label="Čo Web Finder vyhodnotí">
-    <span>Výstup</span>
-    <strong>balík + doplnky + odhad ceny</strong>
-    <p>Výsledok sa automaticky vloží do dopytu, aby sa dalo rýchlejšie naceniť reálne zadanie.</p>
-    <div class="web-finder-mini-flow" aria-hidden="true"><span>Cieľ</span><span>Rozpočet</span><span>Funkcie</span><span>Výsledok</span></div>
-  </div>
+  <aside class="wf-hero__dashboard" aria-label="Ukážka výstupu Web Finderu">
+    <div class="wf-dashboard__top">
+      <span>Diagnostika projektu</span>
+      <strong>6 otázok</strong>
+    </div>
+    <div class="wf-dashboard__score">
+      <div><span>Rozsah</span><strong>3–5 stránok</strong></div>
+      <div><span>Cieľ</span><strong>dopyty</strong></div>
+      <div><span>Riziko</span><strong>obsah</strong></div>
+    </div>
+    <div class="wf-dashboard__result">
+      <span>Pravdepodobný výstup</span>
+      <strong>Rast firemný web</strong>
+      <p>Firemný web s jasnou štruktúrou, CTA, dôkazmi a doplnkami len tam, kde majú ROI.</p>
+    </div>
+    <div class="wf-dashboard__flow" aria-hidden="true">
+      <span>Cieľ</span><i></i><span>Rozsah</span><i></i><span>Výsledok</span>
+    </div>
+  </aside>
 </section>
 
-<section class="section wrap web-finder-guide" aria-label="Ako funguje Web Finder">
-  <div class="finder-guide-grid">
-    <article class="finder-guide-card"><span>01</span><h2>Vyberiete cieľ</h2><p>Najprv sa rieši, či web má iba pôsobiť dôveryhodne, získavať dopyty alebo predávať.</p></article>
-    <article class="finder-guide-card"><span>02</span><h2>Doplníte rozsah</h2><p>Rozhoduje počet stránok, obsah, funkcie a to, či už máte pripravené materiály.</p></article>
-    <article class="finder-guide-card"><span>03</span><h2>Dostanete lacnú rozumnú cestu</h2><p>Výsledok nevyberá automaticky najvyšší balík. Pri slabom rozpočte odporučí menší štart.</p></article>
-  </div>
+<section class="wf-principles wrap" aria-label="Ako Web Finder rozhoduje">
+  <article>
+    <span>01</span>
+    <h2>Nie najdrahší balík</h2>
+    <p>Ak stačí menší štart, výsledok netlačí e-shop ani systém na mieru.</p>
+  </article>
+  <article>
+    <span>02</span>
+    <h2>Rozpočet vs. cieľ</h2>
+    <p>Finder ukáže, keď cieľ a rozpočet nejdú dokopy. To je lepšie zistiť pred tvorbou.</p>
+  </article>
+  <article>
+    <span>03</span>
+    <h2>Výstup ako zadanie</h2>
+    <p>Odporúčanie sa vloží do formulára, takže nacenenie nezačína prázdnou vetou „chcem web“.</p>
+  </article>
 </section>
 
-<section class="section wrap web-finder web-finder--brandas" id="finder" data-web-finder>
-  <div class="web-finder-layout web-finder-layout--stepper web-finder-layout--exact-stepper web-finder-layout--advisor web-finder-layout--brandas is-result-hidden">
-    <div class="web-finder-stepper-column">
-      <div class="section-head compact web-finder-stepper-head web-finder-stepper-head--outside">
+<section class="section wrap web-finder wf-app" id="finder" data-web-finder>
+  <div class="web-finder-layout wf-shell is-result-hidden">
+    <div class="wf-builder">
+      <div class="wf-builder__head">
         <div>
           <div class="kicker">Výber webu</div>
-          <h2>Odpovedzte na 6 vecí. Dostanete jeden najlepší smer.</h2>
+          <h2>Odpovedz presne. Výsledok sa ukáže až po poslednom kroku.</h2>
         </div>
-        <p class="sub">Keď je výsledok neistý, Finder ukáže dilemu. Cieľ nie je predať najdrahší web, ale nevyrobiť zbytočnosť.</p>
+        <p>Nejde o hru s efektmi. Každá odpoveď mení odporúčanie, doplnky, riziká a orientačnú cenu.</p>
       </div>
 
-      <div class="outer-container clippio-stepper-outer">
-        <form class="web-finder-form web-finder-stepper step-circle-container" aria-label="Výber vhodného webového balíka" data-web-finder-stepper>
-          <div class="step-indicator-row finder-step-indicator-row" aria-label="Postup výberu webu">
-            <button class="step-indicator" type="button" data-step-indicator="1" aria-label="Krok 1: cieľ webu"><span class="step-indicator-inner"><svg class="check-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="active-dot" aria-hidden="true"></span><span class="step-number">1</span></span></button>
-            <span class="step-connector" data-step-connector="1" aria-hidden="true"><span class="step-connector-inner"></span></span>
-            <button class="step-indicator" type="button" data-step-indicator="2" aria-label="Krok 2: rozsah"><span class="step-indicator-inner"><svg class="check-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="active-dot" aria-hidden="true"></span><span class="step-number">2</span></span></button>
-            <span class="step-connector" data-step-connector="2" aria-hidden="true"><span class="step-connector-inner"></span></span>
-            <button class="step-indicator" type="button" data-step-indicator="3" aria-label="Krok 3: obsah"><span class="step-indicator-inner"><svg class="check-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="active-dot" aria-hidden="true"></span><span class="step-number">3</span></span></button>
-            <span class="step-connector" data-step-connector="3" aria-hidden="true"><span class="step-connector-inner"></span></span>
-            <button class="step-indicator" type="button" data-step-indicator="4" aria-label="Krok 4: rozpočet"><span class="step-indicator-inner"><svg class="check-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="active-dot" aria-hidden="true"></span><span class="step-number">4</span></span></button>
-            <span class="step-connector" data-step-connector="4" aria-hidden="true"><span class="step-connector-inner"></span></span>
-            <button class="step-indicator" type="button" data-step-indicator="5" aria-label="Krok 5: funkcie"><span class="step-indicator-inner"><svg class="check-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="active-dot" aria-hidden="true"></span><span class="step-number">5</span></span></button>
-            <span class="step-connector" data-step-connector="5" aria-hidden="true"><span class="step-connector-inner"></span></span>
-            <button class="step-indicator" type="button" data-step-indicator="6" aria-label="Krok 6: termín a prístup"><span class="step-indicator-inner"><svg class="check-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="active-dot" aria-hidden="true"></span><span class="step-number">6</span></span></button>
-          </div>
-
-          <div class="step-content-default finder-step-content" aria-live="polite">
-            <fieldset class="finder-group finder-step step-default" data-finder-step="1"><legend>Hlavný cieľ webu</legend>
-              <label><input type="radio" name="wf-purpose" value="basic" checked> Základná online vizitka</label>
-              <label><input type="radio" name="wf-purpose" value="trust"> Dôveryhodnejšia firemná prezentácia</label>
-              <label><input type="radio" name="wf-purpose" value="leads"> Viac dopytov a kontaktov</label>
-              <label><input type="radio" name="wf-purpose" value="sales"> Predaj produktov alebo objednávky</label>
-              <label><input type="radio" name="wf-purpose" value="system"> Špeciálna funkcia alebo systém</label>
-            </fieldset>
-
-            <fieldset class="finder-group finder-step step-default" data-finder-step="2"><legend>Rozsah webu</legend>
-              <label><input type="radio" name="wf-scope" value="one" checked> Jedna stránka</label>
-              <label><input type="radio" name="wf-scope" value="few"> 3–5 podstránok</label>
-              <label><input type="radio" name="wf-scope" value="many"> Viac služieb, miest alebo obsahu</label>
-              <label><input type="radio" name="wf-scope" value="shop"> Produkty, katalóg alebo e-shop</label>
-              <label><input type="radio" name="wf-scope" value="custom"> Individuálny systém alebo špeciálny tok</label>
-            </fieldset>
-
-            <fieldset class="finder-group finder-step step-default" data-finder-step="3"><legend>Obsah a materiály</legend>
-              <label><input type="radio" name="wf-content" value="ready" checked> Všetko mám pripravené</label>
-              <label><input type="radio" name="wf-content" value="partial"> Niečo mám, treba to upratať</label>
-              <label><input type="radio" name="wf-content" value="needText"> Chýbajú texty</label>
-              <label><input type="radio" name="wf-content" value="needVisuals"> Chýbajú fotky alebo grafika</label>
-              <label><input type="radio" name="wf-content" value="unclear"> Nemám zatiaľ jasné zadanie</label>
-            </fieldset>
-
-            <fieldset class="finder-group finder-step step-default" data-finder-step="4"><legend>Rozpočet</legend>
-              <label><input type="radio" name="wf-budget" value="low" checked> Do 250 €</label>
-              <label><input type="radio" name="wf-budget" value="mid"> 250–700 €</label>
-              <label><input type="radio" name="wf-budget" value="high"> 700–1200 €</label>
-              <label><input type="radio" name="wf-budget" value="premium"> 1200 €+</label>
-              <label><input type="radio" name="wf-budget" value="unknown"> Neviem, chcem odporúčanie podľa potreby</label>
-            </fieldset>
-
-            <fieldset class="finder-group finder-step step-default" data-finder-step="5"><legend>Funkcie</legend>
-              <label><input type="radio" name="wf-features" value="basic" checked> Len kontakt a základné informácie</label>
-              <label><input type="radio" name="wf-features" value="formPortfolio"> Formulár, CTA alebo portfólio</label>
-              <label><input type="radio" name="wf-features" value="cms"> Blog alebo jednoduchá správa obsahu</label>
-              <label><input type="radio" name="wf-features" value="catalog"> Katalóg, objednávka alebo rezervácia</label>
-              <label><input type="radio" name="wf-features" value="ecommerce"> E-shop funkcie</label>
-              <label><input type="radio" name="wf-features" value="custom"> Vlastná funkcia na mieru</label>
-            </fieldset>
-
-            <fieldset class="finder-group finder-step step-default" data-finder-step="6"><legend>Termín a prístup</legend>
-              <label><input type="radio" name="wf-approach" value="fast" checked> Chcem to rýchlo a lacno</label>
-              <label><input type="radio" name="wf-approach" value="quality"> Chcem kvalitný firemný web</label>
-              <label><input type="radio" name="wf-approach" value="sales"> Chcem predajné riešenie</label>
-              <label><input type="radio" name="wf-approach" value="custom"> Chcem individuálne riešenie</label>
-              <label><input type="radio" name="wf-approach" value="validate"> Najprv chcem overiť nápad lacnejšie</label>
-            </fieldset>
-          </div>
-
-          <div class="footer-container finder-stepper-footer">
-            <div class="footer-nav end" data-finder-footer>
-              <button class="back-button" type="button" data-finder-back>Späť</button>
-              <button class="next-button" type="button" data-finder-next>Pokračovať</button>
-            </div>
-          </div>
-        </form>
+      <div class="wf-progress" aria-label="Postup výberu">
+        <div class="wf-progress__meta">
+          <span data-finder-progress-text>Krok 1 z 6</span>
+          <strong data-finder-current-step-label>Hlavný cieľ webu</strong>
+        </div>
+        <div class="wf-progress__track"><span data-finder-progress></span></div>
       </div>
+
+      <form class="web-finder-form web-finder-stepper wf-stepper" aria-label="Výber vhodného webového balíka" data-web-finder-stepper>
+        <div class="step-indicator-row finder-step-indicator-row wf-step-dots" aria-label="Kroky výberu webu">
+          <button class="step-indicator" type="button" data-step-indicator="1" aria-label="Krok 1: cieľ webu"><span class="step-indicator-inner"><svg class="check-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="active-dot" aria-hidden="true"></span><span class="step-number">1</span></span></button>
+          <span class="step-connector" data-step-connector="1" aria-hidden="true"><span class="step-connector-inner"></span></span>
+          <button class="step-indicator" type="button" data-step-indicator="2" aria-label="Krok 2: rozsah"><span class="step-indicator-inner"><svg class="check-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="active-dot" aria-hidden="true"></span><span class="step-number">2</span></span></button>
+          <span class="step-connector" data-step-connector="2" aria-hidden="true"><span class="step-connector-inner"></span></span>
+          <button class="step-indicator" type="button" data-step-indicator="3" aria-label="Krok 3: obsah"><span class="step-indicator-inner"><svg class="check-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="active-dot" aria-hidden="true"></span><span class="step-number">3</span></span></button>
+          <span class="step-connector" data-step-connector="3" aria-hidden="true"><span class="step-connector-inner"></span></span>
+          <button class="step-indicator" type="button" data-step-indicator="4" aria-label="Krok 4: rozpočet"><span class="step-indicator-inner"><svg class="check-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="active-dot" aria-hidden="true"></span><span class="step-number">4</span></span></button>
+          <span class="step-connector" data-step-connector="4" aria-hidden="true"><span class="step-connector-inner"></span></span>
+          <button class="step-indicator" type="button" data-step-indicator="5" aria-label="Krok 5: funkcie"><span class="step-indicator-inner"><svg class="check-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="active-dot" aria-hidden="true"></span><span class="step-number">5</span></span></button>
+          <span class="step-connector" data-step-connector="5" aria-hidden="true"><span class="step-connector-inner"></span></span>
+          <button class="step-indicator" type="button" data-step-indicator="6" aria-label="Krok 6: termín a prístup"><span class="step-indicator-inner"><svg class="check-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="active-dot" aria-hidden="true"></span><span class="step-number">6</span></span></button>
+        </div>
+
+        <div class="step-content-default finder-step-content wf-question-stage" aria-live="polite">
+          <fieldset class="finder-group finder-step step-default" data-finder-step="1"><legend>Hlavný cieľ webu</legend>
+            <label><input type="radio" name="wf-purpose" value="basic" checked><span><span class="wf-option-title">Základná online vizitka</span><small>Chcem, aby ma zákazník vedel nájsť a kontaktovať.</small></span></label>
+            <label><input type="radio" name="wf-purpose" value="trust"><span><span class="wf-option-title">Dôveryhodnejšia firemná prezentácia</span><small>Firma je lepšia než jej aktuálny online dojem.</small></span></label>
+            <label><input type="radio" name="wf-purpose" value="leads"><span><span class="wf-option-title">Viac dopytov a kontaktov</span><small>Web má viesť človeka ku konkrétnej akcii.</small></span></label>
+            <label><input type="radio" name="wf-purpose" value="sales"><span><span class="wf-option-title">Predaj produktov alebo objednávky</span><small>Potrebujem katalóg, objednávku alebo e-shopový tok.</small></span></label>
+            <label><input type="radio" name="wf-purpose" value="system"><span><span class="wf-option-title">Špeciálna funkcia alebo systém</span><small>Bežná stránka nestačí, rieši sa vlastná logika.</small></span></label>
+          </fieldset>
+
+          <fieldset class="finder-group finder-step step-default" data-finder-step="2"><legend>Rozsah webu</legend>
+            <label><input type="radio" name="wf-scope" value="one" checked><span><span class="wf-option-title">Jedna stránka</span><small>Landing page alebo jednoduchá prezentácia.</small></span></label>
+            <label><input type="radio" name="wf-scope" value="few"><span><span class="wf-option-title">3–5 podstránok</span><small>Služby, portfólio, o firme, kontakt.</small></span></label>
+            <label><input type="radio" name="wf-scope" value="many"><span><span class="wf-option-title">Viac služieb, miest alebo obsahu</span><small>Treba lepšiu štruktúru, nie iba dlhú stránku.</small></span></label>
+            <label><input type="radio" name="wf-scope" value="shop"><span><span class="wf-option-title">Produkty, katalóg alebo e-shop</span><small>Už sa rieši predajný alebo objednávkový proces.</small></span></label>
+            <label><input type="radio" name="wf-scope" value="custom"><span><span class="wf-option-title">Individuálny systém alebo špeciálny tok</span><small>Projekt potrebuje presné zadanie pred nacenením.</small></span></label>
+          </fieldset>
+
+          <fieldset class="finder-group finder-step step-default" data-finder-step="3"><legend>Obsah a materiály</legend>
+            <label><input type="radio" name="wf-content" value="ready" checked><span><span class="wf-option-title">Všetko mám pripravené</span><small>Texty, fotky, logo a kontakty sú použiteľné.</small></span></label>
+            <label><input type="radio" name="wf-content" value="partial"><span><span class="wf-option-title">Niečo mám, treba to upratať</span><small>Materiály existujú, ale nie sú pripravené na web.</small></span></label>
+            <label><input type="radio" name="wf-content" value="needText"><span><span class="wf-option-title">Chýbajú texty</span><small>Treba vytvoriť alebo výrazne prepísať obsah.</small></span></label>
+            <label><input type="radio" name="wf-content" value="needVisuals"><span><span class="wf-option-title">Chýbajú fotky alebo grafika</span><small>Bez vizuálov by web pôsobil slabšie než firma.</small></span></label>
+            <label><input type="radio" name="wf-content" value="unclear"><span><span class="wf-option-title">Nemám zatiaľ jasné zadanie</span><small>Najprv treba zúžiť rozsah a cieľ.</small></span></label>
+          </fieldset>
+
+          <fieldset class="finder-group finder-step step-default" data-finder-step="4"><legend>Rozpočet</legend>
+            <label><input type="radio" name="wf-budget" value="low" checked><span><span class="wf-option-title">Do 250 €</span><small>Len minimálna rozumná verzia.</small></span></label>
+            <label><input type="radio" name="wf-budget" value="mid"><span><span class="wf-option-title">250–700 €</span><small>Priestor na normálny firemný základ.</small></span></label>
+            <label><input type="radio" name="wf-budget" value="high"><span><span class="wf-option-title">700–1200 €</span><small>Silnejší web, predajný smer alebo viac obsahu.</small></span></label>
+            <label><input type="radio" name="wf-budget" value="premium"><span><span class="wf-option-title">1200 €+</span><small>Má zmysel pri systéme, e-shope alebo veľkom rozsahu.</small></span></label>
+            <label><input type="radio" name="wf-budget" value="unknown"><span><span class="wf-option-title">Neviem, chcem odporúčanie podľa potreby</span><small>Rozhodnúť podľa cieľa, nie podľa pocitu.</small></span></label>
+          </fieldset>
+
+          <fieldset class="finder-group finder-step step-default" data-finder-step="5"><legend>Funkcie</legend>
+            <label><input type="radio" name="wf-features" value="basic" checked><span><span class="wf-option-title">Len kontakt a základné informácie</span><small>Najlacnejšia verzia bez zbytočného systému.</small></span></label>
+            <label><input type="radio" name="wf-features" value="formPortfolio"><span><span class="wf-option-title">Formulár, CTA alebo portfólio</span><small>Praktický základ pre služby a lokálnu firmu.</small></span></label>
+            <label><input type="radio" name="wf-features" value="cms"><span><span class="wf-option-title">Blog alebo jednoduchá správa obsahu</span><small>Dáva zmysel iba ak sa bude reálne aktualizovať.</small></span></label>
+            <label><input type="radio" name="wf-features" value="catalog"><span><span class="wf-option-title">Katalóg, objednávka alebo rezervácia</span><small>Lacnejší medzikrok pred plným e-shopom.</small></span></label>
+            <label><input type="radio" name="wf-features" value="ecommerce"><span><span class="wf-option-title">E-shop funkcie</span><small>Vyšší rozsah, testovanie a presnejšie zadanie.</small></span></label>
+            <label><input type="radio" name="wf-features" value="custom"><span><span class="wf-option-title">Vlastná funkcia na mieru</span><small>Najprv prototyp, potom vývoj. Inak rastie riziko.</small></span></label>
+          </fieldset>
+
+          <fieldset class="finder-group finder-step step-default" data-finder-step="6"><legend>Termín a prístup</legend>
+            <label><input type="radio" name="wf-approach" value="fast" checked><span><span class="wf-option-title">Chcem to rýchlo a lacno</span><small>Musí sa osekať rozsah, nie kvalita základov.</small></span></label>
+            <label><input type="radio" name="wf-approach" value="quality"><span><span class="wf-option-title">Chcem kvalitný firemný web</span><small>Dôležitá je dôvera, štruktúra a jasná ponuka.</small></span></label>
+            <label><input type="radio" name="wf-approach" value="sales"><span><span class="wf-option-title">Chcem predajné riešenie</span><small>Treba riešiť proces, nie iba pekné sekcie.</small></span></label>
+            <label><input type="radio" name="wf-approach" value="custom"><span><span class="wf-option-title">Chcem individuálne riešenie</span><small>Najprv sa musí rozsekať zadanie.</small></span></label>
+            <label><input type="radio" name="wf-approach" value="validate"><span><span class="wf-option-title">Najprv chcem overiť nápad lacnejšie</span><small>Rozumnejšie než stavať veľký web naslepo.</small></span></label>
+          </fieldset>
+        </div>
+
+        <div class="footer-container finder-stepper-footer wf-stepper__footer">
+          <div class="footer-nav end" data-finder-footer>
+            <button class="back-button" type="button" data-finder-back>Späť</button>
+            <button class="next-button" type="button" data-finder-next>Pokračovať</button>
+          </div>
+        </div>
+      </form>
     </div>
 
-    <aside class="web-finder-result web-finder-result--advisor web-finder-result--brandas" aria-live="polite" data-finder-result hidden>
+    <aside class="web-finder-result wf-result" aria-live="polite" data-finder-result hidden>
       <span class="result-eyebrow" data-finder-result-eyebrow>Finálne odporúčanie</span>
       <h2 data-finder-title>Štart web</h2>
       <p class="result-price" data-finder-price>od 199 €</p>
@@ -175,9 +212,17 @@
   </div>
 </section>
 
-<section class="section wrap web-finder-send" id="dopyt">
-  <div class="home-form">
-    <div class="form-copy"><div class="kicker">Dopyt z Web Finderu</div><h2>Pošlite výsledok ako zadanie.</h2><p>Výsledok nie je finálna cenová ponuka. Je to praktický podklad, aby sa nacenenie nezačínalo od nuly.</p><div class="direct-contact"><h3>Tvrdá realita</h3><p>Ak chcete e-shop za rozpočet jednostránky, lacnejší postup je začať katalógom alebo dopytovým webom a plný predaj riešiť až po overení záujmu.</p></div></div>
+<section class="section wrap web-finder-send wf-send" id="dopyt">
+  <div class="home-form wf-send__box">
+    <div class="form-copy">
+      <div class="kicker">Dopyt z Web Finderu</div>
+      <h2>Pošli výsledok ako zadanie.</h2>
+      <p>Výsledok nie je finálna cenová ponuka. Je to praktický podklad, aby sa nacenenie nezačínalo od nuly.</p>
+      <div class="direct-contact">
+        <h3>Tvrdá realita</h3>
+        <p>Ak chce klient e-shop za rozpočet jednostránky, lacnejší postup je začať katalógom alebo dopytovým webom a plný predaj riešiť až po overení záujmu.</p>
+      </div>
+    </div>
     <form action="https://api.web3forms.com/submit" class="quick-form" method="POST">
       <input name="access_key" type="hidden" value="87c05461-c84f-4b0a-bcfc-83cd027dcc90"/>
       <input name="subject" type="hidden" value="Dopyt z Clippio Web Finderu"/>
@@ -199,4 +244,4 @@
 <nav aria-label="Právne informácie" class="footer-col"><strong>Informácie</strong><a href="/ochrana-osobnych-udajov/">Ochrana osobných údajov</a><a href="/cookies/">Cookies</a></nav>
 <nav aria-label="Sociálne siete" class="footer-col"><strong>Sociálne siete</strong><a href="https://www.instagram.com/clippio_sk/" rel="noopener" target="_blank">Instagram</a><a href="https://www.youtube.com/@Clippio_sk" rel="noopener" target="_blank">YouTube</a><a href="https://www.tiktok.com/@clippio.sk" rel="noopener" target="_blank">TikTok</a><a href="https://www.facebook.com/profile.php?id=61590570557862" rel="noopener" target="_blank">Facebook</a></nav></div>
 <div class="wrap footer-bottom"><span>© 2026 Clippio. Všetky práva vyhradené.</span><span>Zlaté Moravce • Nitra • Levice • Vráble • online Slovensko</span></div>
-</footer><script src="/assets/js/main.js?v=6.5.6"></script><a aria-label="Odoslať nezáväzný dopyt" class="floating-cta" href="/kontakt/"><span aria-hidden="true">📩</span><strong>Nezáväzná ponuka</strong></a></body></html>
+</footer><script src="/assets/js/main.js?v=7.0.0"></script><a aria-label="Odoslať nezáväzný dopyt" class="floating-cta" href="/kontakt/"><span aria-hidden="true">📩</span><strong>Nezáväzná ponuka</strong></a></body></html>

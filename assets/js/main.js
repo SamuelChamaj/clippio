@@ -660,6 +660,9 @@ function initWebFinder(){
   const nextBtn=root.querySelector('[data-finder-next]');
   const footer=root.querySelector('[data-finder-footer]');
   const stepContent=root.querySelector('.finder-step-content');
+  const progressBar=root.querySelector('[data-finder-progress]');
+  const progressText=root.querySelector('[data-finder-progress-text]');
+  const currentStepLabel=root.querySelector('[data-finder-current-step-label]');
   const totalSteps=steps.length || 1;
   let currentStep=1;
   let completed=false;
@@ -673,7 +676,9 @@ function initWebFinder(){
     const checked=root.querySelector(`input[name="${name}"]:checked`);
     if(!checked) return '';
     const label=checked.closest('label');
-    return label ? label.textContent.replace(/\s+/g,' ').trim() : checked.value;
+    if(!label) return checked.value;
+    const titleEl=label.querySelector('.wf-option-title');
+    return titleEl ? titleEl.textContent.replace(/\s+/g,' ').trim() : label.textContent.replace(/\s+/g,' ').trim();
   };
 
   const unique=items=>[...new Set((items||[]).filter(Boolean))];
@@ -706,13 +711,22 @@ function initWebFinder(){
       step.hidden=!isActive;
       step.classList.toggle('is-active',isActive);
     });
-    if(stepContent){
-      const activeStep=steps.find(step=>Number(step.dataset.finderStep||0)===currentStep);
-      if(activeStep){
-        window.requestAnimationFrame(()=>{
-          stepContent.style.height=`${activeStep.offsetHeight}px`;
-        });
-      }
+    const activeStep=steps.find(step=>Number(step.dataset.finderStep||0)===currentStep);
+    if(stepContent && activeStep){
+      window.requestAnimationFrame(()=>{
+        stepContent.style.height=`${activeStep.offsetHeight}px`;
+      });
+    }
+    if(progressBar){
+      const progress=completed ? 100 : Math.max(1,Math.round((currentStep/totalSteps)*100));
+      progressBar.style.width=`${progress}%`;
+    }
+    if(progressText){
+      progressText.textContent=completed ? 'Dokončené' : `Krok ${currentStep} z ${totalSteps}`;
+    }
+    if(currentStepLabel && activeStep){
+      const legend=activeStep.querySelector('legend');
+      currentStepLabel.textContent=completed ? 'Odporúčanie je pripravené' : (legend ? legend.textContent.trim() : 'Výber webu');
     }
     indicators.forEach(indicator=>{
       const stepNumber=Number(indicator.dataset.stepIndicator||0);
