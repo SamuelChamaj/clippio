@@ -1,4 +1,4 @@
-// Clippio v6.1.16 – smoothness performance pass
+// Clippio v6.2.0 – Clippio Alerts final
 // Stabilná verzia: navbar a footer sú priamo v HTML, aby web fungoval aj po otvorení cez file://.
 
 function escapeHtml(v){
@@ -101,6 +101,203 @@ function initWebProjects(){
     const rows=t.trim().split(/\r?\n/).filter(Boolean).slice(1).map(parseCsvLine);
     render(rows.map(c=>({nazov:c[0],url:c[1],popis:c[2],zadanie:c[3]})));
   }).catch(()=>render(fallback));
+}
+
+
+function isTruthyAlertValue(value){
+  return ['true','prawda','pravda','1','yes','ano','áno','on'].includes(String(value||'').trim().toLowerCase());
+}
+
+function normalizeAlertKey(value){
+  return String(value||'')
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g,'')
+    .replace(/[._-]+/g,'');
+}
+
+function parseAlertDate(value,endOfDay){
+  const raw=String(value||'').trim();
+  if(!raw) return null;
+  let y,m,d;
+  const iso=raw.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+  const sk=raw.match(/^(\d{1,2})[.\-/]\s*(\d{1,2})[.\-/]\s*(\d{4})/);
+  if(iso){ y=Number(iso[1]); m=Number(iso[2]); d=Number(iso[3]); }
+  else if(sk){ d=Number(sk[1]); m=Number(sk[2]); y=Number(sk[3]); }
+  else{
+    const parsed=new Date(raw);
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
+  }
+  return new Date(y,m-1,d,endOfDay?23:0,endOfDay?59:0,endOfDay?59:0,endOfDay?999:0);
+}
+
+function formatAlertDateRange(start,end){
+  const dateOptions={day:'numeric',month:'numeric',year:'numeric'};
+  const format=date=>date ? date.toLocaleDateString('sk-SK',dateOptions) : '';
+  const from=format(start);
+  const to=format(end);
+  if(from&&to) return `Platí od ${from} do ${to}`;
+  if(from) return `Platí od ${from}`;
+  if(to) return `Platí do ${to}`;
+  return '';
+}
+
+function safeAlertLink(value){
+  const raw=String(value||'').trim();
+  if(!raw) return '';
+  if(raw.startsWith('#') || raw.startsWith('/')) return raw;
+  try{
+    const url=new URL(raw,window.location.origin);
+    return /^https?:$/.test(url.protocol) ? url.href : '';
+  }catch(e){
+    return '';
+  }
+}
+
+function csvRowsToObjects(text){
+  const lines=String(text||'').trim().split(/\r?\n/).filter(Boolean);
+  if(lines.length<2) return [];
+  const headers=parseCsvLine(lines[0]).map(normalizeAlertKey);
+  return lines.slice(1).map(line=>{
+    const values=parseCsvLine(line);
+    const obj={};
+    headers.forEach((key,index)=>{ obj[key]=values[index]||''; });
+    return obj;
+  });
+}
+
+function initClippioAlerts(){
+  const root=document.querySelector('[data-clippio-alerts]');
+  if(!root) return;
+
+  const CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vSZWpm_N6vGrTv_znBUaxzqn_Q7U2cirALGMMxBAZS3XrfQsCv5kSLsXAXZqpUb_OCgMF-FRDKDtZip/pub?output=csv';
+  const button=root.querySelector('.nav-alert__bell');
+  const dot=root.querySelector('.nav-alert__dot');
+  const panel=root.querySelector('.nav-alert__panel');
+  const title=root.querySelector('.nav-alert__title');
+  const message=root.querySelector('.nav-alert__message');
+  const link=root.querySelector('.nav-alert__link');
+  const meta=root.querySelector('.nav-alert__meta');
+  if(!button||!panel||!title||!message) return;
+
+  let open=false;
+  let activeAlert=null;
+
+  const setOpen=(state)=>{
+    open=Boolean(state);
+    panel.hidden=!open;
+    button.setAttribute('aria-expanded',String(open));
+    root.classList.toggle('is-open',open);
+  };
+
+  const setPanelState=(state,alert)=>{
+    root.classList.remove('has-alert','has-high-alert','has-normal-alert','has-error');
+    panel.classList.remove('is-high','is-normal','is-empty','is-error');
+
+    if(dot) dot.hidden=true;
+    if(link){ link.hidden=true; link.removeAttribute('href'); link.textContent='Kontaktovať'; }
+    if(meta){ meta.hidden=true; meta.textContent=''; }
+
+    if(state==='loading'){
+      panel.classList.add('is-empty');
+      title.textContent='Kontrolujem upozornenia…';
+      message.textContent='Načítavam aktuálny oznam.';
+      return;
+    }
+
+    if(state==='error'){
+      root.classList.add('has-error');
+      panel.classList.add('is-error');
+      title.textContent='Upozornenia sa nepodarilo načítať';
+      message.textContent='Google Sheets zdroj momentálne neodpovedá. Skúste stránku obnoviť alebo ma kontaktujte priamo cez formulár.';
+      if(link){ link.href='/kontakt/'; link.textContent='Kontaktovať'; link.hidden=false; }
+      return;
+    }
+
+    if(!alert){
+      panel.classList.add('is-empty');
+      title.textContent='Žiadne dôležité upozornenie';
+      message.textContent='Momentálne nie je zverejnený žiadny aktívny oznam.';
+      return;
+    }
+
+    const priority=String(alert.priority||'normal').trim().toLowerCase()==='high'?'high':'normal';
+    root.classList.add('has-alert',priority==='high'?'has-high-alert':'has-normal-alert');
+    panel.classList.add(priority==='high'?'is-high':'is-normal');
+    if(dot) dot.hidden=false;
+
+    title.textContent=alert.title || (priority==='high'?'Dôležité upozornenie':'Upozornenie');
+    message.textContent=alert.message || 'Aktuálny oznam Clippio.';
+
+    const href=safeAlertLink(alert.buttonLink);
+    const buttonText=String(alert.buttonText||'').trim();
+    if(link && href && buttonText){
+      link.href=href;
+      link.textContent=buttonText;
+      link.hidden=false;
+    }
+
+    const range=formatAlertDateRange(alert.startDateObj,alert.endDateObj);
+    if(meta && range){
+      meta.textContent=range;
+      meta.hidden=false;
+    }
+  };
+
+  button.addEventListener('click',()=>setOpen(!open));
+  document.addEventListener('click',event=>{
+    if(open && !root.contains(event.target)) setOpen(false);
+  });
+  document.addEventListener('keydown',event=>{
+    if(event.key==='Escape' && open){
+      setOpen(false);
+      button.focus();
+    }
+  });
+
+  const pickAlert=(items)=>{
+    const now=new Date();
+    const current=items.map(item=>{
+      const start=parseAlertDate(item.startdate,false);
+      const end=parseAlertDate(item.enddate,true);
+      return {
+        active:item.active,
+        type:item.type,
+        title:item.title,
+        message:item.message,
+        buttonText:item.buttontext,
+        buttonLink:item.buttonlink,
+        priority:item.priority,
+        startDateObj:start,
+        endDateObj:end,
+        createdAtObj:parseAlertDate(item.createdat,false)
+      };
+    }).filter(item=>{
+      if(!isTruthyAlertValue(item.active)) return false;
+      if(item.startDateObj && now<item.startDateObj) return false;
+      if(item.endDateObj && now>item.endDateObj) return false;
+      return Boolean(item.title||item.message);
+    });
+    current.sort((a,b)=>{
+      const pa=String(a.priority||'').toLowerCase()==='high'?1:0;
+      const pb=String(b.priority||'').toLowerCase()==='high'?1:0;
+      if(pa!==pb) return pb-pa;
+      return (b.createdAtObj?b.createdAtObj.getTime():0)-(a.createdAtObj?a.createdAtObj.getTime():0);
+    });
+    return current[0]||null;
+  };
+
+  setPanelState('loading',null);
+  fetch(CSV_URL,{cache:'no-store'})
+    .then(response=>{ if(!response.ok) throw new Error('CSV unavailable'); return response.text(); })
+    .then(text=>{
+      activeAlert=pickAlert(csvRowsToObjects(text));
+      setPanelState('ready',activeAlert);
+    })
+    .catch(()=>{
+      activeAlert=null;
+      setPanelState('error',null);
+    });
 }
 
 function initCookieConsent(){
@@ -362,188 +559,6 @@ function initReactBitsTextEffects(){
   });
 }
 
-
-
-function parseCsvTable(text){
-  const rows=[];
-  let row=[],field='',quoted=false;
-  const input=String(text||'').replace(/^\uFEFF/, '');
-  for(let i=0;i<input.length;i++){
-    const ch=input[i];
-    const next=input[i+1];
-    if(ch==='"'){
-      if(quoted && next==='"'){
-        field+='"';
-        i++;
-      }else{
-        quoted=!quoted;
-      }
-    }else if(ch===',' && !quoted){
-      row.push(field.trim());
-      field='';
-    }else if((ch==='\n' || ch==='\r') && !quoted){
-      if(ch==='\r' && next==='\n') i++;
-      row.push(field.trim());
-      if(row.some(cell=>cell!=='')) rows.push(row);
-      row=[];
-      field='';
-    }else{
-      field+=ch;
-    }
-  }
-  row.push(field.trim());
-  if(row.some(cell=>cell!=='')) rows.push(row);
-  return rows;
-}
-
-function initClippioAlerts(){
-  const root=document.querySelector('[data-clippio-alerts]');
-  if(!root) return;
-
-  const CLIPPIO_ALERTS_CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vSZWpm_N6vGrTv_znBUaxzqn_Q7U2cirALGMMxBAZS3XrfQsCv5kSLsXAXZqpUb_OCgMF-FRDKDtZip/pub?output=csv';
-  const bell=root.querySelector('#clippioAlertBell');
-  const panel=root.querySelector('#clippioAlertPanel');
-  const dot=root.querySelector('#clippioAlertDot');
-  const close=root.querySelector('#clippioAlertClose');
-  const typeEl=root.querySelector('#clippioAlertType');
-  const titleEl=root.querySelector('#clippioAlertTitle');
-  const messageEl=root.querySelector('#clippioAlertMessage');
-  const buttonEl=root.querySelector('#clippioAlertButton');
-  if(!bell || !panel || !titleEl || !messageEl) return;
-
-  const activeValues=['true','prawda','pravda','1','yes','ano','áno','aktivne','aktívne'];
-  const priorityRank={high:3,vysoka:3,vysoká:3,important:3,warning:3,normal:2,medium:2,info:2,low:1,nizka:1,nízka:1};
-
-  const normalizeKey=value=>String(value||'').trim().replace(/^\uFEFF/,'').toLowerCase().replace(/\s+/g,'');
-  const isActiveValue=value=>activeValues.includes(String(value||'').trim().toLowerCase());
-  const clean=value=>String(value||'').trim();
-
-  const parseAlertDate=(value,endOfDay=false)=>{
-    const raw=clean(value);
-    if(!raw) return null;
-    let m=raw.match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})/);
-    if(m){
-      const d=new Date(Number(m[1]),Number(m[2])-1,Number(m[3]),endOfDay?23:0,endOfDay?59:0,endOfDay?59:0,endOfDay?999:0);
-      return Number.isNaN(d.getTime())?null:d;
-    }
-    m=raw.match(/^(\d{1,2})[.\-/](\d{1,2})[.\-/](\d{4})/);
-    if(m){
-      const d=new Date(Number(m[3]),Number(m[2])-1,Number(m[1]),endOfDay?23:0,endOfDay?59:0,endOfDay?59:0,endOfDay?999:0);
-      return Number.isNaN(d.getTime())?null:d;
-    }
-    const d=new Date(raw);
-    return Number.isNaN(d.getTime())?null:d;
-  };
-
-  const isWithinDates=alert=>{
-    const now=new Date();
-    const start=parseAlertDate(alert.startdate,false);
-    const end=parseAlertDate(alert.enddate,true);
-    if(start && now<start) return false;
-    if(end && now>end) return false;
-    return true;
-  };
-
-  const safeAlertUrl=value=>{
-    const raw=clean(value);
-    if(!raw) return '';
-    if(raw.startsWith('/') || raw.startsWith('#')) return raw;
-    try{
-      const url=new URL(raw,window.location.origin);
-      if(url.protocol==='http:' || url.protocol==='https:') return url.href;
-    }catch(e){}
-    return '';
-  };
-
-  const closePanel=()=>{
-    panel.hidden=true;
-    bell.setAttribute('aria-expanded','false');
-  };
-  const openPanel=()=>{
-    panel.hidden=false;
-    bell.setAttribute('aria-expanded','true');
-  };
-  const togglePanel=()=>panel.hidden ? openPanel() : closePanel();
-
-  const renderEmpty=(message='Aktuálne nie je zverejnený žiadny dôležitý oznam.')=>{
-    bell.classList.remove('has-alert');
-    if(dot) dot.hidden=true;
-    panel.dataset.alertType='empty';
-    if(typeEl) typeEl.textContent='Upozornenia';
-    titleEl.textContent='Žiadne aktuálne upozornenie';
-    messageEl.textContent=message;
-    if(buttonEl) buttonEl.hidden=true;
-  };
-
-  const renderAlert=alert=>{
-    const type=clean(alert.type||'info').toLowerCase();
-    const title=clean(alert.title)||'Dôležité upozornenie';
-    const message=clean(alert.message)||'Na webe je zverejnený nový dôležitý oznam.';
-    const buttonText=clean(alert.buttontext);
-    const buttonLink=safeAlertUrl(alert.buttonlink);
-
-    bell.classList.add('has-alert');
-    if(dot) dot.hidden=false;
-    panel.dataset.alertType=['warning','success','info'].includes(type)?type:'info';
-    if(typeEl) typeEl.textContent=type==='warning'?'Dôležité upozornenie':(type==='success'?'Aktualita':'Upozornenie');
-    titleEl.textContent=title;
-    messageEl.textContent=message;
-
-    if(buttonEl && buttonText && buttonLink){
-      buttonEl.textContent=buttonText;
-      buttonEl.setAttribute('href',buttonLink);
-      buttonEl.hidden=false;
-    }else if(buttonEl){
-      buttonEl.hidden=true;
-    }
-  };
-
-  bell.addEventListener('click',event=>{
-    event.stopPropagation();
-    togglePanel();
-  });
-  if(close){
-    close.addEventListener('click',event=>{
-      event.stopPropagation();
-      closePanel();
-      bell.focus();
-    });
-  }
-  document.addEventListener('click',event=>{
-    if(!panel.hidden && !root.contains(event.target)) closePanel();
-  });
-  document.addEventListener('keydown',event=>{
-    if(event.key==='Escape' && !panel.hidden) closePanel();
-  });
-
-  renderEmpty();
-
-  const cacheWindow=Math.floor(Date.now()/300000);
-  const url=CLIPPIO_ALERTS_CSV_URL + (CLIPPIO_ALERTS_CSV_URL.includes('?')?'&':'?') + 'cache=' + cacheWindow;
-  fetch(url,{cache:'no-store'})
-    .then(response=>{if(!response.ok) throw Error('alerts fetch failed'); return response.text();})
-    .then(text=>{
-      const table=parseCsvTable(text);
-      if(table.length<2){renderEmpty();return;}
-      const headers=table[0].map(normalizeKey);
-      const rows=table.slice(1).map(cols=>{
-        const item={};
-        headers.forEach((header,index)=>{item[header]=cols[index]||'';});
-        return item;
-      });
-      const active=rows.filter(item=>isActiveValue(item.active) && isWithinDates(item));
-      if(!active.length){renderEmpty();return;}
-      active.sort((a,b)=>{
-        const pr=(priorityRank[clean(b.priority).toLowerCase()]||0)-(priorityRank[clean(a.priority).toLowerCase()]||0);
-        if(pr) return pr;
-        const bd=parseAlertDate(b.createdat,true);
-        const ad=parseAlertDate(a.createdat,true);
-        return (bd?bd.getTime():0)-(ad?ad.getTime():0);
-      });
-      renderAlert(active[0]);
-    })
-    .catch(()=>renderEmpty('Upozornenia sa nepodarilo načítať. Skúste to neskôr alebo použite kontakt.'));
-}
 
 document.addEventListener('DOMContentLoaded',()=>{
   initNavigation();

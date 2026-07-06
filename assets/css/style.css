@@ -1617,174 +1617,156 @@ body{overflow-x:hidden}
 .price-section-divider:before,.price-section-divider:after{content:"";height:1px;background:var(--line);flex:1}
 .creative-pricing-section{border-top:1px solid var(--line)}
 
-/* v6.1.28 – Clippio Alerts v hornej lište */
-.clippio-alerts{
+/* v6.2.0 — Clippio Alerts final */
+.nav-alert{
   position:relative;
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  flex:0 0 auto;
+  z-index:80;
+  flex-shrink:0;
 }
-.clippio-alert-bell{
+.nav-alert__bell{
   position:relative;
   width:46px;
   height:46px;
   display:inline-grid;
   place-items:center;
-  border:1px solid rgba(7,16,24,.13);
+  border:1px solid rgba(7,16,24,.12);
   border-radius:999px;
-  background:rgba(255,255,255,.68);
+  background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(247,251,255,.80));
   color:var(--ink);
+  box-shadow:0 12px 34px rgba(7,16,24,.08),inset 0 1px 0 rgba(255,255,255,.82);
   cursor:pointer;
-  box-shadow:0 14px 38px rgba(7,16,24,.07);
-  backdrop-filter:blur(14px);
-  transition:transform var(--transition-fast),box-shadow var(--transition-fast),border-color var(--transition-fast),background var(--transition-fast),color var(--transition-fast);
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease,background .18s ease;
 }
-.clippio-alert-bell svg{
-  width:20px;
-  height:20px;
-  fill:currentColor;
-  display:block;
-}
-.clippio-alert-bell:hover,
-.clippio-alert-bell:focus-visible,
-.clippio-alert-bell[aria-expanded="true"]{
-  transform:var(--button-lift);
+.nav-alert__bell:hover,
+.nav-alert__bell:focus-visible,
+.nav-alert.is-open .nav-alert__bell{
+  transform:translateY(-1px);
   border-color:rgba(0,71,255,.28);
-  background:#fff;
-  box-shadow:0 18px 48px rgba(7,16,24,.12);
-  outline:0;
+  box-shadow:0 18px 46px rgba(7,16,24,.13),0 0 0 4px rgba(0,71,255,.06),inset 0 1px 0 rgba(255,255,255,.88);
 }
-.clippio-alert-bell:focus-visible{
-  outline:3px solid rgba(0,71,255,.18);
-  outline-offset:3px;
-}
-.clippio-alert-bell__dot{
+.nav-alert__bell:focus-visible{outline:3px solid rgba(0,71,255,.22);outline-offset:3px;}
+.nav-alert__icon svg{width:21px;height:21px;display:block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.nav-alert__dot{
   position:absolute;
   right:8px;
   top:8px;
-  width:11px;
-  height:11px;
+  width:10px;
+  height:10px;
   border-radius:999px;
-  background:var(--blue);
-  border:2px solid #fff;
-  box-shadow:0 0 0 5px rgba(0,71,255,.12);
+  background:#30bb78;
+  box-shadow:0 0 0 3px rgba(255,255,255,.92),0 0 0 0 rgba(48,187,120,.38);
 }
-.clippio-alert-bell.has-alert .clippio-alert-bell__dot{
-  animation:clippioAlertPulse 1.9s ease-in-out infinite;
-}
+.nav-alert.has-high-alert .nav-alert__dot{background:#ffb020;box-shadow:0 0 0 3px rgba(255,255,255,.94),0 0 0 0 rgba(255,176,32,.45);}
+.nav-alert.has-alert .nav-alert__dot{animation:clippioAlertPulse 1.65s ease-out infinite;}
 @keyframes clippioAlertPulse{
-  0%,100%{box-shadow:0 0 0 4px rgba(0,71,255,.12)}
-  50%{box-shadow:0 0 0 8px rgba(0,71,255,.04)}
+  0%{transform:scale(1);box-shadow:0 0 0 3px rgba(255,255,255,.94),0 0 0 0 rgba(0,71,255,.28);}
+  70%{transform:scale(1.02);box-shadow:0 0 0 3px rgba(255,255,255,.94),0 0 0 10px rgba(0,71,255,0);}
+  100%{transform:scale(1);box-shadow:0 0 0 3px rgba(255,255,255,.94),0 0 0 0 rgba(0,71,255,0);}
 }
-.clippio-alert-panel{
+.nav-alert__panel{
   position:absolute;
   top:calc(100% + 14px);
   right:0;
-  width:min(380px,calc(100vw - 34px));
-  padding:20px 20px 18px;
-  border:1px solid rgba(7,16,24,.12);
+  width:min(360px,calc(100vw - 34px));
+  padding:18px;
   border-radius:22px;
-  background:rgba(255,255,255,.94);
-  color:var(--ink);
-  box-shadow:0 28px 90px rgba(7,16,24,.18);
+  background:rgba(255,255,255,.96);
+  border:1px solid rgba(7,16,24,.12);
+  box-shadow:0 26px 85px rgba(7,16,24,.20),inset 0 1px 0 rgba(255,255,255,.92);
   backdrop-filter:blur(18px);
-  z-index:1000;
+  color:var(--ink);
 }
-.clippio-alert-panel:before{
+.nav-alert__panel:before{
   content:"";
   position:absolute;
   top:-7px;
-  right:18px;
+  right:17px;
   width:14px;
   height:14px;
   transform:rotate(45deg);
-  background:rgba(255,255,255,.94);
+  background:rgba(255,255,255,.96);
   border-left:1px solid rgba(7,16,24,.12);
   border-top:1px solid rgba(7,16,24,.12);
 }
-.clippio-alert-panel[hidden],
-.clippio-alert-bell__dot[hidden],
-.clippio-alert-panel__button[hidden]{display:none!important}
-.clippio-alert-panel__close{
-  position:absolute;
-  right:12px;
-  top:10px;
-  width:32px;
-  height:32px;
-  display:grid;
-  place-items:center;
-  border:0;
-  border-radius:999px;
-  background:rgba(7,16,24,.06);
-  color:var(--muted);
-  font-size:22px;
-  line-height:1;
-  cursor:pointer;
-}
-.clippio-alert-panel__close:hover,
-.clippio-alert-panel__close:focus-visible{
-  color:var(--ink);
-  background:rgba(7,16,24,.10);
-  outline:0;
-}
-.clippio-alert-panel__eyebrow{
-  margin:0 38px 10px 0;
+.nav-alert__eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  margin-bottom:10px;
   color:var(--blue);
   font-size:11px;
   font-weight:950;
-  letter-spacing:1.8px;
   text-transform:uppercase;
+  letter-spacing:1.5px;
 }
-.clippio-alert-panel strong{
-  display:block;
-  margin:0 34px 8px 0;
-  font-size:18px;
-  line-height:1.15;
-  letter-spacing:-.2px;
+.nav-alert__eyebrow:before{
+  content:"";
+  width:7px;
+  height:7px;
+  border-radius:999px;
+  background:var(--blue);
 }
-.clippio-alert-panel p{
-  margin:0;
-  color:var(--muted);
-  font-size:14.5px;
-  line-height:1.52;
-}
-.clippio-alert-panel__button{
+.nav-alert__title{display:block;font-size:18px;line-height:1.15;letter-spacing:-.35px;margin-bottom:8px;}
+.nav-alert__message{margin:0;color:var(--muted);font-size:14.5px;line-height:1.55;}
+.nav-alert__link{
   display:inline-flex;
   align-items:center;
   justify-content:center;
   margin-top:14px;
-  padding:11px 14px;
+  min-height:40px;
+  padding:10px 14px;
   border-radius:999px;
   background:var(--ink);
   color:#fff;
-  font-weight:950;
   font-size:13px;
+  font-weight:900;
   text-decoration:none;
 }
-.clippio-alert-panel[data-alert-type="warning"] .clippio-alert-panel__eyebrow{color:#b45309}
-.clippio-alert-panel[data-alert-type="warning"] .clippio-alert-panel__button{background:#111827}
-.clippio-alert-panel[data-alert-type="success"] .clippio-alert-panel__eyebrow{color:#167548}
-.clippio-alert-panel[data-alert-type="info"] .clippio-alert-panel__eyebrow{color:var(--blue)}
+.nav-alert__link:hover{transform:translateY(-1px);box-shadow:0 12px 34px rgba(7,16,24,.16);}
+.nav-alert__meta{display:block;margin-top:12px;color:rgba(7,16,24,.52);font-size:12px;font-weight:800;}
+.nav-alert__panel.is-high{
+  background:linear-gradient(145deg,rgba(255,255,255,.97),rgba(255,249,235,.96));
+  border-color:rgba(255,176,32,.35);
+}
+.nav-alert__panel.is-high .nav-alert__eyebrow{color:#a15c00;}
+.nav-alert__panel.is-high .nav-alert__eyebrow:before{background:#ffb020;}
+.nav-alert__panel.is-error{border-color:rgba(190,52,52,.18);}
+.nav-alert__panel.is-error .nav-alert__eyebrow{color:#a22a2a;}
+.nav-alert__panel.is-error .nav-alert__eyebrow:before{background:#d94343;}
+.nav-alert__panel.is-empty .nav-alert__eyebrow{color:var(--muted);}
+.nav-alert__panel.is-empty .nav-alert__eyebrow:before{background:rgba(7,16,24,.24);}
+@media(max-width:1250px) and (min-width:881px){
+  .nav-alert__bell{width:44px;height:44px;}
+}
 @media(max-width:880px){
-  .nav .clippio-alerts{order:2;margin-left:auto}
-  .nav .burger{order:3}
-  .nav .links{order:4}
-  .clippio-alert-bell{width:44px;height:44px}
-  .clippio-alert-panel{
+  .nav-alert{margin-left:auto;}
+  .nav-alert__bell{width:44px;height:44px;}
+  .nav-alert__panel{
     position:fixed;
-    top:88px;
+    top:86px;
     left:17px;
     right:17px;
     width:auto;
+    max-width:none;
+    padding:17px;
+    border-radius:20px;
   }
-  .clippio-alert-panel:before{display:none}
+  .nav-alert__panel:before{display:none;}
+  .nav-alert__link{width:100%;}
 }
-@media(max-width:780px){
-  .clippio-alert-bell:hover,
-  .clippio-alert-bell:focus-visible,
-  .clippio-alert-bell[aria-expanded="true"]{transform:none!important}
+@media(max-width:420px){
+  .nav-alert__panel{top:82px;left:12px;right:12px;}
 }
 @media(prefers-reduced-motion:reduce){
-  .clippio-alert-bell.has-alert .clippio-alert-bell__dot{animation:none}
+  .nav-alert.has-alert .nav-alert__dot{animation:none;}
+  .nav-alert__bell,.nav-alert__link{transition:none;}
+}
+@media(max-width:880px){
+  .nav .brand{order:1;}
+  .nav-alert{order:2;margin-left:auto;}
+  .burger{order:3;}
+  .links{order:4;}
 }
