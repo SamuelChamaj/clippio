@@ -651,6 +651,7 @@ function initWebFinder(){
   const copyBtn=root.querySelector('[data-finder-copy]');
   const resultCard=root.querySelector('[data-finder-result]');
   const resultEyebrow=root.querySelector('[data-finder-result-eyebrow]');
+  const layout=root.querySelector('.web-finder-layout');
   const stepper=root.querySelector('[data-web-finder-stepper]');
   const steps=Array.from(root.querySelectorAll('[data-finder-step]'));
   const indicators=Array.from(root.querySelectorAll('[data-step-indicator]'));
@@ -730,8 +731,13 @@ function initWebFinder(){
     if(footer) footer.classList.toggle('spread',currentStep!==1);
     if(footer) footer.classList.toggle('end',currentStep===1);
     if(nextBtn) nextBtn.textContent=currentStep===totalSteps?'Zobraziť odporúčanie':'Pokračovať';
-    if(resultEyebrow) resultEyebrow.textContent=completed?'Finálne odporúčanie':'Priebežné odporúčanie';
-    if(resultCard) resultCard.classList.toggle('is-final',completed);
+    if(resultEyebrow) resultEyebrow.textContent='Finálne odporúčanie';
+    if(resultCard){
+      resultCard.hidden=!completed;
+      resultCard.classList.toggle('is-final',completed);
+      resultCard.classList.toggle('is-visible',completed);
+    }
+    if(layout) layout.classList.toggle('is-result-hidden',!completed);
   };
 
   const goToStep=(stepNumber)=>{

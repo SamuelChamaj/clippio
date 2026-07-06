@@ -1,3 +1,9 @@
+## v6.5.6 – Web Finder výsledok až po otázkach
+- Výsledkový panel sa už nezobrazuje priebežne počas výberu.
+- Odporúčanie sa otvorí až po dokončení posledného kroku a kliknutí na „Zobraziť odporúčanie“.
+- Pri návrate späť alebo zmene odpovede sa výsledok znovu skryje, aby nepôsobil ako priebežné odporúčanie.
+- Cache verzia Web Finder stránky zvýšená na `v=6.5.6`.
+
 ## v6.5.5 – Web Finder bez modrého pozadia
 - Odstránené tmavé modré pozadie hlavného Web Finder panelu.
 - Zachované Brandas-inšpirované usporiadanie, ale prefarbené do svetlého Clippio štýlu.

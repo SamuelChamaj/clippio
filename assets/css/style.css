@@ -2889,3 +2889,15 @@ body{overflow-x:hidden}
     background:rgba(255,255,255,.72);
   }
 }
+
+/* v6.5.6: Web Finder result appears only after all questions are completed */
+.web-finder-result[hidden]{
+  display:none!important;
+}
+.web-finder-layout--brandas.is-result-hidden{
+  grid-template-columns:minmax(0,860px);
+  justify-content:center;
+}
+.web-finder-layout--brandas.is-result-hidden .web-finder-stepper-column{
+  width:100%;
+}
