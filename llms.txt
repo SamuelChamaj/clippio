@@ -77,3 +77,6 @@ Clippio also uses a lightweight Google Sheets CMS for operational website conten
 - Phone: +421 949 286 294
 - Website: https://www.clippio.sk/
 - Country: Slovakia
+
+
+Clippio v6.6.5: Web používa Google Sheets CMS pre dostupnosť, oznamy, CTA texty a novinky. Stav dostupnosti: availabilityStatus.active FALSE = červená, TRUE + availabilityMode open = zelená, TRUE + availabilityMode limited/obmedzené = oranžová. availabilityStatus.value je hlavný text pri guličke a availabilityText.value je popis. Clippi je osobný konzultant pre výber služby, nie obyčajný chatbot.

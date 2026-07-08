@@ -1,4 +1,4 @@
-// Clippio v6.6.4 - Google Sheets CMS availability text + limited state fix + alerts + Clippi Light Helper
+// Clippio v6.6.5 - stable Google Sheets availability colors + editable status text + alerts + Clippi Light Helper
 // Stabilná verzia: navbar a footer sú priamo v HTML, aby web fungoval aj po otvorení cez file://.
 
 const CLIPPIO_COOKIE_CONSENT_KEY='clippio_cookie_consent_v1';
@@ -344,7 +344,7 @@ window.clippioAvailabilityDebug=function(){
       availabilityStatusValue:statusRow ? statusRow.value : '',
       availabilityTextValue:textRow ? textRow.value : '',
       availabilityModeValue:modeRow ? modeRow.value : '',
-      expected:'availabilityStatus.value = viditeľný hlavný text, availabilityText.value = popis, active FALSE = červená, active TRUE = zelená, availabilityMode/value limited = oranžová'
+      expected:'availabilityStatus.active FALSE = červená, availabilityMode.value limited = oranžová, availabilityStatus.value = hlavný text, availabilityText.value = popis', lastResolved:window.__clippioLastAvailability || null, lastError:window.__clippioLastAvailabilityError || ''
     };
   });
 };
@@ -550,6 +550,14 @@ function safeAlertLink(value){
   }
 }
 
+function stripAvailabilityDiacritics(value){
+  return String(value||'')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g,'')
+    .toLowerCase()
+    .trim();
+}
+
 function cleanAvailabilityStatusText(value){
   return String(value||'')
     .replace(/^[\s🟢🔴🟡🟠🟣✅❌⚠️]+/u,'')
@@ -557,31 +565,37 @@ function cleanAvailabilityStatusText(value){
 }
 
 function normalizeAvailabilityMode(value){
-  const raw=String(value||'').trim().toLowerCase();
-  if(['false','0','no','nie','closed','close','zatvorene','zatvorené','neprijima','neprijímam','neprijíma','full','busy','red','červená','cervena'].includes(raw)) return 'closed';
-  if(['limited','limit','obmedzene','obmedzené','holiday','dovolenka','pause','paused','orange','oranžová','oranzova'].includes(raw)) return 'limited';
-  if(['true','1','yes','ano','áno','open','opened','prijima','prijímam','prijíma','green','zelená','zelena'].includes(raw)) return 'open';
+  const raw=stripAvailabilityDiacritics(value);
+  if(!raw) return '';
+
+  // Poradie je dôležité: „neprijímam“ obsahuje aj slovo „prijímam“, preto sa closed kontroluje prvé.
+  if(['false','nepravda','0','no','nie','off','inactive','vypnute','closed','close','red','cervena','zatvorene','full','busy'].includes(raw)) return 'closed';
+  if(/neprijimam|neprijima|pozastaven|obsaden|pln[ay]?|nedostupn|zatvoren/.test(raw)) return 'closed';
+
+  if(['limited','limit','obmedzene','obmedzena','obmedzeny','obmedzené','holiday','dovolenka','pause','paused','orange','oranzova','oranzove','amber','yellow','zlta','žltá'].includes(raw)) return 'limited';
+  if(/obmedzen|limitovan|ciastocne|ciastocna|dovolenka|docasne|dočasne|pauza/.test(raw)) return 'limited';
+
+  if(['true','pravda','1','yes','ano','open','opened','on','active','green','zelena','prijima','prijimam','prijimame'].includes(raw)) return 'open';
+  if(/prijimam|prijima|prijimame|otvoren/.test(raw)) return 'open';
+
   return '';
 }
 
 function inferAvailabilityMode(statusText,textValue){
-  const combined=(String(statusText||'')+' '+String(textValue||'')).toLowerCase();
-  if(/obmedzen|limitovan|čiastočne|ciastocne|dovolenka/.test(combined)) return 'limited';
-  if(/neprij[ií]ma|pozastaven|obsaden|pln[áa]|nedostupn/.test(combined)) return 'closed';
+  const combined=stripAvailabilityDiacritics(String(statusText||'')+' '+String(textValue||''));
+  if(/neprijimam|neprijima|pozastaven|obsaden|pln[ay]?|nedostupn|zatvoren/.test(combined)) return 'closed';
+  if(/obmedzen|limitovan|ciastocne|ciastocna|dovolenka|docasne|pauza/.test(combined)) return 'limited';
+  if(/prijimam|prijima|prijimame|otvoren/.test(combined)) return 'open';
   return 'open';
 }
 
-function cmsExplicitAvailabilityMode(value){
-  return normalizeAvailabilityMode(value);
-}
-
 function isAvailabilityControlToken(value){
-  const raw=String(value||'').trim().toLowerCase();
+  const raw=stripAvailabilityDiacritics(value);
   if(!raw) return false;
-  return Boolean(normalizeAvailabilityMode(raw)) && [
-    'true','pravda','1','yes','ano','áno','open','opened','green','zelená','zelena','prijima','prijímam','prijíma',
-    'false','nepravda','0','no','nie','closed','close','red','červená','cervena','zatvorene','zatvorené','neprijima','neprijímam','neprijíma','full','busy',
-    'limited','limit','obmedzene','obmedzené','orange','oranžová','oranzova','holiday','dovolenka','pause','paused'
+  return [
+    'true','pravda','1','yes','ano','open','opened','on','active','green','zelena','prijima','prijimam','prijimame',
+    'false','nepravda','0','no','nie','off','inactive','vypnute','closed','close','red','cervena','zatvorene','full','busy','neprijimam','neprijima',
+    'limited','limit','obmedzene','obmedzena','obmedzeny','holiday','dovolenka','pause','paused','orange','oranzova','oranzove','amber','yellow','zlta'
   ].includes(raw);
 }
 
@@ -604,37 +618,68 @@ function resolveAvailabilityState(rows,fallbackStatus,fallbackText){
   const rawDescription=firstCmsValue(textRow && textRow.value,textRow && textRow.text,textRow && textRow.title);
   const rawMode=firstCmsValue(modeRow && modeRow.value,modeRow && modeRow.text,modeRow && modeRow.title);
 
-  const modeFromActive=(()=>{
-    if(!statusRow) return '';
-    const activeMode=cmsExplicitAvailabilityMode(statusRow.active);
-    if(activeMode) return activeMode;
-    if(isFalseyCmsValue(statusRow.active)) return 'closed';
-    if(isTruthyCmsValue(statusRow.active)) return 'open';
-    return '';
-  })();
-
-  const modeFromModeRow=cmsExplicitAvailabilityMode(rawMode);
-  const modeFromStatusValue=cmsExplicitAvailabilityMode(rawStatus);
+  const activeMode=statusRow ? normalizeAvailabilityMode(statusRow.active) : '';
+  const modeFromModeRow=normalizeAvailabilityMode(rawMode);
+  const modeFromStatusValue=isAvailabilityControlToken(rawStatus) ? normalizeAvailabilityMode(rawStatus) : '';
 
   let mode='';
-  // FALSE v active musí vždy znamenať červenú. Limited má fungovať až keď status nie je vyslovene vypnutý.
-  if(modeFromActive==='closed') mode='closed';
-  else if(modeFromModeRow==='limited' || modeFromStatusValue==='limited') mode='limited';
-  else if(modeFromModeRow==='closed' || modeFromStatusValue==='closed') mode='closed';
-  else if(modeFromActive==='open') mode='open';
+  // Jednoznačné pravidlá tabuľky:
+  // 1) availabilityStatus.active = FALSE vypína prijímanie projektov => červená.
+  // 2) availabilityMode.value = limited pri active TRUE/blank => oranžová.
+  // 3) availabilityStatus.value je text pri guličke, nie hlavný prepínač, pokiaľ tam nie je iba token open/closed/limited.
+  if(activeMode==='closed') mode='closed';
   else if(modeFromModeRow) mode=modeFromModeRow;
+  else if(activeMode==='limited') mode='limited';
   else if(modeFromStatusValue) mode=modeFromStatusValue;
+  else if(activeMode==='open') mode='open';
   else mode=inferAvailabilityMode(rawStatus,rawDescription) || 'open';
 
+  const normalizedMode=normalizeAvailabilityMode(mode) || 'open';
   const statusText=rawStatus && !isAvailabilityControlToken(rawStatus)
     ? cleanAvailabilityStatusText(rawStatus)
-    : defaultAvailabilityLabel(mode,fallbackStatus);
+    : defaultAvailabilityLabel(normalizedMode,fallbackStatus);
 
   return {
-    mode:normalizeAvailabilityMode(mode) || 'open',
-    statusText:statusText || defaultAvailabilityLabel(mode,fallbackStatus),
-    bodyText:rawDescription || fallbackText
+    mode:normalizedMode,
+    statusText:statusText || defaultAvailabilityLabel(normalizedMode,fallbackStatus),
+    bodyText:rawDescription || fallbackText,
+    debug:{
+      statusRow:statusRow || null,
+      textRow:textRow || null,
+      modeRow:modeRow || null,
+      rawStatus,
+      rawDescription,
+      rawMode,
+      activeMode,
+      modeFromModeRow,
+      modeFromStatusValue
+    }
   };
+}
+
+function applyAvailabilityVisualState(root,dot,mode){
+  const normalized=normalizeAvailabilityMode(mode) || 'open';
+  const palette={
+    open:{color:'#30bb78',soft:'rgba(48,187,120,.12)',strong:'rgba(48,187,120,.36)',bg:'linear-gradient(135deg,rgba(255,255,255,.92),rgba(240,255,248,.86))',border:'rgba(48,187,120,.18)',animation:'clippioAvailabilityPulseGreen'},
+    closed:{color:'#d94343',soft:'rgba(217,67,67,.12)',strong:'rgba(217,67,67,.36)',bg:'linear-gradient(135deg,rgba(255,255,255,.92),rgba(255,244,244,.86))',border:'rgba(214,57,57,.20)',animation:'clippioAvailabilityPulseRed'},
+    limited:{color:'#ff9f1a',soft:'rgba(255,159,26,.16)',strong:'rgba(255,159,26,.42)',bg:'linear-gradient(135deg,rgba(255,255,255,.92),rgba(255,249,235,.88))',border:'rgba(255,159,26,.28)',animation:'clippioAvailabilityPulseAmber'}
+  };
+  const current=palette[normalized] || palette.open;
+
+  root.classList.remove('availability-open','availability-closed','availability-limited','availability-loading');
+  root.classList.add(`availability-${normalized}`);
+  root.dataset.availabilityState=normalized;
+  root.style.background=current.bg;
+  root.style.borderColor=current.border;
+  root.style.setProperty('--availability-dot-color',current.color);
+  root.style.setProperty('--availability-dot-soft',current.soft);
+  root.style.setProperty('--availability-dot-strong',current.strong);
+
+  if(dot){
+    dot.style.backgroundColor=current.color;
+    dot.style.boxShadow=`0 0 0 5px ${current.soft},0 0 0 0 ${current.strong}`;
+    dot.style.animationName=current.animation;
+  }
 }
 
 function initAvailabilityStatus(){
@@ -643,6 +688,7 @@ function initAvailabilityStatus(){
 
   const statusEl=root.querySelector('[data-availability-status]');
   const textEl=root.querySelector('[data-availability-text]');
+  const dot=root.querySelector('.availability-status-dot');
   if(!statusEl||!textEl) return;
 
   const fallbackStatus=cleanAvailabilityStatusText(statusEl.textContent);
@@ -650,9 +696,7 @@ function initAvailabilityStatus(){
 
   const applyState=(mode,statusText,bodyText)=>{
     const normalized=normalizeAvailabilityMode(mode) || inferAvailabilityMode(statusText,bodyText);
-    root.classList.remove('availability-open','availability-closed','availability-limited','availability-loading');
-    root.classList.add(`availability-${normalized}`);
-    root.dataset.availabilityState=normalized;
+    applyAvailabilityVisualState(root,dot,normalized);
     statusEl.textContent=cleanAvailabilityStatusText(statusText) || fallbackStatus;
     textEl.textContent=bodyText || fallbackText;
   };
@@ -662,10 +706,12 @@ function initAvailabilityStatus(){
   loadClippioCmsRows()
     .then(rows=>{
       const resolved=resolveAvailabilityState(rows,fallbackStatus,fallbackText);
+      window.__clippioLastAvailability=resolved;
       applyState(resolved.mode,resolved.statusText,resolved.bodyText);
     })
     .catch(error=>{
       root.classList.add('availability-cms-failed');
+      window.__clippioLastAvailabilityError=error && error.message ? error.message : String(error||'CMS failed');
       if(window.console && console.warn) console.warn('Clippio CMS sa nepodarilo načítať:',error);
       applyState('open',fallbackStatus,fallbackText);
     });

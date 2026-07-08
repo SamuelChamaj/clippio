@@ -1,4 +1,4 @@
-# Clippio web – v6.6.4
+# Clippio web – v6.6.5
 
 Statický HTML web pre **Clippio** pripravený na GitHub Pages. Verzia v6.x vychádza z funkčného základu **v5.1.1** a pridáva kontrolovaný Brand Book positioning bez rozbitia pôvodných napojení a funkcií.
 
@@ -20,10 +20,10 @@ Tieto služby nemajú pôsobiť ako nesúvisiace ponuky. Ich cieľ je podporiť 
 
 ## Stav verzie
 
-Aktuálna verzia: **v6.6.4 – text dostupnosti cez value + oranžový stav**
+Aktuálna verzia: **v6.6.5 – stabilné farby dostupnosti z Google Sheets**
 
 Obsahovo vychádza z:
-- **v6.6.4** – oprava textu a oranžovej dostupnosti: hlavný text pri guličke sa číta z `availabilityStatus.value`, popis z `availabilityText.value`, `active=FALSE` dá červenú, `active=TRUE` zelenú a `availabilityMode=limited` / `obmedzené` oranžovú. Doplnená poistka pre Google Visualization fallback, keď Google nepošle hlavičky tabuľky v očakávanom tvare. Cache verzie sú zvýšené na `v=6.6.4`.
+- **v6.6.5** – oprava textu a oranžovej dostupnosti: hlavný text pri guličke sa číta z `availabilityStatus.value`, popis z `availabilityText.value`, `active=FALSE` dá červenú, `active=TRUE` zelenú a `availabilityMode=limited` / `obmedzené` oranžovú. Doplnená poistka pre Google Visualization fallback, keď Google nepošle hlavičky tabuľky v očakávanom tvare. Cache verzie sú zvýšené na `v=6.6.5`.
 - **v6.6.0** – Clippi Light Helper: pridaný riadený digitálny konzultant v pravom dolnom rohu, otázky pre web, video, fotky, dron, grafiku, kombinácie služieb a nejasné zadania, scoring odporúčania, orientačné ceny, prepojenie na Web Finder, localStorage pokračovanie a dopyt cez existujúci Web3Forms endpoint. Doplnok používa vlastný avatar `/assets/images/clippi-avatar.png`, desktopové uvítanie a odosiela kompletný súhrn naklikaných odpovedí. Aktualizované cache verzie hlavných stránok na `v=6.6.0`.
 - **v6.5.11** – Web Finder question height fix: opravené orezávanie poslednej odpovede v kroku „Rozsah webu“. Výška aktívnej otázky sa už nesmie zamknúť na príliš nízku hodnotu po načítaní fontov alebo zmene viewportu. Aktualizované cache verzie CSS/JS na `v=6.5.11`.
 - **v6.5.10** – Web Finder clean back control: odstránené neprofesionálne spodné tlačidlo „Späť“ z formulára, ovládanie späť presunuté do hornej časti progress panelu ako malé čisté tlačidlo, bez prekrývania kariet odpovedí. Aktualizované cache verzie CSS/JS na `v=6.5.10`.
@@ -48,7 +48,7 @@ Obsahovo vychádza z:
 
 Verzia **v6.6.0** pridáva Clippi Light Helper: rýchly poradenský panel bez AI chatbota, s kontrolovanými otázkami, odporúčaním služby, orientačnou cenou a odoslaním nezáväzného dopytu. Clippi používa vlastný avatar v plávajúcom tlačidle, hlavičke panela, úvodnej bubline a výsledku; na desktope vie zobraziť krátke uvítanie s 24-hodinovým zapamätaním zatvorenia. Balíček zároveň obsahuje všetky úpravy z v6.5.11.
 
-Verzia **v6.6.4** opravuje dostupnosť cez Google Sheets: `availabilityStatus.value` je viditeľný hlavný text pri guličke, `availabilityText.value` je popis, `availabilityStatus.active=FALSE` je červená, `TRUE` zelená a `availabilityMode=limited` / `obmedzené` oranžová. Základná navigácia, formulár ani Clippi sa pri výpadku tabuľky nerozbijú.
+Verzia **v6.6.5** opravuje dostupnosť cez Google Sheets: `availabilityStatus.value` je viditeľný hlavný text pri guličke, `availabilityText.value` je popis, `availabilityStatus.active=FALSE` je červená, `TRUE` zelená a `availabilityMode=limited` / `obmedzené` oranžová. Základná navigácia, formulár ani Clippi sa pri výpadku tabuľky nerozbijú.
 
 Verzia **v6.1.0** upravuje webové balíky tak, aby hlavné karty zostali jednoduché, ale pod nimi pribudli presné podrobnosti, férové obchodné hranice a FAQ k doméne, hostingu, úpravám a fakturácii. Doména na prvý rok je uvedená ako súčasť každého webového balíka.
 
@@ -441,3 +441,11 @@ Táto verzia opravuje natiahnutú sekciu portfólia na homepage a portfóliovej 
 ## v6.1.27
 
 Oprava duplicity: odstránený samostatný koreňový redirect `o-clippio.html`; presmerovanie starého odkazu rieši `404.html`.
+
+### Dostupnosť cez Google Sheets – pravidlá v6.6.5
+- `availabilityStatus.active = TRUE` + `availabilityMode.value = open` → zelená gulička.
+- `availabilityStatus.active = FALSE` → červená gulička.
+- `availabilityStatus.active = TRUE` + `availabilityMode.value = limited` / `obmedzené` → oranžová gulička.
+- `availabilityStatus.value` → hlavný text pri guličke.
+- `availabilityText.value` → krátky popis vedľa dostupnosti.
+- Po zmene tabuľky treba obnoviť web cez Ctrl+F5; Google publikované CSV môže mať krátke oneskorenie.

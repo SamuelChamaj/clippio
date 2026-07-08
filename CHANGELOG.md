@@ -1,10 +1,10 @@
-## v6.6.4 – text dostupnosti cez value + oranžový stav
+## v6.6.5 – text dostupnosti cez value + oranžový stav
 - Opravené čítanie hlavného textu dostupnosti: viditeľný text pri guličke sa berie z `availabilityStatus.value`, nie z fallbacku v HTML.
 - `availabilityText.value` ďalej ovláda kratší popis vedľa dostupnosti.
 - Opravená priorita stavov: `availabilityStatus.active=FALSE` dá červenú, `availabilityStatus.active=TRUE` dá zelenú a `availabilityMode=limited` / `obmedzené` alebo `availabilityStatus.value=limited` dá oranžovú, pokiaľ status nie je vyslovene vypnutý cez `active=FALSE`.
 - Doplnená poistka pre Google Visualization fallback, keď Google nepošle hlavičky stĺpcov ako labels a vráti ich až v prvom riadku.
 - Rozšírený `window.clippioAvailabilityDebug()` o vyriešený režim, text a popis.
-- Aktualizované README, llms.txt, sitemap a cache verzie hlavných assetov na `v=6.6.4`.
+- Aktualizované README, llms.txt, sitemap a cache verzie hlavných assetov na `v=6.6.5`.
 
 ## v6.6.3 – oprava ovládania dostupnosti cez stĺpec active
 - Opravené správanie stavovej guličky podľa reálneho plánu tabuľky: `availabilityStatus.active` teraz priamo ovláda farbu. `TRUE` = zelená, `FALSE` = červená.
