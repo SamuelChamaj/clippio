@@ -1,3 +1,13 @@
+## v6.6.1 – Google Sheets CMS napojenie
+- Hlavný Google Sheets CMS je napojený cez publikované CSV `pub?output=csv`.
+- Dostupnosť na homepage berie `availabilityStatus`, `availabilityText` a `availabilityMode` / `availabilityOpen` z tabuľky.
+- Stavová gulička používa `TRUE` / `open` ako zelenú, `FALSE` / `closed` ako červenú a `limited` / `obmedzené` ako oranžovú.
+- Zvonec upozornení a sekcia noviniek čítajú aktívne riadky zo sekcie `updates` bez vyplneného `key`.
+- Pridaný voliteľný homepage oznam riadený cez `homeNoticeActive`, `homeNoticeTitle`, `homeNoticeText`, `homeNoticeButtonText` a `homeNoticeButtonLink`.
+- Hlavné CTA a plávajúce CTA sa dajú meniť cez `primaryCtaText`, `primaryCtaLink`, `floatingCtaText` a `floatingCtaLink`.
+- Doplnený fallback, aby web ostal použiteľný aj vtedy, keď Google Sheets dočasne neodpovie.
+- Aktualizované README, llms.txt, sitemap a cache verzie hlavných assetov na `v=6.6.1`.
+
 ## v6.6.0 – Clippi Light Helper
 - Pridaný Clippi Light Helper ako riadený digitálny konzultant, nie voľný AI chatbot.
 - Doplnené nové súbory `/assets/js/clippi-config.js`, `/assets/js/clippi.js` a `/assets/css/clippi.css`.

@@ -1,4 +1,4 @@
-// Clippio v6.6.0 - Alerts + availability + Web Finder advisor + Clippi Light Helper
+// Clippio v6.6.1 - Google Sheets CMS + availability + alerts + Clippi Light Helper
 // Stabilná verzia: navbar a footer sú priamo v HTML, aby web fungoval aj po otvorení cez file://.
 
 const CLIPPIO_COOKIE_CONSENT_KEY='clippio_cookie_consent_v1';
@@ -93,6 +93,151 @@ function parseCsvLine(line){
   return a;
 }
 
+const CLIPPIO_CMS_CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vQypNgFRbB3PsaKHmxL4wfWYFu_kh8eR6U2wkwr0b-qOJzLwKeIn-vySWHU4MY1nIGe3twrqZ7nqd6Q/pub?output=csv';
+let clippioCmsRowsPromise=null;
+
+function parseCsvRows(text){
+  const rows=[];
+  let row=[];
+  let cell='';
+  let quoted=false;
+  const input=String(text||'');
+
+  for(let i=0;i<input.length;i++){
+    const ch=input[i];
+    const next=input[i+1];
+
+    if(ch==='"'){
+      if(quoted && next==='"'){
+        cell+='"';
+        i++;
+      }else{
+        quoted=!quoted;
+      }
+      continue;
+    }
+
+    if(ch===',' && !quoted){
+      row.push(cell.trim());
+      cell='';
+      continue;
+    }
+
+    if((ch==='\n' || ch==='\r') && !quoted){
+      if(ch==='\r' && next==='\n') i++;
+      row.push(cell.trim());
+      if(row.some(value=>String(value||'').trim())) rows.push(row);
+      row=[];
+      cell='';
+      continue;
+    }
+
+    cell+=ch;
+  }
+
+  row.push(cell.trim());
+  if(row.some(value=>String(value||'').trim())) rows.push(row);
+  return rows;
+}
+
+function csvRowsToObjects(text){
+  const rows=parseCsvRows(text);
+  if(rows.length<2) return [];
+  const headers=rows[0].map(normalizeCmsKey);
+
+  return rows.slice(1).map(values=>{
+    const obj={};
+    headers.forEach((key,index)=>{ obj[key]=values[index]||''; });
+    return obj;
+  });
+}
+
+function normalizeCmsKey(value){
+  return String(value||'')
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g,'')
+    .replace(/[._-]+/g,'');
+}
+
+function isTruthyCmsValue(value){
+  return ['true','pravda','prawda','1','yes','ano','áno','on','active','zapnute','zapnuté'].includes(String(value||'').trim().toLowerCase());
+}
+
+function isActiveCmsRow(row){
+  return isTruthyCmsValue(row && row.active);
+}
+
+function firstCmsValue(){
+  for(let i=0;i<arguments.length;i++){
+    const value=String(arguments[i]||'').trim();
+    if(value) return value;
+  }
+  return '';
+}
+
+function loadClippioCmsRows(){
+  if(!clippioCmsRowsPromise){
+    clippioCmsRowsPromise=fetch(CLIPPIO_CMS_CSV_URL,{cache:'no-store'})
+      .then(response=>{
+        if(!response.ok) throw new Error('Clippio CMS unavailable');
+        return response.text();
+      })
+      .then(csvRowsToObjects);
+  }
+  return clippioCmsRowsPromise;
+}
+
+function findCmsSetting(rows,key){
+  const normalizedKey=normalizeCmsKey(key);
+  const matches=(rows||[]).filter(row=>isActiveCmsRow(row) && normalizeCmsKey(row.key)===normalizedKey);
+  return matches.find(row=>normalizeCmsKey(row.section)==='settings') || matches[0] || null;
+}
+
+function cmsSettingValue(rows,key){
+  const row=findCmsSetting(rows,key);
+  return row ? firstCmsValue(row.value,row.text,row.title) : '';
+}
+
+function cmsRowDateValue(row){
+  return firstCmsValue(row && row.date,row && row.createdat,row && row.updatedat);
+}
+
+function cmsOrderValue(row){
+  const order=Number(String(row && row.order || '').replace(',','.'));
+  return Number.isFinite(order) ? order : 9999;
+}
+
+function isCmsRowCurrentlyVisible(row){
+  if(!isActiveCmsRow(row)) return false;
+  const now=new Date();
+  const start=parseAlertDate(row.startdate,false);
+  const end=parseAlertDate(row.enddate,true);
+  if(start && now<start) return false;
+  if(end && now>end) return false;
+  return true;
+}
+
+function getCmsUpdateRows(rows){
+  return (rows||[])
+    .filter(row=>normalizeCmsKey(row.section)==='updates')
+    .filter(row=>!String(row.key||'').trim())
+    .filter(isCmsRowCurrentlyVisible)
+    .filter(row=>Boolean(firstCmsValue(row.title,row.text,row.value)));
+}
+
+function sortCmsRowsForDisplay(items){
+  return items.slice().sort((a,b)=>{
+    const ao=cmsOrderValue(a);
+    const bo=cmsOrderValue(b);
+    if(ao!==bo) return ao-bo;
+
+    const ad=parseAlertDate(cmsRowDateValue(a),false);
+    const bd=parseAlertDate(cmsRowDateValue(b),false);
+    return (bd?bd.getTime():0)-(ad?ad.getTime():0);
+  });
+}
+
 function initNavigation(){
   const burger=document.querySelector('.burger');
   const links=document.querySelector('.links');
@@ -122,19 +267,34 @@ function initNavigation(){
 function initUpdates(){
   const box=document.getElementById('updates-list');
   if(!box) return;
-  const url='https://docs.google.com/spreadsheets/d/1SaqFBIfwYhrTbSzLGQW-mK2BPK2dgUZR9QolSdxKot4/gviz/tq?tqx=out:csv';
+
   const fallback=[
     {date:'11.06.2026',title:'Nový web Clippio',text:'Spustená nová prezentácia služieb, portfólia a kontaktného dopytu.'},
     {date:'10.06.2026',title:'Dronové zábery a eventy',text:'Pribúdajú ukážky z podujatí, miest a krátkych promo videí.'},
     {date:'09.06.2026',title:'Grafika a video pod jednou značkou',text:'Clippio spája videoprodukciu, dron a vizuálnu identitu.'}
   ];
+
   const render=items=>{
-    box.innerHTML=items.filter(x=>x.title||x.text).slice(0,5).map(x=>`<article class="update-card"><div class="update-date">${escapeHtml(x.date||'Novinka')}</div><div><h3>${escapeHtml(x.title)}</h3><p>${escapeHtml(x.text)}</p></div></article>`).join('')||'<p>Žiadne novinky.</p>';
+    const clean=(items||[]).filter(x=>x.title||x.text).slice(0,5);
+    box.innerHTML=clean.map(x=>{
+      const href=safeAlertLink(x.buttonLink||'');
+      const button=x.buttonText && href ? `<a class="mini-btn" href="${escapeHtml(href)}">${escapeHtml(x.buttonText)}</a>` : '';
+      return `<article class="update-card"><div class="update-date">${escapeHtml(x.date||'Novinka')}</div><div><h3>${escapeHtml(x.title)}</h3><p>${escapeHtml(x.text)}</p>${button}</div></article>`;
+    }).join('')||'<p>Žiadne novinky.</p>';
   };
-  fetch(url).then(r=>{if(!r.ok)throw Error();return r.text()}).then(t=>{
-    const rows=t.trim().split(/\r?\n/).slice(1).map(parseCsvLine);
-    render(rows.map(c=>({date:c[0],title:c[2]||c[1],text:c[3]||c[2]})).reverse());
-  }).catch(()=>render(fallback));
+
+  loadClippioCmsRows()
+    .then(rows=>{
+      const updates=sortCmsRowsForDisplay(getCmsUpdateRows(rows)).map(row=>({
+        date:cmsRowDateValue(row),
+        title:firstCmsValue(row.title,row.value),
+        text:firstCmsValue(row.text,row.value),
+        buttonText:firstCmsValue(row.buttontext),
+        buttonLink:firstCmsValue(row.buttonlink)
+      }));
+      render(updates.length ? updates : fallback);
+    })
+    .catch(()=>render(fallback));
 }
 
 function initPhotoPrices(){
@@ -180,15 +340,11 @@ function initWebProjects(){
 
 
 function isTruthyAlertValue(value){
-  return ['true','prawda','pravda','1','yes','ano','áno','on'].includes(String(value||'').trim().toLowerCase());
+  return isTruthyCmsValue(value);
 }
 
 function normalizeAlertKey(value){
-  return String(value||'')
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g,'')
-    .replace(/[._-]+/g,'');
+  return normalizeCmsKey(value);
 }
 
 function parseAlertDate(value,endOfDay){
@@ -229,21 +385,6 @@ function safeAlertLink(value){
   }
 }
 
-function csvRowsToObjects(text){
-  const lines=String(text||'').trim().split(/\r?\n/).filter(Boolean);
-  if(lines.length<2) return [];
-  const headers=parseCsvLine(lines[0]).map(normalizeAlertKey);
-  return lines.slice(1).map(line=>{
-    const values=parseCsvLine(line);
-    const obj={};
-    headers.forEach((key,index)=>{ obj[key]=values[index]||''; });
-    return obj;
-  });
-}
-
-
-const CLIPPIO_CMS_CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vQypNgFRbB3PsaKHmxL4wfWYFu_kh8eR6U2wkwr0b-qOJzLwKeIn-vySWHU4MY1nIGe3twrqZ7nqd6Q/pub?gid=2127962883&single=true&output=csv';
-
 function cleanAvailabilityStatusText(value){
   return String(value||'')
     .replace(/^[\s🟢🔴🟡🟠🟣✅❌⚠️]+/u,'')
@@ -252,16 +393,16 @@ function cleanAvailabilityStatusText(value){
 
 function normalizeAvailabilityMode(value){
   const raw=String(value||'').trim().toLowerCase();
-  if(['false','0','no','nie','closed','close','zatvorene','zatvorené','neprijima','neprijímam','neprijíma','full','busy'].includes(raw)) return 'closed';
-  if(['limited','limit','obmedzene','obmedzené','holiday','dovolenka','pause','paused'].includes(raw)) return 'limited';
-  if(['true','1','yes','ano','áno','open','opened','prijima','prijímam','prijíma'].includes(raw)) return 'open';
+  if(['false','0','no','nie','closed','close','zatvorene','zatvorené','neprijima','neprijímam','neprijíma','full','busy','red','červená','cervena'].includes(raw)) return 'closed';
+  if(['limited','limit','obmedzene','obmedzené','holiday','dovolenka','pause','paused','orange','oranžová','oranzova'].includes(raw)) return 'limited';
+  if(['true','1','yes','ano','áno','open','opened','prijima','prijímam','prijíma','green','zelená','zelena'].includes(raw)) return 'open';
   return '';
 }
 
 function inferAvailabilityMode(statusText,textValue){
   const combined=(String(statusText||'')+' '+String(textValue||'')).toLowerCase();
-  if(/neprij[ií]ma|pozastaven|obsaden|pln[áa]|dovolenka|nedostupn/.test(combined)) return 'closed';
-  if(/obmedzen|limitovan|čiastočne|ciastocne/.test(combined)) return 'limited';
+  if(/obmedzen|limitovan|čiastočne|ciastocne|dovolenka/.test(combined)) return 'limited';
+  if(/neprij[ií]ma|pozastaven|obsaden|pln[áa]|nedostupn/.test(combined)) return 'closed';
   return 'open';
 }
 
@@ -286,36 +427,85 @@ function initAvailabilityStatus(){
 
   root.classList.add('availability-loading');
 
-  fetch(CLIPPIO_CMS_CSV_URL,{cache:'no-store'})
-    .then(response=>{ if(!response.ok) throw new Error('CMS unavailable'); return response.text(); })
-    .then(text=>{
-      const rows=csvRowsToObjects(text).filter(row=>normalizeAlertKey(row.section)==='settings');
-      const byKey=(key)=>{
-        const normalizedKey=normalizeAlertKey(key);
-        return rows.find(row=>normalizeAlertKey(row.key)===normalizedKey);
-      };
-      const valueFor=(key)=>{
-        const row=byKey(key);
-        if(!row) return '';
-        return String(row.value||row.text||row.title||'').trim();
-      };
-
-      const status=valueFor('availabilityStatus') || fallbackStatus;
-      const description=valueFor('availabilityText') || fallbackText;
-      const explicitMode=valueFor('availabilityOpen') || valueFor('availabilityMode') || valueFor('availabilityState') || valueFor('acceptingProjects');
+  loadClippioCmsRows()
+    .then(rows=>{
+      const status=cmsSettingValue(rows,'availabilityStatus') || fallbackStatus;
+      const description=cmsSettingValue(rows,'availabilityText') || fallbackText;
+      const explicitMode=cmsSettingValue(rows,'availabilityMode') || cmsSettingValue(rows,'availabilityOpen') || cmsSettingValue(rows,'availabilityState') || cmsSettingValue(rows,'acceptingProjects');
       applyState(explicitMode,status,description);
     })
-    .catch(()=>{
-      applyState('open',fallbackStatus,fallbackText);
-    });
+    .catch(()=>applyState('open',fallbackStatus,fallbackText));
 }
 
+function initCmsSettings(){
+  loadClippioCmsRows().then(rows=>{
+    const primaryText=cmsSettingValue(rows,'primaryCtaText');
+    const primaryLink=safeAlertLink(cmsSettingValue(rows,'primaryCtaLink'));
+    document.querySelectorAll('[data-cms-primary-cta]').forEach(link=>{
+      if(primaryText) link.textContent=primaryText;
+      if(primaryLink) link.setAttribute('href',primaryLink);
+    });
+
+    const floatingText=cmsSettingValue(rows,'floatingCtaText');
+    const floatingLink=safeAlertLink(cmsSettingValue(rows,'floatingCtaLink'));
+    document.querySelectorAll('.floating-cta').forEach(cta=>{
+      const label=cta.querySelector('strong') || cta;
+      if(floatingText) label.textContent=floatingText;
+      if(floatingLink) cta.setAttribute('href',floatingLink);
+    });
+  }).catch(()=>{});
+}
+
+function initHomeNotice(){
+  const root=document.querySelector('[data-clippio-home-notice]');
+  if(!root) return;
+
+  const titleEl=root.querySelector('[data-home-notice-title]');
+  const textEl=root.querySelector('[data-home-notice-text]');
+  const linkEl=root.querySelector('[data-home-notice-link]');
+
+  const hide=()=>{ root.hidden=true; root.classList.remove('is-visible'); };
+  hide();
+
+  loadClippioCmsRows().then(rows=>{
+    const activeRow=findCmsSetting(rows,'homeNoticeActive');
+    if(!activeRow || !isTruthyCmsValue(activeRow.value)) return hide();
+    if(!isCmsRowCurrentlyVisible(activeRow)) return hide();
+
+    const titleRow=findCmsSetting(rows,'homeNoticeTitle');
+    const textRow=findCmsSetting(rows,'homeNoticeText');
+    const dateSource=[activeRow,titleRow,textRow].find(row=>row && (row.startdate || row.enddate));
+    if(dateSource && !isCmsRowCurrentlyVisible(dateSource)) return hide();
+
+    const title=cmsSettingValue(rows,'homeNoticeTitle') || 'Dôležitý oznam';
+    const textValue=cmsSettingValue(rows,'homeNoticeText');
+    const buttonText=cmsSettingValue(rows,'homeNoticeButtonText');
+    const buttonLink=safeAlertLink(cmsSettingValue(rows,'homeNoticeButtonLink'));
+
+    if(!textValue && !title) return hide();
+    if(titleEl) titleEl.textContent=title;
+    if(textEl) textEl.textContent=textValue;
+
+    if(linkEl){
+      if(buttonText && buttonLink){
+        linkEl.textContent=buttonText;
+        linkEl.href=buttonLink;
+        linkEl.hidden=false;
+      }else{
+        linkEl.hidden=true;
+        linkEl.removeAttribute('href');
+      }
+    }
+
+    root.hidden=false;
+    window.requestAnimationFrame(()=>root.classList.add('is-visible'));
+  }).catch(hide);
+}
 
 function initClippioAlerts(){
   const root=document.querySelector('[data-clippio-alerts]');
   if(!root) return;
 
-  const CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vSZWpm_N6vGrTv_znBUaxzqn_Q7U2cirALGMMxBAZS3XrfQsCv5kSLsXAXZqpUb_OCgMF-FRDKDtZip/pub?output=csv';
   const button=root.querySelector('.nav-alert__bell');
   const dot=root.querySelector('.nav-alert__dot');
   const panel=root.querySelector('.nav-alert__panel');
@@ -400,43 +590,35 @@ function initClippioAlerts(){
     }
   });
 
-  const pickAlert=(items)=>{
-    const now=new Date();
-    const current=items.map(item=>{
-      const start=parseAlertDate(item.startdate,false);
-      const end=parseAlertDate(item.enddate,true);
-      return {
-        active:item.active,
-        type:item.type,
-        title:item.title,
-        message:item.message,
-        buttonText:item.buttontext,
-        buttonLink:item.buttonlink,
-        priority:item.priority,
-        startDateObj:start,
-        endDateObj:end,
-        createdAtObj:parseAlertDate(item.createdat,false)
-      };
-    }).filter(item=>{
-      if(!isTruthyAlertValue(item.active)) return false;
-      if(item.startDateObj && now<item.startDateObj) return false;
-      if(item.endDateObj && now>item.endDateObj) return false;
-      return Boolean(item.title||item.message);
-    });
+  const pickAlert=(rows)=>{
+    const current=getCmsUpdateRows(rows).map(row=>({
+      title:firstCmsValue(row.title,row.value),
+      message:firstCmsValue(row.text,row.value),
+      buttonText:firstCmsValue(row.buttontext),
+      buttonLink:firstCmsValue(row.buttonlink),
+      priority:firstCmsValue(row.priority,'normal'),
+      startDateObj:parseAlertDate(row.startdate,false),
+      endDateObj:parseAlertDate(row.enddate,true),
+      createdAtObj:parseAlertDate(cmsRowDateValue(row),false),
+      order:cmsOrderValue(row)
+    }));
+
     current.sort((a,b)=>{
       const pa=String(a.priority||'').toLowerCase()==='high'?1:0;
       const pb=String(b.priority||'').toLowerCase()==='high'?1:0;
       if(pa!==pb) return pb-pa;
-      return (b.createdAtObj?b.createdAtObj.getTime():0)-(a.createdAtObj?a.createdAtObj.getTime():0);
+      const bd=b.createdAtObj?b.createdAtObj.getTime():0;
+      const ad=a.createdAtObj?a.createdAtObj.getTime():0;
+      if(bd!==ad) return bd-ad;
+      return a.order-b.order;
     });
     return current[0]||null;
   };
 
   setPanelState('loading',null);
-  fetch(CSV_URL,{cache:'no-store'})
-    .then(response=>{ if(!response.ok) throw new Error('CSV unavailable'); return response.text(); })
-    .then(text=>{
-      activeAlert=pickAlert(csvRowsToObjects(text));
+  loadClippioCmsRows()
+    .then(rows=>{
+      activeAlert=pickAlert(rows);
       setPanelState('ready',activeAlert);
     })
     .catch(()=>{
@@ -1211,6 +1393,8 @@ function initWebFinder(){
 document.addEventListener('DOMContentLoaded',()=>{
   initNavigation();
   initAvailabilityStatus();
+  initCmsSettings();
+  initHomeNotice();
   initClippioAlerts();
   initUpdates();
   initPhotoPrices();

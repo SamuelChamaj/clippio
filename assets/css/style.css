@@ -1798,8 +1798,56 @@ body{overflow-x:hidden}
 @media(max-width:1180px){.reference-case-layout{grid-template-columns:1fr}.case-study-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.case-facts{grid-template-columns:1fr}}
 @media(max-width:720px){.reference-case,.reference-card-compact,.case-study-card{padding:22px;border-radius:22px}.case-study-grid{grid-template-columns:1fr}.proof-standard{display:block}.proof-standard strong{display:block;margin-bottom:6px}.reference-card-compact .mini-btn,.case-study-card .mini-btn{width:100%;justify-content:center}.btn-on-light{width:100%}}
 
+/* v6.6.1 – Google Sheets CMS home notice */
+.home-notice{
+  margin-top:-38px;
+  margin-bottom:48px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  padding:18px 22px;
+  border-radius:24px;
+  border:1px solid rgba(255,176,32,.24);
+  background:linear-gradient(135deg,rgba(255,255,255,.95),rgba(255,248,229,.90));
+  box-shadow:0 18px 55px rgba(7,16,24,.06);
+  opacity:0;
+  transform:translateY(-8px);
+  transition:opacity .22s ease,transform .22s ease;
+}
+.home-notice.is-visible{
+  opacity:1;
+  transform:none;
+}
+.home-notice strong{
+  display:block;
+  margin-bottom:5px;
+  font-size:18px;
+  color:var(--ink);
+}
+.home-notice p{
+  margin:0;
+  color:var(--muted);
+  line-height:1.5;
+}
+.home-notice .mini-btn{
+  flex:0 0 auto;
+}
+@media(max-width:700px){
+  .home-notice{
+    margin-top:-28px;
+    margin-bottom:38px;
+    display:grid;
+    border-radius:20px;
+  }
+  .home-notice .mini-btn{
+    width:100%;
+    justify-content:center;
+  }
+}
 
-/* v6.4.1 – Google Sheets availability status */
+
+/* v6.6.1 – Google Sheets availability status */
 .availability-bar strong{
   display:inline-flex;
   align-items:center;

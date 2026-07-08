@@ -35,6 +35,8 @@ Clippio creates fast, responsive websites with a clear structure, contact path, 
 
 Clippi Light Helper is a guided on-site consultant that helps visitors choose a service, see an indicative price range, open Web Finder for website projects, and send a non-binding inquiry.
 
+Clippio also uses a lightweight Google Sheets CMS for operational website content. The CMS controls current availability, the homepage status dot, active alerts in the notification bell, homepage news, optional homepage notices, and selected CTA texts. Availability states are interpreted as open/TRUE, closed/FALSE, or limited.
+
 ## Website packages
 
 - Štart web: simple one-page presentation or landing page, from 199 EUR.
