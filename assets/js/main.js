@@ -1,4 +1,4 @@
-// Clippio v6.6.3 - Google Sheets CMS availability active-cell fix + alerts + Clippi Light Helper
+// Clippio v6.6.4 - Google Sheets CMS availability text + limited state fix + alerts + Clippi Light Helper
 // Stabilná verzia: navbar a footer sú priamo v HTML, aby web fungoval aj po otvorení cez file://.
 
 const CLIPPIO_COOKIE_CONSENT_KEY='clippio_cookie_consent_v1';
@@ -192,16 +192,49 @@ function gvizCellToString(cell){
   return String(value).trim();
 }
 
+const CLIPPIO_CMS_EXPECTED_HEADERS=['active','section','key','value','title','text','buttontext','buttonlink','date','priority','startdate','enddate','order','internalnote'];
+
+function hasExpectedCmsHeaders(headers){
+  const set=new Set((headers||[]).map(normalizeCmsKey));
+  return ['active','section','key','value'].every(key=>set.has(key));
+}
+
+function gvizRowToValues(row){
+  const cells=Array.isArray(row && row.c) ? row.c : [];
+  return cells.map(gvizCellToString);
+}
+
+function cmsValuesToObject(headers,values){
+  const obj={};
+  (headers||[]).forEach((key,index)=>{
+    const normalized=normalizeCmsKey(key);
+    if(normalized) obj[normalized]=values[index]||'';
+  });
+  return obj;
+}
+
 function gvizTableToObjects(response){
   const table=response && response.table;
   if(!table || !Array.isArray(table.cols) || !Array.isArray(table.rows)) return [];
-  const headers=table.cols.map(col=>normalizeCmsKey(col.label || col.id));
-  return table.rows.map(row=>{
-    const obj={};
-    const cells=Array.isArray(row.c) ? row.c : [];
-    headers.forEach((key,index)=>{ obj[key]=gvizCellToString(cells[index]); });
-    return obj;
-  }).filter(row=>Object.values(row).some(value=>String(value||'').trim()));
+
+  let headers=table.cols.map(col=>normalizeCmsKey(col.label || col.id));
+  let dataRows=table.rows.map(gvizRowToValues);
+
+  // Google Visualization niekedy nepošle hlavičky ako labels, ale ako prvý riadok tabuľky.
+  // Bez tejto poistky sa stĺpce pomenujú len A/B/C a CMS potom nevie nájsť active/section/key/value.
+  if(!hasExpectedCmsHeaders(headers) && dataRows.length){
+    const firstRowHeaders=dataRows[0].map(normalizeCmsKey);
+    if(hasExpectedCmsHeaders(firstRowHeaders)){
+      headers=firstRowHeaders;
+      dataRows=dataRows.slice(1);
+    }else if(headers.every(header=>/^[a-z]$/.test(header))){
+      headers=CLIPPIO_CMS_EXPECTED_HEADERS;
+    }
+  }
+
+  return dataRows
+    .map(values=>cmsValuesToObject(headers,values))
+    .filter(row=>Object.values(row).some(value=>String(value||'').trim()));
 }
 
 function loadClippioCmsRowsWithFetch(){
@@ -296,16 +329,22 @@ window.clippioCmsDebug=function(){
 window.clippioAvailabilityDebug=function(){
   return loadClippioCmsRows().then(rows=>{
     const statusRow=findCmsRow(rows,'availabilityStatus',true);
+    const textRow=findCmsRow(rows,'availabilityText',true);
     const modeRow=findCmsRow(rows,'availabilityMode',true);
     const root=document.querySelector('[data-clippio-availability]');
+    const resolved=resolveAvailabilityState(rows,'open','');
     return {
       ok:true,
       source:clippioCmsLastSource,
       currentDomState:root ? root.dataset.availabilityState : '',
+      resolvedMode:resolved.mode,
+      resolvedStatusText:resolved.statusText,
+      resolvedBodyText:resolved.bodyText,
       availabilityStatusActive:statusRow ? statusRow.active : '',
       availabilityStatusValue:statusRow ? statusRow.value : '',
+      availabilityTextValue:textRow ? textRow.value : '',
       availabilityModeValue:modeRow ? modeRow.value : '',
-      expected:'availabilityStatus.active FALSE = red, TRUE = green, availabilityMode limited = orange'
+      expected:'availabilityStatus.value = viditeľný hlavný text, availabilityText.value = popis, active FALSE = červená, active TRUE = zelená, availabilityMode/value limited = oranžová'
     };
   });
 };
@@ -532,6 +571,72 @@ function inferAvailabilityMode(statusText,textValue){
   return 'open';
 }
 
+function cmsExplicitAvailabilityMode(value){
+  return normalizeAvailabilityMode(value);
+}
+
+function isAvailabilityControlToken(value){
+  const raw=String(value||'').trim().toLowerCase();
+  if(!raw) return false;
+  return Boolean(normalizeAvailabilityMode(raw)) && [
+    'true','pravda','1','yes','ano','áno','open','opened','green','zelená','zelena','prijima','prijímam','prijíma',
+    'false','nepravda','0','no','nie','closed','close','red','červená','cervena','zatvorene','zatvorené','neprijima','neprijímam','neprijíma','full','busy',
+    'limited','limit','obmedzene','obmedzené','orange','oranžová','oranzova','holiday','dovolenka','pause','paused'
+  ].includes(raw);
+}
+
+function defaultAvailabilityLabel(mode,fallbackStatus){
+  const normalized=normalizeAvailabilityMode(mode);
+  if(normalized==='limited') return 'Obmedzená dostupnosť';
+  if(normalized==='closed') return 'Momentálne neprijímam nové projekty';
+  return fallbackStatus || 'Clippio aktuálne prijíma nové projekty';
+}
+
+function resolveAvailabilityState(rows,fallbackStatus,fallbackText){
+  const statusRow=findCmsRow(rows,'availabilityStatus',true);
+  const textRow=findCmsRow(rows,'availabilityText',true);
+  const modeRow=findCmsRow(rows,'availabilityMode',true) ||
+    findCmsRow(rows,'availabilityOpen',true) ||
+    findCmsRow(rows,'availabilityState',true) ||
+    findCmsRow(rows,'acceptingProjects',true);
+
+  const rawStatus=firstCmsValue(statusRow && statusRow.value,statusRow && statusRow.text,statusRow && statusRow.title);
+  const rawDescription=firstCmsValue(textRow && textRow.value,textRow && textRow.text,textRow && textRow.title);
+  const rawMode=firstCmsValue(modeRow && modeRow.value,modeRow && modeRow.text,modeRow && modeRow.title);
+
+  const modeFromActive=(()=>{
+    if(!statusRow) return '';
+    const activeMode=cmsExplicitAvailabilityMode(statusRow.active);
+    if(activeMode) return activeMode;
+    if(isFalseyCmsValue(statusRow.active)) return 'closed';
+    if(isTruthyCmsValue(statusRow.active)) return 'open';
+    return '';
+  })();
+
+  const modeFromModeRow=cmsExplicitAvailabilityMode(rawMode);
+  const modeFromStatusValue=cmsExplicitAvailabilityMode(rawStatus);
+
+  let mode='';
+  // FALSE v active musí vždy znamenať červenú. Limited má fungovať až keď status nie je vyslovene vypnutý.
+  if(modeFromActive==='closed') mode='closed';
+  else if(modeFromModeRow==='limited' || modeFromStatusValue==='limited') mode='limited';
+  else if(modeFromModeRow==='closed' || modeFromStatusValue==='closed') mode='closed';
+  else if(modeFromActive==='open') mode='open';
+  else if(modeFromModeRow) mode=modeFromModeRow;
+  else if(modeFromStatusValue) mode=modeFromStatusValue;
+  else mode=inferAvailabilityMode(rawStatus,rawDescription) || 'open';
+
+  const statusText=rawStatus && !isAvailabilityControlToken(rawStatus)
+    ? cleanAvailabilityStatusText(rawStatus)
+    : defaultAvailabilityLabel(mode,fallbackStatus);
+
+  return {
+    mode:normalizeAvailabilityMode(mode) || 'open',
+    statusText:statusText || defaultAvailabilityLabel(mode,fallbackStatus),
+    bodyText:rawDescription || fallbackText
+  };
+}
+
 function initAvailabilityStatus(){
   const root=document.querySelector('[data-clippio-availability]');
   if(!root) return;
@@ -556,35 +661,8 @@ function initAvailabilityStatus(){
 
   loadClippioCmsRows()
     .then(rows=>{
-      const statusRow=findCmsRow(rows,'availabilityStatus',true);
-      const textRow=findCmsRow(rows,'availabilityText',true);
-      const rawStatus=firstCmsValue(statusRow && statusRow.value,statusRow && statusRow.text,statusRow && statusRow.title);
-      const rawDescription=firstCmsValue(textRow && textRow.value,textRow && textRow.text,textRow && textRow.title);
-
-      const modeRow=findCmsRow(rows,'availabilityMode',true) ||
-        findCmsRow(rows,'availabilityOpen',true) ||
-        findCmsRow(rows,'availabilityState',true) ||
-        findCmsRow(rows,'acceptingProjects',true);
-
-      const modeValue=firstCmsValue(modeRow && modeRow.value,modeRow && modeRow.text,modeRow && modeRow.title);
-      const modeFromValue=normalizeAvailabilityMode(modeValue);
-      const modeFromStatus=normalizeAvailabilityMode(rawStatus);
-
-      let modeFromStatusActive='';
-      if(statusRow){
-        if(isFalseyCmsValue(statusRow.active)) modeFromStatusActive='closed';
-        else if(isTruthyCmsValue(statusRow.active)) modeFromStatusActive='open';
-      }
-
-      let explicitMode='';
-      if(modeFromValue==='limited') explicitMode='limited';
-      else if(modeFromStatusActive) explicitMode=modeFromStatusActive;
-      else if(modeFromValue) explicitMode=modeFromValue;
-      else if(modeFromStatus) explicitMode=modeFromStatus;
-
-      const status=modeFromStatus ? fallbackStatus : (rawStatus || fallbackStatus);
-      const description=rawDescription || fallbackText;
-      applyState(explicitMode,status,description);
+      const resolved=resolveAvailabilityState(rows,fallbackStatus,fallbackText);
+      applyState(resolved.mode,resolved.statusText,resolved.bodyText);
     })
     .catch(error=>{
       root.classList.add('availability-cms-failed');

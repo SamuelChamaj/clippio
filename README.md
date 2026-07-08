@@ -1,4 +1,4 @@
-# Clippio web – v6.6.3
+# Clippio web – v6.6.4
 
 Statický HTML web pre **Clippio** pripravený na GitHub Pages. Verzia v6.x vychádza z funkčného základu **v5.1.1** a pridáva kontrolovaný Brand Book positioning bez rozbitia pôvodných napojení a funkcií.
 
@@ -20,10 +20,10 @@ Tieto služby nemajú pôsobiť ako nesúvisiace ponuky. Ich cieľ je podporiť 
 
 ## Stav verzie
 
-Aktuálna verzia: **v6.6.3 – oprava ovládania dostupnosti cez stĺpec active**
+Aktuálna verzia: **v6.6.4 – text dostupnosti cez value + oranžový stav**
 
 Obsahovo vychádza z:
-- **v6.6.3** – oprava ovládania dostupnosti podľa tabuľky: stavová gulička berie `availabilityStatus.active`, kde `TRUE` = zelená a `FALSE` = červená. `availabilityMode` zostáva pre režim `limited` / `obmedzené` = oranžová. Doplnený cache-busting CSV načítania a `window.clippioAvailabilityDebug()`. Cache verzie sú zvýšené na `v=6.6.3`.
+- **v6.6.4** – oprava textu a oranžovej dostupnosti: hlavný text pri guličke sa číta z `availabilityStatus.value`, popis z `availabilityText.value`, `active=FALSE` dá červenú, `active=TRUE` zelenú a `availabilityMode=limited` / `obmedzené` oranžovú. Doplnená poistka pre Google Visualization fallback, keď Google nepošle hlavičky tabuľky v očakávanom tvare. Cache verzie sú zvýšené na `v=6.6.4`.
 - **v6.6.0** – Clippi Light Helper: pridaný riadený digitálny konzultant v pravom dolnom rohu, otázky pre web, video, fotky, dron, grafiku, kombinácie služieb a nejasné zadania, scoring odporúčania, orientačné ceny, prepojenie na Web Finder, localStorage pokračovanie a dopyt cez existujúci Web3Forms endpoint. Doplnok používa vlastný avatar `/assets/images/clippi-avatar.png`, desktopové uvítanie a odosiela kompletný súhrn naklikaných odpovedí. Aktualizované cache verzie hlavných stránok na `v=6.6.0`.
 - **v6.5.11** – Web Finder question height fix: opravené orezávanie poslednej odpovede v kroku „Rozsah webu“. Výška aktívnej otázky sa už nesmie zamknúť na príliš nízku hodnotu po načítaní fontov alebo zmene viewportu. Aktualizované cache verzie CSS/JS na `v=6.5.11`.
 - **v6.5.10** – Web Finder clean back control: odstránené neprofesionálne spodné tlačidlo „Späť“ z formulára, ovládanie späť presunuté do hornej časti progress panelu ako malé čisté tlačidlo, bez prekrývania kariet odpovedí. Aktualizované cache verzie CSS/JS na `v=6.5.10`.
@@ -48,7 +48,7 @@ Obsahovo vychádza z:
 
 Verzia **v6.6.0** pridáva Clippi Light Helper: rýchly poradenský panel bez AI chatbota, s kontrolovanými otázkami, odporúčaním služby, orientačnou cenou a odoslaním nezáväzného dopytu. Clippi používa vlastný avatar v plávajúcom tlačidle, hlavičke panela, úvodnej bubline a výsledku; na desktope vie zobraziť krátke uvítanie s 24-hodinovým zapamätaním zatvorenia. Balíček zároveň obsahuje všetky úpravy z v6.5.11.
 
-Verzia **v6.6.3** opravuje ovládanie dostupnosti: `availabilityStatus.active` je stavový prepínač pre guličku, nie obyčajné skrytie riadku. Pri `FALSE` je gulička červená, pri `TRUE` zelená a pri `availabilityMode=limited` oranžová. Základná navigácia, formulár ani Clippi sa pri výpadku tabuľky nerozbijú.
+Verzia **v6.6.4** opravuje dostupnosť cez Google Sheets: `availabilityStatus.value` je viditeľný hlavný text pri guličke, `availabilityText.value` je popis, `availabilityStatus.active=FALSE` je červená, `TRUE` zelená a `availabilityMode=limited` / `obmedzené` oranžová. Základná navigácia, formulár ani Clippi sa pri výpadku tabuľky nerozbijú.
 
 Verzia **v6.1.0** upravuje webové balíky tak, aby hlavné karty zostali jednoduché, ale pod nimi pribudli presné podrobnosti, férové obchodné hranice a FAQ k doméne, hostingu, úpravám a fakturácii. Doména na prvý rok je uvedená ako súčasť každého webového balíka.
 

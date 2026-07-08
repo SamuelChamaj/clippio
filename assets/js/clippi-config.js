@@ -1,6 +1,6 @@
 (function(){
   window.CLIPPIO_CONFIG = {
-    version: '6.6.3',
+    version: '6.6.4',
     avatarUrl: '/assets/images/clippi-avatar.png',
     webFinderUrl: '/web-finder/',
     contactUrl: '/kontakt/',
