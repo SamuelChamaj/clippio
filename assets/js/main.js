@@ -1,4 +1,4 @@
-// Clippio v6.6.2 - Google Sheets CMS fallback loader + availability + alerts + Clippi Light Helper
+// Clippio v6.6.3 - Google Sheets CMS availability active-cell fix + alerts + Clippi Light Helper
 // Stabilná verzia: navbar a footer sú priamo v HTML, aby web fungoval aj po otvorení cez file://.
 
 const CLIPPIO_COOKIE_CONSENT_KEY='clippio_cookie_consent_v1';
@@ -168,6 +168,10 @@ function isTruthyCmsValue(value){
   return ['true','pravda','prawda','1','yes','ano','áno','on','active','zapnute','zapnuté','open'].includes(String(value||'').trim().toLowerCase());
 }
 
+function isFalseyCmsValue(value){
+  return ['false','nepravda','0','no','nie','off','inactive','vypnute','vypnuté','closed','zatvorene','zatvorené'].includes(String(value||'').trim().toLowerCase());
+}
+
 function isActiveCmsRow(row){
   return isTruthyCmsValue(row && row.active);
 }
@@ -204,7 +208,8 @@ function loadClippioCmsRowsWithFetch(){
   if(typeof fetch!=='function') return Promise.reject(new Error('Fetch is not available'));
   const controller=typeof AbortController==='function' ? new AbortController() : null;
   const timeout=controller ? window.setTimeout(()=>controller.abort(),6500) : null;
-  return fetch(CLIPPIO_CMS_CSV_URL,{cache:'no-store',signal:controller?controller.signal:undefined})
+  const csvUrl=`${CLIPPIO_CMS_CSV_URL}&cachebust=${Date.now()}`;
+  return fetch(csvUrl,{cache:'no-store',signal:controller?controller.signal:undefined})
     .then(response=>{
       if(timeout) window.clearTimeout(timeout);
       if(!response.ok) throw new Error(`Clippio CMS CSV HTTP ${response.status}`);
@@ -286,6 +291,23 @@ window.clippioCmsDebug=function(){
     source:clippioCmsLastSource,
     error:clippioCmsLastError || (error && error.message) || String(error||'unknown')
   }));
+};
+
+window.clippioAvailabilityDebug=function(){
+  return loadClippioCmsRows().then(rows=>{
+    const statusRow=findCmsRow(rows,'availabilityStatus',true);
+    const modeRow=findCmsRow(rows,'availabilityMode',true);
+    const root=document.querySelector('[data-clippio-availability]');
+    return {
+      ok:true,
+      source:clippioCmsLastSource,
+      currentDomState:root ? root.dataset.availabilityState : '',
+      availabilityStatusActive:statusRow ? statusRow.active : '',
+      availabilityStatusValue:statusRow ? statusRow.value : '',
+      availabilityModeValue:modeRow ? modeRow.value : '',
+      expected:'availabilityStatus.active FALSE = red, TRUE = green, availabilityMode limited = orange'
+    };
+  });
 };
 
 function findCmsRow(rows,key,includeInactive){
@@ -525,6 +547,7 @@ function initAvailabilityStatus(){
     const normalized=normalizeAvailabilityMode(mode) || inferAvailabilityMode(statusText,bodyText);
     root.classList.remove('availability-open','availability-closed','availability-limited','availability-loading');
     root.classList.add(`availability-${normalized}`);
+    root.dataset.availabilityState=normalized;
     statusEl.textContent=cleanAvailabilityStatusText(statusText) || fallbackStatus;
     textEl.textContent=bodyText || fallbackText;
   };
@@ -533,19 +556,33 @@ function initAvailabilityStatus(){
 
   loadClippioCmsRows()
     .then(rows=>{
-      const statusRow=findCmsSetting(rows,'availabilityStatus') || findCmsRow(rows,'availabilityStatus',true);
-      const textRow=findCmsSetting(rows,'availabilityText') || findCmsRow(rows,'availabilityText',true);
+      const statusRow=findCmsRow(rows,'availabilityStatus',true);
+      const textRow=findCmsRow(rows,'availabilityText',true);
       const rawStatus=firstCmsValue(statusRow && statusRow.value,statusRow && statusRow.text,statusRow && statusRow.title);
       const rawDescription=firstCmsValue(textRow && textRow.value,textRow && textRow.text,textRow && textRow.title);
-      const modeRow=findCmsSetting(rows,'availabilityMode') || findCmsSetting(rows,'availabilityOpen') || findCmsSetting(rows,'availabilityState') || findCmsSetting(rows,'acceptingProjects');
-      const explicitMode=firstCmsValue(
-        modeRow && modeRow.value,
-        modeRow && modeRow.text,
-        modeRow && modeRow.title,
-        normalizeAvailabilityMode(rawStatus) ? rawStatus : '',
-        normalizeAvailabilityMode(statusRow && statusRow.active) && !modeRow ? statusRow.active : ''
-      );
-      const status=normalizeAvailabilityMode(rawStatus) ? fallbackStatus : (rawStatus || fallbackStatus);
+
+      const modeRow=findCmsRow(rows,'availabilityMode',true) ||
+        findCmsRow(rows,'availabilityOpen',true) ||
+        findCmsRow(rows,'availabilityState',true) ||
+        findCmsRow(rows,'acceptingProjects',true);
+
+      const modeValue=firstCmsValue(modeRow && modeRow.value,modeRow && modeRow.text,modeRow && modeRow.title);
+      const modeFromValue=normalizeAvailabilityMode(modeValue);
+      const modeFromStatus=normalizeAvailabilityMode(rawStatus);
+
+      let modeFromStatusActive='';
+      if(statusRow){
+        if(isFalseyCmsValue(statusRow.active)) modeFromStatusActive='closed';
+        else if(isTruthyCmsValue(statusRow.active)) modeFromStatusActive='open';
+      }
+
+      let explicitMode='';
+      if(modeFromValue==='limited') explicitMode='limited';
+      else if(modeFromStatusActive) explicitMode=modeFromStatusActive;
+      else if(modeFromValue) explicitMode=modeFromValue;
+      else if(modeFromStatus) explicitMode=modeFromStatus;
+
+      const status=modeFromStatus ? fallbackStatus : (rawStatus || fallbackStatus);
       const description=rawDescription || fallbackText;
       applyState(explicitMode,status,description);
     })

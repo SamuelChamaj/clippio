@@ -1,3 +1,11 @@
+## v6.6.3 – oprava ovládania dostupnosti cez stĺpec active
+- Opravené správanie stavovej guličky podľa reálneho plánu tabuľky: `availabilityStatus.active` teraz priamo ovláda farbu. `TRUE` = zelená, `FALSE` = červená.
+- Hodnota `availabilityMode` zostáva ako doplnkový režim; `limited` / `obmedzené` má prioritu a nastaví oranžovú.
+- Dostupnosť sa už nestratí len preto, že riadok `availabilityStatus` má `active=FALSE`; pri tomto riadku sa `active` chápe ako stav dostupnosti, nie ako skrytie riadku.
+- CSV loader dostal cache-busting parameter, aby sa po úprave tabuľky menej držala stará verzia.
+- Pridaný `window.clippioAvailabilityDebug()` pre rýchlu kontrolu stavu v konzole.
+- Aktualizované README, llms.txt, sitemap a cache verzie hlavných assetov na `v=6.6.3`.
+
 ## v6.6.2 – oprava Google Sheets CMS loadera
 - Opravené načítanie CMS tabuľky: web najprv skúsi publikované CSV a pri zlyhaní automaticky použije Google Visualization script fallback bez CORS problému.
 - Doplnený `window.clippioCmsDebug()`, aby sa v konzole dalo overiť, či sa tabuľka reálne načítala a z akého zdroja.
