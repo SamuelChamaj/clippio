@@ -33,11 +33,13 @@ Clippio is best suited for owner-operated businesses that are better in reality 
 
 Clippio creates fast, responsive websites with a clear structure, contact path, basic SEO setup, sitemap, robots.txt, favicon, and technical checks. Before development, the client can review the direction, structure, and clickable prototype. For agreed website projects, payment is made after approval of the final site in the agreed scope.
 
+Clippi Light Helper is a guided on-site consultant that helps visitors choose a service, see an indicative price range, open Web Finder for website projects, and send a non-binding inquiry.
+
 ## Website packages
 
 - Štart web: simple one-page presentation or landing page, from 199 EUR.
 - Rast: professional company website for credibility and inquiries, from 499 EUR.
-- Predajný web / e-shop: sales website, product catalog, order website, or smaller e-commerce project, from 899 EUR.
+- Predajný web / e-shop: sales website, product catalog, order website, or smaller e-commerce project, from 999 EUR.
 
 ## Product pages
 

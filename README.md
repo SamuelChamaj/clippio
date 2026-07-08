@@ -1,4 +1,4 @@
-# Clippio web – v6.5.11
+# Clippio web – v6.6.0
 
 Statický HTML web pre **Clippio** pripravený na GitHub Pages. Verzia v6.x vychádza z funkčného základu **v5.1.1** a pridáva kontrolovaný Brand Book positioning bez rozbitia pôvodných napojení a funkcií.
 
@@ -20,9 +20,10 @@ Tieto služby nemajú pôsobiť ako nesúvisiace ponuky. Ich cieľ je podporiť 
 
 ## Stav verzie
 
-Aktuálna verzia: **v6.5.11 – Web Finder question height fix**
+Aktuálna verzia: **v6.6.0 – Clippi Light Helper**
 
 Obsahovo vychádza z:
+- **v6.6.0** – Clippi Light Helper: pridaný riadený digitálny konzultant v pravom dolnom rohu, otázky pre web, video, fotky, dron, grafiku, kombinácie služieb a nejasné zadania, scoring odporúčania, orientačné ceny, prepojenie na Web Finder, localStorage pokračovanie a dopyt cez existujúci Web3Forms endpoint. Aktualizované cache verzie hlavných stránok na `v=6.6.0`.
 - **v6.5.11** – Web Finder question height fix: opravené orezávanie poslednej odpovede v kroku „Rozsah webu“. Výška aktívnej otázky sa už nesmie zamknúť na príliš nízku hodnotu po načítaní fontov alebo zmene viewportu. Aktualizované cache verzie CSS/JS na `v=6.5.11`.
 - **v6.5.10** – Web Finder clean back control: odstránené neprofesionálne spodné tlačidlo „Späť“ z formulára, ovládanie späť presunuté do hornej časti progress panelu ako malé čisté tlačidlo, bez prekrývania kariet odpovedí. Aktualizované cache verzie CSS/JS na `v=6.5.10`.
 - **v6.5.9** – SEO canonical and meta description cleanup: skrátené meta descriptions na hlavných upravených stránkach, canonical tagy zapísané v štandardnom tvare `rel="canonical" href="..."` a aktualizované cache verzie CSS/JS na `v=6.5.9`.
@@ -44,7 +45,7 @@ Obsahovo vychádza z:
 - **v6.1.0** – doplnené viditeľné ďakovacie okno po úspešnom odoslaní dopytu.
 - **v6.0.5** – oprava správania formulára po odoslaní dopytu.
 
-Verzia **v6.5.11** rieši Web Finder: opravené je orezávanie poslednej odpovede v krokoch s vyšším obsahom. Balíček zároveň obsahuje všetky úpravy z v6.5.10.
+Verzia **v6.6.0** pridáva Clippi Light Helper: rýchly poradenský panel bez AI chatbota, s kontrolovanými otázkami, odporúčaním služby, orientačnou cenou a odoslaním nezáväzného dopytu. Balíček zároveň obsahuje všetky úpravy z v6.5.11.
 
 Verzia **v6.1.0** upravuje webové balíky tak, aby hlavné karty zostali jednoduché, ale pod nimi pribudli presné podrobnosti, férové obchodné hranice a FAQ k doméne, hostingu, úpravám a fakturácii. Doména na prvý rok je uvedená ako súčasť každého webového balíka.
 
@@ -63,6 +64,7 @@ Verzia **v6.1.0** upravuje webové balíky tak, aby hlavné karty zostali jednod
 - sitemap, robots, favicon, Open Graph a základné SEO prvky,
 - `llms.txt` pre lepšiu čitateľnosť webu pre AI/LLM nástroje.
 - Web Finder s automatickým prechodom na ďalšiu otázku po výbere odpovede.
+- Clippi Light Helper ako riadený poradca pre výber služby, Web Finder preklik a dopyt cez Web3Forms.
 
 ## Najdôležitejšie stránky
 

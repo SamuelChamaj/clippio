@@ -1,3 +1,13 @@
+## v6.6.0 – Clippi Light Helper
+- Pridaný Clippi Light Helper ako riadený digitálny konzultant, nie voľný AI chatbot.
+- Doplnené nové súbory `/assets/js/clippi-config.js`, `/assets/js/clippi.js` a `/assets/css/clippi.css`.
+- Clippi obsahuje otázky pre webové stránky, video tvorbu, fotografovanie, dron zábery, grafiku, kombinácie služieb a nejasné zadania.
+- Pridané jednoduché scoring pravidlá, odporúčaná služba, dôvod odporúčania, orientačný cenový rozsah a ďalší krok.
+- Webové odpovede ponúkajú preklik na existujúci `/web-finder/` a ukladajú `clippi_service`, `clippi_goal`, `clippi_budget` a `clippi_source` do localStorage.
+- Dopytový formulár v paneli používa existujúci Web3Forms endpoint z kontaktného formulára.
+- Helper je napojený na hlavné stránky Clippio webu bez zásahu do demo webov.
+- Cache verzie hlavných stránok posunuté na `v=6.6.0`.
+
 ## v6.5.6 – Web Finder výsledok až po otázkach
 - Výsledkový panel sa už nezobrazuje priebežne počas výberu.
 - Odporúčanie sa otvorí až po dokončení posledného kroku a kliknutí na „Zobraziť odporúčanie“.
