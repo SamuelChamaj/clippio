@@ -5,14 +5,17 @@
   const config = window.CLIPPIO_CONFIG || {};
   const storageKeys = config.storage || {};
   const stateKey = storageKeys.state || 'clippi_state_v1';
+  const greetingKey = 'clippi_greeting_dismissed_at';
   const sourceLabel = 'Clippi panel';
+  const avatarUrl = config.avatarUrl || '/assets/images/clippi-avatar.png';
   const emptyState = {
     view: 'question',
     service: '',
     currentIndex: 0,
     answers: [],
     recommendation: null,
-    lastActivity: ''
+    lastActivity: '',
+    sourcePage: ''
   };
   let state = clone(emptyState);
   let openedOnce = false;
@@ -22,6 +25,9 @@
   let panel;
   let body;
   let footerBack;
+  let greeting;
+  let greetingTimer;
+  let greetingHideTimer;
 
   function clone(value){
     return JSON.parse(JSON.stringify(value));
@@ -51,6 +57,10 @@
     return parts.some(part => text.includes(normalize(part)));
   }
 
+  function avatarMarkup(className, alt){
+    return `<img class="${className}" src="${escapeHtml(avatarUrl)}" alt="${escapeHtml(alt || 'Clippi')}" loading="lazy" decoding="async">`;
+  }
+
   function getQuestions(){
     const service = config.services && config.services[state.service];
     return service ? service.questions || [] : [];
@@ -68,6 +78,13 @@
 
   function answerSummary(){
     return state.answers.map(item => `- ${item.question}: ${item.answer}`).join('\n');
+  }
+
+  function detailedAnswerSummary(){
+    return state.answers.map((item, index) => [
+      `${index + 1}. ${item.question}`,
+      `Odpoveď: ${item.answer}`
+    ].join('\n')).join('\n\n');
   }
 
   function saveState(){
@@ -128,15 +145,18 @@
     root.innerHTML = `
       <button class="clippi-float-btn" type="button" aria-label="Poradiť s výberom služby" aria-controls="clippi-panel" aria-expanded="false" data-clippi-open>
         <span class="clippi-float-btn__icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" focusable="false"><path d="M12 3.25c-4.97 0-9 3.2-9 7.15 0 2.22 1.28 4.2 3.29 5.51l-.75 3.12a.75.75 0 0 0 1.08.83l3.36-1.79c.65.11 1.33.17 2.02.17 4.97 0 9-3.2 9-7.15S16.97 3.25 12 3.25Zm-3.2 8.2a1.05 1.05 0 1 1 0-2.1 1.05 1.05 0 0 1 0 2.1Zm3.2 0a1.05 1.05 0 1 1 0-2.1 1.05 1.05 0 0 1 0 2.1Zm3.2 0a1.05 1.05 0 1 1 0-2.1 1.05 1.05 0 0 1 0 2.1Z"/></svg>
+          ${avatarMarkup('clippi-float-btn__avatar', '')}
         </span>
         <span>Poradiť s výberom</span>
       </button>
       <section class="clippi-panel" id="clippi-panel" role="dialog" aria-label="Clippi digitálny konzultant" hidden>
         <header class="clippi-panel__header">
-          <div>
-            <strong>Clippi</strong>
-            <span>Digitálny konzultant Clippia</span>
+          <div class="clippi-panel__brand">
+            ${avatarMarkup('clippi-panel__avatar', 'Clippi')}
+            <div>
+              <strong>Clippi</strong>
+              <span>Digitálny konzultant Clippia</span>
+            </div>
           </div>
           <button class="clippi-icon-btn" type="button" aria-label="Zavrieť Clippiho" data-clippi-action="close">
             <span aria-hidden="true">&times;</span>
@@ -148,6 +168,11 @@
           <button class="clippi-link-btn" type="button" data-clippi-action="reset">Resetovať výber</button>
         </footer>
       </section>
+      <div class="clippi-greeting" role="status" aria-live="polite" hidden data-clippi-greeting>
+        ${avatarMarkup('clippi-greeting__avatar', 'Clippi')}
+        <p>Ahoj, ja som Clippi. Potrebujete poradiť s výberom služby?</p>
+        <button type="button" aria-label="Zavrieť uvítanie Clippiho" data-clippi-action="greeting-close">&times;</button>
+      </div>
     `;
 
     document.body.appendChild(root);
@@ -155,6 +180,7 @@
     panel = root.querySelector('.clippi-panel');
     body = root.querySelector('[data-clippi-body]');
     footerBack = root.querySelector('[data-clippi-action="back"]');
+    greeting = root.querySelector('[data-clippi-greeting]');
     document.body.classList.add('clippi-ready');
 
     floatButton.addEventListener('click', openPanel);
@@ -165,10 +191,13 @@
     });
 
     render();
+    scheduleGreeting();
   }
 
   function openPanel(){
     lastFocus = document.activeElement;
+    hideGreeting(false);
+    if(!state.sourcePage) state.sourcePage = window.location.href;
     panel.hidden = false;
     document.body.classList.add('clippi-panel-open');
     floatButton.setAttribute('aria-expanded', 'true');
@@ -200,12 +229,51 @@
     }, 0);
   }
 
+  function shouldShowGreeting(){
+    if(!greeting) return false;
+    if(panel && !panel.hidden) return false;
+    if(window.matchMedia && window.matchMedia('(max-width: 768px)').matches) return false;
+    try{
+      const dismissedAt = Number(localStorage.getItem(greetingKey) || 0);
+      if(dismissedAt && Date.now() - dismissedAt < 24 * 60 * 60 * 1000) return false;
+    }catch(error){}
+    return true;
+  }
+
+  function scheduleGreeting(){
+    if(!greeting || !shouldShowGreeting()) return;
+    window.clearTimeout(greetingTimer);
+    window.clearTimeout(greetingHideTimer);
+    greetingTimer = window.setTimeout(() => {
+      if(!shouldShowGreeting()) return;
+      greeting.hidden = false;
+      greeting.classList.add('is-visible');
+      greetingHideTimer = window.setTimeout(() => hideGreeting(false), 9000);
+    }, 2000);
+  }
+
+  function hideGreeting(persist){
+    if(!greeting) return;
+    window.clearTimeout(greetingTimer);
+    window.clearTimeout(greetingHideTimer);
+    greeting.classList.remove('is-visible');
+    greeting.hidden = true;
+    if(persist){
+      try{ localStorage.setItem(greetingKey, String(Date.now())); }catch(error){}
+    }
+  }
+
+  function dismissGreeting(){
+    hideGreeting(true);
+  }
+
   function handleClick(event){
     const actionEl = event.target.closest('[data-clippi-action]');
     if(!actionEl) return;
     const action = actionEl.getAttribute('data-clippi-action');
 
     if(action === 'close') closePanel();
+    if(action === 'greeting-close') dismissGreeting();
     if(action === 'reset' || action === 'start-over') startOver();
     if(action === 'back') goBack();
     if(action === 'answer') chooseAnswer(Number(actionEl.getAttribute('data-option-index')));
@@ -335,7 +403,12 @@
   function renderQuestion(){
     const question = currentQuestion();
     if(!question) return '';
-    const intro = !state.service ? `<p class="clippi-intro">${escapeHtml(config.intro || '')}</p>` : '';
+    const intro = !state.service ? `
+      <div class="clippi-intro-bubble">
+        ${avatarMarkup('clippi-intro-bubble__avatar', 'Clippi')}
+        <p>${escapeHtml(config.intro || '')}</p>
+      </div>
+    ` : '';
     const options = question.options.map((option, index) => {
       const label = typeof option === 'string' ? option : option.label;
       return `<button class="clippi-option" type="button" data-clippi-action="answer" data-option-index="${index}">${escapeHtml(label)}</button>`;
@@ -387,8 +460,13 @@
     const webFinderButton = rec.webFinder ? '<button class="clippi-secondary" type="button" data-clippi-action="webfinder">Spustiť Web Finder</button>' : '';
     return `
       <div class="clippi-result-card">
-        <span class="clippi-eyebrow">Odporúčané riešenie</span>
-        <h2>${escapeHtml(rec.title)}</h2>
+        <div class="clippi-result-card__top">
+          ${avatarMarkup('clippi-result-card__avatar', 'Clippi')}
+          <div>
+            <span class="clippi-eyebrow">Odporúčané riešenie</span>
+            <h2>${escapeHtml(rec.title)}</h2>
+          </div>
+        </div>
         <p class="clippi-result-intro">${escapeHtml(rec.intro)}</p>
         <dl>
           <div><dt>Prečo</dt><dd>${escapeHtml(rec.why)} ${escapeHtml(rec.suitable || '')}</dd></div>
@@ -414,6 +492,7 @@
         <p>Odporúčanie: <strong>${escapeHtml(rec.title)}</strong> · ${escapeHtml(rec.price)}</p>
       </div>
       <form class="clippi-lead-form" data-clippi-form>
+        <input type="hidden" name="clippi_summary" id="clippi-summary" value="">
         <label>Meno<input name="Meno" autocomplete="name" required></label>
         <label>E-mail alebo telefón<input name="Kontakt" autocomplete="email" required></label>
         <label>Krátky popis projektu<textarea name="Kratky popis projektu" required placeholder="Čo potrebujete vyriešiť?"></textarea></label>
@@ -603,7 +682,8 @@
     const formData = new FormData(form);
     const rec = state.recommendation || evaluate();
     const now = new Date();
-    const page = window.location.href;
+    const page = state.sourcePage || window.location.href;
+    const clickedAnswers = detailedAnswerSummary();
     const message = [
       'Nový dopyt cez Clippiho',
       '',
@@ -612,36 +692,36 @@
       `Firma: ${formData.get('Firma') || ''}`,
       `Lokalita: ${formData.get('Lokalita') || ''}`,
       '',
-      `Typ služby: ${rec.service || serviceLabel()}`,
+      `Vybraná služba: ${rec.service || serviceLabel()}`,
       `Odporúčanie Clippiho: ${rec.title}`,
-      `Cenová kategória: ${rec.price}`,
+      `Orientačný odhad: ${rec.price}`,
       `Termín: ${formData.get('Termin') || ''}`,
+      `Rozpočet: ${formData.get('Rozpocet') || budgetAnswer()}`,
       '',
-      'Zhrnutie odpovedí:',
-      `- Vybraná služba: ${serviceLabel()}`,
-      `- Hlavný cieľ: ${goalAnswer()}`,
-      `- Podklady: ${materialsAnswer()}`,
-      `- Rozpočet: ${formData.get('Rozpocet') || budgetAnswer()}`,
-      `- Poznámka: ${formData.get('Poznamka') || ''}`,
-      '',
-      answerSummary(),
+      'Naklikané odpovede klienta:',
+      clickedAnswers || 'Bez uložených odpovedí.',
       '',
       `Krátky popis projektu: ${formData.get('Kratky popis projektu') || ''}`,
+      `Poznámka: ${formData.get('Poznamka') || ''}`,
       `Web / sociálne siete: ${formData.get('Web alebo socialne siete') || ''}`,
       '',
       `Stránka, z ktorej prišiel: ${page}`,
       `Dátum a čas: ${now.toLocaleString('sk-SK')}`
     ].join('\n');
 
+    const summaryInput = form.querySelector('#clippi-summary');
+    if(summaryInput) summaryInput.value = message;
+
     formData.append('access_key', config.web3Forms.accessKey);
     formData.append('subject', config.web3Forms.subject || 'Nový dopyt cez Clippiho');
     formData.append('from_name', 'Clippi Light Helper');
     formData.append('Typ služby', rec.service || serviceLabel());
     formData.append('Odporúčanie Clippiho', rec.title);
-    formData.append('Cenová kategória', rec.price);
-    formData.append('Odpovede používateľa', answerSummary());
+    formData.append('Orientačný odhad', rec.price);
+    formData.append('Naklikané odpovede klienta', clickedAnswers);
     formData.append('Stránka', page);
     formData.append('Dátum a čas', now.toISOString());
+    formData.set('clippi_summary', message);
     formData.append('message', message);
     return formData;
   }

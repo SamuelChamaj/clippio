@@ -5,6 +5,10 @@
 - Pridané jednoduché scoring pravidlá, odporúčaná služba, dôvod odporúčania, orientačný cenový rozsah a ďalší krok.
 - Webové odpovede ponúkajú preklik na existujúci `/web-finder/` a ukladajú `clippi_service`, `clippi_goal`, `clippi_budget` a `clippi_source` do localStorage.
 - Dopytový formulár v paneli používa existujúci Web3Forms endpoint z kontaktného formulára.
+- Doplnený vlastný avatar Clippiho v `/assets/images/clippi-avatar.png` a použitý v plávajúcom tlačidle, hlavičke panela, úvodnej bubline a výsledkovej karte.
+- Pridaná desktopová uvítacia bublina s krátkym oneskorením, ručným zatvorením a 24-hodinovým zapamätaním zatvorenia cez localStorage.
+- Plávajúce tlačidlo Clippiho je posunuté nad existujúce dopytové CTA aj pri cookie lište, vrátane mobilnej poistky proti prekrytiu.
+- Odosielaný dopyt teraz obsahuje skrytý `clippi_summary` s vybranou hlavnou službou, všetkými otázkami a odpoveďami, odporúčaním, cenovým rozsahom, zdrojovou stránkou a dátumom.
 - Helper je napojený na hlavné stránky Clippio webu bez zásahu do demo webov.
 - Cache verzie hlavných stránok posunuté na `v=6.6.0`.
 
