@@ -9,6 +9,9 @@
 - Pridaná desktopová uvítacia bublina s krátkym oneskorením, ručným zatvorením a 24-hodinovým zapamätaním zatvorenia cez localStorage.
 - Plávajúce tlačidlo Clippiho je posunuté nad existujúce dopytové CTA aj pri cookie lište, vrátane mobilnej poistky proti prekrytiu.
 - Odosielaný dopyt teraz obsahuje skrytý `clippi_summary` s vybranou hlavnou službou, všetkými otázkami a odpoveďami, odporúčaním, cenovým rozsahom, zdrojovou stránkou a dátumom.
+- Doplnené consent-based meranie klikov na CTA, Web Finder, Clippiho a odoslania formulárov cez udalosti `cta_click`, `web_finder_click`, `clippi_click` a `lead_form_submit_*`.
+- Skrátené vybrané obchodné texty na homepage, stránke tvorby webov, cenníku a kontakte, aby web pôsobil rýchlejšie a viac dopytovo.
+- Aktualizované stránky Cookies a Ochrana osobných údajov o meranie obchodných klikov bez ukladania obsahu správ.
 - Helper je napojený na hlavné stránky Clippio webu bez zásahu do demo webov.
 - Cache verzie hlavných stránok posunuté na `v=6.6.0`.
 

@@ -1,9 +1,84 @@
 // Clippio v6.6.0 - Alerts + availability + Web Finder advisor + Clippi Light Helper
 // Stabilná verzia: navbar a footer sú priamo v HTML, aby web fungoval aj po otvorení cez file://.
 
+const CLIPPIO_COOKIE_CONSENT_KEY='clippio_cookie_consent_v1';
+
 function escapeHtml(v){
   return String(v||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
 }
+
+function getClippioCookieConsent(){
+  try{
+    return JSON.parse(localStorage.getItem(CLIPPIO_COOKIE_CONSENT_KEY)||'null')||{};
+  }catch(e){
+    return {};
+  }
+}
+
+function canUseClippioAnalytics(){
+  return getClippioCookieConsent().analytics===true;
+}
+
+function cleanTrackingValue(value,maxLength){
+  return String(value||'')
+    .replace(/\s+/g,' ')
+    .trim()
+    .slice(0,maxLength||140);
+}
+
+function clippioTrackingText(element){
+  if(!element) return '';
+  return cleanTrackingValue(
+    element.getAttribute('aria-label') ||
+    element.getAttribute('title') ||
+    element.textContent ||
+    element.value ||
+    '',
+    120
+  );
+}
+
+function clippioTrackingSection(element){
+  const section=element && element.closest ? element.closest('section, header, footer, nav, main') : null;
+  if(!section) return '';
+  if(section.id) return section.id;
+  const heading=section.querySelector('h1,h2,h3,.kicker');
+  return clippioTrackingText(heading) || cleanTrackingValue(section.className,80);
+}
+
+function clippioTrackEvent(eventName,params){
+  if(!canUseClippioAnalytics()) return false;
+  const payload=Object.assign({
+    page_path:window.location.pathname,
+    page_title:document.title,
+    page_url:window.location.href
+  },params||{});
+
+  if(typeof window.gtag==='function'){
+    window.gtag('event',eventName,payload);
+  }else if(Array.isArray(window.dataLayer)){
+    window.dataLayer.push(Object.assign({event:eventName},payload));
+  }else{
+    window.dataLayer=[Object.assign({event:eventName},payload)];
+  }
+
+  if(typeof window.plausible==='function'){
+    window.plausible(eventName,{props:payload});
+  }
+
+  try{
+    localStorage.setItem('clippio_last_analytics_event',JSON.stringify({
+      event:eventName,
+      payload,
+      date:new Date().toISOString()
+    }));
+  }catch(e){}
+
+  document.dispatchEvent(new CustomEvent('clippioAnalyticsEvent',{detail:{event:eventName,payload}}));
+  return true;
+}
+
+window.clippioTrack=clippioTrackEvent;
 
 function parseCsvLine(line){
   let a=[],c='',q=false;
@@ -371,18 +446,20 @@ function initClippioAlerts(){
 }
 
 function initCookieConsent(){
-  const KEY='clippio_cookie_consent_v1';
-  if(localStorage.getItem(KEY)) return;
+  if(localStorage.getItem(CLIPPIO_COOKIE_CONSENT_KEY)) return;
   const banner=document.createElement('div');
   banner.className='cookie-banner show';
   document.body.classList.add('cookie-banner-visible');
   banner.innerHTML=`<div class="cookie-inner"><div class="cookie-text"><strong>Cookies na Clippio.sk</strong><p>Používame nevyhnutné cookies pre fungovanie webu. Analytické cookies pomáhajú merať návštevnosť cez Google Analytics a vložený obsah z YouTube môže používať vlastné cookies.</p><div class="cookie-panel" id="cookie-panel"><label class="cookie-option"><input type="checkbox" checked disabled> Nevyhnutné cookies <span>– potrebné pre základné fungovanie webu.</span></label><label class="cookie-option"><input type="checkbox" id="cookie-analytics"> Analytické cookies <span>– meranie návštevnosti a zlepšovanie webu.</span></label><label class="cookie-option"><input type="checkbox" id="cookie-media"> Mediálne cookies <span>– vložený obsah, napríklad YouTube.</span></label></div></div><div class="cookie-actions"><button class="settings" type="button" id="cookie-settings">Nastavenia</button><button type="button" id="cookie-necessary">Len nevyhnutné</button><button class="accept" type="button" id="cookie-accept">Prijať všetko</button></div></div>`;
   document.body.appendChild(banner);
-  const save=(data)=>{localStorage.setItem(KEY,JSON.stringify(data));banner.classList.remove('show');document.body.classList.remove('cookie-banner-visible');document.dispatchEvent(new CustomEvent('clippioConsent',{detail:data}));};
+  const save=(data)=>{localStorage.setItem(CLIPPIO_COOKIE_CONSENT_KEY,JSON.stringify(data));banner.classList.remove('show');document.body.classList.remove('cookie-banner-visible');document.dispatchEvent(new CustomEvent('clippioConsent',{detail:data}));};
   const panel=banner.querySelector('#cookie-panel');
   banner.querySelector('#cookie-settings').addEventListener('click',()=>panel.classList.toggle('open'));
   banner.querySelector('#cookie-necessary').addEventListener('click',()=>save({necessary:true,analytics:false,media:false,date:new Date().toISOString()}));
-  banner.querySelector('#cookie-accept').addEventListener('click',()=>save({necessary:true,analytics:true,media:true,date:new Date().toISOString()}));
+  banner.querySelector('#cookie-accept').addEventListener('click',()=>{
+    save({necessary:true,analytics:true,media:true,date:new Date().toISOString()});
+    clippioTrackEvent('analytics_consent_accept',{event_category:'consent'});
+  });
 }
 
 function initFaq(){
@@ -521,6 +598,70 @@ function initFloatingCta(){
   });
 }
 
+function initClickTracking(){
+  document.addEventListener('click',event=>{
+    const target=event.target && event.target.closest ? event.target : null;
+    if(!target) return;
+
+    const clickable=target.closest('a,button,label,[data-step-indicator],[data-finder-copy]');
+    if(!clickable || clickable.closest('.cookie-banner')) return;
+
+    const link=clickable.closest('a');
+    const href=link ? link.getAttribute('href') || '' : '';
+    const payload={
+      event_category:'click',
+      click_text:clippioTrackingText(clickable),
+      click_url:href,
+      click_section:clippioTrackingSection(clickable)
+    };
+
+    if(clickable.closest('[data-clippi-root]') || clickable.hasAttribute('data-clippi-open')){
+      const actionEl=clickable.closest('[data-clippi-action]');
+      payload.event_category='clippi';
+      payload.clippi_action=clickable.hasAttribute('data-clippi-open') ? 'open' : (actionEl ? actionEl.getAttribute('data-clippi-action') : 'click');
+      payload.clippi_answer_index=actionEl && actionEl.hasAttribute('data-option-index') ? actionEl.getAttribute('data-option-index') : '';
+      clippioTrackEvent('clippi_click',payload);
+      return;
+    }
+
+    const webFinderArea=clickable.closest('[data-web-finder],.web-finder-strip,.web-advisor-teaser,.wf-page,.wf-send');
+    const opensWebFinder=href && href.indexOf('/web-finder/')!==-1;
+    if(webFinderArea || opensWebFinder){
+      payload.event_category='web_finder';
+      payload.web_finder_action=clickable.matches('label') ? 'answer_select' :
+        (clickable.hasAttribute('data-finder-back') ? 'back' :
+        (clickable.hasAttribute('data-step-indicator') ? 'step_indicator' :
+        (clickable.hasAttribute('data-finder-copy') ? 'copy_result' :
+        (opensWebFinder ? 'open' : 'click'))));
+      const input=clickable.querySelector ? clickable.querySelector('input[type="radio"]') : null;
+      if(input){
+        payload.web_finder_question=input.name || '';
+        payload.web_finder_value=input.value || '';
+      }
+      clippioTrackEvent('web_finder_click',payload);
+      return;
+    }
+
+    const cta=clickable.closest('.floating-cta,.nav-cta,.btn,.mini-btn,.price-btn,.form-btn,.package-detail-link,.service-link,.card-actions a,.web-project-card a,.footer-email');
+    if(cta){
+      payload.event_category='cta';
+      payload.cta_type=cta.className ? cleanTrackingValue(cta.className,100) : cta.tagName.toLowerCase();
+      clippioTrackEvent('cta_click',payload);
+    }
+  });
+
+  document.addEventListener('submit',event=>{
+    const form=event.target && event.target.closest ? event.target.closest('form') : null;
+    if(!form || !String(form.action||'').includes('api.web3forms.com/submit')) return;
+    const subject=form.querySelector('[name="subject"]');
+    clippioTrackEvent('lead_form_submit_attempt',{
+      event_category:'form',
+      form_subject:subject ? cleanTrackingValue(subject.value,120) : '',
+      form_section:clippioTrackingSection(form)
+    });
+  },true);
+}
+
 
 
 
@@ -597,12 +738,21 @@ function initWeb3Forms(){
           form.reset();
           message.className='form-message success';
           message.innerHTML='<strong>Dopyt bol odoslaný.</strong><span>Ďakovacie okno sa zobrazilo. Ozvem sa vám čo najskôr na uvedený kontakt.</span>';
+          clippioTrackEvent('lead_form_submit_success',{
+            event_category:'form',
+            form_subject:data.get('subject') || '',
+            form_section:clippioTrackingSection(form)
+          });
           showThankYouModal();
         }else{
           const serverMessage=result.message ? String(result.message) : 'Formulár sa nepodarilo odoslať.';
           throw new Error(serverMessage);
         }
       }catch(error){
+        clippioTrackEvent('lead_form_submit_error',{
+          event_category:'form',
+          form_section:clippioTrackingSection(form)
+        });
         message.className='form-message error';
         message.innerHTML='<strong>Dopyt sa nepodarilo odoslať.</strong><span>Skúste to znova alebo napíšte priamo na <a href="mailto:info@clippio.sk">info@clippio.sk</a>.</span>';
       }finally{
@@ -1069,6 +1219,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   initFaq();
   initReveal();
   initFloatingCta();
+  initClickTracking();
   initWeb3Forms();
   initReactBitsTextEffects();
   initWebFinder();

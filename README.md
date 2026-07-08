@@ -56,6 +56,7 @@ Verzia **v6.1.0** upravuje webové balíky tak, aby hlavné karty zostali jednod
 - Web3Forms kontaktné formuláre s lokálnou úspešnou/chybovou hláškou,
 - floating Smart CTA,
 - cookie banner,
+- consent-based meranie klikov na CTA, Web Finder, Clippiho a formuláre,
 - FAQ bloky,
 - napojenie noviniek na Google Spreadsheet,
 - napojenie cenníka fotiek na Google Spreadsheet,
@@ -82,6 +83,18 @@ Verzia **v6.1.0** upravuje webové balíky tak, aby hlavné karty zostali jednod
 - `/ochrana-osobnych-udajov/` – ochrana osobných údajov
 
 Staré koreňové `.html` presmerovania boli odstránené. Web používa čisté URL cez priečinky s `index.html`.
+
+## Meranie klikov
+
+Spoločný skript `assets/js/main.js` sleduje obchodné kliky iba po súhlase s analytickými cookies. Udalosti sa posielajú do `gtag`, `dataLayer` alebo `plausible`, ak sú na webe doplnené.
+
+Merané udalosti:
+- `cta_click` – kliky na hlavné CTA, tlačidlá, balíky a kontaktné odkazy,
+- `web_finder_click` – otvorenie Web Finderu, výber odpovedí, späť/kroky a kopírovanie výsledku,
+- `clippi_click` – otvorenie Clippiho, odpovede a akcie v paneli,
+- `lead_form_submit_attempt`, `lead_form_submit_success`, `lead_form_submit_error` – pokus, úspech alebo chyba odoslania formulára.
+
+Meranie neposiela mená, e-maily ani obsah správ. Pre reálne štatistiky treba mať na webe doplnený GA4, Google Tag Manager alebo kompatibilné meranie.
 
 ## Webové balíky
 
@@ -217,6 +230,7 @@ Na GitHub Pages musí byť obsah priečinka `clippio-main` v roote repozitára, 
 - Pri úpravách textov treba zachovať positioning: web ako hlavný pilier, ostatné kreatívne služby ako podpora digitálnej prezentácie.
 - Nepoužívať falošné recenzie, vymyslené čísla ani náhodné vizuály ako klientsku prácu.
 - Cenník a dynamické bloky musia zostať napojené na existujúci JavaScript a spreadsheet/fallback systém.
+- Analytické eventy musia rešpektovať `clippio_cookie_consent_v1`; bez analytického súhlasu sa obchodné kliky neposielajú.
 
 ## Changelog
 

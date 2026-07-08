@@ -48,6 +48,12 @@
     }[match]));
   }
 
+  function track(eventName, params){
+    if(typeof window.clippioTrack === 'function'){
+      window.clippioTrack(eventName, params || {});
+    }
+  }
+
   function normalize(value){
     return String(value || '').toLowerCase();
   }
@@ -637,12 +643,22 @@
     const originalText = button ? button.textContent : '';
     const endpoint = config.web3Forms && config.web3Forms.endpoint;
     const accessKey = config.web3Forms && config.web3Forms.accessKey;
+    const rec = state.recommendation || evaluate();
+    const trackingPayload = {
+      event_category: 'clippi',
+      form_subject: config.web3Forms && config.web3Forms.subject || 'Nový dopyt cez Clippiho',
+      clippi_service: serviceLabel(),
+      clippi_recommendation: rec.title || ''
+    };
+
+    track('lead_form_submit_attempt', trackingPayload);
 
     if(!endpoint || !accessKey || accessKey.includes('SEM_VLOZ')){
       if(message){
         message.className = 'clippi-form-message is-error';
         message.textContent = 'Odosielanie nie je nastavené. Treba doplniť Web3Forms endpoint v clippi-config.js.';
       }
+      track('lead_form_submit_error', trackingPayload);
       return;
     }
 
@@ -661,11 +677,13 @@
       let result = {};
       try{ result = await response.json(); }catch(error){}
       if(!response.ok || result.success === false) throw new Error(result.message || 'Formulár sa nepodarilo odoslať.');
+      track('lead_form_submit_success', trackingPayload);
       clearState();
       state.view = 'success';
       render();
       focusPanel();
     }catch(error){
+      track('lead_form_submit_error', trackingPayload);
       if(message){
         message.className = 'clippi-form-message is-error';
         message.innerHTML = 'Dopyt sa nepodarilo odoslať. Skúste to znova alebo napíšte priamo na <a href="mailto:info@clippio.sk">info@clippio.sk</a>.';
