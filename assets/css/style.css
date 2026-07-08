@@ -1798,7 +1798,7 @@ body{overflow-x:hidden}
 @media(max-width:1180px){.reference-case-layout{grid-template-columns:1fr}.case-study-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.case-facts{grid-template-columns:1fr}}
 @media(max-width:720px){.reference-case,.reference-card-compact,.case-study-card{padding:22px;border-radius:22px}.case-study-grid{grid-template-columns:1fr}.proof-standard{display:block}.proof-standard strong{display:block;margin-bottom:6px}.reference-card-compact .mini-btn,.case-study-card .mini-btn{width:100%;justify-content:center}.btn-on-light{width:100%}}
 
-/* v6.6.1 – Google Sheets CMS home notice */
+/* v6.6.2 – Google Sheets CMS home notice */
 .home-notice{
   margin-top:-38px;
   margin-bottom:48px;
@@ -1847,7 +1847,7 @@ body{overflow-x:hidden}
 }
 
 
-/* v6.6.1 – Google Sheets availability status */
+/* v6.6.2 – Google Sheets availability status */
 .availability-bar strong{
   display:inline-flex;
   align-items:center;

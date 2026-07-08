@@ -1,4 +1,4 @@
-# Clippio web – v6.6.1
+# Clippio web – v6.6.2
 
 Statický HTML web pre **Clippio** pripravený na GitHub Pages. Verzia v6.x vychádza z funkčného základu **v5.1.1** a pridáva kontrolovaný Brand Book positioning bez rozbitia pôvodných napojení a funkcií.
 
@@ -20,10 +20,10 @@ Tieto služby nemajú pôsobiť ako nesúvisiace ponuky. Ich cieľ je podporiť 
 
 ## Stav verzie
 
-Aktuálna verzia: **v6.6.1 – Google Sheets CMS napojenie**
+Aktuálna verzia: **v6.6.2 – oprava Google Sheets CMS loadera**
 
 Obsahovo vychádza z:
-- **v6.6.1** – Google Sheets CMS napojenie: dostupnosť na homepage, stavová gulička, novinky, zvonec upozornení, voliteľný homepage oznam a hlavné CTA sa čítajú z jednej publikovanej Google Sheets CSV tabuľky. Hodnota `TRUE` / `open` dáva zelenú dostupnosť, `FALSE` / `closed` červenú a `limited` / `obmedzené` oranžovú. Pridaný je fallback pri výpadku Google Sheets a cache verzie sú zvýšené na `v=6.6.1`.
+- **v6.6.2** – oprava Google Sheets CMS loadera: tabuľka sa načíta cez publikované CSV a pri zlyhaní automaticky cez Google Visualization script fallback. Pridaný je `window.clippioCmsDebug()` na overenie načítania. Stav guličky berie `availabilityMode`: `TRUE` / `open` = zelená, `FALSE` / `closed` = červená, `limited` / `obmedzené` = oranžová. Cache verzie sú zvýšené na `v=6.6.2`.
 - **v6.6.0** – Clippi Light Helper: pridaný riadený digitálny konzultant v pravom dolnom rohu, otázky pre web, video, fotky, dron, grafiku, kombinácie služieb a nejasné zadania, scoring odporúčania, orientačné ceny, prepojenie na Web Finder, localStorage pokračovanie a dopyt cez existujúci Web3Forms endpoint. Doplnok používa vlastný avatar `/assets/images/clippi-avatar.png`, desktopové uvítanie a odosiela kompletný súhrn naklikaných odpovedí. Aktualizované cache verzie hlavných stránok na `v=6.6.0`.
 - **v6.5.11** – Web Finder question height fix: opravené orezávanie poslednej odpovede v kroku „Rozsah webu“. Výška aktívnej otázky sa už nesmie zamknúť na príliš nízku hodnotu po načítaní fontov alebo zmene viewportu. Aktualizované cache verzie CSS/JS na `v=6.5.11`.
 - **v6.5.10** – Web Finder clean back control: odstránené neprofesionálne spodné tlačidlo „Späť“ z formulára, ovládanie späť presunuté do hornej časti progress panelu ako malé čisté tlačidlo, bez prekrývania kariet odpovedí. Aktualizované cache verzie CSS/JS na `v=6.5.10`.
@@ -48,7 +48,7 @@ Obsahovo vychádza z:
 
 Verzia **v6.6.0** pridáva Clippi Light Helper: rýchly poradenský panel bez AI chatbota, s kontrolovanými otázkami, odporúčaním služby, orientačnou cenou a odoslaním nezáväzného dopytu. Clippi používa vlastný avatar v plávajúcom tlačidle, hlavičke panela, úvodnej bubline a výsledku; na desktope vie zobraziť krátke uvítanie s 24-hodinovým zapamätaním zatvorenia. Balíček zároveň obsahuje všetky úpravy z v6.5.11.
 
-Verzia **v6.6.1** pridáva jednotný Google Sheets CMS pre dostupnosť, novinky, upozornenia, voliteľný homepage oznam a CTA texty. Ide o úpravu s nízkym rizikom: web má fallback texty a pri výpadku CSV sa nerozbije základná navigácia, formulár ani Clippi.
+Verzia **v6.6.2** opravuje rizikovú časť Google Sheets CMS: ak prehliadač neprečíta CSV priamo, web použije script fallback. Základná navigácia, formulár ani Clippi sa pri výpadku tabuľky nerozbijú.
 
 Verzia **v6.1.0** upravuje webové balíky tak, aby hlavné karty zostali jednoduché, ale pod nimi pribudli presné podrobnosti, férové obchodné hranice a FAQ k doméne, hostingu, úpravám a fakturácii. Doména na prvý rok je uvedená ako súčasť každého webového balíka.
 

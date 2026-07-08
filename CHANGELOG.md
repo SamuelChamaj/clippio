@@ -1,12 +1,10 @@
-## v6.6.1 – Google Sheets CMS napojenie
-- Hlavný Google Sheets CMS je napojený cez publikované CSV `pub?output=csv`.
-- Dostupnosť na homepage berie `availabilityStatus`, `availabilityText` a `availabilityMode` / `availabilityOpen` z tabuľky.
-- Stavová gulička používa `TRUE` / `open` ako zelenú, `FALSE` / `closed` ako červenú a `limited` / `obmedzené` ako oranžovú.
-- Zvonec upozornení a sekcia noviniek čítajú aktívne riadky zo sekcie `updates` bez vyplneného `key`.
-- Pridaný voliteľný homepage oznam riadený cez `homeNoticeActive`, `homeNoticeTitle`, `homeNoticeText`, `homeNoticeButtonText` a `homeNoticeButtonLink`.
-- Hlavné CTA a plávajúce CTA sa dajú meniť cez `primaryCtaText`, `primaryCtaLink`, `floatingCtaText` a `floatingCtaLink`.
-- Doplnený fallback, aby web ostal použiteľný aj vtedy, keď Google Sheets dočasne neodpovie.
-- Aktualizované README, llms.txt, sitemap a cache verzie hlavných assetov na `v=6.6.1`.
+## v6.6.2 – oprava Google Sheets CMS loadera
+- Opravené načítanie CMS tabuľky: web najprv skúsi publikované CSV a pri zlyhaní automaticky použije Google Visualization script fallback bez CORS problému.
+- Doplnený `window.clippioCmsDebug()`, aby sa v konzole dalo overiť, či sa tabuľka reálne načítala a z akého zdroja.
+- Stavová gulička ostáva napojená na `availabilityMode`: `TRUE` / `open` = zelená, `FALSE` / `closed` = červená, `limited` / `obmedzené` = oranžová.
+- Dostupnosť ďalej berie texty z `availabilityStatus` a `availabilityText`.
+- Zachovaný fallback, aby sa web pri výpadku Google Sheets nerozbil.
+- Aktualizované README, llms.txt, sitemap a cache verzie hlavných assetov na `v=6.6.2`.
 
 ## v6.6.0 – Clippi Light Helper
 - Pridaný Clippi Light Helper ako riadený digitálny konzultant, nie voľný AI chatbot.

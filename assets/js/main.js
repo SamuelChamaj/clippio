@@ -1,4 +1,4 @@
-// Clippio v6.6.1 - Google Sheets CMS + availability + alerts + Clippi Light Helper
+// Clippio v6.6.2 - Google Sheets CMS fallback loader + availability + alerts + Clippi Light Helper
 // Stabilná verzia: navbar a footer sú priamo v HTML, aby web fungoval aj po otvorení cez file://.
 
 const CLIPPIO_COOKIE_CONSENT_KEY='clippio_cookie_consent_v1';
@@ -93,8 +93,12 @@ function parseCsvLine(line){
   return a;
 }
 
-const CLIPPIO_CMS_CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vQypNgFRbB3PsaKHmxL4wfWYFu_kh8eR6U2wkwr0b-qOJzLwKeIn-vySWHU4MY1nIGe3twrqZ7nqd6Q/pub?output=csv';
+const CLIPPIO_CMS_PUB_ID='2PACX-1vQypNgFRbB3PsaKHmxL4wfWYFu_kh8eR6U2wkwr0b-qOJzLwKeIn-vySWHU4MY1nIGe3twrqZ7nqd6Q';
+const CLIPPIO_CMS_CSV_URL=`https://docs.google.com/spreadsheets/d/e/${CLIPPIO_CMS_PUB_ID}/pub?output=csv`;
+const CLIPPIO_CMS_GVIZ_URL=`https://docs.google.com/spreadsheets/d/e/${CLIPPIO_CMS_PUB_ID}/gviz/tq`;
 let clippioCmsRowsPromise=null;
+let clippioCmsLastSource='not-loaded';
+let clippioCmsLastError='';
 
 function parseCsvRows(text){
   const rows=[];
@@ -161,7 +165,7 @@ function normalizeCmsKey(value){
 }
 
 function isTruthyCmsValue(value){
-  return ['true','pravda','prawda','1','yes','ano','áno','on','active','zapnute','zapnuté'].includes(String(value||'').trim().toLowerCase());
+  return ['true','pravda','prawda','1','yes','ano','áno','on','active','zapnute','zapnuté','open'].includes(String(value||'').trim().toLowerCase());
 }
 
 function isActiveCmsRow(row){
@@ -176,22 +180,122 @@ function firstCmsValue(){
   return '';
 }
 
+function gvizCellToString(cell){
+  if(!cell) return '';
+  const value=cell.f!==undefined ? cell.f : cell.v;
+  if(value===null || value===undefined) return '';
+  if(value instanceof Date && !Number.isNaN(value.getTime())) return value.toISOString().slice(0,10);
+  return String(value).trim();
+}
+
+function gvizTableToObjects(response){
+  const table=response && response.table;
+  if(!table || !Array.isArray(table.cols) || !Array.isArray(table.rows)) return [];
+  const headers=table.cols.map(col=>normalizeCmsKey(col.label || col.id));
+  return table.rows.map(row=>{
+    const obj={};
+    const cells=Array.isArray(row.c) ? row.c : [];
+    headers.forEach((key,index)=>{ obj[key]=gvizCellToString(cells[index]); });
+    return obj;
+  }).filter(row=>Object.values(row).some(value=>String(value||'').trim()));
+}
+
+function loadClippioCmsRowsWithFetch(){
+  if(typeof fetch!=='function') return Promise.reject(new Error('Fetch is not available'));
+  const controller=typeof AbortController==='function' ? new AbortController() : null;
+  const timeout=controller ? window.setTimeout(()=>controller.abort(),6500) : null;
+  return fetch(CLIPPIO_CMS_CSV_URL,{cache:'no-store',signal:controller?controller.signal:undefined})
+    .then(response=>{
+      if(timeout) window.clearTimeout(timeout);
+      if(!response.ok) throw new Error(`Clippio CMS CSV HTTP ${response.status}`);
+      return response.text();
+    })
+    .then(text=>{
+      const rows=csvRowsToObjects(text);
+      if(!rows.length) throw new Error('Clippio CMS CSV returned no rows');
+      clippioCmsLastSource='csv-fetch';
+      return rows;
+    });
+}
+
+function loadClippioCmsRowsWithGviz(){
+  return new Promise((resolve,reject)=>{
+    const callbackName=`__clippioCmsGviz_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+    const script=document.createElement('script');
+    const cleanup=()=>{
+      window.clearTimeout(timeout);
+      delete window[callbackName];
+      if(script.parentNode) script.parentNode.removeChild(script);
+    };
+    const timeout=window.setTimeout(()=>{
+      cleanup();
+      reject(new Error('Clippio CMS gviz timeout'));
+    },8000);
+
+    window[callbackName]=response=>{
+      try{
+        const rows=gvizTableToObjects(response);
+        if(!rows.length) throw new Error('Clippio CMS gviz returned no rows');
+        clippioCmsLastSource='gviz-script';
+        cleanup();
+        resolve(rows);
+      }catch(error){
+        cleanup();
+        reject(error);
+      }
+    };
+
+    script.async=true;
+    script.onerror=()=>{
+      cleanup();
+      reject(new Error('Clippio CMS gviz script failed'));
+    };
+    script.src=`${CLIPPIO_CMS_GVIZ_URL}?tqx=responseHandler:${callbackName};out:json&cachebust=${Date.now()}`;
+    document.head.appendChild(script);
+  });
+}
+
 function loadClippioCmsRows(){
   if(!clippioCmsRowsPromise){
-    clippioCmsRowsPromise=fetch(CLIPPIO_CMS_CSV_URL,{cache:'no-store'})
-      .then(response=>{
-        if(!response.ok) throw new Error('Clippio CMS unavailable');
-        return response.text();
+    clippioCmsRowsPromise=loadClippioCmsRowsWithFetch()
+      .catch(error=>{
+        clippioCmsLastError=error && error.message ? error.message : String(error||'CSV failed');
+        return loadClippioCmsRowsWithGviz();
       })
-      .then(csvRowsToObjects);
+      .then(rows=>{
+        if(!rows.length) throw new Error('Clippio CMS returned no usable rows');
+        return rows;
+      })
+      .catch(error=>{
+        clippioCmsLastSource='failed';
+        clippioCmsLastError=error && error.message ? error.message : String(error||'CMS failed');
+        throw error;
+      });
   }
   return clippioCmsRowsPromise;
 }
 
-function findCmsSetting(rows,key){
+window.clippioCmsDebug=function(){
+  return loadClippioCmsRows().then(rows=>({
+    ok:true,
+    source:clippioCmsLastSource,
+    rows:rows.length,
+    sample:rows.slice(0,5)
+  })).catch(error=>({
+    ok:false,
+    source:clippioCmsLastSource,
+    error:clippioCmsLastError || (error && error.message) || String(error||'unknown')
+  }));
+};
+
+function findCmsRow(rows,key,includeInactive){
   const normalizedKey=normalizeCmsKey(key);
-  const matches=(rows||[]).filter(row=>isActiveCmsRow(row) && normalizeCmsKey(row.key)===normalizedKey);
+  const matches=(rows||[]).filter(row=>normalizeCmsKey(row.key)===normalizedKey && (includeInactive || isActiveCmsRow(row)));
   return matches.find(row=>normalizeCmsKey(row.section)==='settings') || matches[0] || null;
+}
+
+function findCmsSetting(rows,key){
+  return findCmsRow(rows,key,false);
 }
 
 function cmsSettingValue(rows,key){
@@ -429,12 +533,27 @@ function initAvailabilityStatus(){
 
   loadClippioCmsRows()
     .then(rows=>{
-      const status=cmsSettingValue(rows,'availabilityStatus') || fallbackStatus;
-      const description=cmsSettingValue(rows,'availabilityText') || fallbackText;
-      const explicitMode=cmsSettingValue(rows,'availabilityMode') || cmsSettingValue(rows,'availabilityOpen') || cmsSettingValue(rows,'availabilityState') || cmsSettingValue(rows,'acceptingProjects');
+      const statusRow=findCmsSetting(rows,'availabilityStatus') || findCmsRow(rows,'availabilityStatus',true);
+      const textRow=findCmsSetting(rows,'availabilityText') || findCmsRow(rows,'availabilityText',true);
+      const rawStatus=firstCmsValue(statusRow && statusRow.value,statusRow && statusRow.text,statusRow && statusRow.title);
+      const rawDescription=firstCmsValue(textRow && textRow.value,textRow && textRow.text,textRow && textRow.title);
+      const modeRow=findCmsSetting(rows,'availabilityMode') || findCmsSetting(rows,'availabilityOpen') || findCmsSetting(rows,'availabilityState') || findCmsSetting(rows,'acceptingProjects');
+      const explicitMode=firstCmsValue(
+        modeRow && modeRow.value,
+        modeRow && modeRow.text,
+        modeRow && modeRow.title,
+        normalizeAvailabilityMode(rawStatus) ? rawStatus : '',
+        normalizeAvailabilityMode(statusRow && statusRow.active) && !modeRow ? statusRow.active : ''
+      );
+      const status=normalizeAvailabilityMode(rawStatus) ? fallbackStatus : (rawStatus || fallbackStatus);
+      const description=rawDescription || fallbackText;
       applyState(explicitMode,status,description);
     })
-    .catch(()=>applyState('open',fallbackStatus,fallbackText));
+    .catch(error=>{
+      root.classList.add('availability-cms-failed');
+      if(window.console && console.warn) console.warn('Clippio CMS sa nepodarilo načítať:',error);
+      applyState('open',fallbackStatus,fallbackText);
+    });
 }
 
 function initCmsSettings(){
