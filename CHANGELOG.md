@@ -1,4 +1,10 @@
-﻿## v6.6.0 â€“ Clippi Light Helper
+## v6.6.1 – Floating CTA mobile cleanup
+- Posunute plavajuce CTA tlacidla nizsie, aby menej prekrývali obsah v pravej spodnej casti.
+- Mobilny Clippi button zobrazuje kratsi text „Potrebujete pomôcť?“ namiesto dlhého desktopového textu.
+- Text plavajuceho kontaktneho CTA zmeneny z „Nezáväzná ponuka“ na presnejsi „Nezáväzný dopyt“; na mobile sa skracuje na „Dopyt“.
+- Cache verzie hlavných stránok posunuté na `v=6.6.1`.
+
+﻿## v6.6.1 â€“ Clippi Light Helper
 - Napojena publikovana Google Sheets CMS tabulka pre homepage dostupnost, CTA, homepage oznam a novinky.
 - Dostupnost teraz cita aktivne riadky `availabilityStatus`, `availabilityText` a `availabilityMode`; `open`/`true` je zelena, `limited` oranzova a `closed`/`false` cervena.
 - Pri `availabilityStatus` vie farbu bodky prepnut aj stlpec `active`: `TRUE` zelena, `FALSE` cervena, `limited` oranzova.
@@ -18,7 +24,7 @@
 - SkrĂˇtenĂ© vybranĂ© obchodnĂ© texty na homepage, strĂˇnke tvorby webov, cennĂ­ku a kontakte, aby web pĂ´sobil rĂ˝chlejĹˇie a viac dopytovo.
 - AktualizovanĂ© strĂˇnky Cookies a Ochrana osobnĂ˝ch Ăşdajov o meranie obchodnĂ˝ch klikov bez ukladania obsahu sprĂˇv.
 - Helper je napojenĂ˝ na hlavnĂ© strĂˇnky Clippio webu bez zĂˇsahu do demo webov.
-- Cache verzie hlavnĂ˝ch strĂˇnok posunutĂ© na `v=6.6.0`.
+- Cache verzie hlavnĂ˝ch strĂˇnok posunutĂ© na `v=6.6.1`.
 
 ## v6.5.6 â€“ Web Finder vĂ˝sledok aĹľ po otĂˇzkach
 - VĂ˝sledkovĂ˝ panel sa uĹľ nezobrazuje priebeĹľne poÄŤas vĂ˝beru.

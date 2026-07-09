@@ -653,7 +653,7 @@ function initFloatingCta(){
     if(clicked || reminded || !document.body.contains(cta)) return;
     reminded=true;
     cta.classList.add('is-reminding','is-question');
-    if(label) label.textContent='Máte otázku? Ponuka →';
+    if(label) label.textContent='Máte otázku? Dopyt →';
     window.setTimeout(()=>cta.classList.remove('is-reminding'),800);
     window.setTimeout(()=>{
       cta.classList.remove('is-question');

@@ -6,7 +6,7 @@
 .clippi-float-btn{
   position:fixed;
   right:28px;
-  bottom:104px;
+  bottom:88px;
   z-index:10020;
   display:inline-flex;
   align-items:center;
@@ -77,17 +77,17 @@
 }
 
 body.cookie-banner-visible .clippi-float-btn{
-  bottom:188px;
+  bottom:172px;
 }
 
 body.cookie-banner-visible .clippi-greeting{
-  bottom:260px;
+  bottom:244px;
 }
 
 .clippi-panel{
   position:fixed;
   right:24px;
-  bottom:176px;
+  bottom:160px;
   z-index:10010;
   width:min(410px,calc(100vw - 32px));
   max-height:min(620px,calc(100vh - 210px));
@@ -619,10 +619,30 @@ body.cookie-banner-visible .clippi-greeting{
 
 @media (max-width:700px){
   .clippi-float-btn{
-    right:18px;
-    bottom:152px;
-    padding:14px 18px;
-    font-size:14px;
+    right:12px;
+    bottom:78px;
+    max-width:calc(100vw - 24px);
+    padding:10px 13px;
+    gap:7px;
+    font-size:13px;
+  }
+
+  .clippi-float-btn__icon,
+  .clippi-float-btn__avatar{
+    width:22px;
+    height:22px;
+  }
+
+  .clippi-float-btn span:last-child{
+    font-size:0;
+    white-space:nowrap;
+  }
+
+  .clippi-float-btn span:last-child::after{
+    content:"Potrebujete pomôcť?";
+    font-size:13px;
+    font-weight:800;
+    line-height:1;
   }
 
   .clippi-panel{
@@ -664,18 +684,18 @@ body.cookie-banner-visible .clippi-greeting{
   }
 
   body.cookie-banner-visible .clippi-float-btn{
-    bottom:268px;
+    bottom:194px;
   }
 }
 
 @media (max-width:380px){
   .clippi-float-btn{
-    max-width:calc(100vw - 36px);
-    padding:13px 16px;
+    max-width:calc(100vw - 20px);
+    padding:10px 12px;
   }
 
   .clippi-float-btn span:last-child{
-    white-space:normal;
+    white-space:nowrap;
     text-align:left;
   }
 

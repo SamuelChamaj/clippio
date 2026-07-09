@@ -673,7 +673,7 @@ input:focus,select:focus,textarea:focus{
 .floating-cta{
   position:fixed;
   right:24px;
-  bottom:24px;
+  bottom:18px;
   z-index:900;
   display:inline-flex;
   align-items:center;
@@ -702,7 +702,7 @@ input:focus,select:focus,textarea:focus{
 .floating-cta span{line-height:1;}
 .floating-cta.is-reminding{animation:clippioSmartCta .7s ease both;}
 .floating-cta.is-question{background:linear-gradient(135deg,rgba(7,16,24,.96),rgba(0,71,255,.96));}
-body.cookie-banner-visible .floating-cta{bottom:116px;}
+body.cookie-banner-visible .floating-cta{bottom:108px;}
 @keyframes clippioSmartCta{
   0%{transform:translateY(0) scale(1);box-shadow:0 18px 55px rgba(7,16,24,.26);}
   42%{transform:translateY(-2px) scale(1.045);box-shadow:0 0 0 8px rgba(0,71,255,.10),0 24px 70px rgba(7,16,24,.32);}
@@ -712,19 +712,19 @@ body.cookie-banner-visible .floating-cta{bottom:116px;}
   .floating-cta,.floating-cta.is-reminding{animation:none;transition:none;}
 }
 @media(max-width:700px){
-  .floating-cta{right:14px;bottom:88px;min-height:44px;padding:11px 14px;gap:7px;}
+  .floating-cta{right:12px;bottom:16px;min-height:42px;padding:10px 13px;gap:7px;}
   .floating-cta strong{font-size:0;}
-  .floating-cta strong:after{content:'Ponuka';font-size:13px;font-weight:900;}
-  .floating-cta.is-question strong:after{content:'Otázka?';}
-  body.cookie-banner-visible .floating-cta{bottom:186px;}
+  .floating-cta strong:after{content:'Dopyt';font-size:13px;font-weight:900;}
+  .floating-cta.is-question strong:after{content:'Pomôcť?';}
+  body.cookie-banner-visible .floating-cta{bottom:132px;}
   body.form-focus-active .floating-cta{opacity:0;pointer-events:none;transform:translateY(8px) scale(.96);}
 }
 @media(max-width:420px){
-  .floating-cta{right:12px;bottom:82px;padding:11px 13px;}
-  body.cookie-banner-visible .floating-cta{bottom:202px;}
+  .floating-cta{right:10px;bottom:14px;padding:10px 12px;}
+  body.cookie-banner-visible .floating-cta{bottom:144px;}
 }
 @media(max-height:620px) and (max-width:700px){
-  .floating-cta{bottom:18px;}
+  .floating-cta{bottom:12px;}
   body.cookie-banner-visible .floating-cta{opacity:0;pointer-events:none;}
 }
 
