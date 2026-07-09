@@ -93,7 +93,8 @@ Tabulka pouziva stlpce `active`, `section`, `key`, `value`, `title`, `text`, `bu
 
 Podporovane nastavenia v `section=settings`:
 - `availabilityStatus` a `availabilityText` menia text aktualnej dostupnosti,
-- `availabilityMode` prepina stavovu bodku: `open`/`true` zelena, `limited` oranzova, `closed`/`false` cervena,
+- pri riadku `availabilityStatus` prepina stlpec `active` stavovu bodku: `TRUE` zelena, `FALSE` cervena, `limited` oranzova,
+- `availabilityMode` stale funguje ako zaloha: `open`/`true` zelena, `limited` oranzova, `closed`/`false` cervena,
 - `primaryCtaText` a `primaryCtaLink` menia hlavne CTA na homepage,
 - `floatingCtaText` a `floatingCtaLink` menia plavajuce dopytove CTA,
 - `homeNoticeActive`, `homeNoticeTitle`, `homeNoticeText`, `homeNoticeButtonText` a `homeNoticeButtonLink` riadia homepage oznam.

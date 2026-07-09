@@ -1,6 +1,7 @@
 ﻿## v6.6.0 â€“ Clippi Light Helper
 - Napojena publikovana Google Sheets CMS tabulka pre homepage dostupnost, CTA, homepage oznam a novinky.
 - Dostupnost teraz cita aktivne riadky `availabilityStatus`, `availabilityText` a `availabilityMode`; `open`/`true` je zelena, `limited` oranzova a `closed`/`false` cervena.
+- Pri `availabilityStatus` vie farbu bodky prepnut aj stlpec `active`: `TRUE` zelena, `FALSE` cervena, `limited` oranzova.
 - Novinky na homepage sa citaju zo sekcie `updates` rovnakej tabulky a respektuju `active`, `startDate`, `endDate` a `order`.
 - Doplnene CMS riadenie hlavneho CTA, plavajuceho CTA a volitelneho homepage oznamu.
 - PridanĂ˝ Clippi Light Helper ako riadenĂ˝ digitĂˇlny konzultant, nie voÄľnĂ˝ AI chatbot.

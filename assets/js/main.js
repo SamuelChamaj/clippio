@@ -256,9 +256,8 @@ function csvRowsToObjects(text){
 
 const CLIPPIO_CMS_CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vQypNgFRbB3PsaKHmxL4wfWYFu_kh8eR6U2wkwr0b-qOJzLwKeIn-vySWHU4MY1nIGe3twrqZ7nqd6Q/pub?output=csv';
 
-function isCmsRowActive(row){
+function isCmsRowInDateWindow(row){
   if(!row) return false;
-  if(String(row.active||'').trim() && !isTruthyAlertValue(row.active)) return false;
   const now=new Date();
   const start=parseAlertDate(row.startdate,false);
   const end=parseAlertDate(row.enddate,true);
@@ -267,14 +266,24 @@ function isCmsRowActive(row){
   return true;
 }
 
+function isCmsRowActive(row){
+  if(!isCmsRowInDateWindow(row)) return false;
+  if(String(row.active||'').trim() && !isTruthyAlertValue(row.active)) return false;
+  return true;
+}
+
 function cmsRowsBySection(rows,section){
   const wanted=normalizeAlertKey(section);
   return (rows||[]).filter(row=>normalizeAlertKey(row.section)===wanted && isCmsRowActive(row));
 }
 
-function cmsSettingValue(rows,key){
+function cmsSettingRow(rows,key,includeInactive){
   const wanted=normalizeAlertKey(key);
-  const found=(rows||[]).find(row=>normalizeAlertKey(row.key)===wanted && isCmsRowActive(row));
+  return (rows||[]).find(row=>normalizeAlertKey(row.key)===wanted && (includeInactive ? isCmsRowInDateWindow(row) : isCmsRowActive(row)));
+}
+
+function cmsSettingValue(rows,key){
+  const found=cmsSettingRow(rows,key,false);
   if(!found) return '';
   return String(found.value||found.text||found.title||'').trim();
 }
@@ -331,9 +340,11 @@ function initAvailabilityStatus(){
 
   fetchClippioCmsRows()
     .then(rows=>{
-      const status=cmsSettingValue(rows,'availabilityStatus') || fallbackStatus;
+      const statusRow=cmsSettingRow(rows,'availabilityStatus',true);
+      const status=statusRow ? String(statusRow.value||statusRow.text||statusRow.title||'').trim() || fallbackStatus : fallbackStatus;
       const description=cmsSettingValue(rows,'availabilityText') || fallbackText;
-      const explicitMode=cmsSettingValue(rows,'availabilityMode') || cmsSettingValue(rows,'availabilityOpen') || cmsSettingValue(rows,'availabilityState') || cmsSettingValue(rows,'acceptingProjects');
+      const activeMode=statusRow ? normalizeAvailabilityMode(statusRow.active) : '';
+      const explicitMode=activeMode || cmsSettingValue(rows,'availabilityMode') || cmsSettingValue(rows,'availabilityOpen') || cmsSettingValue(rows,'availabilityState') || cmsSettingValue(rows,'acceptingProjects');
       applyState(explicitMode,status,description);
     })
     .catch(()=>{
