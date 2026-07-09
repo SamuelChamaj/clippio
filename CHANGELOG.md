@@ -1,367 +1,347 @@
-## v6.6.5 – text dostupnosti cez value + oranžový stav
-- Opravené čítanie hlavného textu dostupnosti: viditeľný text pri guličke sa berie z `availabilityStatus.value`, nie z fallbacku v HTML.
-- `availabilityText.value` ďalej ovláda kratší popis vedľa dostupnosti.
-- Opravená priorita stavov: `availabilityStatus.active=FALSE` dá červenú, `availabilityStatus.active=TRUE` dá zelenú a `availabilityMode=limited` / `obmedzené` alebo `availabilityStatus.value=limited` dá oranžovú, pokiaľ status nie je vyslovene vypnutý cez `active=FALSE`.
-- Doplnená poistka pre Google Visualization fallback, keď Google nepošle hlavičky stĺpcov ako labels a vráti ich až v prvom riadku.
-- Rozšírený `window.clippioAvailabilityDebug()` o vyriešený režim, text a popis.
-- Aktualizované README, llms.txt, sitemap a cache verzie hlavných assetov na `v=6.6.5`.
+﻿## v6.6.0 â€“ Clippi Light Helper
+- Napojena publikovana Google Sheets CMS tabulka pre homepage dostupnost, CTA, homepage oznam a novinky.
+- Dostupnost teraz cita aktivne riadky `availabilityStatus`, `availabilityText` a `availabilityMode`; `open`/`true` je zelena, `limited` oranzova a `closed`/`false` cervena.
+- Novinky na homepage sa citaju zo sekcie `updates` rovnakej tabulky a respektuju `active`, `startDate`, `endDate` a `order`.
+- Doplnene CMS riadenie hlavneho CTA, plavajuceho CTA a volitelneho homepage oznamu.
+- PridanĂ˝ Clippi Light Helper ako riadenĂ˝ digitĂˇlny konzultant, nie voÄľnĂ˝ AI chatbot.
+- DoplnenĂ© novĂ© sĂşbory `/assets/js/clippi-config.js`, `/assets/js/clippi.js` a `/assets/css/clippi.css`.
+- Clippi obsahuje otĂˇzky pre webovĂ© strĂˇnky, video tvorbu, fotografovanie, dron zĂˇbery, grafiku, kombinĂˇcie sluĹľieb a nejasnĂ© zadania.
+- PridanĂ© jednoduchĂ© scoring pravidlĂˇ, odporĂşÄŤanĂˇ sluĹľba, dĂ´vod odporĂşÄŤania, orientaÄŤnĂ˝ cenovĂ˝ rozsah a ÄŹalĹˇĂ­ krok.
+- WebovĂ© odpovede ponĂşkajĂş preklik na existujĂşci `/web-finder/` a ukladajĂş `clippi_service`, `clippi_goal`, `clippi_budget` a `clippi_source` do localStorage.
+- DopytovĂ˝ formulĂˇr v paneli pouĹľĂ­va existujĂşci Web3Forms endpoint z kontaktnĂ©ho formulĂˇra.
+- DoplnenĂ˝ vlastnĂ˝ avatar Clippiho v `/assets/images/clippi-avatar.png` a pouĹľitĂ˝ v plĂˇvajĂşcom tlaÄŤidle, hlaviÄŤke panela, Ăşvodnej bubline a vĂ˝sledkovej karte.
+- PridanĂˇ desktopovĂˇ uvĂ­tacia bublina s krĂˇtkym oneskorenĂ­m, ruÄŤnĂ˝m zatvorenĂ­m a 24-hodinovĂ˝m zapamĂ¤tanĂ­m zatvorenia cez localStorage.
+- PlĂˇvajĂşce tlaÄŤidlo Clippiho je posunutĂ© nad existujĂşce dopytovĂ© CTA aj pri cookie liĹˇte, vrĂˇtane mobilnej poistky proti prekrytiu.
+- OdosielanĂ˝ dopyt teraz obsahuje skrytĂ˝ `clippi_summary` s vybranou hlavnou sluĹľbou, vĹˇetkĂ˝mi otĂˇzkami a odpoveÄŹami, odporĂşÄŤanĂ­m, cenovĂ˝m rozsahom, zdrojovou strĂˇnkou a dĂˇtumom.
+- DoplnenĂ© consent-based meranie klikov na CTA, Web Finder, Clippiho a odoslania formulĂˇrov cez udalosti `cta_click`, `web_finder_click`, `clippi_click` a `lead_form_submit_*`.
+- SkrĂˇtenĂ© vybranĂ© obchodnĂ© texty na homepage, strĂˇnke tvorby webov, cennĂ­ku a kontakte, aby web pĂ´sobil rĂ˝chlejĹˇie a viac dopytovo.
+- AktualizovanĂ© strĂˇnky Cookies a Ochrana osobnĂ˝ch Ăşdajov o meranie obchodnĂ˝ch klikov bez ukladania obsahu sprĂˇv.
+- Helper je napojenĂ˝ na hlavnĂ© strĂˇnky Clippio webu bez zĂˇsahu do demo webov.
+- Cache verzie hlavnĂ˝ch strĂˇnok posunutĂ© na `v=6.6.0`.
 
-## v6.6.3 – oprava ovládania dostupnosti cez stĺpec active
-- Opravené správanie stavovej guličky podľa reálneho plánu tabuľky: `availabilityStatus.active` teraz priamo ovláda farbu. `TRUE` = zelená, `FALSE` = červená.
-- Hodnota `availabilityMode` zostáva ako doplnkový režim; `limited` / `obmedzené` má prioritu a nastaví oranžovú.
-- Dostupnosť sa už nestratí len preto, že riadok `availabilityStatus` má `active=FALSE`; pri tomto riadku sa `active` chápe ako stav dostupnosti, nie ako skrytie riadku.
-- CSV loader dostal cache-busting parameter, aby sa po úprave tabuľky menej držala stará verzia.
-- Pridaný `window.clippioAvailabilityDebug()` pre rýchlu kontrolu stavu v konzole.
-- Aktualizované README, llms.txt, sitemap a cache verzie hlavných assetov na `v=6.6.3`.
+## v6.5.6 â€“ Web Finder vĂ˝sledok aĹľ po otĂˇzkach
+- VĂ˝sledkovĂ˝ panel sa uĹľ nezobrazuje priebeĹľne poÄŤas vĂ˝beru.
+- OdporĂşÄŤanie sa otvorĂ­ aĹľ po dokonÄŤenĂ­ poslednĂ©ho kroku a kliknutĂ­ na â€žZobraziĹĄ odporĂşÄŤanieâ€ś.
+- Pri nĂˇvrate spĂ¤ĹĄ alebo zmene odpovede sa vĂ˝sledok znovu skryje, aby nepĂ´sobil ako priebeĹľnĂ© odporĂşÄŤanie.
+- Cache verzia Web Finder strĂˇnky zvĂ˝ĹˇenĂˇ na `v=6.5.6`.
 
-## v6.6.2 – oprava Google Sheets CMS loadera
-- Opravené načítanie CMS tabuľky: web najprv skúsi publikované CSV a pri zlyhaní automaticky použije Google Visualization script fallback bez CORS problému.
-- Doplnený `window.clippioCmsDebug()`, aby sa v konzole dalo overiť, či sa tabuľka reálne načítala a z akého zdroja.
-- Stavová gulička ostáva napojená na `availabilityMode`: `TRUE` / `open` = zelená, `FALSE` / `closed` = červená, `limited` / `obmedzené` = oranžová.
-- Dostupnosť ďalej berie texty z `availabilityStatus` a `availabilityText`.
-- Zachovaný fallback, aby sa web pri výpadku Google Sheets nerozbil.
-- Aktualizované README, llms.txt, sitemap a cache verzie hlavných assetov na `v=6.6.2`.
+## v6.5.5 â€“ Web Finder bez modrĂ©ho pozadia
+- OdstrĂˇnenĂ© tmavĂ© modrĂ© pozadie hlavnĂ©ho Web Finder panelu.
+- ZachovanĂ© Brandas-inĹˇpirovanĂ© usporiadanie, ale prefarbenĂ© do svetlĂ©ho Clippio ĹˇtĂ˝lu.
+- Stepper, vĂ˝sledok a cenovĂ˝ odhad ostali funkÄŤne nezmenenĂ©.
 
-## v6.6.0 – Clippi Light Helper
-- Pridaný Clippi Light Helper ako riadený digitálny konzultant, nie voľný AI chatbot.
-- Doplnené nové súbory `/assets/js/clippi-config.js`, `/assets/js/clippi.js` a `/assets/css/clippi.css`.
-- Clippi obsahuje otázky pre webové stránky, video tvorbu, fotografovanie, dron zábery, grafiku, kombinácie služieb a nejasné zadania.
-- Pridané jednoduché scoring pravidlá, odporúčaná služba, dôvod odporúčania, orientačný cenový rozsah a ďalší krok.
-- Webové odpovede ponúkajú preklik na existujúci `/web-finder/` a ukladajú `clippi_service`, `clippi_goal`, `clippi_budget` a `clippi_source` do localStorage.
-- Dopytový formulár v paneli používa existujúci Web3Forms endpoint z kontaktného formulára.
-- Doplnený vlastný avatar Clippiho v `/assets/images/clippi-avatar.png` a použitý v plávajúcom tlačidle, hlavičke panela, úvodnej bubline a výsledkovej karte.
-- Pridaná desktopová uvítacia bublina s krátkym oneskorením, ručným zatvorením a 24-hodinovým zapamätaním zatvorenia cez localStorage.
-- Plávajúce tlačidlo Clippiho je posunuté nad existujúce dopytové CTA aj pri cookie lište, vrátane mobilnej poistky proti prekrytiu.
-- Odosielaný dopyt teraz obsahuje skrytý `clippi_summary` s vybranou hlavnou službou, všetkými otázkami a odpoveďami, odporúčaním, cenovým rozsahom, zdrojovou stránkou a dátumom.
-- Doplnené consent-based meranie klikov na CTA, Web Finder, Clippiho a odoslania formulárov cez udalosti `cta_click`, `web_finder_click`, `clippi_click` a `lead_form_submit_*`.
-- Skrátené vybrané obchodné texty na homepage, stránke tvorby webov, cenníku a kontakte, aby web pôsobil rýchlejšie a viac dopytovo.
-- Aktualizované stránky Cookies a Ochrana osobných údajov o meranie obchodných klikov bez ukladania obsahu správ.
-- Helper je napojený na hlavné stránky Clippio webu bez zásahu do demo webov.
-- Cache verzie hlavných stránok posunuté na `v=6.6.0`.
+## v6.5.4 â€“ Web Finder usporiadanie podÄľa Brandas smeru
+- Web Finder dostal kompaktnejĹˇie dvojstÄşpcovĂ© rozloĹľenie inĹˇpirovanĂ© strĂˇnkou Brandas, ale bez 1:1 kopĂ­rovania.
+- PostupovĂˇ tabuÄľka ostĂˇva zachovanĂˇ, no je vloĹľenĂˇ do tmavĹˇieho poradenskĂ©ho panelu s ÄŤistejĹˇĂ­m rozloĹľenĂ­m otĂˇzok a vĂ˝sledku.
+- VĂ˝sledkovĂ˝ panel je vizuĂˇlne sĂşÄŤasĹĄou jednĂ©ho rozhrania, nie odtrhnutĂˇ karta mimo kompozĂ­cie.
+- UpravenĂ© breakpointy, aby sa na uĹľĹˇĂ­ch obrazovkĂˇch nerozĹĄahoval stepper a vĂ˝sledok neodchĂˇdzal mimo viewport.
+- Cache verzia Web Finder strĂˇnky zvĂ˝ĹˇenĂˇ na `v=6.5.4`.
 
-## v6.5.6 – Web Finder výsledok až po otázkach
-- Výsledkový panel sa už nezobrazuje priebežne počas výberu.
-- Odporúčanie sa otvorí až po dokončení posledného kroku a kliknutí na „Zobraziť odporúčanie“.
-- Pri návrate späť alebo zmene odpovede sa výsledok znovu skryje, aby nepôsobil ako priebežné odporúčanie.
-- Cache verzia Web Finder stránky zvýšená na `v=6.5.6`.
+## v6.5.3 â€“ Web Finder poradca + odhad ceny
+- Web Finder rozĹˇĂ­renĂ˝ na 6 krokov: cieÄľ, rozsah, obsah, rozpoÄŤet, funkcie a prĂ­stup.
+- VĂ˝sledok teraz odporĂşÄŤa zĂˇkladnĂ˝ balĂ­k, najlacnejĹˇiu rozumnĂş cestu, doplnkovĂ© sluĹľby, ÄŤo zatiaÄľ neplatiĹĄ a kedy uĹľ dĂˇva zmysel web na mieru.
+- DoplnenĂ˝ orientaÄŤnĂ˝ vĂ˝poÄŤet ceny: zĂˇklad balĂ­ka + odhad doplnkov + poznĂˇmka, Ĺľe nejde o finĂˇlnu cenovĂş ponuku.
+- OpravenĂ© rozhranie Web Finderu tak, aby strĂˇnka pĂ´sobila viac ako poradca a menej ako obyÄŤajnĂ˝ formulĂˇr.
+- Cache verzia Web Finder strĂˇnky zvĂ˝ĹˇenĂˇ na `v=6.5.3`.
 
-## v6.5.5 – Web Finder bez modrého pozadia
-- Odstránené tmavé modré pozadie hlavného Web Finder panelu.
-- Zachované Brandas-inšpirované usporiadanie, ale prefarbené do svetlého Clippio štýlu.
-- Stepper, výsledok a cenový odhad ostali funkčne nezmenené.
-
-## v6.5.4 – Web Finder usporiadanie podľa Brandas smeru
-- Web Finder dostal kompaktnejšie dvojstĺpcové rozloženie inšpirované stránkou Brandas, ale bez 1:1 kopírovania.
-- Postupová tabuľka ostáva zachovaná, no je vložená do tmavšieho poradenského panelu s čistejším rozložením otázok a výsledku.
-- Výsledkový panel je vizuálne súčasťou jedného rozhrania, nie odtrhnutá karta mimo kompozície.
-- Upravené breakpointy, aby sa na užších obrazovkách nerozťahoval stepper a výsledok neodchádzal mimo viewport.
-- Cache verzia Web Finder stránky zvýšená na `v=6.5.4`.
-
-## v6.5.3 – Web Finder poradca + odhad ceny
-- Web Finder rozšírený na 6 krokov: cieľ, rozsah, obsah, rozpočet, funkcie a prístup.
-- Výsledok teraz odporúča základný balík, najlacnejšiu rozumnú cestu, doplnkové služby, čo zatiaľ neplatiť a kedy už dáva zmysel web na mieru.
-- Doplnený orientačný výpočet ceny: základ balíka + odhad doplnkov + poznámka, že nejde o finálnu cenovú ponuku.
-- Opravené rozhranie Web Finderu tak, aby stránka pôsobila viac ako poradca a menej ako obyčajný formulár.
-- Cache verzia Web Finder stránky zvýšená na `v=6.5.3`.
-
-## v6.5.2 – Web Finder presná postupová tabuľka
-- Web Finder krokový výber je vizuálne prerobený presne podľa dodaného Stepper vzoru.
-- Stepper karta používa `outer-container`, `step-circle-container`, kruhové indikátory, spojnice, aktívnu bodku a fajku dokončených krokov.
-- Doplnil sa presnejší fialový akcent `#5227ff`, úzka postupová karta a výškové správanie obsahu podľa aktívneho kroku.
-- Zachovaná je statická HTML/CSS/JS implementácia pre GitHub Pages bez React buildu.
+## v6.5.2 â€“ Web Finder presnĂˇ postupovĂˇ tabuÄľka
+- Web Finder krokovĂ˝ vĂ˝ber je vizuĂˇlne prerobenĂ˝ presne podÄľa dodanĂ©ho Stepper vzoru.
+- Stepper karta pouĹľĂ­va `outer-container`, `step-circle-container`, kruhovĂ© indikĂˇtory, spojnice, aktĂ­vnu bodku a fajku dokonÄŤenĂ˝ch krokov.
+- Doplnil sa presnejĹˇĂ­ fialovĂ˝ akcent `#5227ff`, Ăşzka postupovĂˇ karta a vĂ˝ĹˇkovĂ© sprĂˇvanie obsahu podÄľa aktĂ­vneho kroku.
+- ZachovanĂˇ je statickĂˇ HTML/CSS/JS implementĂˇcia pre GitHub Pages bez React buildu.
 
 
-## v6.5.1 – Web Finder stepper UI
-- Web Finder prerobený na krokový stepper podľa dodaného návrhu: indikátory krokov, späť/pokračovať, finálne odporúčanie.
-- Zachovaná statická HTML/JS kompatibilita pre GitHub Pages bez React buildu.
-- Výsledok sa stále automaticky vkladá do dopytového formulára.
-- Cache verzia Web Finder stránky zvýšená na `v=6.5.1`.
+## v6.5.1 â€“ Web Finder stepper UI
+- Web Finder prerobenĂ˝ na krokovĂ˝ stepper podÄľa dodanĂ©ho nĂˇvrhu: indikĂˇtory krokov, spĂ¤ĹĄ/pokraÄŤovaĹĄ, finĂˇlne odporĂşÄŤanie.
+- ZachovanĂˇ statickĂˇ HTML/JS kompatibilita pre GitHub Pages bez React buildu.
+- VĂ˝sledok sa stĂˇle automaticky vkladĂˇ do dopytovĂ©ho formulĂˇra.
+- Cache verzia Web Finder strĂˇnky zvĂ˝ĹˇenĂˇ na `v=6.5.1`.
 
 # Changelog
 
-## v6.5.0 – Clippio Web Finder
-- Pridaná nová podstránka `/web-finder/` s interaktívnym výberom vhodného webového balíka.
-- Web Finder odporúča Štart, Rast, Predaj/e-shop alebo individuálne riešenie podľa cieľa, rozsahu, obsahu, rozpočtu a zložitosti.
-- Výsledok obsahuje dôvody odporúčania, riziká a ďalšie kroky.
-- Doplnený formulár, ktorý automaticky preberá výsledok Web Finderu do dopytu cez Web3Forms.
-- Doplnené CTA odkazy z homepage a stránky Tvorba webov.
-- Doplnené štýly a JavaScript pre Web Finder.
-- Aktualizovaný sitemap a cache verzie na upravených stránkach na `v=6.5.0`.
+## v6.5.0 â€“ Clippio Web Finder
+- PridanĂˇ novĂˇ podstrĂˇnka `/web-finder/` s interaktĂ­vnym vĂ˝berom vhodnĂ©ho webovĂ©ho balĂ­ka.
+- Web Finder odporĂşÄŤa Ĺ tart, Rast, Predaj/e-shop alebo individuĂˇlne rieĹˇenie podÄľa cieÄľa, rozsahu, obsahu, rozpoÄŤtu a zloĹľitosti.
+- VĂ˝sledok obsahuje dĂ´vody odporĂşÄŤania, rizikĂˇ a ÄŹalĹˇie kroky.
+- DoplnenĂ˝ formulĂˇr, ktorĂ˝ automaticky preberĂˇ vĂ˝sledok Web Finderu do dopytu cez Web3Forms.
+- DoplnenĂ© CTA odkazy z homepage a strĂˇnky Tvorba webov.
+- DoplnenĂ© ĹˇtĂ˝ly a JavaScript pre Web Finder.
+- AktualizovanĂ˝ sitemap a cache verzie na upravenĂ˝ch strĂˇnkach na `v=6.5.0`.
 
-# v6.4.1 – Dynamická dostupnosť cez Google Sheets
+# v6.4.1 â€“ DynamickĂˇ dostupnosĹĄ cez Google Sheets
 
-- Pridané napojenie sekcie „Aktuálna dostupnosť“ na Google Sheets CMS CSV.
-- Stavový bod sa mení podľa hodnoty `availabilityMode` / `availabilityOpen`:
-  - `TRUE` / `open` = zelený pulz
-  - `FALSE` / `closed` = červený pulz
-  - `limited` / `dovolenka` = žltý pulz
-- Text dostupnosti sa dá meniť cez `availabilityStatus`.
-- Popis dostupnosti sa dá meniť cez `availabilityText`.
-- Odstránená potreba dávať zelený emoji priamo do textu.
-- Cache verzia hlavnej stránky navýšená na `v=6.4.1`.
+- PridanĂ© napojenie sekcie â€žAktuĂˇlna dostupnosĹĄâ€ś na Google Sheets CMS CSV.
+- StavovĂ˝ bod sa menĂ­ podÄľa hodnoty `availabilityMode` / `availabilityOpen`:
+  - `TRUE` / `open` = zelenĂ˝ pulz
+  - `FALSE` / `closed` = ÄŤervenĂ˝ pulz
+  - `limited` / `dovolenka` = ĹľltĂ˝ pulz
+- Text dostupnosti sa dĂˇ meniĹĄ cez `availabilityStatus`.
+- Popis dostupnosti sa dĂˇ meniĹĄ cez `availabilityText`.
+- OdstrĂˇnenĂˇ potreba dĂˇvaĹĄ zelenĂ˝ emoji priamo do textu.
+- Cache verzia hlavnej strĂˇnky navĂ˝ĹˇenĂˇ na `v=6.4.1`.
 
-## v6.4.0 – portfólio a referencie
+## v6.4.0 â€“ portfĂłlio a referencie
 
-- Prepracovaná sekcia referencií na hlavnej stránke na jasnejší dôkazový systém.
-- Pridané case studies do portfólia: klientsky web, vlastný systém, obsah/grafika a modelové weby.
-- Projekty sú rozlíšené podľa dôkazovej sily: klientská realizácia, vlastný projekt, ukážka alebo externé portfólio.
-- Doplnený dôkazový štandard: bez vymyslených percent a bez miešania ukážok s klientskymi realizáciami.
-- Aktualizované cache verzie na `v=6.4.0` pre upravené stránky.
+- PrepracovanĂˇ sekcia referenciĂ­ na hlavnej strĂˇnke na jasnejĹˇĂ­ dĂ´kazovĂ˝ systĂ©m.
+- PridanĂ© case studies do portfĂłlia: klientsky web, vlastnĂ˝ systĂ©m, obsah/grafika a modelovĂ© weby.
+- Projekty sĂş rozlĂ­ĹˇenĂ© podÄľa dĂ´kazovej sily: klientskĂˇ realizĂˇcia, vlastnĂ˝ projekt, ukĂˇĹľka alebo externĂ© portfĂłlio.
+- DoplnenĂ˝ dĂ´kazovĂ˝ Ĺˇtandard: bez vymyslenĂ˝ch percent a bez mieĹˇania ukĂˇĹľok s klientskymi realizĂˇciami.
+- AktualizovanĂ© cache verzie na `v=6.4.0` pre upravenĂ© strĂˇnky.
 
-## v6.1.27 – odstránenie duplicitného redirect súboru
+## v6.1.27 â€“ odstrĂˇnenie duplicitnĂ©ho redirect sĂşboru
 
-- Odstránený koreňový súbor `o-clippio.html`, aby nevznikala duplicitná HTML stránka k `/o-clippio/`.
-- Legacy presmerovanie `/o-clippio.html` je riešené cez `404.html` bez samostatného duplicitného súboru.
-- Aktualizovaná cache verzia assetov na `v=6.1.27`.
+- OdstrĂˇnenĂ˝ koreĹovĂ˝ sĂşbor `o-clippio.html`, aby nevznikala duplicitnĂˇ HTML strĂˇnka k `/o-clippio/`.
+- Legacy presmerovanie `/o-clippio.html` je rieĹˇenĂ© cez `404.html` bez samostatnĂ©ho duplicitnĂ©ho sĂşboru.
+- AktualizovanĂˇ cache verzia assetov na `v=6.1.27`.
 
 
-## v6.1.26 – pricing and trust cleanup
-- Štart web updated to 199 € across web packages and function demo.
-- Homepage proof section now shows clearer package-based examples: Rast, Štart and e-shop.
-- Cenník separates web packages from smaller creative services more clearly.
+## v6.1.26 â€“ pricing and trust cleanup
+- Ĺ tart web updated to 199 â‚¬ across web packages and function demo.
+- Homepage proof section now shows clearer package-based examples: Rast, Ĺ tart and e-shop.
+- CennĂ­k separates web packages from smaller creative services more clearly.
 - AI wording reduced and reframed around modern tools plus manual quality control.
 - Added legacy redirect for `/o-clippio.html` to `/o-clippio/`.
 
-## v6.1.25 – SEO/cache cleanup po oprave lišty
+## v6.1.25 â€“ SEO/cache cleanup po oprave liĹˇty
 
-- Zjednotené cache verzie CSS/JS na `6.1.25` vo všetkých hlavných HTML súboroch.
-- Doplnený canonical a robots meta pre `/clippio-function-web/`.
-- Pridaný `/ukazkovy-web-start/` do hlavného sitemap.xml, keďže sa naň odkazuje z webu aj portfólia.
-- Odstránený nepoužívaný starý JS marquee fallback, aby sa už nemiešal s novou `service-marquee` lištou.
-- `noindex` ostáva iba na technických stránkach `404.html` a `/dakujeme/`, ktoré nemajú byť v indexe.
+- ZjednotenĂ© cache verzie CSS/JS na `6.1.25` vo vĹˇetkĂ˝ch hlavnĂ˝ch HTML sĂşboroch.
+- DoplnenĂ˝ canonical a robots meta pre `/clippio-function-web/`.
+- PridanĂ˝ `/ukazkovy-web-start/` do hlavnĂ©ho sitemap.xml, keÄŹĹľe sa naĹ odkazuje z webu aj portfĂłlia.
+- OdstrĂˇnenĂ˝ nepouĹľĂ­vanĂ˝ starĂ˝ JS marquee fallback, aby sa uĹľ nemieĹˇal s novou `service-marquee` liĹˇtou.
+- `noindex` ostĂˇva iba na technickĂ˝ch strĂˇnkach `404.html` a `/dakujeme/`, ktorĂ© nemajĂş byĹĄ v indexe.
 
 
-## v6.1.22 – Function Web static fix
+## v6.1.22 â€“ Function Web static fix
 
-- Clippio Function Web bol nahradený stabilnou statickou verziou bez React/Vite buildu.
-- Opravené relatívne asset cesty pre GitHub Pages.
-- Pridané funkčné prepínanie pozadí, shiny text, typewriter, CountUp, accordion, tabs, formulár, spotlight a nekonečný pás.
-- Odstránené staré nepoužívané build chunk súbory z ukážky funkcií.
+- Clippio Function Web bol nahradenĂ˝ stabilnou statickou verziou bez React/Vite buildu.
+- OpravenĂ© relatĂ­vne asset cesty pre GitHub Pages.
+- PridanĂ© funkÄŤnĂ© prepĂ­nanie pozadĂ­, shiny text, typewriter, CountUp, accordion, tabs, formulĂˇr, spotlight a nekoneÄŤnĂ˝ pĂˇs.
+- OdstrĂˇnenĂ© starĂ© nepouĹľĂ­vanĂ© build chunk sĂşbory z ukĂˇĹľky funkciĂ­.
 
 # Changelog
 
 ## v6.1.20
-- Opravené vypnuté React Bits textové efekty: shiny text, gradient text a rotujúce slová sú znovu aktívne.
-- Aktualizovaný cache query parameter na `v=6.1.20`.
+- OpravenĂ© vypnutĂ© React Bits textovĂ© efekty: shiny text, gradient text a rotujĂşce slovĂˇ sĂş znovu aktĂ­vne.
+- AktualizovanĂ˝ cache query parameter na `v=6.1.20`.
 
 ## v6.1.19
-- Opravená nekonečná lišta služieb na hlavnej stránke.
-- Lišta má teraz pevne oddelené dve rovnaké skupiny a animuje sa cez `translate3d(-50%, 0, 0)`, takže plynulo pokračuje bez statického zalomenia.
-- Aktualizovaný cache query parameter na `v=6.1.19`.
+- OpravenĂˇ nekoneÄŤnĂˇ liĹˇta sluĹľieb na hlavnej strĂˇnke.
+- LiĹˇta mĂˇ teraz pevne oddelenĂ© dve rovnakĂ© skupiny a animuje sa cez `translate3d(-50%, 0, 0)`, takĹľe plynulo pokraÄŤuje bez statickĂ©ho zalomenia.
+- AktualizovanĂ˝ cache query parameter na `v=6.1.19`.
 
-## v6.1.17 – Function Web improvement pass
+## v6.1.17 â€“ Function Web improvement pass
 
-- Prepracovaný `clippio-function-web` z ťažšieho React/Vite buildu na jednoduchú statickú HTML/CSS/JS ukážku vhodnú pre GitHub Pages.
-- Pridaný obchodnejší hero blok: funkcie sú prezentované podľa problému, ktorý riešia, nie ako náhodná galéria efektov.
-- Doplnil sa celostránkový prepínač vizuálneho režimu: Clean Light, Liquid Glass, Blue Gradient, Dark Premium a Warm Accent.
-- Katalóg funkcií má filtre podľa použitia: vizuál, text, interakcie a predaj.
-- Zachované sú jasné odkazy späť na Clippio, tvorbu webov, portfólio a kontakt.
-- Odstránené staré hashované Vite assety vo Function Webe a ponechané iba produkčné súbory potrebné pre túto ukážku.
-- Pridané stabilnejšie mobilné správanie, `prefers-reduced-motion` a jednoduchšie reveal animácie.
+- PrepracovanĂ˝ `clippio-function-web` z ĹĄaĹľĹˇieho React/Vite buildu na jednoduchĂş statickĂş HTML/CSS/JS ukĂˇĹľku vhodnĂş pre GitHub Pages.
+- PridanĂ˝ obchodnejĹˇĂ­ hero blok: funkcie sĂş prezentovanĂ© podÄľa problĂ©mu, ktorĂ˝ rieĹˇia, nie ako nĂˇhodnĂˇ galĂ©ria efektov.
+- Doplnil sa celostrĂˇnkovĂ˝ prepĂ­naÄŤ vizuĂˇlneho reĹľimu: Clean Light, Liquid Glass, Blue Gradient, Dark Premium a Warm Accent.
+- KatalĂłg funkciĂ­ mĂˇ filtre podÄľa pouĹľitia: vizuĂˇl, text, interakcie a predaj.
+- ZachovanĂ© sĂş jasnĂ© odkazy spĂ¤ĹĄ na Clippio, tvorbu webov, portfĂłlio a kontakt.
+- OdstrĂˇnenĂ© starĂ© hashovanĂ© Vite assety vo Function Webe a ponechanĂ© iba produkÄŤnĂ© sĂşbory potrebnĂ© pre tĂşto ukĂˇĹľku.
+- PridanĂ© stabilnejĹˇie mobilnĂ© sprĂˇvanie, `prefers-reduced-motion` a jednoduchĹˇie reveal animĂˇcie.
 
-## v6.1.16 – smoothness performance pass
+## v6.1.16 â€“ smoothness performance pass
 
-- Vypnutá nekonečná pohybujúca sa lišta, ktorá mohla opticky sekať.
-- Odstránený ťažký `backdrop-filter` zo sticky/fixed prvkov.
-- Odľahčené veľké tiene na kartách a CTA blokoch.
-- Na mobile vypnuté scroll reveal animácie pre stabilnejší pohyb.
-- Skrátené reveal prechody a znížený stagger delay.
-- Vypnutý automatický CTA pulz / pripomienka počas scrollu.
-- Optimalizované veľké ikony a favicony.
-- Aktualizovaný cache-busting CSS/JS na v6.1.16.
+- VypnutĂˇ nekoneÄŤnĂˇ pohybujĂşca sa liĹˇta, ktorĂˇ mohla opticky sekaĹĄ.
+- OdstrĂˇnenĂ˝ ĹĄaĹľkĂ˝ `backdrop-filter` zo sticky/fixed prvkov.
+- OdÄľahÄŤenĂ© veÄľkĂ© tiene na kartĂˇch a CTA blokoch.
+- Na mobile vypnutĂ© scroll reveal animĂˇcie pre stabilnejĹˇĂ­ pohyb.
+- SkrĂˇtenĂ© reveal prechody a znĂ­ĹľenĂ˝ stagger delay.
+- VypnutĂ˝ automatickĂ˝ CTA pulz / pripomienka poÄŤas scrollu.
+- OptimalizovanĂ© veÄľkĂ© ikony a favicony.
+- AktualizovanĂ˝ cache-busting CSS/JS na v6.1.16.
 
-## v6.1.15 – clean URL cleanup
+## v6.1.15 â€“ clean URL cleanup
 
-- Odstránené koreňové `.html` presmerovania, ktoré duplikovali priečinkové URL.
-- Zachované čisté URL cez priečinky s `index.html`.
-- Skontrolované a ponechané interné odkazy smerujúce na čisté cesty typu `/weby/`, `/portfolio/`, `/kontakt/`.
-- Aktualizovaný cache-busting CSS/JS na v6.1.15.
-- README upravené podľa čistejšej štruktúry deployu.
+- OdstrĂˇnenĂ© koreĹovĂ© `.html` presmerovania, ktorĂ© duplikovali prieÄŤinkovĂ© URL.
+- ZachovanĂ© ÄŤistĂ© URL cez prieÄŤinky s `index.html`.
+- SkontrolovanĂ© a ponechanĂ© internĂ© odkazy smerujĂşce na ÄŤistĂ© cesty typu `/weby/`, `/portfolio/`, `/kontakt/`.
+- AktualizovanĂ˝ cache-busting CSS/JS na v6.1.15.
+- README upravenĂ© podÄľa ÄŤistejĹˇej ĹˇtruktĂşry deployu.
 
-## v6.1.14 – file cleanup & deployment cleanup
+## v6.1.14 â€“ file cleanup & deployment cleanup
 
-- Odstránené nepoužívané duplicitné assety zo staršej štruktúry `assets/`.
-- Vyčistený `clippio-function-web` od zdrojového Vite projektu, `package` súborov, duplicitného `dist/` a starých build assetov.
-- Odstránené interné README/poznámkové súbory v podpriečinkoch, ktoré nie sú potrebné pre verejný web.
-- Zachované `.html` presmerovania kvôli starším odkazom a bezpečnej spätnej kompatibilite.
-- Bez zásahu do dizajnu, HTML obsahu, formulárov a produkčných CSS/JS súborov.
+- OdstrĂˇnenĂ© nepouĹľĂ­vanĂ© duplicitnĂ© assety zo starĹˇej ĹˇtruktĂşry `assets/`.
+- VyÄŤistenĂ˝ `clippio-function-web` od zdrojovĂ©ho Vite projektu, `package` sĂşborov, duplicitnĂ©ho `dist/` a starĂ˝ch build assetov.
+- OdstrĂˇnenĂ© internĂ© README/poznĂˇmkovĂ© sĂşbory v podprieÄŤinkoch, ktorĂ© nie sĂş potrebnĂ© pre verejnĂ˝ web.
+- ZachovanĂ© `.html` presmerovania kvĂ´li starĹˇĂ­m odkazom a bezpeÄŤnej spĂ¤tnej kompatibilite.
+- Bez zĂˇsahu do dizajnu, HTML obsahu, formulĂˇrov a produkÄŤnĂ˝ch CSS/JS sĂşborov.
 
-## v6.1.13 – animation cleanup & consistency update
+## v6.1.13 â€“ animation cleanup & consistency update
 
-- Zjednotené animácie na pokojný fade-up systém s kratším posunom a jednotným easingom.
-- Upravené hover efekty kariet, portfólia, ukážkových webov, referencií a CTA tlačidiel.
-- Zlepšené mobilné menu: jednoduchý opacity + translateY prechod a stabilnejší hamburger.
-- Znížená intenzita animácií na mobile a odstránené rušivé priebežné textové animácie.
-- Zjednotený spacing sekcií, radius, tiene a správanie hlavných kariet.
-- Upravené referencie do štruktúry klient/projekt, čo sa riešilo, čo bolo dodané a praktický prínos.
-- Upravený katalóg ukážkových webov do obchodnejšej a kratšej podoby.
-- Doplnená podpora `prefers-reduced-motion` pre prístupnosť.
-- Aktualizovaný cache-busting CSS/JS verzie na v6.1.13.
-
-
-## v6.1.12 – oprava Function Webu a katalógu ukážkových webov
-
-- Pridaný jasný návrat z Clippio Function Webu späť na hlavnú stránku Clippio a do katalógu ukážkových webov.
-- Upravené karty funkcií vo Function Webe, aby neboli zbytočne natiahnuté a text sa nelámal do úzkych stĺpcov.
-- Upravený katalóg ukážkových webov na stránke Tvorba webov do kompaktnejšieho 2×2 rozloženia.
-- Aktualizovaný cache-busting CSS verzie na v6.1.12.
-
-# Changelog
-
-## v6.1.11 – aktualizovaný Clippio Function Web Redone
-
-- Vymenený ukážkový web `clippio-function-web` za novú redone verziu.
-- Zachovaný celý zdrojový Vite/React projekt aj deploy build pre GitHub Pages.
-- Upravené cesty k JS, CSS a logu tak, aby ukážka fungovala v podpriečinku `/clippio-function-web/`.
-- Pôvodný Vite vstup ponechaný ako `index.vite-source.html`, deploy vstup ostáva `index.html`.
-
-## v6.1.10 – aktualizovaný Clippio Function Web
-
-- Nahradená ukážka `Clippio Function Web` novou opravenou verziou zo súboru `clippio-function-web-fixed(1).zip`.
-- Aktualizovaný koreňový deploy build v `clippio-function-web/index.html` a `clippio-function-web/assets/`.
-- Zachovaný celý zdrojový Vite/React projekt: `src/`, `public/`, `package.json`, `package-lock.json`, `.gitignore`, `dist/` a `index.vite-source.html`.
-- Upravené cesty assetov tak, aby ukážka fungovala v podpriečinku `/clippio-function-web/` na GitHub Pages.
-- Aktualizované názvy výstupných ZIP balíkov na verziu v6.1.10.
+- ZjednotenĂ© animĂˇcie na pokojnĂ˝ fade-up systĂ©m s kratĹˇĂ­m posunom a jednotnĂ˝m easingom.
+- UpravenĂ© hover efekty kariet, portfĂłlia, ukĂˇĹľkovĂ˝ch webov, referenciĂ­ a CTA tlaÄŤidiel.
+- ZlepĹˇenĂ© mobilnĂ© menu: jednoduchĂ˝ opacity + translateY prechod a stabilnejĹˇĂ­ hamburger.
+- ZnĂ­ĹľenĂˇ intenzita animĂˇciĂ­ na mobile a odstrĂˇnenĂ© ruĹˇivĂ© priebeĹľnĂ© textovĂ© animĂˇcie.
+- ZjednotenĂ˝ spacing sekciĂ­, radius, tiene a sprĂˇvanie hlavnĂ˝ch kariet.
+- UpravenĂ© referencie do ĹˇtruktĂşry klient/projekt, ÄŤo sa rieĹˇilo, ÄŤo bolo dodanĂ© a praktickĂ˝ prĂ­nos.
+- UpravenĂ˝ katalĂłg ukĂˇĹľkovĂ˝ch webov do obchodnejĹˇej a kratĹˇej podoby.
+- DoplnenĂˇ podpora `prefers-reduced-motion` pre prĂ­stupnosĹĄ.
+- AktualizovanĂ˝ cache-busting CSS/JS verzie na v6.1.13.
 
 
-## v6.1.8 – Ukážka funkcií v katalógu webov
+## v6.1.12 â€“ oprava Function Webu a katalĂłgu ukĂˇĹľkovĂ˝ch webov
 
-- Pridaný samostatný ukážkový web `Clippio Function Web` na URL `/clippio-function-web/`.
-- Na hlavnej stránke je karta „Ukážkové weby“ zjednodušená na jedno tlačidlo do katalógu.
-- Sekcia `/weby/` bola upravená na katalóg ukážkových webov vrátane ukážky funkcií.
-- Portfólio obsahuje novú kartu pre ukážku funkcií a efektov.
-
-
-## v6.1.6 – oprava portfóliovej sekcie
-
-- Upravená homepage sekcia Portfólio, aby nepôsobila natiahnuto a prázdne.
-- Grid portfólia zmenený na maximálne 3 karty v riadku na desktope.
-- Doplnený vecnejší text a krátke body ku kartám.
-- Ukážkový e-shop Liora ostáva označený ako balík Predaj / e-shop.
-- Aktualizovaný cache parameter CSS na `v=6.1.6`.
+- PridanĂ˝ jasnĂ˝ nĂˇvrat z Clippio Function Webu spĂ¤ĹĄ na hlavnĂş strĂˇnku Clippio a do katalĂłgu ukĂˇĹľkovĂ˝ch webov.
+- UpravenĂ© karty funkciĂ­ vo Function Webe, aby neboli zbytoÄŤne natiahnutĂ© a text sa nelĂˇmal do Ăşzkych stÄşpcov.
+- UpravenĂ˝ katalĂłg ukĂˇĹľkovĂ˝ch webov na strĂˇnke Tvorba webov do kompaktnejĹˇieho 2Ă—2 rozloĹľenia.
+- AktualizovanĂ˝ cache-busting CSS verzie na v6.1.12.
 
 # Changelog
 
-## v6.1.5 – ukážkový e-shop pre balík Predaj
+## v6.1.11 â€“ aktualizovanĂ˝ Clippio Function Web Redone
 
-- Pridaný ukážkový e-shop Saténové ruže Liora pod `/ukazkovy-eshop-liora/`.
-- Homepage, portfólio a stránka Tvorba webov teraz ukazujú tri rozsahy webov: Štart, Rast a Predaj/e-shop.
-- E-shop ukážka obsahuje produktový katalóg, detail produktu, frontend košík, objednávkový formulár, galériu, kontakt a spätný odkaz na Clippio.
-- Ukážka má vlastný sitemap.xml, robots.txt, canonical URL, aby nepôsobila ako reálny obchod vo vyhľadávaní.
+- VymenenĂ˝ ukĂˇĹľkovĂ˝ web `clippio-function-web` za novĂş redone verziu.
+- ZachovanĂ˝ celĂ˝ zdrojovĂ˝ Vite/React projekt aj deploy build pre GitHub Pages.
+- UpravenĂ© cesty k JS, CSS a logu tak, aby ukĂˇĹľka fungovala v podprieÄŤinku `/clippio-function-web/`.
+- PĂ´vodnĂ˝ Vite vstup ponechanĂ˝ ako `index.vite-source.html`, deploy vstup ostĂˇva `index.html`.
 
-## v6.1.4 – spoločná karta Ukážkové weby
+## v6.1.10 â€“ aktualizovanĂ˝ Clippio Function Web
 
-- Na homepage a v portfóliu boli dve samostatné ukážkové karty zlúčené do jednej karty „Ukážkové weby“.
-- FreshCar Nitra a STAVEXON sú teraz prezentované ako dve položky v jednej kategórii ukážkových webov.
-- Na stránke Tvorba webov bola sekcia ukážok zjednotená do jednej väčšej karty s porovnaním balíkov Štart a Rast.
-- Cieľom je znížiť vizuálnu duplicitu a jasnejšie ukázať, že ide o ukážkové weby podľa rozsahu balíka.
-
-## v6.1.3 – ukážkové weby pre balíky Štart a Rast
-
-- Pridaný ukážkový jednostránkový web FreshCar Nitra pre balík Štart do `/ukazkovy-web-start/`.
-- Homepage a portfólio už označujú ukážky všeobecnejšie ako „ukážkové weby“.
-- Na stránke Tvorba webov pribudla dvojica ukážok: Štart a Rast.
-- FreshCar má spätnú navigáciu na Clippio v hornej lište, navigácii a päte.
-- Ukážka Štart má vlastný canonical a môže byť indexovaná ako ukážkový web v portfóliu.
-
-## v6.1.0 – Pravdivé formulácie histórie značky
-
-## v6.1.1 – STAVEXON ukážka balíka Rast
-
-- Pridaný ukážkový firemný web STAVEXON pod `/ukazkovy-web-stavexon/`.
-- STAVEXON doplnený do portfólia pod kartu Clippio.sk v sekcii hotových webov.
-- Na stránku Tvorba webov pridaná ukážka balíka Rast v praxi.
-- Doplnené CTA odkazy na ukážku a dopyt podobného webu.
-- Doplnené URL STAVEXON do hlavného sitemap.xml.
-- Zachovaná obchodná logika: STAVEXON zodpovedá približne balíku Rast, nie balíku Štart.
-
-- Opravené formulácie okolo roku 2019, aby web netvrdil, že Clippio ako štúdio stabilne funguje od roku 2019.
-- Homepage štatistika zmenená na „skúsenosti z osobných projektov“.
-- Stránka O Clippio upravená tak, aby jasne komunikovala osobné projekty, vlastnú tvorbu a postupnú klientsku prácu.
-- Bez zásahu do formulárov, Web3Forms, spreadsheet napojení, cookie banneru a floating CTA.
-
-## v6.1.0 – Ďakovacie okno po odoslaní dopytu
-
-- Doplnené viditeľné modálne okno „Ďakujem, dopyt bol odoslaný“ po úspešnom odoslaní formulára.
-- Zachovaná inline spätná väzba pri formulári.
-- Zachovaná záložná stránka `/dakujeme/` pre prípad vypnutého JavaScriptu.
-- Aktualizované cache verzie CSS/JS na `v=6.1.0`.
-- Bez zásahu do Web3Forms access key, spreadsheet napojení, cookie banneru a floating CTA.
-
-## v6.0.5 – Web3Forms odosielanie fix
-- Opravené správanie kontaktných formulárov po odoslaní dopytu.
-- Formuláre sa už nemajú presmerovať na technickú stránku `api.web3forms.com/submit/success` s JSON hláškou.
-- Doplnené JavaScriptové odosielanie cez `fetch` so správou priamo na webe.
-- Doplnená záložná stránka `/dakujeme/` pre prípad, že JavaScript nebude dostupný.
-- Doplnené základné štýly pre úspešnú a chybovú hlášku formulára.
-- Bez zásahu do ostatných napojení a obsahu webu.
-
-## v6.0.4 – README fix
-- Aktualizovaný hlavný README.md, ktorý predtým zostal pri starom označení v4.7/v5.1.1.
-- Doplnený aktuálny popis verzie v6.x, štruktúry, balíkov, napojení a nasadenia.
-- Bez zásahu do funkcií webu.
-
-## v6.0.3 – Package detail and layout fix
-- Opravený prekrytý badge „Najvýhodnejšie“ v balíku Rast.
-- Zväčšená medzera medzi spoločným základom webových balíkov a kartami balíkov.
-- Rozšírený opis balíkov Štart, Rast a Predaj na stránke Tvorba webov aj v cenníku.
-- Rozšírená sekcia O Clippio na homepage a stránke O Clippio.
-- Zachované existujúce napojenia, formuláre, cookie banner a floating CTA.
+- NahradenĂˇ ukĂˇĹľka `Clippio Function Web` novou opravenou verziou zo sĂşboru `clippio-function-web-fixed(1).zip`.
+- AktualizovanĂ˝ koreĹovĂ˝ deploy build v `clippio-function-web/index.html` a `clippio-function-web/assets/`.
+- ZachovanĂ˝ celĂ˝ zdrojovĂ˝ Vite/React projekt: `src/`, `public/`, `package.json`, `package-lock.json`, `.gitignore`, `dist/` a `index.vite-source.html`.
+- UpravenĂ© cesty assetov tak, aby ukĂˇĹľka fungovala v podprieÄŤinku `/clippio-function-web/` na GitHub Pages.
+- AktualizovanĂ© nĂˇzvy vĂ˝stupnĂ˝ch ZIP balĂ­kov na verziu v6.1.10.
 
 
-## v6.0.2 – finálny obsahový patch
-- Rozšírené webové balíky na stránke Tvorba webov aj v cenníku.
-- Balík Rast doplnený ako profesionálny firemný web s konkrétnym rozsahom.
-- Balík Predaj jasnejšie označený ako objednávkový web / menší e-shop.
-- Stránka O Clippio doplnená o viac kontextu, prístup a dôvody spolupráce.
-- Zachované existujúce napojenia, formuláre, cookie banner, floating CTA a lokálna štruktúra URL.
+## v6.1.8 â€“ UkĂˇĹľka funkciĂ­ v katalĂłgu webov
+
+- PridanĂ˝ samostatnĂ˝ ukĂˇĹľkovĂ˝ web `Clippio Function Web` na URL `/clippio-function-web/`.
+- Na hlavnej strĂˇnke je karta â€žUkĂˇĹľkovĂ© webyâ€ś zjednoduĹˇenĂˇ na jedno tlaÄŤidlo do katalĂłgu.
+- Sekcia `/weby/` bola upravenĂˇ na katalĂłg ukĂˇĹľkovĂ˝ch webov vrĂˇtane ukĂˇĹľky funkciĂ­.
+- PortfĂłlio obsahuje novĂş kartu pre ukĂˇĹľku funkciĂ­ a efektov.
+
+
+## v6.1.6 â€“ oprava portfĂłliovej sekcie
+
+- UpravenĂˇ homepage sekcia PortfĂłlio, aby nepĂ´sobila natiahnuto a prĂˇzdne.
+- Grid portfĂłlia zmenenĂ˝ na maximĂˇlne 3 karty v riadku na desktope.
+- DoplnenĂ˝ vecnejĹˇĂ­ text a krĂˇtke body ku kartĂˇm.
+- UkĂˇĹľkovĂ˝ e-shop Liora ostĂˇva oznaÄŤenĂ˝ ako balĂ­k Predaj / e-shop.
+- AktualizovanĂ˝ cache parameter CSS na `v=6.1.6`.
+
+# Changelog
+
+## v6.1.5 â€“ ukĂˇĹľkovĂ˝ e-shop pre balĂ­k Predaj
+
+- PridanĂ˝ ukĂˇĹľkovĂ˝ e-shop SatĂ©novĂ© ruĹľe Liora pod `/ukazkovy-eshop-liora/`.
+- Homepage, portfĂłlio a strĂˇnka Tvorba webov teraz ukazujĂş tri rozsahy webov: Ĺ tart, Rast a Predaj/e-shop.
+- E-shop ukĂˇĹľka obsahuje produktovĂ˝ katalĂłg, detail produktu, frontend koĹˇĂ­k, objednĂˇvkovĂ˝ formulĂˇr, galĂ©riu, kontakt a spĂ¤tnĂ˝ odkaz na Clippio.
+- UkĂˇĹľka mĂˇ vlastnĂ˝ sitemap.xml, robots.txt, canonical URL, aby nepĂ´sobila ako reĂˇlny obchod vo vyhÄľadĂˇvanĂ­.
+
+## v6.1.4 â€“ spoloÄŤnĂˇ karta UkĂˇĹľkovĂ© weby
+
+- Na homepage a v portfĂłliu boli dve samostatnĂ© ukĂˇĹľkovĂ© karty zlĂşÄŤenĂ© do jednej karty â€žUkĂˇĹľkovĂ© webyâ€ś.
+- FreshCar Nitra a STAVEXON sĂş teraz prezentovanĂ© ako dve poloĹľky v jednej kategĂłrii ukĂˇĹľkovĂ˝ch webov.
+- Na strĂˇnke Tvorba webov bola sekcia ukĂˇĹľok zjednotenĂˇ do jednej vĂ¤ÄŤĹˇej karty s porovnanĂ­m balĂ­kov Ĺ tart a Rast.
+- CieÄľom je znĂ­ĹľiĹĄ vizuĂˇlnu duplicitu a jasnejĹˇie ukĂˇzaĹĄ, Ĺľe ide o ukĂˇĹľkovĂ© weby podÄľa rozsahu balĂ­ka.
+
+## v6.1.3 â€“ ukĂˇĹľkovĂ© weby pre balĂ­ky Ĺ tart a Rast
+
+- PridanĂ˝ ukĂˇĹľkovĂ˝ jednostrĂˇnkovĂ˝ web FreshCar Nitra pre balĂ­k Ĺ tart do `/ukazkovy-web-start/`.
+- Homepage a portfĂłlio uĹľ oznaÄŤujĂş ukĂˇĹľky vĹˇeobecnejĹˇie ako â€žukĂˇĹľkovĂ© webyâ€ś.
+- Na strĂˇnke Tvorba webov pribudla dvojica ukĂˇĹľok: Ĺ tart a Rast.
+- FreshCar mĂˇ spĂ¤tnĂş navigĂˇciu na Clippio v hornej liĹˇte, navigĂˇcii a pĂ¤te.
+- UkĂˇĹľka Ĺ tart mĂˇ vlastnĂ˝ canonical a mĂ´Ĺľe byĹĄ indexovanĂˇ ako ukĂˇĹľkovĂ˝ web v portfĂłliu.
+
+## v6.1.0 â€“ PravdivĂ© formulĂˇcie histĂłrie znaÄŤky
+
+## v6.1.1 â€“ STAVEXON ukĂˇĹľka balĂ­ka Rast
+
+- PridanĂ˝ ukĂˇĹľkovĂ˝ firemnĂ˝ web STAVEXON pod `/ukazkovy-web-stavexon/`.
+- STAVEXON doplnenĂ˝ do portfĂłlia pod kartu Clippio.sk v sekcii hotovĂ˝ch webov.
+- Na strĂˇnku Tvorba webov pridanĂˇ ukĂˇĹľka balĂ­ka Rast v praxi.
+- DoplnenĂ© CTA odkazy na ukĂˇĹľku a dopyt podobnĂ©ho webu.
+- DoplnenĂ© URL STAVEXON do hlavnĂ©ho sitemap.xml.
+- ZachovanĂˇ obchodnĂˇ logika: STAVEXON zodpovedĂˇ pribliĹľne balĂ­ku Rast, nie balĂ­ku Ĺ tart.
+
+- OpravenĂ© formulĂˇcie okolo roku 2019, aby web netvrdil, Ĺľe Clippio ako ĹˇtĂşdio stabilne funguje od roku 2019.
+- Homepage Ĺˇtatistika zmenenĂˇ na â€žskĂşsenosti z osobnĂ˝ch projektovâ€ś.
+- StrĂˇnka O Clippio upravenĂˇ tak, aby jasne komunikovala osobnĂ© projekty, vlastnĂş tvorbu a postupnĂş klientsku prĂˇcu.
+- Bez zĂˇsahu do formulĂˇrov, Web3Forms, spreadsheet napojenĂ­, cookie banneru a floating CTA.
+
+## v6.1.0 â€“ ÄŽakovacie okno po odoslanĂ­ dopytu
+
+- DoplnenĂ© viditeÄľnĂ© modĂˇlne okno â€žÄŽakujem, dopyt bol odoslanĂ˝â€ś po ĂşspeĹˇnom odoslanĂ­ formulĂˇra.
+- ZachovanĂˇ inline spĂ¤tnĂˇ vĂ¤zba pri formulĂˇri.
+- ZachovanĂˇ zĂˇloĹľnĂˇ strĂˇnka `/dakujeme/` pre prĂ­pad vypnutĂ©ho JavaScriptu.
+- AktualizovanĂ© cache verzie CSS/JS na `v=6.1.0`.
+- Bez zĂˇsahu do Web3Forms access key, spreadsheet napojenĂ­, cookie banneru a floating CTA.
+
+## v6.0.5 â€“ Web3Forms odosielanie fix
+- OpravenĂ© sprĂˇvanie kontaktnĂ˝ch formulĂˇrov po odoslanĂ­ dopytu.
+- FormulĂˇre sa uĹľ nemajĂş presmerovaĹĄ na technickĂş strĂˇnku `api.web3forms.com/submit/success` s JSON hlĂˇĹˇkou.
+- DoplnenĂ© JavaScriptovĂ© odosielanie cez `fetch` so sprĂˇvou priamo na webe.
+- DoplnenĂˇ zĂˇloĹľnĂˇ strĂˇnka `/dakujeme/` pre prĂ­pad, Ĺľe JavaScript nebude dostupnĂ˝.
+- DoplnenĂ© zĂˇkladnĂ© ĹˇtĂ˝ly pre ĂşspeĹˇnĂş a chybovĂş hlĂˇĹˇku formulĂˇra.
+- Bez zĂˇsahu do ostatnĂ˝ch napojenĂ­ a obsahu webu.
+
+## v6.0.4 â€“ README fix
+- AktualizovanĂ˝ hlavnĂ˝ README.md, ktorĂ˝ predtĂ˝m zostal pri starom oznaÄŤenĂ­ v4.7/v5.1.1.
+- DoplnenĂ˝ aktuĂˇlny popis verzie v6.x, ĹˇtruktĂşry, balĂ­kov, napojenĂ­ a nasadenia.
+- Bez zĂˇsahu do funkciĂ­ webu.
+
+## v6.0.3 â€“ Package detail and layout fix
+- OpravenĂ˝ prekrytĂ˝ badge â€žNajvĂ˝hodnejĹˇieâ€ś v balĂ­ku Rast.
+- ZvĂ¤ÄŤĹˇenĂˇ medzera medzi spoloÄŤnĂ˝m zĂˇkladom webovĂ˝ch balĂ­kov a kartami balĂ­kov.
+- RozĹˇĂ­renĂ˝ opis balĂ­kov Ĺ tart, Rast a Predaj na strĂˇnke Tvorba webov aj v cennĂ­ku.
+- RozĹˇĂ­renĂˇ sekcia O Clippio na homepage a strĂˇnke O Clippio.
+- ZachovanĂ© existujĂşce napojenia, formulĂˇre, cookie banner a floating CTA.
+
+
+## v6.0.2 â€“ finĂˇlny obsahovĂ˝ patch
+- RozĹˇĂ­renĂ© webovĂ© balĂ­ky na strĂˇnke Tvorba webov aj v cennĂ­ku.
+- BalĂ­k Rast doplnenĂ˝ ako profesionĂˇlny firemnĂ˝ web s konkrĂ©tnym rozsahom.
+- BalĂ­k Predaj jasnejĹˇie oznaÄŤenĂ˝ ako objednĂˇvkovĂ˝ web / menĹˇĂ­ e-shop.
+- StrĂˇnka O Clippio doplnenĂˇ o viac kontextu, prĂ­stup a dĂ´vody spoluprĂˇce.
+- ZachovanĂ© existujĂşce napojenia, formulĂˇre, cookie banner, floating CTA a lokĂˇlna ĹˇtruktĂşra URL.
 
 # Changelog
 
 ## v5.0.1
 
-### Opravené
-- Opravené načítanie CSS, JavaScriptu, obrázkov a favicon pri čistých URL typu `/sluzby/`.
-- Všetky interné odkazy a asset cesty zmenené na root-relative tvar pre GitHub Pages.
-- Staré koreňové `.html` presmerovania odstránené; web používa čisté URL cez priečinky.
+### OpravenĂ©
+- OpravenĂ© naÄŤĂ­tanie CSS, JavaScriptu, obrĂˇzkov a favicon pri ÄŤistĂ˝ch URL typu `/sluzby/`.
+- VĹˇetky internĂ© odkazy a asset cesty zmenenĂ© na root-relative tvar pre GitHub Pages.
+- StarĂ© koreĹovĂ© `.html` presmerovania odstrĂˇnenĂ©; web pouĹľĂ­va ÄŤistĂ© URL cez prieÄŤinky.
 
 
 ## v5.0.0
 
-### Zmenené
-- Podstránky sú presunuté do priečinkov s `index.html`, aby URL fungovali bez `.html`.
-- Interné odkazy, canonical URL a sitemap boli upravené na čisté URL.
-- Koreňové `.html` presmerovania odstránené, aby bol deploy čistejší.
+### ZmenenĂ©
+- PodstrĂˇnky sĂş presunutĂ© do prieÄŤinkov s `index.html`, aby URL fungovali bez `.html`.
+- InternĂ© odkazy, canonical URL a sitemap boli upravenĂ© na ÄŤistĂ© URL.
+- KoreĹovĂ© `.html` presmerovania odstrĂˇnenĂ©, aby bol deploy ÄŤistejĹˇĂ­.
 
-## v6.0.0 – Controlled Brand Book positioning update
-- Základ ponechaný na funkčnej verzii v5.1.1.
-- Homepage prepracovaná podľa Brand Book positioningu: profesionálna digitálna prezentácia, web ako hlavný pilier, foto/video/grafika/dron ako podpora.
-- Zachované pôvodné funkčné moduly: navigácia, formuláre Web3Forms, novinky zo spreadsheetu, ceny fotiek zo spreadsheetu, hotové weby zo spreadsheetu, FAQ, cookie banner a floating CTA.
-- Webové balíky rozšírené na Štart, Rast a Predaj/e-shop s jasnými výhodami, hranicami, faktúrou, prototypom a zárukou.
-- Recenzie nahradené pripraveným dôkazovým blokom bez falošných hodnotení.
-- Portfólio prepracované na reálne projekty a overiteľné odkazy.
-## v6.0.1 – oprava portfólia, cenníka a balíkov
-- Zvýraznený YouTube blok ako jasný preklik na YouTube portfólio.
-- Doplnený preklik na Google Drive s grafikou v portfóliu.
-- Odstránené návštevnícky nevhodné interné vysvetlenie pri hotových weboch.
-- Rozšírený cenník o viac informácií, priame CTA na dopyt a jasnejšie vysvetlenie cien.
-- Skrátené a skompaktnené webové balíky, aby karty nepôsobili zbytočne roztiahnuto.
-- Zachované napojenia, formuláre, cookie banner, floating CTA a existujúce sekcie.
+## v6.0.0 â€“ Controlled Brand Book positioning update
+- ZĂˇklad ponechanĂ˝ na funkÄŤnej verzii v5.1.1.
+- Homepage prepracovanĂˇ podÄľa Brand Book positioningu: profesionĂˇlna digitĂˇlna prezentĂˇcia, web ako hlavnĂ˝ pilier, foto/video/grafika/dron ako podpora.
+- ZachovanĂ© pĂ´vodnĂ© funkÄŤnĂ© moduly: navigĂˇcia, formulĂˇre Web3Forms, novinky zo spreadsheetu, ceny fotiek zo spreadsheetu, hotovĂ© weby zo spreadsheetu, FAQ, cookie banner a floating CTA.
+- WebovĂ© balĂ­ky rozĹˇĂ­renĂ© na Ĺ tart, Rast a Predaj/e-shop s jasnĂ˝mi vĂ˝hodami, hranicami, faktĂşrou, prototypom a zĂˇrukou.
+- Recenzie nahradenĂ© pripravenĂ˝m dĂ´kazovĂ˝m blokom bez faloĹˇnĂ˝ch hodnotenĂ­.
+- PortfĂłlio prepracovanĂ© na reĂˇlne projekty a overiteÄľnĂ© odkazy.
+## v6.0.1 â€“ oprava portfĂłlia, cennĂ­ka a balĂ­kov
+- ZvĂ˝raznenĂ˝ YouTube blok ako jasnĂ˝ preklik na YouTube portfĂłlio.
+- DoplnenĂ˝ preklik na Google Drive s grafikou v portfĂłliu.
+- OdstrĂˇnenĂ© nĂˇvĹˇtevnĂ­cky nevhodnĂ© internĂ© vysvetlenie pri hotovĂ˝ch weboch.
+- RozĹˇĂ­renĂ˝ cennĂ­k o viac informĂˇciĂ­, priame CTA na dopyt a jasnejĹˇie vysvetlenie cien.
+- SkrĂˇtenĂ© a skompaktnenĂ© webovĂ© balĂ­ky, aby karty nepĂ´sobili zbytoÄŤne roztiahnuto.
+- ZachovanĂ© napojenia, formulĂˇre, cookie banner, floating CTA a existujĂşce sekcie.
 
-## v6.1.2 – spätná navigácia zo STAVEXON ukážky
+## v6.1.2 â€“ spĂ¤tnĂˇ navigĂˇcia zo STAVEXON ukĂˇĹľky
 
-- Doplnená horná lišta s návratom späť na Clippio v ukážkovom webe STAVEXON.
-- Doplnený odkaz späť na Clippio do mobilnej navigácie aj päty ukážky.
-- Cieľ: návštevník sa po otvorení ukážkového webu nezasekne mimo hlavnej stránky Clippio.
+- DoplnenĂˇ hornĂˇ liĹˇta s nĂˇvratom spĂ¤ĹĄ na Clippio v ukĂˇĹľkovom webe STAVEXON.
+- DoplnenĂ˝ odkaz spĂ¤ĹĄ na Clippio do mobilnej navigĂˇcie aj pĂ¤ty ukĂˇĹľky.
+- CieÄľ: nĂˇvĹˇtevnĂ­k sa po otvorenĂ­ ukĂˇĹľkovĂ©ho webu nezasekne mimo hlavnej strĂˇnky Clippio.
 
-## v6.1.9 – doplnený zdrojový projekt Clippio Function Web
+## v6.1.9 â€“ doplnenĂ˝ zdrojovĂ˝ projekt Clippio Function Web
 
-- Do priečinka `clippio-function-web/` boli doplnené aj zdrojové Vite/React súbory.
-- Funkčná statická verzia pre GitHub Pages ostáva v koreňovom `clippio-function-web/index.html`.
-- Pôvodný Vite vstupný súbor je uložený ako `clippio-function-web/index.vite-source.html`, aby neprepísal deploy verziu.
+- Do prieÄŤinka `clippio-function-web/` boli doplnenĂ© aj zdrojovĂ© Vite/React sĂşbory.
+- FunkÄŤnĂˇ statickĂˇ verzia pre GitHub Pages ostĂˇva v koreĹovom `clippio-function-web/index.html`.
+- PĂ´vodnĂ˝ Vite vstupnĂ˝ sĂşbor je uloĹľenĂ˝ ako `clippio-function-web/index.vite-source.html`, aby neprepĂ­sal deploy verziu.
 
 
 
 ## v6.1.23
-- Definitívna oprava nekonečnej lišty: pohyb rieši JS cez requestAnimationFrame, nie CSS animácia.
-- Lišta si sama duplikuje obsah a posúva sa pixelovo bez skoku.
+- DefinitĂ­vna oprava nekoneÄŤnej liĹˇty: pohyb rieĹˇi JS cez requestAnimationFrame, nie CSS animĂˇcia.
+- LiĹˇta si sama duplikuje obsah a posĂşva sa pixelovo bez skoku.

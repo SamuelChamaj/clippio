@@ -1798,56 +1798,8 @@ body{overflow-x:hidden}
 @media(max-width:1180px){.reference-case-layout{grid-template-columns:1fr}.case-study-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.case-facts{grid-template-columns:1fr}}
 @media(max-width:720px){.reference-case,.reference-card-compact,.case-study-card{padding:22px;border-radius:22px}.case-study-grid{grid-template-columns:1fr}.proof-standard{display:block}.proof-standard strong{display:block;margin-bottom:6px}.reference-card-compact .mini-btn,.case-study-card .mini-btn{width:100%;justify-content:center}.btn-on-light{width:100%}}
 
-/* v6.6.5 – Google Sheets CMS home notice */
-.home-notice{
-  margin-top:-38px;
-  margin-bottom:48px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:18px;
-  padding:18px 22px;
-  border-radius:24px;
-  border:1px solid rgba(255,176,32,.24);
-  background:linear-gradient(135deg,rgba(255,255,255,.95),rgba(255,248,229,.90));
-  box-shadow:0 18px 55px rgba(7,16,24,.06);
-  opacity:0;
-  transform:translateY(-8px);
-  transition:opacity .22s ease,transform .22s ease;
-}
-.home-notice.is-visible{
-  opacity:1;
-  transform:none;
-}
-.home-notice strong{
-  display:block;
-  margin-bottom:5px;
-  font-size:18px;
-  color:var(--ink);
-}
-.home-notice p{
-  margin:0;
-  color:var(--muted);
-  line-height:1.5;
-}
-.home-notice .mini-btn{
-  flex:0 0 auto;
-}
-@media(max-width:700px){
-  .home-notice{
-    margin-top:-28px;
-    margin-bottom:38px;
-    display:grid;
-    border-radius:20px;
-  }
-  .home-notice .mini-btn{
-    width:100%;
-    justify-content:center;
-  }
-}
 
-
-/* v6.6.5 – Google Sheets availability status */
+/* v6.4.1 – Google Sheets availability status */
 .availability-bar strong{
   display:inline-flex;
   align-items:center;
@@ -1858,8 +1810,8 @@ body{overflow-x:hidden}
   height:12px;
   border-radius:999px;
   flex:0 0 auto;
-  background:var(--availability-dot-color,#30bb78);
-  box-shadow:0 0 0 5px var(--availability-dot-soft,rgba(48,187,120,.12)),0 0 0 0 var(--availability-dot-strong,rgba(48,187,120,.35));
+  background:#30bb78;
+  box-shadow:0 0 0 5px rgba(48,187,120,.12),0 0 0 0 rgba(48,187,120,.35);
   animation:clippioAvailabilityPulseGreen 1.8s ease-out infinite;
 }
 .availability-status-text{
@@ -1889,6 +1841,39 @@ body{overflow-x:hidden}
   box-shadow:0 0 0 5px rgba(138,150,168,.12);
   animation:none;
 }
+.home-notice{
+  margin-top:-34px;
+  margin-bottom:54px;
+  background:linear-gradient(135deg,#071018,#0d2c61);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:24px;
+  padding:20px 22px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  box-shadow:0 22px 70px rgba(7,16,24,.16);
+}
+.home-notice[hidden]{display:none!important;}
+.home-notice span{
+  display:inline-flex;
+  color:var(--lime);
+  font-size:12px;
+  font-weight:950;
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
+.home-notice p{
+  margin:0;
+  color:rgba(255,255,255,.78);
+}
+.home-notice .btn{
+  background:#fff;
+  color:var(--ink);
+  white-space:nowrap;
+}
 @keyframes clippioAvailabilityPulseGreen{
   0%{box-shadow:0 0 0 5px rgba(48,187,120,.12),0 0 0 0 rgba(48,187,120,.36)}
   70%{box-shadow:0 0 0 5px rgba(48,187,120,.12),0 0 0 12px rgba(48,187,120,0)}
@@ -1906,6 +1891,19 @@ body{overflow-x:hidden}
 }
 @media(prefers-reduced-motion:reduce){
   .availability-status-dot{animation:none!important;}
+}
+@media(max-width:700px){
+  .home-notice{
+    display:block;
+    margin-top:-24px;
+    margin-bottom:44px;
+    padding:20px;
+    border-radius:20px;
+  }
+  .home-notice .btn{
+    width:100%;
+    margin-top:14px;
+  }
 }
 
 /* v6.5.0: Clippio Web Finder */
