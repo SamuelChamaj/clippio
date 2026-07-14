@@ -1,6 +1,11 @@
 (function(){
+  const pricing = window.CLIPPIO_PRICING || {
+    start: { display: 'od 199 €' },
+    business: { display: 'od 499 €' },
+    shop: { display: 'od 999 €' }
+  };
   window.CLIPPIO_CONFIG = {
-    version: '6.6.0',
+    version: '7.0.0',
     avatarUrl: '/assets/images/clippi-avatar.png',
     webFinderUrl: '/web-finder/',
     contactUrl: '/kontakt/',
@@ -263,27 +268,27 @@
         intro: 'Podľa odpovedí odporúčam Web Štart.',
         why: 'Dáva zmysel, ak potrebujete jednoduchú a profesionálnu online prezentáciu bez zbytočných funkcií. Väčší balík by bol v tejto fáze pravdepodobne zbytočný.',
         suitable: 'Vhodné pre: menšie firmy, služby, osobné portfólio alebo prvý firemný web.',
-        price: 'od 199 €',
+        price: pricing.start.display,
         next: 'Pripraviť základné info o firme, kontakt a 2 – 3 referenčné weby, ktoré sa vám páčia.',
         webFinder: true
       },
       webRast: {
         service: 'Webové stránky',
-        title: 'Web Rast',
-        intro: 'Podľa odpovedí odporúčam Web Rast.',
+        title: 'Firemný web',
+        intro: 'Podľa odpovedí odporúčam Firemný web.',
         why: 'Tento balík dáva zmysel, ak má web nielen vyzerať dobre, ale aj lepšie predstaviť služby, dôveru a viesť ľudí ku kontaktu. Oproti základnému webu je vhodnejší pri väčšom rozsahu obsahu.',
         suitable: 'Vhodné pre: firmy, služby, lokálne podnikanie a projekty, ktoré chcú pôsobiť profesionálnejšie.',
-        price: 'od 499 €',
+        price: pricing.business.display,
         next: 'Spísať hlavné služby, cieľ webu, dostupné podklady a požadovaný termín.',
         webFinder: true
       },
       webPredaj: {
         service: 'Webové stránky',
-        title: 'Web Predaj alebo individuálne riešenie',
-        intro: 'Podľa odpovedí odporúčam Web Predaj alebo individuálne riešenie.',
+        title: 'E-shop alebo objednávkový web',
+        intro: 'Podľa odpovedí odporúčam E-shop alebo objednávkový web.',
         why: 'Ak má web pracovať s produktmi, katalógom alebo predajom, jednoduchý prezentačný web by nestačil. Tu je dôležité riešiť štruktúru, prehľadnosť a cestu zákazníka.',
         suitable: 'Vhodné pre: katalóg, predaj produktov, objednávky, rezervácie alebo obchodný web.',
-        price: 'od 999 €',
+        price: pricing.shop.display,
         next: 'Pripraviť typy produktov, spôsob objednávky, platbu alebo dopytový proces.',
         webFinder: true,
         priceNote: 'Presná cena závisí od rozsahu, termínu, lokality a dodaných podkladov.'
@@ -294,7 +299,7 @@
         intro: 'Podľa odpovedí odporúčam promo video.',
         why: 'Dáva zmysel, ak chcete rýchlo ukázať firmu, službu alebo produkt a použiť výstup na webe, sociálnych sieťach alebo v reklame.',
         suitable: 'Vhodné pre: predstavenie firmy, služby, produktu alebo kampane.',
-        price: 'orientačne od 99 €',
+        price: 'orientačne od 89 €',
         next: 'Doplniť miesto, účel videa, požadovanú dĺžku a termín.'
       },
       reels: {
@@ -322,7 +327,7 @@
         intro: 'Podľa odpovedí odporúčam firemné fotografovanie.',
         why: 'Ak web alebo sociálne siete pôsobia slabo, problém často nie je len v dizajne, ale v nekvalitných fotkách. Dobré fotky vedia výrazne zlepšiť prvý dojem.',
         suitable: 'Vhodné pre: firmu, priestory, tím, web alebo sociálne siete.',
-        price: 'orientačne od 79 €',
+        price: 'orientačne od 39 €',
         next: 'Doplniť miesto fotenia, počet výstupov a spôsob použitia fotiek.'
       },
       productPhoto: {
@@ -331,7 +336,7 @@
         intro: 'Podľa odpovedí odporúčam produktové fotografie.',
         why: 'Pri produktoch je vizuál rozhodujúci. Slabé fotky znižujú dôveru a môžu zbytočne kaziť predaj, aj keď je samotný produkt dobrý.',
         suitable: 'Vhodné pre: produkty, katalóg, e-shop, web alebo sociálne siete.',
-        price: 'orientačne od 79 €',
+        price: 'orientačne od 39 €',
         next: 'Pripraviť počet produktov, štýl fotenia a kde sa budú fotky používať.'
       },
       eventPhoto: {
@@ -360,7 +365,7 @@
         intro: 'Podľa odpovedí odporúčam grafický návrh.',
         why: 'Je vhodný, ak potrebujete rýchlo a jasne odkomunikovať akciu, službu alebo ponuku. Pri tlači je dôležité pripraviť správne rozmery a čitateľný text.',
         suitable: 'Vhodné pre: plagát, leták, vizitku, banner, sociálne siete alebo tlačový podklad.',
-        price: 'orientačne od 25 €',
+        price: 'orientačne od 5 €',
         next: 'Dodať texty, logo, rozmery, miesto použitia a požadovaný termín.'
       },
       comboWebPhoto: {
