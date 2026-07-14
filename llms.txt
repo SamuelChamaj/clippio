@@ -1,81 +1,51 @@
 # Clippio
 
-> Clippio is a Slovak creative studio focused on website creation, photography, video production, graphic design, and drone footage for small and medium businesses.
+Clippio is a small Slovak creative and technology studio based in Zlaté Moravce. It is run by Samuel Chamaj and serves Zlaté Moravce, Nitra, Levice, Vráble, nearby areas, and remote website projects across Slovakia.
 
-Clippio helps local businesses look credible online. The main offer is modern website creation for small firms, trades, services, hospitality, retail, and solo entrepreneurs. Supporting services include business photography, promotional video, event video, drone footage, and graphics.
+## Main services
 
-## Core positioning
+- Website creation for solo entrepreneurs and small companies.
+- Small e-shops, catalogs, and order websites with a clearly agreed scope.
+- Corporate, promotional, product, vertical, and event video.
 
-Clippio is best suited for owner-operated businesses that are better in reality than they look online. The studio combines web design with matching visual content so that a customer’s first impression online matches the quality of the business in person.
-
-## Main local markets
-
-- Zlaté Moravce
-- Nitra
-- Levice
-- Vráble
-- Nearby regions of Slovakia
-- Remote website projects across Slovakia
-
-## Important search topics
-
-- tvorba webov Zlaté Moravce
-- tvorba web stránok Nitra
-- tvorba webov Levice
-- firemný web pre malú firmu
-- web pre živnostníka
-- moderný prezentačný web
-- propagačné video pre firmu
-- dronové zábery pre firmu
-- grafika pre podnikanie
-
-## Website service
-
-Clippio creates fast, responsive websites with a clear structure, contact path, basic SEO setup, sitemap, robots.txt, favicon, and technical checks. Before development, the client can review the direction, structure, and clickable prototype. For agreed website projects, payment is made after approval of the final site in the agreed scope.
-
-Clippi Light Helper is a guided on-site consultant that helps visitors choose a service, see an indicative price range, open Web Finder for website projects, and send a non-binding inquiry.
-
-## Dynamic helpers
-
-The website includes two guided helpers: Clippi Light Helper for choosing the right Clippio service, and Web Finder for choosing a suitable website package. Selected homepage content is managed through a published Google Sheets CMS table, including availability text, CTA labels, homepage notice, and news. Availability modes map to visible status colors: `open` or `true` is green, `limited` is orange, and `closed` or `false` is red.
+Supporting services include photography, graphics, drone footage, and event content.
 
 ## Website packages
 
-- Štart web: simple one-page presentation or landing page, from 199 EUR.
-- Rast: professional company website for credibility and inquiries, from 499 EUR.
-- Predajný web / e-shop: sales website, product catalog, order website, or smaller e-commerce project, from 999 EUR.
+- Štart web: one main page or a small landing page, from 199 EUR.
+- Firemný web: a company website with several pages, services, portfolio or references, and contact, from 499 EUR.
+- E-shop: a smaller e-shop, catalog, or order solution with an agreed scope, from 999 EUR.
 
-## Product pages
+The starting prices do not include unlimited pages, revisions, content, products, complex integrations, or paid external services.
 
-- [Home](https://www.clippio.sk/): Overview of Clippio services and positioning.
-- [Services](https://www.clippio.sk/sluzby/): Full list of services.
-- [Web Design](https://www.clippio.sk/weby/): Website creation service and packages.
-- [Web Finder](https://www.clippio.sk/web-finder/): Tool to help identify the right website package.
-- [Pricing](https://www.clippio.sk/cennik/): Service pricing overview.
-- [Portfolio](https://www.clippio.sk/portfolio/): Examples of completed work and demo projects.
-- [Contact](https://www.clippio.sk/kontakt/): Contact form and direct contact details.
+## Project classification
 
-## Supporting services
+- RCHbau.sk: real client website.
+- Clippio.sk: Clippio-owned project.
+- MP Store Servis & Shop: graphics and content work.
+- FreshCar Nitra: model/demo starter website.
+- STAVEXON: fictional model/demo company website.
+- Saténové ruže Liora: model/demo e-shop.
+- Clippio Function Web: experimental function demo.
 
-- [Video Production](https://www.clippio.sk/tvorba-videi/): Promotional and commercial video.
-- [Event Video](https://www.clippio.sk/video-z-akcie/): Video coverage of events.
-- [Event & School Photography](https://www.clippio.sk/fotenie-akcii-skol/): Event and school photography.
-- [Drone Footage](https://www.clippio.sk/dronove-zabery/): Aerial drone video and photography.
-- [Graphics](https://www.clippio.sk/grafika/): Graphic design.
-- [Wedding Video](https://www.clippio.sk/svadobne-video/): Wedding videography.
+Demo projects must not be described as paid client work.
 
-## Demo websites
+## Main pages
 
-- [Demo Web — Start](https://www.clippio.sk/ukazkovy-web-start/): Sample starter website.
-- [Demo Web — Stavexon](https://www.clippio.sk/ukazkovy-web-stavexon/): Sample construction company website.
-- [Demo E-shop — Liora](https://www.clippio.sk/ukazkovy-eshop-liora/): Sample e-commerce store.
-- [Clippio Function Web](https://www.clippio.sk/clippio-function-web/): Demo of selected interactive website functions.
+- https://www.clippio.sk/
+- https://www.clippio.sk/weby/
+- https://www.clippio.sk/eshopy/
+- https://www.clippio.sk/tvorba-videi/
+- https://www.clippio.sk/portfolio/
+- https://www.clippio.sk/cennik/
+- https://www.clippio.sk/o-clippio/
+- https://www.clippio.sk/kontakt/
+- https://www.clippio.sk/web-finder/
+- https://www.clippio.sk/sluzby/
 
-## Business details
+## Contact
 
-- Brand: Clippio
-- Founder: Samuel Chamaj
-- Email: info@clippio.sk
-- Phone: +421 949 286 294
-- Website: https://www.clippio.sk/
-- Country: Slovakia
+- Samuel Chamaj
+- info@clippio.sk
+- +421 949 286 294
+- https://www.clippio.sk/

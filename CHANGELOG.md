@@ -66,6 +66,17 @@
 
 # Changelog
 
+## v7.0.0 – complete light premium redesign
+
+- Nová informačná architektúra: Weby, E-shopy, Video, Portfólio, Cenník, O Clippio a jednotné CTA Získať ponuku.
+- Pridaná samostatná SEO landing page `/eshopy/`.
+- Homepage, hlavné služby, cenník, portfólio, kontakt a O Clippio boli kompletne prepracované v svetlom modro-fialovom dizajne.
+- Ceny Štart web 199 €, Firemný web 499 € a E-shop 999 € sú centralizované v `assets/js/pricing.js` a použité vo Web Finderi aj Clippim.
+- Zachované Web3Forms, Google Sheets CMS, dynamické ceny fotiek, dynamické portfólio, cookie consent, consent-based analytika, Web Finder, Clippi, čisté URL, právne stránky a deployment na GitHub Pages.
+- Portfólio jasne oddeľuje reálny klientsky projekt, vlastné projekty, obsahovú prácu a modelové ukážky.
+- Doplnené prístupné mobilné menu, focus trap a návrat focusu pri úspešnom dialógu, reduced-motion režim a pravidlá proti prekrývaniu plávajúcich prvkov.
+- Aktualizované metadáta, structured data, sitemap, `llms.txt` a README.
+
 ## v6.5.0 â€“ Clippio Web Finder
 - PridanĂˇ novĂˇ podstrĂˇnka `/web-finder/` s interaktĂ­vnym vĂ˝berom vhodnĂ©ho webovĂ©ho balĂ­ka.
 - Web Finder odporĂşÄŤa Ĺ tart, Rast, Predaj/e-shop alebo individuĂˇlne rieĹˇenie podÄľa cieÄľa, rozsahu, obsahu, rozpoÄŤtu a zloĹľitosti.
