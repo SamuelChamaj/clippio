@@ -1,3 +1,15 @@
+# Changelog
+
+## v7.1.0 – reference-led visual direction and content correction
+
+- Hero bol prerobený podľa dodanej vizuálnej referencie: približne 7/5 kompozícia, trojriadkový nadpis, dvojica CTA, faktická cenová karta a klasifikovaný projektový marquee.
+- Homepage má presne požadované poradie: hero, tri hlavné služby, vybrané projekty, ceny, proces, O Samuelovi/Clippio, FAQ, dopyt a pätička.
+- Hlavné služby sú iba Webové stránky, E-shopy a objednávkové weby a Natáčanie a spracovanie videí. Fotografia, grafika a dron zostávajú menšie podporné schopnosti.
+- Do lokálnych assetov boli doplnené pravdivé náhľady RCHbau a jednoznačne označených modelových projektov FreshCar, STAVEXON a Liora.
+- Cenník používa ceny Štart web od 199 €, Firemný web od 499 € a E-shop od 999 € bez zmeny a bez vymyslených metrík.
+- Plávajúce CTA a Clippi sa zobrazia iba v bezpečnej zóne pätičky, aby neprekrývali obsah, formuláre ani cookie prvky.
+- Zachované zostali formuláre Web3Forms, Google Sheets, Web Finder, Clippi, cookie consent, analytika, právne stránky, SEO súbory a GitHub Pages kompatibilita.
+
 ## v6.6.1 – Floating CTA mobile cleanup
 - Posunute plavajuce CTA tlacidla nizsie, aby menej prekrývali obsah v pravej spodnej casti.
 - Mobilny Clippi button zobrazuje kratsi text „Potrebujete pomôcť?“ namiesto dlhého desktopového textu.
@@ -63,8 +75,6 @@
 - ZachovanĂˇ statickĂˇ HTML/JS kompatibilita pre GitHub Pages bez React buildu.
 - VĂ˝sledok sa stĂˇle automaticky vkladĂˇ do dopytovĂ©ho formulĂˇra.
 - Cache verzia Web Finder strĂˇnky zvĂ˝ĹˇenĂˇ na `v=6.5.1`.
-
-# Changelog
 
 ## v7.0.0 – complete light premium redesign
 

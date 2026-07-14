@@ -1,6 +1,6 @@
-# Clippio web – v7.0.0
+# Clippio web – v7.1.0
 
-Statický HTML, CSS a JavaScript web pre **Clippio**, pripravený na priame nasadenie cez GitHub Pages. Verzia 7 prináša nový light-premium technologický dizajn v bielej, modrej a fialovej, novú informačnú architektúru a samostatnú stránku pre e-shopy bez migrácie na framework.
+Statický HTML, CSS a JavaScript web pre **Clippio**, pripravený na priame nasadenie cez GitHub Pages. Verzia 7.1 používa referenčne vedený light-premium technologický dizajn v bielej, modrej a fialovej, sústreďuje homepage na tri hlavné služby a zachováva pôvodnú architektúru bez migrácie na framework.
 
 ## Značka a hlavné služby
 
@@ -78,7 +78,7 @@ Podporované nastavenia zahŕňajú dostupnosť, hlavné CTA, plávajúce CTA, h
 ## Frontend
 
 - `assets/css/style.css` – pôvodný funkčný základ a komponenty,
-- `assets/css/redesign.css` – v7 dizajnový systém a responzívne prepisy,
+- `assets/css/redesign.css` – v7.1 dizajnový systém a responzívne prepisy,
 - `assets/css/clippi.css` – Clippi helper,
 - `assets/css/web-finder-redesign.css` – Web Finder,
 - `assets/js/pricing.js` – centrálne webové ceny,
