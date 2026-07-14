@@ -5,7 +5,7 @@
     shop: { display: 'od 999 €' }
   };
   window.CLIPPIO_CONFIG = {
-    version: '7.0.0',
+    version: '7.1.0',
     avatarUrl: '/assets/images/clippi-avatar.png',
     webFinderUrl: '/web-finder/',
     contactUrl: '/kontakt/',
@@ -23,23 +23,22 @@
     },
     categories: [
       'Webové stránky',
-      'Video tvorba',
-      'Fotografovanie',
-      'Dron zábery',
-      'Grafika',
+      'E-shopy a objednávkové weby',
+      'Natáčanie a spracovanie videí',
+      'Podpora: fotografia, grafika a dron',
       'Kombinácia služieb',
       'Neviem presne, čo potrebujem'
     ],
-    intro: 'Pomôžem vám vybrať službu, ktorá dáva pre váš projekt najväčší zmysel.',
+    intro: 'Pomôžem vám vybrať web, e-shop alebo video. Fotografia, grafika a dron sa zapoja iba ako podpora, keď pomôžu výsledku.',
     firstQuestion: {
       id: 'main_service',
       text: 'Čo chcete vyriešiť?',
       options: [
-        { label: 'Potrebujem web', service: 'web', webFinder: true },
+        { label: 'Potrebujem web alebo e-shop', service: 'web', webFinder: true },
         { label: 'Potrebujem video', service: 'video' },
-        { label: 'Potrebujem fotky', service: 'photo' },
-        { label: 'Potrebujem dron zábery', service: 'drone' },
-        { label: 'Potrebujem grafiku', service: 'graphics' },
+        { label: 'Podpora: potrebujem fotografie', service: 'photo' },
+        { label: 'Podpora: potrebujem dron', service: 'drone' },
+        { label: 'Podpora: potrebujem grafiku', service: 'graphics' },
         { label: 'Neviem presne', service: 'unknown' },
         { label: 'Chcem kombináciu služieb', service: 'combo' }
       ]

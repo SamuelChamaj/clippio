@@ -1,4 +1,4 @@
-// Clippio v6.6.0 - Alerts + availability + Web Finder advisor + Clippi Light Helper
+// Clippio v7.1.0 - shared navigation, CMS, consent, forms, Web Finder and Clippi integration
 // Stabilná verzia: navbar a footer sú priamo v HTML, aby web fungoval aj po otvorení cez file://.
 
 const CLIPPIO_COOKIE_CONSENT_KEY='clippio_cookie_consent_v1';
@@ -721,6 +721,20 @@ function initFloatingCta(){
   });
 }
 
+function initFloatingWidgetGuard(){
+  const footer=document.querySelector('.site-footer');
+  if(!footer) return;
+  const setSafe=(safe)=>document.body.classList.toggle('floating-widgets-safe',Boolean(safe));
+  if(!('IntersectionObserver' in window)){
+    const update=()=>setSafe(footer.getBoundingClientRect().top<window.innerHeight);
+    update();
+    window.addEventListener('scroll',update,{passive:true});
+    return;
+  }
+  const observer=new IntersectionObserver(entries=>setSafe(entries[0]?.isIntersecting),{threshold:0});
+  observer.observe(footer);
+}
+
 function initClickTracking(){
   document.addEventListener('click',event=>{
     const target=event.target && event.target.closest ? event.target : null;
@@ -1402,6 +1416,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   initCookieConsent();
   initFaq();
   initReveal();
+  initFloatingWidgetGuard();
   initFloatingCta();
   initClickTracking();
   initWeb3Forms();
