@@ -1,15 +1,3 @@
-# Changelog
-
-## v7.1.0 – reference-led visual direction and content correction
-
-- Hero bol prerobený podľa dodanej vizuálnej referencie: približne 7/5 kompozícia, trojriadkový nadpis, dvojica CTA, faktická cenová karta a klasifikovaný projektový marquee.
-- Homepage má presne požadované poradie: hero, tri hlavné služby, vybrané projekty, ceny, proces, O Samuelovi/Clippio, FAQ, dopyt a pätička.
-- Hlavné služby sú iba Webové stránky, E-shopy a objednávkové weby a Natáčanie a spracovanie videí. Fotografia, grafika a dron zostávajú menšie podporné schopnosti.
-- Do lokálnych assetov boli doplnené pravdivé náhľady RCHbau a jednoznačne označených modelových projektov FreshCar, STAVEXON a Liora.
-- Cenník používa ceny Štart web od 199 €, Firemný web od 499 € a E-shop od 999 € bez zmeny a bez vymyslených metrík.
-- Plávajúce CTA a Clippi sa zobrazia iba v bezpečnej zóne pätičky, aby neprekrývali obsah, formuláre ani cookie prvky.
-- Zachované zostali formuláre Web3Forms, Google Sheets, Web Finder, Clippi, cookie consent, analytika, právne stránky, SEO súbory a GitHub Pages kompatibilita.
-
 ## v6.6.1 – Floating CTA mobile cleanup
 - Posunute plavajuce CTA tlacidla nizsie, aby menej prekrývali obsah v pravej spodnej casti.
 - Mobilny Clippi button zobrazuje kratsi text „Potrebujete pomôcť?“ namiesto dlhého desktopového textu.
@@ -76,16 +64,7 @@
 - VĂ˝sledok sa stĂˇle automaticky vkladĂˇ do dopytovĂ©ho formulĂˇra.
 - Cache verzia Web Finder strĂˇnky zvĂ˝ĹˇenĂˇ na `v=6.5.1`.
 
-## v7.0.0 – complete light premium redesign
-
-- Nová informačná architektúra: Weby, E-shopy, Video, Portfólio, Cenník, O Clippio a jednotné CTA Získať ponuku.
-- Pridaná samostatná SEO landing page `/eshopy/`.
-- Homepage, hlavné služby, cenník, portfólio, kontakt a O Clippio boli kompletne prepracované v svetlom modro-fialovom dizajne.
-- Ceny Štart web 199 €, Firemný web 499 € a E-shop 999 € sú centralizované v `assets/js/pricing.js` a použité vo Web Finderi aj Clippim.
-- Zachované Web3Forms, Google Sheets CMS, dynamické ceny fotiek, dynamické portfólio, cookie consent, consent-based analytika, Web Finder, Clippi, čisté URL, právne stránky a deployment na GitHub Pages.
-- Portfólio jasne oddeľuje reálny klientsky projekt, vlastné projekty, obsahovú prácu a modelové ukážky.
-- Doplnené prístupné mobilné menu, focus trap a návrat focusu pri úspešnom dialógu, reduced-motion režim a pravidlá proti prekrývaniu plávajúcich prvkov.
-- Aktualizované metadáta, structured data, sitemap, `llms.txt` a README.
+# Changelog
 
 ## v6.5.0 â€“ Clippio Web Finder
 - PridanĂˇ novĂˇ podstrĂˇnka `/web-finder/` s interaktĂ­vnym vĂ˝berom vhodnĂ©ho webovĂ©ho balĂ­ka.

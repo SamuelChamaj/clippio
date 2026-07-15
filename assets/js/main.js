@@ -1,4 +1,4 @@
-// Clippio v7.1.0 - shared navigation, CMS, consent, forms, Web Finder and Clippi integration
+// Clippio v6.6.0 - Alerts + availability + Web Finder advisor + Clippi Light Helper
 // Stabilná verzia: navbar a footer sú priamo v HTML, aby web fungoval aj po otvorení cez file://.
 
 const CLIPPIO_COOKIE_CONSENT_KEY='clippio_cookie_consent_v1';
@@ -96,51 +96,26 @@ function parseCsvLine(line){
 function initNavigation(){
   const burger=document.querySelector('.burger');
   const links=document.querySelector('.links');
-  const header=document.querySelector('.topbar');
-  const closeMenu=(returnFocus=false)=>{
-    if(!burger||!links) return;
-    links.classList.remove('open');
-    burger.setAttribute('aria-expanded','false');
-    burger.setAttribute('aria-label','Otvoriť menu');
-    burger.classList.remove('is-open');
-    document.body.classList.remove('menu-open');
-    if(returnFocus) burger.focus();
-  };
   if(burger&&links){
     burger.addEventListener('click',()=>{
       const open=!links.classList.contains('open');
       links.classList.toggle('open',open);
       burger.setAttribute('aria-expanded',String(open));
-      burger.setAttribute('aria-label',open?'Zatvoriť menu':'Otvoriť menu');
       burger.classList.toggle('is-open',open);
-      document.body.classList.toggle('menu-open',open);
     });
-    links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>closeMenu()));
-    document.addEventListener('keydown',event=>{
-      if(event.key==='Escape'&&links.classList.contains('open')) closeMenu(true);
-    });
-    document.addEventListener('click',event=>{
-      if(links.classList.contains('open')&&!links.contains(event.target)&&!burger.contains(event.target)) closeMenu();
-    });
-    window.addEventListener('resize',()=>{
-      if(window.innerWidth>940) closeMenu();
-    },{passive:true});
-  }
-  if(header){
-    const updateHeader=()=>header.classList.toggle('is-scrolled',window.scrollY>12);
-    updateHeader();
-    window.addEventListener('scroll',updateHeader,{passive:true});
+    links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+      links.classList.remove('open');
+      burger.setAttribute('aria-expanded','false');
+      burger.classList.remove('is-open');
+    }));
   }
   const parts=location.pathname.split('/').filter(Boolean);
   let file=(parts[parts.length-1]||'index').replace('.html','');
   if(file==='index' && parts.length>1) file=parts[parts.length-2];
-  const supportingServices=['video-z-akcie','fotenie-akcii-skol','dronove-zabery','grafika','svadobne-video','sluzby'];
-  const active=file==='web-finder'?'weby':(file==='tvorba-videi'?'video':(supportingServices.includes(file)?'sluzby':file));
+  const servicePages=['tvorba-videi','video-z-akcie','fotenie-akcii-skol','dronove-zabery','grafika','svadobne-video'];
+  const active=file==='web-finder'?'weby':(servicePages.includes(file)?'sluzby':file);
   document.querySelectorAll('[data-nav]').forEach(a=>{
-    if(a.dataset.nav===active){
-      a.classList.add('active');
-      a.setAttribute('aria-current','page');
-    }
+    if(a.dataset.nav===active) a.classList.add('active');
   });
 }
 
@@ -566,18 +541,10 @@ function initCookieConsent(){
   banner.className='cookie-banner show';
   document.body.classList.add('cookie-banner-visible');
   banner.innerHTML=`<div class="cookie-inner"><div class="cookie-text"><strong>Cookies na Clippio.sk</strong><p>Používame nevyhnutné cookies pre fungovanie webu. Analytické cookies pomáhajú merať návštevnosť cez Google Analytics a vložený obsah z YouTube môže používať vlastné cookies.</p><div class="cookie-panel" id="cookie-panel"><label class="cookie-option"><input type="checkbox" checked disabled> Nevyhnutné cookies <span>– potrebné pre základné fungovanie webu.</span></label><label class="cookie-option"><input type="checkbox" id="cookie-analytics"> Analytické cookies <span>– meranie návštevnosti a zlepšovanie webu.</span></label><label class="cookie-option"><input type="checkbox" id="cookie-media"> Mediálne cookies <span>– vložený obsah, napríklad YouTube.</span></label></div></div><div class="cookie-actions"><button class="settings" type="button" id="cookie-settings">Nastavenia</button><button type="button" id="cookie-necessary">Len nevyhnutné</button><button class="accept" type="button" id="cookie-accept">Prijať všetko</button></div></div>`;
-  const shellHeader=document.querySelector('.topbar');
-  if(shellHeader) shellHeader.insertAdjacentElement('afterend',banner);
-  else document.body.prepend(banner);
+  document.body.appendChild(banner);
   const save=(data)=>{localStorage.setItem(CLIPPIO_COOKIE_CONSENT_KEY,JSON.stringify(data));banner.classList.remove('show');document.body.classList.remove('cookie-banner-visible');document.dispatchEvent(new CustomEvent('clippioConsent',{detail:data}));};
   const panel=banner.querySelector('#cookie-panel');
-  const settingsButton=banner.querySelector('#cookie-settings');
-  settingsButton.setAttribute('aria-controls','cookie-panel');
-  settingsButton.setAttribute('aria-expanded','false');
-  settingsButton.addEventListener('click',()=>{
-    const open=panel.classList.toggle('open');
-    settingsButton.setAttribute('aria-expanded',String(open));
-  });
+  banner.querySelector('#cookie-settings').addEventListener('click',()=>panel.classList.toggle('open'));
   banner.querySelector('#cookie-necessary').addEventListener('click',()=>save({necessary:true,analytics:false,media:false,date:new Date().toISOString()}));
   banner.querySelector('#cookie-accept').addEventListener('click',()=>{
     save({necessary:true,analytics:true,media:true,date:new Date().toISOString()});
@@ -721,20 +688,6 @@ function initFloatingCta(){
   });
 }
 
-function initFloatingWidgetGuard(){
-  const footer=document.querySelector('.site-footer');
-  if(!footer) return;
-  const setSafe=(safe)=>document.body.classList.toggle('floating-widgets-safe',Boolean(safe));
-  if(!('IntersectionObserver' in window)){
-    const update=()=>setSafe(footer.getBoundingClientRect().top<window.innerHeight);
-    update();
-    window.addEventListener('scroll',update,{passive:true});
-    return;
-  }
-  const observer=new IntersectionObserver(entries=>setSafe(entries[0]?.isIntersecting),{threshold:0});
-  observer.observe(footer);
-}
-
 function initClickTracking(){
   document.addEventListener('click',event=>{
     const target=event.target && event.target.closest ? event.target : null;
@@ -802,8 +755,6 @@ function initClickTracking(){
 
 
 
-let thankYouReturnFocus=null;
-
 function showThankYouModal(){
   let modal=document.querySelector('.thankyou-modal');
   if(!modal){
@@ -820,22 +771,9 @@ function showThankYouModal(){
       }
     });
     document.addEventListener('keydown',event=>{
-      if(!modal.classList.contains('is-open')) return;
-      if(event.key==='Escape'){
-        closeThankYouModal();
-        return;
-      }
-      if(event.key==='Tab'){
-        const focusable=Array.from(modal.querySelectorAll('button,a[href],[tabindex]:not([tabindex="-1"])')).filter(el=>!el.disabled&&!el.hidden);
-        if(!focusable.length) return;
-        const first=focusable[0];
-        const last=focusable[focusable.length-1];
-        if(event.shiftKey&&document.activeElement===first){ event.preventDefault(); last.focus(); }
-        else if(!event.shiftKey&&document.activeElement===last){ event.preventDefault(); first.focus(); }
-      }
+      if(event.key==='Escape' && modal.classList.contains('is-open')) closeThankYouModal();
     });
   }
-  thankYouReturnFocus=document.activeElement instanceof HTMLElement ? document.activeElement : null;
   modal.classList.add('is-open');
   document.body.classList.add('modal-open');
   const close=modal.querySelector('.thankyou-close');
@@ -846,46 +784,6 @@ function closeThankYouModal(){
   const modal=document.querySelector('.thankyou-modal');
   if(modal) modal.classList.remove('is-open');
   document.body.classList.remove('modal-open');
-  if(thankYouReturnFocus&&document.contains(thankYouReturnFocus)) thankYouReturnFocus.focus();
-  thankYouReturnFocus=null;
-}
-
-function initLeadPrefill(){
-  const select=document.querySelector('[data-service-select]');
-  if(!select) return;
-  const params=new URLSearchParams(window.location.search);
-  let requested=(params.get('sluzba')||'').trim();
-  if(!requested){
-    try{
-      const stored=(localStorage.getItem('clippi_service')||'').toLowerCase();
-      const storedMap={
-        'webové stránky':'tvorba-webu',
-        'video tvorba':'firemne-video',
-        'fotografovanie':'fotenie',
-        'dron zábery':'dron',
-        'grafika':'grafika',
-        'kombinácia služieb':'kombinacia'
-      };
-      requested=storedMap[stored]||'';
-    }catch(error){}
-  }
-  const aliases={
-    'eshop':'web-predaj',
-    'e-shop':'web-predaj',
-    'web-funkcie':'tvorba-webu',
-    'tvorba-webu':'tvorba-webu',
-    'web-start':'web-start',
-    'web-predaj':'web-predaj',
-    'firemne-video':'firemne-video',
-    'video-z-akcie':'video-z-akcie',
-    'fotenie':'fotenie',
-    'skolske-fotografie':'skolske-fotografie',
-    'dron':'dron',
-    'grafika':'grafika',
-    'kombinacia':'kombinacia'
-  };
-  const value=aliases[requested]||requested;
-  if(value&&Array.from(select.options).some(option=>option.value===value)) select.value=value;
 }
 
 function initWeb3Forms(){
@@ -1007,11 +905,6 @@ function initWebFinder(){
   const totalSteps=steps.length || 1;
   let currentStep=1;
   let completed=false;
-  const centralPrices=window.CLIPPIO_PRICING||{
-    start:{name:'Štart web',value:199,display:'od 199 €'},
-    business:{name:'Firemný web',value:499,display:'od 499 €'},
-    shop:{name:'E-shop',value:999,display:'od 999 €'}
-  };
 
   const read=name=>{
     const checked=root.querySelector(`input[name="${name}"]:checked`);
@@ -1116,36 +1009,36 @@ function initWebFinder(){
 
   const packages={
     start:{
-      title:centralPrices.start.name,
-      price:centralPrices.start.display,
-      base:centralPrices.start.value,
+      title:'Štart web',
+      price:'od 199 €',
+      base:199,
       description:'Jednostránkový web alebo landing page pre základnú prezentáciu, rýchle spustenie a jasný kontakt.',
       defaultPath:'Štart web + jasný kontakt + základné sekcie. Najprv overiť dopyt, až potom pridávať väčšie funkcie.',
       customNote:'Web na mieru zatiaľ netreba. Dával by zmysel až pri objednávkovom toku, automatizácii alebo vlastnej databáze.',
       next:['pripraviť logo, kontakt a základnú ponuku','vybrať jednu hlavnú akciu, ktorú má návštevník urobiť','poslať 2–3 referenčné weby, ktoré sa vám páčia']
     },
     rast:{
-      title:centralPrices.business.name,
-      price:centralPrices.business.display,
-      base:centralPrices.business.value,
+      title:'Rast firemný web',
+      price:'od 499 €',
+      base:499,
       description:'Firemný web pre služby, dôveru, viac podstránok, portfólio a lepšie vysvetlenie ponuky.',
-      defaultPath:'Firemný web + najnutnejšie doplnky. Toto je rozumnejšie než tlačiť veľký predajný systém bez dôkazov.',
+      defaultPath:'Rast firemný web + najnutnejšie doplnky. Toto je rozumnejšie než tlačiť veľký predajný systém bez dôkazov.',
       customNote:'Web na mieru riešte až vtedy, keď bežné sekcie, formuláre, portfólio alebo jednoduché CMS nestačia.',
       next:['spísať služby a cieľové skupiny','dodať fotky, realizácie alebo dôkazy','určiť hlavné CTA: telefonát, formulár alebo dopyt']
     },
     predaj:{
-      title:centralPrices.shop.name,
-      price:centralPrices.shop.display,
-      base:centralPrices.shop.value,
+      title:'Predaj / e-shop',
+      price:'od 999 €',
+      base:999,
       description:'Predajný web, katalóg, objednávkový tok alebo menší e-shop. Tu už rozhoduje produktová štruktúra a proces objednávky.',
-      defaultPath:'E-shop + iba tie predajné funkcie, ktoré sú potrebné na prvú funkčnú verziu.',
+      defaultPath:'Predaj / e-shop + iba tie predajné funkcie, ktoré sú potrebné na prvú funkčnú verziu.',
       customNote:'Web na mieru dáva zmysel pri netypickej platbe, vlastnom účte zákazníka, napojeniach alebo komplikovanom objednávkovom procese.',
       next:['spísať produkty, varianty a spôsob objednávky','určiť platbu, dopravu alebo rezerváciu','počítať s väčším rozsahom testovania']
     },
     individual:{
       title:'Web na mieru',
-      price:'Cena podľa rozsahu',
-      base:0,
+      price:'individuálne, orientačne od 1200 €+',
+      base:1200,
       custom:true,
       description:'Riešenie pre špeciálnu funkciu, automatizáciu, napojenie, databázu, klientsku zónu alebo nejasný veľký rozsah.',
       defaultPath:'Najprv krátke zadanie a minimálna funkčná verzia. Veľký systém bez presného rozsahu je najrýchlejšia cesta k zbytočným nákladom.',
@@ -1215,7 +1108,7 @@ function initWebFinder(){
     if(content==='needVisuals'){ score.rast+=1; addAddon(addons,'photos'); addAddon(addons,'graphics'); warnings.push('bez fotiek alebo grafiky bude web slabší, aj keď technicky funguje'); }
     if(content==='unclear'){ score.individual+=2; addAddon(addons,'editCopy'); warnings.push('nejasné zadanie je väčšie riziko než samotná technická tvorba webu'); }
 
-    if(budget==='low'){ score.start+=5; if(['sales','system'].includes(purpose)||['shop','custom'].includes(scope)||['catalog','ecommerce','custom'].includes(features)) warnings.push('rozpočet do 200 € nesedí na e-shop, systém ani väčší firemný web'); }
+    if(budget==='low'){ score.start+=5; if(['sales','system'].includes(purpose)||['shop','custom'].includes(scope)||['catalog','ecommerce','custom'].includes(features)) warnings.push('rozpočet do 250 € nesedí na e-shop, systém ani väčší firemný web'); }
     if(budget==='mid'){ score.rast+=4; }
     if(budget==='high'){ score.rast+=2; score.predaj+=4; }
     if(budget==='premium'){ score.predaj+=3; score.individual+=2; }
@@ -1288,7 +1181,7 @@ function initWebFinder(){
     let priceNote='Presná cena sa dá určiť až po krátkom zadaní. Tento odhad slúži na rýchlu orientáciu, nie ako finálna cenová ponuka.';
 
     if(data.custom){
-      estimateText='Cena podľa rozsahu';
+      estimateText='individuálne, orientačne od 1200 €+';
       priceNote='Presná cena závisí hlavne od funkcií, napojení, dát a počtu obrazoviek. Bez zadania by bola presná suma iba hádanie.';
     }else if(addonItems.length){
       const min=data.base+addonMin;
@@ -1318,7 +1211,7 @@ function initWebFinder(){
       'Odporúčanie Web Finderu:',
       `Balík: ${data.title} — ${data.price}`,
       `Odhadovaná cena: ${estimateText}`,
-      `Odporúčaná cesta: ${path}`,
+      `Najlacnejšia rozumná cesta: ${path}`,
       `Cieľ: ${optionText('wf-purpose')}`,
       `Rozsah: ${optionText('wf-scope')}`,
       `Obsah: ${optionText('wf-content')}`,
@@ -1416,11 +1309,9 @@ document.addEventListener('DOMContentLoaded',()=>{
   initCookieConsent();
   initFaq();
   initReveal();
-  initFloatingWidgetGuard();
   initFloatingCta();
   initClickTracking();
   initWeb3Forms();
-  initLeadPrefill();
   initReactBitsTextEffects();
   initWebFinder();
 });
