@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="FreshCar favicon">
-  <rect width="64" height="64" rx="18" fill="#0f3d3e"/>
-  <path d="M18 39c2-8 5-13 9-15h16c4 2 7 7 9 15" fill="none" stroke="#f2a33a" stroke-width="5" stroke-linecap="round"/>
-  <circle cx="23" cy="42" r="4" fill="#fff"/>
-  <circle cx="45" cy="42" r="4" fill="#fff"/>
-  <path d="M25 27h20" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
-</svg>
