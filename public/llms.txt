@@ -1,0 +1,26 @@
+# Clippio
+
+> Clippio je prezentačný web vizuálnej tvorby Samuela Chamaja: fotografie, videá, dronové zábery a grafika.
+
+## Hlavné stránky
+
+- [Domov](https://clippio.sk/): Predstavenie, služby, proces spolupráce a hlavná galéria.
+- [Fotenie](https://clippio.sk/fotenie): Portréty, eventové, produktové a brandové fotografie; základné fotenie od 90 €.
+- [Natáčanie videí](https://clippio.sk/natacanie-videi): Krátke videá, Reels, eventové a prezentačné video; jednoduché krátke video od 90 €.
+- [Práca s dronom](https://clippio.sk/praca-s-dronom): Letecké fotografie a video; základný balík od 120 €.
+- [Portfólio](https://clippio.sk/portfolio): Galéria fotografií a vizuálnych výstupov.
+- [Kontakt](https://clippio.sk/kontakt): Kontaktné údaje a kontaktný formulár.
+
+## Právne stránky
+
+- [Prevádzkovateľ webu](https://clippio.sk/prevadzkovatel): Identifikačné údaje prevádzkovateľa webu.
+- [Ochrana osobných údajov](https://clippio.sk/ochrana-osobnych-udajov): Informácie o spracúvaní údajov z kontaktného formulára.
+- [Cookies](https://clippio.sk/cookies): Informácie o cookies a externých službách.
+- [Podmienky používania](https://clippio.sk/podmienky-pouzivania): Základné podmienky používania webu.
+
+## Kontakt
+
+- E-mail: info@clippio.sk
+- Telefón: +421 951 025 596
+
+Uvedené ceny sú orientačné ceny základného rozsahu. Presná ponuka závisí od zadania, termínu, lokality a rozsahu úprav.
