@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+Allow: /api/portfolio/image/
+Disallow: /api/contact
+Disallow: /api/validate-email
+Disallow: /api/portfolio
+Disallow: /api/portfolio-page
+
+Sitemap: https://clippio.sk/sitemap.xml
