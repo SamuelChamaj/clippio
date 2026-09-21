@@ -113,20 +113,27 @@
     const target = document.querySelector('.portfolio-gallery-loading, .gallery-empty');
     if (!target) return;
 
+    const isHomeGallery = !!target.closest('#galeria') || (!!document.getElementById('galeria') && !document.querySelector('.portfolio-page'));
+    const emptyLabel = isHomeGallery ? 'Galéria' : 'Portfólio';
+
     try {
       let driveListUrl = '';
+      let homeListUrl = '';
       try {
         const configResponse = await fetch(assetUrl('data/portfolio-config.json'), { cache: 'no-store' });
         if (configResponse.ok) {
           const config = await configResponse.json();
           driveListUrl = String(config.driveListUrl || '').trim();
+          homeListUrl = String(config.homeListUrl || '').trim();
         }
       } catch {
         /* config is optional */
       }
 
       const sources = [];
-      if (driveListUrl) sources.push(driveListUrl);
+      if (isHomeGallery && homeListUrl) sources.push(homeListUrl);
+      else if (!isHomeGallery && driveListUrl) sources.push(driveListUrl);
+      else if (driveListUrl) sources.push(driveListUrl);
       sources.push(assetUrl('data/portfolio-page.json'));
 
       let items = [];
@@ -144,8 +151,8 @@
         showGalleryMessage(
           target,
           lastError
-            ? '<p>Portfólio sa nepodarilo načítať. Skús obnoviť stránku alebo <a href="kontakt">napíš mi</a>.</p>'
-            : '<p>Portfólio sa pripravuje. Skús to neskôr alebo <a href="kontakt">napíš mi</a>.</p>'
+            ? '<p>' + emptyLabel + ' sa nepodarilo načítať. Skús obnoviť stránku alebo <a href="kontakt">napíš mi</a>.</p>'
+            : '<p>' + emptyLabel + ' sa pripravuje. Skús to neskôr alebo <a href="kontakt">napíš mi</a>.</p>'
         );
         return;
       }
@@ -154,7 +161,7 @@
     } catch {
       showGalleryMessage(
         target,
-        '<p>Portfólio sa nepodarilo načítať. Skús obnoviť stránku alebo <a href="kontakt">napíš mi</a>.</p>'
+        '<p>' + emptyLabel + ' sa nepodarilo načítať. Skús obnoviť stránku alebo <a href="kontakt">napíš mi</a>.</p>'
       );
     }
   }

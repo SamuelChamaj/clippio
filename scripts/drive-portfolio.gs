@@ -1,24 +1,40 @@
 /**
- * Clippio – fotky z 2 Drive priečinkov (live)
- * Deploy: Web app → Execute as: Me → Who has access: Anyone
+ * Clippio – fotky z Google Drive (live)
+ *
+ * ?source=home      → hlavná stránka (galéria)
+ * ?source=portfolio → /portfolio/ (predvolené)
+ *
+ * Deploy: Web app → Me → Anyone
  * Po úprave: Manage deployments → Edit → New version
  */
 
-var FOLDERS = [
+var HOME_FOLDERS = [
+  { id: '1fHtT6P9_YekZPNE89sCCxIOCo0xqJrs4', category: 'home' }
+];
+
+var PORTFOLIO_FOLDERS = [
   { id: '1VEKAMonI08t7Yo_fKRAgoce0XF49qAh0', category: 'grafika' },
   { id: '1WHV9yLnWAbPvmB_w8Y58e6vrB_2BmtYJ', category: 'foto' }
 ];
 
-function doGet() {
+function doGet(e) {
   try {
+    var source = 'portfolio';
+    try {
+      if (e && e.parameter && e.parameter.source) {
+        source = String(e.parameter.source).toLowerCase();
+      }
+    } catch (ignore) {}
+
+    var folders = source === 'home' ? HOME_FOLDERS : PORTFOLIO_FOLDERS;
     var items = [];
     var seen = {};
 
-    FOLDERS.forEach(function (folderConfig) {
+    folders.forEach(function (folderConfig) {
       var folder;
       try {
         folder = DriveApp.getFolderById(folderConfig.id);
-      } catch (e) {
+      } catch (err) {
         return;
       }
 
@@ -53,7 +69,7 @@ function doGet() {
     return ContentService
       .createTextOutput(JSON.stringify({
         items: items,
-        source: 'google-drive',
+        source: source === 'home' ? 'google-drive-home' : 'google-drive-portfolio',
         count: items.length
       }))
       .setMimeType(ContentService.MimeType.JSON);
