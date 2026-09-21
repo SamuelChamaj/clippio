@@ -9,8 +9,7 @@
   });
 
   function initParallaxHero() {
-    const layersRoot = document.querySelector('[data-parallax-layers]');
-    if (!layersRoot) return;
+    // Exact Osmo / template motion – do not change numbers
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     if (typeof window.gsap === 'undefined' || typeof window.ScrollTrigger === 'undefined') return;
 
@@ -18,35 +17,36 @@
     const ScrollTrigger = window.ScrollTrigger;
     gsap.registerPlugin(ScrollTrigger);
 
+    document.querySelectorAll('[data-parallax-layers]').forEach((triggerElement) => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: triggerElement,
+          start: '0% 0%',
+          end: '100% 0%',
+          scrub: 0
+        }
+      });
+      const layers = [
+        { layer: '1', yPercent: 70 },
+        { layer: '2', yPercent: 55 },
+        { layer: '3', yPercent: 40 },
+        { layer: '4', yPercent: 10 }
+      ];
+      layers.forEach((layerObj, idx) => {
+        tl.to(
+          triggerElement.querySelectorAll('[data-parallax-layer="' + layerObj.layer + '"]'),
+          { yPercent: layerObj.yPercent, ease: 'none' },
+          idx === 0 ? undefined : '<'
+        );
+      });
+    });
+
     if (typeof window.Lenis !== 'undefined') {
-      const lenis = new window.Lenis({ duration: 1.05, smoothWheel: true });
+      const lenis = new window.Lenis();
       lenis.on('scroll', ScrollTrigger.update);
-      gsap.ticker.add((time) => lenis.raf(time * 1000));
+      gsap.ticker.add((time) => { lenis.raf(time * 1000); });
       gsap.ticker.lagSmoothing(0);
     }
-
-    // Motion values from the template (unchanged)
-    const layerMotion = [
-      { layer: '1', yPercent: 70 },
-      { layer: '2', yPercent: 55 },
-      { layer: '3', yPercent: 40 },
-      { layer: '4', yPercent: 10 }
-    ];
-
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: layersRoot,
-        start: '0% 0%',
-        end: '100% 0%',
-        scrub: true
-      }
-    });
-
-    layerMotion.forEach((item, index) => {
-      const targets = layersRoot.querySelectorAll('[data-parallax-layer="' + item.layer + '"]');
-      if (!targets.length) return;
-      tl.to(targets, { yPercent: item.yPercent, ease: 'none' }, index === 0 ? 0 : '<');
-    });
   }
 
   function initFooterHover() {
