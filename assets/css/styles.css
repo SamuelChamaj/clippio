@@ -34,3 +34,8 @@
   margin-left:auto !important;
   margin-right:auto !important;
 }
+/* Footer text hover */
+.footer-hover-text{touch-action:none;cursor:pointer;user-select:none;display:block}
+.footer-hover-text__ghost{opacity:0;transition:opacity .2s ease}
+.footer-hover-text.is-hovered .footer-hover-text__ghost{opacity:.7}
+.hover-footer__wordmark{pointer-events:auto}
