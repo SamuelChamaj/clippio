@@ -117,16 +117,145 @@
   function openLightbox(items, index) {
     const dialog = document.createElement('div');
     dialog.className = 'portfolio-lightbox';
-    const render = () => {
-      const item = items[index];
-      dialog.innerHTML = `<button class="portfolio-lightbox__close">Zavrieť</button><button class="portfolio-lightbox__nav portfolio-lightbox__nav--previous" aria-label="Predchádzajúci obrázok">‹</button><button class="portfolio-lightbox__nav portfolio-lightbox__nav--next" aria-label="Nasledujúci obrázok">›</button><div class="portfolio-lightbox__image"><img src="${item.image}" alt="${item.title || 'Ukážka práce Clippio'}"></div><p class="portfolio-lightbox__count">${index + 1} / ${items.length}</p>`;
-      dialog.querySelector('.portfolio-lightbox__close').onclick = close;
-      dialog.querySelector('.portfolio-lightbox__nav--previous').onclick = () => { index = (index - 1 + items.length) % items.length; render(); };
-      dialog.querySelector('.portfolio-lightbox__nav--next').onclick = () => { index = (index + 1) % items.length; render(); };
+    let scale = 1;
+    let panX = 0;
+    let panY = 0;
+    let dragging = false;
+    let didDrag = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    const applyTransform = (img, wrap) => {
+      if (!img) return;
+      img.style.transition = dragging ? 'none' : 'transform .15s ease-out';
+      img.style.transform = 'translate(' + panX + 'px,' + panY + 'px) scale(' + scale + ')';
+      if (wrap) {
+        wrap.classList.toggle('is-zoomed', scale > 1.01);
+        wrap.classList.toggle('is-panning', dragging);
+      }
     };
-    const close = () => { document.body.style.overflow = ''; dialog.remove(); };
+
+    const resetZoom = () => {
+      scale = 1;
+      panX = 0;
+      panY = 0;
+      dragging = false;
+      didDrag = false;
+    };
+
+    const bindZoom = () => {
+      const wrap = dialog.querySelector('.portfolio-lightbox__image');
+      const img = wrap && wrap.querySelector('img');
+      if (!wrap || !img) return;
+
+      applyTransform(img, wrap);
+
+      wrap.onclick = (e) => {
+        e.stopPropagation();
+        if (didDrag) { didDrag = false; return; }
+        if (scale <= 1.01) {
+          scale = 2.5;
+          // zoom toward click point
+          const rect = wrap.getBoundingClientRect();
+          const cx = e.clientX - rect.left - rect.width / 2;
+          const cy = e.clientY - rect.top - rect.height / 2;
+          panX = -cx * (scale - 1);
+          panY = -cy * (scale - 1);
+        } else {
+          resetZoom();
+        }
+        applyTransform(img, wrap);
+      };
+
+      wrap.onwheel = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const delta = e.deltaY > 0 ? -0.15 : 0.15;
+        const next = Math.min(4, Math.max(1, scale + delta * scale));
+        if (next === scale) return;
+        const rect = wrap.getBoundingClientRect();
+        const cx = e.clientX - rect.left - rect.width / 2;
+        const cy = e.clientY - rect.top - rect.height / 2;
+        // keep point under cursor stable
+        const ratio = next / scale;
+        panX = cx - (cx - panX) * ratio;
+        panY = cy - (cy - panY) * ratio;
+        scale = next;
+        if (scale <= 1.01) {
+          scale = 1;
+          panX = 0;
+          panY = 0;
+        }
+        applyTransform(img, wrap);
+      };
+
+      wrap.onpointerdown = (e) => {
+        if (scale <= 1.01) return;
+        dragging = true;
+        lastX = e.clientX;
+        lastY = e.clientY;
+        wrap.setPointerCapture(e.pointerId);
+        applyTransform(img, wrap);
+      };
+      wrap.onpointermove = (e) => {
+        if (!dragging) return;
+        const dx = e.clientX - lastX;
+        const dy = e.clientY - lastY;
+        if (Math.abs(dx) > 2 || Math.abs(dy) > 2) didDrag = true;
+        panX += dx;
+        panY += dy;
+        lastX = e.clientX;
+        lastY = e.clientY;
+        applyTransform(img, wrap);
+      };
+      const endDrag = () => {
+        if (!dragging) return;
+        dragging = false;
+        applyTransform(img, wrap);
+      };
+      wrap.onpointerup = endDrag;
+      wrap.onpointercancel = endDrag;
+    };
+
+    const render = () => {
+      resetZoom();
+      const item = items[index];
+      dialog.innerHTML = '<button class="portfolio-lightbox__close" type="button">Zavrieť</button>' +
+        '<button class="portfolio-lightbox__nav portfolio-lightbox__nav--previous" type="button" aria-label="Predchádzajúci obrázok">‹</button>' +
+        '<button class="portfolio-lightbox__nav portfolio-lightbox__nav--next" type="button" aria-label="Nasledujúci obrázok">›</button>' +
+        '<div class="portfolio-lightbox__image"><img src="' + item.image + '" alt="' + (item.title || 'Ukážka práce Clippio') + '" draggable="false"></div>' +
+        '<p class="portfolio-lightbox__count">' + (index + 1) + ' / ' + items.length + '</p>';
+      dialog.querySelector('.portfolio-lightbox__close').onclick = close;
+      dialog.querySelector('.portfolio-lightbox__nav--previous').onclick = (e) => {
+        e.stopPropagation();
+        index = (index - 1 + items.length) % items.length;
+        render();
+      };
+      dialog.querySelector('.portfolio-lightbox__nav--next').onclick = (e) => {
+        e.stopPropagation();
+        index = (index + 1) % items.length;
+        render();
+      };
+      bindZoom();
+    };
+    const onKey = (event) => {
+      if (event.key === 'Escape') {
+        close();
+      } else if (event.key === 'ArrowLeft') {
+        index = (index - 1 + items.length) % items.length;
+        render();
+      } else if (event.key === 'ArrowRight') {
+        index = (index + 1) % items.length;
+        render();
+      }
+    };
+    const close = () => {
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', onKey);
+      dialog.remove();
+    };
     dialog.onclick = (event) => { if (event.target === dialog) close(); };
-    document.addEventListener('keydown', function onKey(event) { if (event.key === 'Escape') { close(); document.removeEventListener('keydown', onKey); } }, { once: true });
+    document.addEventListener('keydown', onKey);
     document.body.style.overflow = 'hidden';
     render();
     document.body.append(dialog);
