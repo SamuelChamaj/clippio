@@ -21,4 +21,16 @@
   object-fit:cover;
   object-position:center center;
 }
-
+.portfolio-gallery-center{
+  width:100% !important;
+  display:flex !important;
+  justify-content:center !important;
+  box-sizing:border-box;
+  padding-inline:var(--container-padding, 1.25rem);
+}
+.portfolio-gallery-center .masonry-grid{
+  width:min(100%,76rem) !important;
+  max-width:76rem !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+}

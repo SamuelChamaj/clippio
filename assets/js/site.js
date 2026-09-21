@@ -95,8 +95,12 @@
         } catch (e) {}
       }
       if (!items.length) return;
+      const wrap = document.createElement('div');
+      wrap.className = 'portfolio-gallery-center';
+      wrap.style.cssText = 'width:100%;display:flex;justify-content:center;';
       const grid = document.createElement('div');
       grid.className = 'masonry-grid portfolio-page__grid portfolio-gallery';
+      grid.style.cssText = 'width:min(100%,76rem);max-width:76rem;margin-left:auto;margin-right:auto;';
       items.forEach((item, index) => {
         const button = document.createElement('button');
         button.className = 'masonry-card portfolio-gallery__button';
@@ -105,7 +109,8 @@
         button.addEventListener('click', () => openLightbox(items, index));
         grid.append(button);
       });
-      target.replaceWith(grid);
+      wrap.append(grid);
+      target.replaceWith(wrap);
     } catch { /* retain the existing empty-state message */ }
   }
 
