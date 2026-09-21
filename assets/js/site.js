@@ -11,19 +11,13 @@
   function initParallaxHero() {
     const layersRoot = document.querySelector('[data-parallax-layers]');
     if (!layersRoot) return;
-
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) return;
-
-    if (typeof window.gsap === 'undefined' || typeof window.ScrollTrigger === 'undefined') {
-      return;
-    }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (typeof window.gsap === 'undefined' || typeof window.ScrollTrigger === 'undefined') return;
 
     const gsap = window.gsap;
     const ScrollTrigger = window.ScrollTrigger;
     gsap.registerPlugin(ScrollTrigger);
 
-    // Lenis smooth scroll (same as template)
     if (typeof window.Lenis !== 'undefined') {
       const lenis = new window.Lenis({ duration: 1.05, smoothWheel: true });
       lenis.on('scroll', ScrollTrigger.update);
@@ -31,7 +25,7 @@
       gsap.ticker.lagSmoothing(0);
     }
 
-    // Exact layer motion from the Osmo / 21st template
+    // Motion values from the template (unchanged)
     const layerMotion = [
       { layer: '1', yPercent: 70 },
       { layer: '2', yPercent: 55 },
@@ -51,11 +45,7 @@
     layerMotion.forEach((item, index) => {
       const targets = layersRoot.querySelectorAll('[data-parallax-layer="' + item.layer + '"]');
       if (!targets.length) return;
-      tl.to(
-        targets,
-        { yPercent: item.yPercent, ease: 'none' },
-        index === 0 ? 0 : '<'
-      );
+      tl.to(targets, { yPercent: item.yPercent, ease: 'none' }, index === 0 ? 0 : '<');
     });
   }
 
