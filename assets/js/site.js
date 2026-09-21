@@ -8,113 +8,124 @@
     button.addEventListener('click', () => { location.href = assetUrl('kontakt/'); });
   });
 
-  function initParallaxHero() {
-    // Exact Osmo / template motion – do not change numbers
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (typeof window.gsap === 'undefined' || typeof window.ScrollTrigger === 'undefined') return;
+  document.querySelectorAll('[data-parallax-layers]').forEach((layers) => {
+    const section = layers.closest('.parallax__header');
+    let frame;
 
-    const gsap = window.gsap;
-    const ScrollTrigger = window.ScrollTrigger;
-    gsap.registerPlugin(ScrollTrigger);
-
-    document.querySelectorAll('[data-parallax-layers]').forEach((triggerElement) => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: triggerElement,
-          start: '0% 0%',
-          end: '100% 0%',
-          scrub: 0
-        }
+    const update = () => {
+      frame = undefined;
+      const bounds = section.getBoundingClientRect();
+      const amount = Math.min(1, Math.max(0, -bounds.top / Math.max(1, bounds.height)));
+      layers.querySelectorAll('[data-parallax-layer]').forEach((layer) => {
+        const level = Number(layer.dataset.parallaxLayer);
+        const distances = { 1: -46, 2: -24, 3: -74, 4: 42 };
+        layer.style.transform = `translate3d(0, ${amount * distances[level]}px, 0)`;
       });
-      const layers = [
-        { layer: '1', yPercent: 70 },
-        { layer: '2', yPercent: 55 },
-        { layer: '3', yPercent: 40 },
-        { layer: '4', yPercent: 10 }
-      ];
-      layers.forEach((layerObj, idx) => {
-        tl.to(
-          triggerElement.querySelectorAll('[data-parallax-layer="' + layerObj.layer + '"]'),
-          { yPercent: layerObj.yPercent, ease: 'none' },
-          idx === 0 ? undefined : '<'
-        );
-      });
-    });
+    };
 
-    if (typeof window.Lenis !== 'undefined') {
-      const lenis = new window.Lenis();
-      lenis.on('scroll', ScrollTrigger.update);
-      gsap.ticker.add((time) => { lenis.raf(time * 1000); });
-      gsap.ticker.lagSmoothing(0);
-    }
-  }
+    const requestUpdate = () => {
+      if (!frame) frame = window.requestAnimationFrame(update);
+    };
 
-  function initFooterHover() {
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    document.querySelectorAll('.footer-hover-text').forEach((svg) => {
-      const ghost = svg.querySelector('.footer-hover-text__ghost');
-      const line = svg.querySelector('.footer-hover-text__line');
-      const radial = svg.querySelector('defs radialGradient');
-      if (!radial) return;
+    update();
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
+  });
 
-      // draw outline animation once
-      if (line) {
-        line.style.strokeDasharray = '1000';
-        line.style.strokeDashoffset = '1000';
-        requestAnimationFrame(() => {
-          if (reduce) {
-            line.style.transition = 'none';
-            line.style.strokeDashoffset = '0';
-          } else {
-            line.style.transition = 'stroke-dashoffset 3.2s cubic-bezier(0.76, 0, 0.24, 1)';
-            line.style.strokeDashoffset = '0';
-          }
-        });
+  const form = document.querySelector('.contact-form');
+  if (form) {
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const email = form.elements.email.value.trim();
+      const error = form.querySelector('.contact-form__error--form');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        if (error) error.textContent = 'Skontroluj e-mailovú adresu.';
+        return;
       }
-
-      if (reduce) return;
-
-      const updateMask = (clientX, clientY) => {
-        const rect = svg.getBoundingClientRect();
-        if (!rect.width || !rect.height) return;
-        const cx = ((clientX - rect.left) / rect.width) * 100;
-        const cy = ((clientY - rect.top) / rect.height) * 100;
-        radial.setAttribute('cx', cx.toFixed(2) + '%');
-        radial.setAttribute('cy', cy.toFixed(2) + '%');
-      };
-
-      const linear = svg.querySelector('defs linearGradient');
-      const defaultStops = linear
-        ? Array.from(linear.querySelectorAll('stop')).map((stop) => stop.getAttribute('stop-color') || '#3ca2fa')
-        : [];
-      const hoverStops = ['#eab308', '#ef4444', '#80eeb4', '#06b6d4', '#8b5cf6'];
-
-      const paintStops = (colors) => {
-        if (!linear) return;
-        const stops = linear.querySelectorAll('stop');
-        stops.forEach((stop, index) => {
-          stop.setAttribute('stop-color', colors[index % colors.length]);
-        });
-      };
-
-      svg.addEventListener('pointerenter', () => {
-        svg.classList.add('is-hovered');
-        if (ghost) ghost.style.opacity = '0.7';
-        paintStops(hoverStops);
-      });
-      svg.addEventListener('pointerleave', () => {
-        svg.classList.remove('is-hovered');
-        if (ghost) ghost.style.opacity = '0';
-        radial.setAttribute('cx', '50%');
-        radial.setAttribute('cy', '50%');
-        paintStops(defaultStops.length ? defaultStops : ['#f5f5f5', '#25e7dd', '#7c5cff', '#ffffff']);
-      });
-      svg.addEventListener('pointermove', (event) => {
-        updateMask(event.clientX, event.clientY);
-      });
+      const payload = new FormData(form);
+      payload.append('access_key', '0eb8f328-b1f0-473d-a939-370e901a7ac6');
+      payload.append('subject', 'Nová správa z kontaktného formulára Clippio');
+      payload.append('from_name', 'Clippio web');
+      const submit = form.querySelector('button[type="submit"]');
+      submit.disabled = true;
+      submit.textContent = 'Odosielam…';
+      try {
+        const response = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: payload });
+        const result = await response.json();
+        if (!response.ok || !result.success) throw new Error();
+        form.reset();
+        alert('Ďakujem za kontaktovanie. Budem sa snažiť odpovedať čo najskôr.');
+      } catch {
+        if (error) error.textContent = 'Správu sa nepodarilo odoslať. Skúste to znova alebo použite e-mail či telefón.';
+      } finally {
+        submit.disabled = false;
+        submit.textContent = 'Odoslať';
+      }
     });
   }
 
-  initFooterHover();
+  async function loadGallery() {
+    const target = document.querySelector('.portfolio-gallery-loading, .gallery-empty');
+    if (!target) return;
+    const isHome = !!target.closest('#galeria') || (!!document.getElementById('galeria') && !document.querySelector('.portfolio-page'));
+    try {
+      let homeListUrl = '';
+      let driveListUrl = '';
+      try {
+        const cfg = await fetch(assetUrl('data/portfolio-config.json'), { cache: 'no-store' });
+        if (cfg.ok) {
+          const data = await cfg.json();
+          homeListUrl = String(data.homeListUrl || '').trim();
+          driveListUrl = String(data.driveListUrl || '').trim();
+        }
+      } catch (e) {}
+      const sources = [];
+      if (isHome && homeListUrl) sources.push(homeListUrl);
+      else if (!isHome && driveListUrl) sources.push(driveListUrl);
+      else if (driveListUrl) sources.push(driveListUrl);
+      sources.push(assetUrl('data/portfolio-page.json'));
+      let items = [];
+      for (const src of sources) {
+        try {
+          const response = await fetch(src, { cache: 'no-store' });
+          if (!response.ok) continue;
+          const data = await response.json();
+          items = Array.isArray(data.items) ? data.items.filter((i) => i && i.image) : [];
+          if (items.length) break;
+        } catch (e) {}
+      }
+      if (!items.length) return;
+      const grid = document.createElement('div');
+      grid.className = 'masonry-grid portfolio-page__grid portfolio-gallery';
+      items.forEach((item, index) => {
+        const button = document.createElement('button');
+        button.className = 'masonry-card portfolio-gallery__button';
+        button.type = 'button';
+        button.innerHTML = '<img src="' + item.image + '" alt="' + (item.title || ('Ukážka práce Clippio ' + (index + 1))) + '" loading="lazy">';
+        button.addEventListener('click', () => openLightbox(items, index));
+        grid.append(button);
+      });
+      target.replaceWith(grid);
+    } catch { /* retain the existing empty-state message */ }
+  }
+
+  function openLightbox(items, index) {
+    const dialog = document.createElement('div');
+    dialog.className = 'portfolio-lightbox';
+    const render = () => {
+      const item = items[index];
+      dialog.innerHTML = `<button class="portfolio-lightbox__close">Zavrieť</button><button class="portfolio-lightbox__nav portfolio-lightbox__nav--previous" aria-label="Predchádzajúci obrázok">‹</button><button class="portfolio-lightbox__nav portfolio-lightbox__nav--next" aria-label="Nasledujúci obrázok">›</button><div class="portfolio-lightbox__image"><img src="${item.image}" alt="${item.title || 'Ukážka práce Clippio'}"></div><p class="portfolio-lightbox__count">${index + 1} / ${items.length}</p>`;
+      dialog.querySelector('.portfolio-lightbox__close').onclick = close;
+      dialog.querySelector('.portfolio-lightbox__nav--previous').onclick = () => { index = (index - 1 + items.length) % items.length; render(); };
+      dialog.querySelector('.portfolio-lightbox__nav--next').onclick = () => { index = (index + 1) % items.length; render(); };
+    };
+    const close = () => { document.body.style.overflow = ''; dialog.remove(); };
+    dialog.onclick = (event) => { if (event.target === dialog) close(); };
+    document.addEventListener('keydown', function onKey(event) { if (event.key === 'Escape') { close(); document.removeEventListener('keydown', onKey); } }, { once: true });
+    document.body.style.overflow = 'hidden';
+    render();
+    document.body.append(dialog);
+  }
+
   loadGallery();
 })();
