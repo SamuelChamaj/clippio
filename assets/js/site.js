@@ -135,37 +135,35 @@
 
   function initFooterHover() {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     document.querySelectorAll('.footer-hover-text').forEach((svg) => {
       const ghost = svg.querySelector('.footer-hover-text__ghost');
       const line = svg.querySelector('.footer-hover-text__line');
-      const radial = svg.querySelector('defs radialGradient');
-      if (!radial) return;
+      const reveal = svg.querySelector('.footer-hover-text__reveal');
+      const radial = svg.querySelector('#footerRevealMask, defs radialGradient');
+      const linear = svg.querySelector('#footerTextGradient, defs linearGradient');
+      if (!radial || !linear) return;
 
+      // Draw blue outline once (like motion.text duration 4s)
       if (line) {
         line.style.strokeDasharray = '1000';
         line.style.strokeDashoffset = '1000';
         requestAnimationFrame(() => {
           line.style.transition = reduce
             ? 'none'
-            : 'stroke-dashoffset 3.2s cubic-bezier(0.76, 0, 0.24, 1)';
+            : 'stroke-dashoffset 4s ease-in-out';
           line.style.strokeDashoffset = '0';
         });
       }
 
       if (reduce) return;
 
-      const linear = svg.querySelector('defs linearGradient');
-      const defaultStops = linear
-        ? Array.from(linear.querySelectorAll('stop')).map((s) => s.getAttribute('stop-color') || '#3ca2fa')
-        : ['#f5f5f5', '#25e7dd', '#7c5cff', '#ffffff'];
-      const hoverStops = ['#eab308', '#ef4444', '#80eeb4', '#06b6d4', '#8b5cf6'];
-
-      const paintStops = (colors) => {
-        if (!linear) return;
-        linear.querySelectorAll('stop').forEach((stop, i) => {
-          stop.setAttribute('stop-color', colors[i % colors.length]);
+      const setGradientVisible = (on) => {
+        linear.querySelectorAll('stop').forEach((stop) => {
+          stop.setAttribute('stop-opacity', on ? '1' : '0');
         });
       };
+      setGradientVisible(false);
 
       const updateMask = (clientX, clientY) => {
         const rect = svg.getBoundingClientRect();
@@ -179,16 +177,18 @@
       svg.addEventListener('pointerenter', () => {
         svg.classList.add('is-hovered');
         if (ghost) ghost.style.opacity = '0.7';
-        paintStops(hoverStops);
+        setGradientVisible(true);
       });
       svg.addEventListener('pointerleave', () => {
         svg.classList.remove('is-hovered');
         if (ghost) ghost.style.opacity = '0';
+        setGradientVisible(false);
         radial.setAttribute('cx', '50%');
         radial.setAttribute('cy', '50%');
-        paintStops(defaultStops);
       });
-      svg.addEventListener('pointermove', (e) => updateMask(e.clientX, e.clientY));
+      svg.addEventListener('pointermove', (e) => {
+        updateMask(e.clientX, e.clientY);
+      });
     });
   }
 

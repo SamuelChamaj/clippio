@@ -34,8 +34,61 @@
   margin-left:auto !important;
   margin-right:auto !important;
 }
-/* Footer text hover */
-.footer-hover-text{touch-action:none;cursor:pointer;user-select:none;display:block}
-.footer-hover-text__ghost{opacity:0;transition:opacity .2s ease}
+
+/* TextHoverEffect footer – match template */
+.hover-footer{position:relative;overflow:hidden}
+.hover-footer__wordmark{
+  display:none;
+  position:relative;
+  z-index:50;
+  width:100%;
+  height:30rem;
+  margin-top:-13rem;
+  margin-bottom:-9rem;
+  pointer-events:auto;
+}
+@media (min-width:1024px){
+  .hover-footer__wordmark{display:flex}
+}
+.footer-hover-text{
+  width:100%;
+  height:100%;
+  cursor:pointer;
+  user-select:none;
+  text-transform:uppercase;
+  display:block;
+  touch-action:none;
+}
+.footer-hover-text__ghost,
+.footer-hover-text__line,
+.footer-hover-text__reveal{
+  fill:transparent;
+  font-family:Helvetica,Arial,sans-serif;
+  font-size:4.6rem;
+  font-weight:900;
+  letter-spacing:0;
+}
+.footer-hover-text__ghost{
+  stroke:#e5e5e5;
+  stroke-width:0.3px;
+  opacity:0;
+  transition:opacity .15s ease;
+}
 .footer-hover-text.is-hovered .footer-hover-text__ghost{opacity:.7}
-.hover-footer__wordmark{pointer-events:auto}
+.footer-hover-text__line{
+  stroke:#3ca2fa;
+  stroke-width:0.3px;
+}
+.footer-hover-text__reveal{
+  stroke-width:0.3px;
+}
+.hover-footer__gradient{
+  z-index:0;
+  pointer-events:none;
+  position:absolute;
+  inset:0;
+  background:radial-gradient(125% 125% at 50% 10%, #0F0F1166 50%, #3ca2fa33 100%);
+}
+.hover-footer__content,
+.hover-footer__bottom{position:relative;z-index:40}
+
