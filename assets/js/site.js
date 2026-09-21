@@ -8,29 +8,98 @@
     button.addEventListener('click', () => { location.href = assetUrl('kontakt/'); });
   });
 
-  document.querySelectorAll('[data-parallax-layers]').forEach((layers) => {
-    const section = layers.closest('.parallax__header');
-    let frame;
+  function initParallaxHero() {
+    const layersRoot = document.querySelector('[data-parallax-layers]');
+    if (!layersRoot) return;
 
-    const update = () => {
-      frame = undefined;
-      const bounds = section.getBoundingClientRect();
-      const amount = Math.min(1, Math.max(0, -bounds.top / Math.max(1, bounds.height)));
-      layers.querySelectorAll('[data-parallax-layer]').forEach((layer) => {
-        const level = Number(layer.dataset.parallaxLayer);
-        const distances = { 1: -46, 2: -24, 3: -74, 4: 42 };
-        layer.style.transform = `translate3d(0, ${amount * distances[level]}px, 0)`;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || typeof window.gsap === 'undefined' || typeof window.ScrollTrigger === 'undefined') {
+      // fallback: light scroll parallax without GSAP
+      const section = layersRoot.closest('.parallax__header');
+      if (!section) return;
+      let frame;
+      const update = () => {
+        frame = undefined;
+        const bounds = section.getBoundingClientRect();
+        const amount = Math.min(1, Math.max(0, -bounds.top / Math.max(1, bounds.height)));
+        layersRoot.querySelectorAll('[data-parallax-layer]').forEach((layer) => {
+          const level = Number(layer.dataset.parallaxLayer);
+          const distances = { 1: -40, 2: -28, 3: -55, 4: 12 };
+          layer.style.transform = `translate3d(0, ${amount * distances[level]}px, 0)`;
+        });
+      };
+      const requestUpdate = () => {
+        if (!frame) frame = window.requestAnimationFrame(update);
+      };
+      update();
+      window.addEventListener('scroll', requestUpdate, { passive: true });
+      window.addEventListener('resize', requestUpdate);
+      return;
+    }
+
+    const gsap = window.gsap;
+    const ScrollTrigger = window.ScrollTrigger;
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Smooth scroll (Lenis) when available – like the Osmo / 21st template
+    let lenis = null;
+    if (typeof window.Lenis !== 'undefined' && !reduce) {
+      lenis = new window.Lenis({
+        duration: 1.1,
+        smoothWheel: true
       });
-    };
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+      });
+      gsap.ticker.lagSmoothing(0);
+    }
 
-    const requestUpdate = () => {
-      if (!frame) frame = window.requestAnimationFrame(update);
-    };
+    const layerMotion = [
+      { layer: '1', yPercent: 70 },
+      { layer: '2', yPercent: 55 },
+      { layer: '3', yPercent: 40 },
+      { layer: '4', yPercent: 10 }
+    ];
 
-    update();
-    window.addEventListener('scroll', requestUpdate, { passive: true });
-    window.addEventListener('resize', requestUpdate);
-  });
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: layersRoot,
+        start: '0% 0%',
+        end: '100% 0%',
+        scrub: true
+      }
+    });
+
+    layerMotion.forEach((item, index) => {
+      const targets = layersRoot.querySelectorAll('[data-parallax-layer="' + item.layer + '"]');
+      if (!targets.length) return;
+      tl.to(
+        targets,
+        {
+          yPercent: item.yPercent,
+          ease: 'none'
+        },
+        index === 0 ? 0 : '<'
+      );
+    });
+
+    // hero copy fades slightly while scrolling out of the header
+    const heroCopy = document.querySelector('.parallax__hero-content');
+    if (heroCopy) {
+      gsap.to(heroCopy, {
+        opacity: 0,
+        y: 40,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: layersRoot,
+          start: '10% 0%',
+          end: '55% 0%',
+          scrub: true
+        }
+      });
+    }
+  }
 
   const form = document.querySelector('.contact-form');
   if (form) {
