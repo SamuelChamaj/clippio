@@ -18,7 +18,7 @@
     const section = layers.closest('.parallax__header');
     let frame;
     /* Baseline ~ one mouse-wheel tick of parallax so load matches desired framing */
-    const BASELINE = 0.12;
+    const BASELINE = 0.22;
 
     const update = () => {
       frame = null;
@@ -28,7 +28,7 @@
       const amount = Math.min(1, scrolled + BASELINE * Math.max(0, 1 - scrolled));
       layers.querySelectorAll('[data-parallax-layer]').forEach((layer) => {
         const level = Number(layer.dataset.parallaxLayer);
-        const distances = { 1: -46, 2: -24, 3: -74, 4: 42 };
+        const distances = { 1: -46, 2: -24, 3: -74, 4: 56 };
         const y = amount * (distances[level] || 0);
         layer.style.transform = 'translate3d(0, ' + y + 'px, 0)';
       });
