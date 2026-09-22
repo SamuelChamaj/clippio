@@ -1,6 +1,8 @@
 {
   "driveFolderId": "1fHtT6P9_YekZPNE89sCCxIOCo0xqJrs4",
   "homeFolderId": "1fHtT6P9_YekZPNE89sCCxIOCo0xqJrs4",
-  "driveListUrl": "https://script.google.com/macros/s/AKfycbyJbhakRN5o4XQsEiuQYVF_L7SnNZyLvbWYGryeHAUkeWzmAFmfu0aFhyq86FG_-swklw/exec?source=home",
-  "homeListUrl": "https://script.google.com/macros/s/AKfycbyJbhakRN5o4XQsEiuQYVF_L7SnNZyLvbWYGryeHAUkeWzmAFmfu0aFhyq86FG_-swklw/exec?source=home"
+  "videoFolderId": "1WHV9yLnWAbPvmB_w8Y58e6vrB_2BmtYJ",
+  "driveListUrl": "https://script.google.com/macros/s/AKfycbyJbhakRN5o4XQsEiuQYVF_L7SnNZyLvbWYGryeHAUkeWzmAFmfu0aFhyq86FG_-swklw/exec?source=portfolio",
+  "homeListUrl": "https://script.google.com/macros/s/AKfycbyJbhakRN5o4XQsEiuQYVF_L7SnNZyLvbWYGryeHAUkeWzmAFmfu0aFhyq86FG_-swklw/exec?source=home",
+  "videoListUrl": "https://script.google.com/macros/s/AKfycbyJbhakRN5o4XQsEiuQYVF_L7SnNZyLvbWYGryeHAUkeWzmAFmfu0aFhyq86FG_-swklw/exec?source=video"
 }

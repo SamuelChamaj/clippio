@@ -28,3 +28,10 @@ git push
 ```
 
 API kľúč: Google Cloud Console → APIs → enable **Google Drive API** → Credentials → API key (obmedz na Drive API).
+
+## Video portfólio (`?source=video`)
+
+Priečinok: `1WHV9yLnWAbPvmB_w8Y58e6vrB_2BmtYJ`  
+URL: `…/exec?source=video` (viď `data/portfolio-config.json` → `videoListUrl`)
+
+Po úprave `drive-portfolio.gs` vždy: **Manage deployments → Edit → New version**.

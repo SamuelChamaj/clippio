@@ -2,7 +2,8 @@
  * Clippio – fotky z Google Drive (live)
  *
  * ?source=home      → hlavná stránka (galéria)
- * ?source=portfolio → /portfolio/ (predvolené)
+ * ?source=portfolio → /portfolio/fotenie (fotografie)
+ * ?source=video     → /portfolio/natacanie-videi
  *
  * Deploy: Web app → Me → Anyone
  * Po úprave: Manage deployments → Edit → New version
@@ -16,6 +17,10 @@ var PORTFOLIO_FOLDERS = [
   { id: '1fHtT6P9_YekZPNE89sCCxIOCo0xqJrs4', category: 'galeria' }
 ];
 
+var VIDEO_FOLDERS = [
+  { id: '1WHV9yLnWAbPvmB_w8Y58e6vrB_2BmtYJ', category: 'video' }
+];
+
 function doGet(e) {
   try {
     var source = 'portfolio';
@@ -25,7 +30,10 @@ function doGet(e) {
       }
     } catch (ignore) {}
 
-    var folders = source === 'home' ? HOME_FOLDERS : PORTFOLIO_FOLDERS;
+    var folders = PORTFOLIO_FOLDERS;
+    if (source === 'home') folders = HOME_FOLDERS;
+    else if (source === 'video') folders = VIDEO_FOLDERS;
+
     var items = [];
     var seen = {};
 
@@ -65,10 +73,14 @@ function doGet(e) {
       return String(b.modified).localeCompare(String(a.modified));
     });
 
+    var sourceLabel = 'google-drive-portfolio';
+    if (source === 'home') sourceLabel = 'google-drive-home';
+    else if (source === 'video') sourceLabel = 'google-drive-video';
+
     return ContentService
       .createTextOutput(JSON.stringify({
         items: items,
-        source: source === 'home' ? 'google-drive-home' : 'google-drive-portfolio',
+        source: sourceLabel,
         count: items.length
       }))
       .setMimeType(ContentService.MimeType.JSON);

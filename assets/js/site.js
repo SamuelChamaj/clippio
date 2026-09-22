@@ -129,22 +129,33 @@
     const target = document.querySelector('.portfolio-gallery-loading, .gallery-empty');
     if (!target) return;
     const isHome = !!target.closest('#galeria') || (!!document.getElementById('galeria') && !document.querySelector('.portfolio-page'));
+    const portfolioSource = (target.getAttribute('data-portfolio-source') || '').trim();
     try {
       let homeListUrl = '';
       let driveListUrl = '';
+      let videoListUrl = '';
+      let videoFolderId = '';
       try {
         const cfg = await fetch(assetUrl('data/portfolio-config.json'), { cache: 'no-store' });
         if (cfg.ok) {
           const data = await cfg.json();
           homeListUrl = String(data.homeListUrl || '').trim();
           driveListUrl = String(data.driveListUrl || '').trim();
+          videoListUrl = String(data.videoListUrl || '').trim();
+          videoFolderId = String(data.videoFolderId || '').trim();
         }
       } catch (e) {}
       const sources = [];
-      if (isHome && homeListUrl) sources.push(homeListUrl);
-      else if (!isHome && driveListUrl) sources.push(driveListUrl);
-      else if (driveListUrl) sources.push(driveListUrl);
-      sources.push(assetUrl('data/portfolio-page.json'));
+      if (portfolioSource === 'video') {
+        if (videoListUrl) sources.push(videoListUrl);
+        sources.push(assetUrl('data/portfolio-video.json'));
+      } else if (isHome && homeListUrl) {
+        sources.push(homeListUrl);
+        sources.push(assetUrl('data/portfolio-page.json'));
+      } else {
+        if (driveListUrl) sources.push(driveListUrl);
+        sources.push(assetUrl('data/portfolio-page.json'));
+      }
       let items = [];
       for (const src of sources) {
         try {
