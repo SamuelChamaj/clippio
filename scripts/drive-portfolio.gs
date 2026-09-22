@@ -57,7 +57,7 @@ function doGet(e) {
           category: folderConfig.category,
           id: id,
           modified: file.getLastUpdated() ? file.getLastUpdated().toISOString() : '',
-          image: 'https://drive.google.com/thumbnail?id=' + id + '&sz=w1600'
+          image: 'https://lh3.googleusercontent.com/d/' + id + '=w1600'
         });
       }
     });

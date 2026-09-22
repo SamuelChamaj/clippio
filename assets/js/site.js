@@ -64,6 +64,67 @@
     });
   }
 
+  function extractDriveId(urlOrId) {
+    if (!urlOrId) return '';
+    const s = String(urlOrId);
+    if (/^[a-zA-Z0-9_-]{20,}$/.test(s)) return s;
+    let m = s.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    if (m) return m[1];
+    m = s.match(/\/d\/([a-zA-Z0-9_-]+)/);
+    if (m) return m[1];
+    m = s.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+    if (m) return m[1];
+    return '';
+  }
+
+  function driveImageUrls(item) {
+    const id = extractDriveId(item.id || item.image || '');
+    const urls = [];
+    if (id) {
+      // lh3 is the most reliable public CDN endpoint
+      urls.push('https://lh3.googleusercontent.com/d/' + id + '=w1600');
+      urls.push('https://lh3.googleusercontent.com/d/' + id + '=s1600');
+      urls.push('https://drive.google.com/thumbnail?id=' + id + '&sz=w1600');
+      urls.push('https://drive.google.com/uc?export=view&id=' + id);
+    }
+    if (item.image && urls.indexOf(item.image) === -1) {
+      urls.unshift(item.image);
+    }
+    return urls;
+  }
+
+  function bindImageWithFallback(img, urls) {
+    let attempt = 0;
+    const tryNext = () => {
+      if (attempt >= urls.length) {
+        img.classList.add('is-broken');
+        img.alt = (img.alt || 'Fotka') + ' (nepodarilo sa načítať)';
+        return;
+      }
+      img.src = urls[attempt++];
+    };
+    img.addEventListener('error', tryNext);
+    img.addEventListener('load', () => {
+      img.classList.add('is-loaded');
+    });
+    tryNext();
+  }
+
+  function normalizeItems(raw) {
+    return (Array.isArray(raw) ? raw : [])
+      .filter((i) => i && (i.image || i.id))
+      .map((i) => {
+        const id = extractDriveId(i.id || i.image || '');
+        const urls = driveImageUrls({ id: id, image: i.image });
+        return {
+          title: i.title || 'Ukážka práce Clippio',
+          id: id,
+          image: urls[0] || i.image,
+          _urls: urls
+        };
+      });
+  }
+
   async function loadGallery() {
     const target = document.querySelector('.portfolio-gallery-loading, .gallery-empty');
     if (!target) return;
@@ -87,10 +148,13 @@
       let items = [];
       for (const src of sources) {
         try {
-          const response = await fetch(src, { cache: 'no-store' });
+          const controller = new AbortController();
+          const timer = setTimeout(() => controller.abort(), 8000);
+          const response = await fetch(src, { cache: 'no-store', signal: controller.signal });
+          clearTimeout(timer);
           if (!response.ok) continue;
           const data = await response.json();
-          items = Array.isArray(data.items) ? data.items.filter((i) => i && i.image) : [];
+          items = normalizeItems(data.items);
           if (items.length) break;
         } catch (e) {}
       }
@@ -105,7 +169,14 @@
         const button = document.createElement('button');
         button.className = 'masonry-card portfolio-gallery__button';
         button.type = 'button';
-        button.innerHTML = '<img src="' + item.image + '" alt="' + (item.title || ('Ukážka práce Clippio ' + (index + 1))) + '" loading="lazy">';
+        const img = document.createElement('img');
+        img.alt = item.title || ('Ukážka práce Clippio ' + (index + 1));
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        img.referrerPolicy = 'no-referrer';
+        img.draggable = false;
+        bindImageWithFallback(img, item._urls || [item.image]);
+        button.appendChild(img);
         button.addEventListener('click', () => openLightbox(items, index));
         grid.append(button);
       });
@@ -220,11 +291,14 @@
     const render = () => {
       resetZoom();
       const item = items[index];
+      const urls = item._urls || driveImageUrls(item);
       dialog.innerHTML = '<button class="portfolio-lightbox__close" type="button">Zavrieť</button>' +
         '<button class="portfolio-lightbox__nav portfolio-lightbox__nav--previous" type="button" aria-label="Predchádzajúci obrázok">‹</button>' +
         '<button class="portfolio-lightbox__nav portfolio-lightbox__nav--next" type="button" aria-label="Nasledujúci obrázok">›</button>' +
-        '<div class="portfolio-lightbox__image"><img src="' + item.image + '" alt="' + (item.title || 'Ukážka práce Clippio') + '" draggable="false"></div>' +
+        '<div class="portfolio-lightbox__image"><img alt="' + (item.title || 'Ukážka práce Clippio') + '" draggable="false" referrerpolicy="no-referrer"></div>' +
         '<p class="portfolio-lightbox__count">' + (index + 1) + ' / ' + items.length + '</p>';
+      const lbImg = dialog.querySelector('.portfolio-lightbox__image img');
+      if (lbImg) bindImageWithFallback(lbImg, urls);
       dialog.querySelector('.portfolio-lightbox__close').onclick = close;
       dialog.querySelector('.portfolio-lightbox__nav--previous').onclick = (e) => {
         e.stopPropagation();

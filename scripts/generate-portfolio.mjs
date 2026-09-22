@@ -37,7 +37,7 @@ if (!response.ok) {
 const data = await response.json();
 const items = (data.files || []).map((file) => ({
   title: String(file.name || 'Fotka').replace(/\.[^.]+$/, ''),
-  image: `https://drive.google.com/thumbnail?id=${file.id}&sz=w1600`,
+  image: `https://lh3.googleusercontent.com/d/${file.id}=w1600`,
   id: file.id,
   modified: file.modifiedTime || ''
 }));

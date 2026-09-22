@@ -2,39 +2,48 @@
   "items": [
     {
       "title": "Grafika a1",
-      "image": "https://drive.google.com/thumbnail?id=13B6jYMvJOuB6rhU8F1LsnM1mAd_z0yH3&sz=w1600"
+      "image": "https://lh3.googleusercontent.com/d/13B6jYMvJOuB6rhU8F1LsnM1mAd_z0yH3=w1600",
+      "id": "13B6jYMvJOuB6rhU8F1LsnM1mAd_z0yH3"
     },
     {
       "title": "Grafika a2",
-      "image": "https://drive.google.com/thumbnail?id=1x7TgyGlxORtmuy34vs8FU7bFIXt2FLGd&sz=w1600"
+      "image": "https://lh3.googleusercontent.com/d/1x7TgyGlxORtmuy34vs8FU7bFIXt2FLGd=w1600",
+      "id": "1x7TgyGlxORtmuy34vs8FU7bFIXt2FLGd"
     },
     {
       "title": "Grafika a3",
-      "image": "https://drive.google.com/thumbnail?id=1FEm7MRGbBLrRCQx7lcRKlaejuamldxDX&sz=w1600"
+      "image": "https://lh3.googleusercontent.com/d/1FEm7MRGbBLrRCQx7lcRKlaejuamldxDX=w1600",
+      "id": "1FEm7MRGbBLrRCQx7lcRKlaejuamldxDX"
     },
     {
       "title": "Grafika a4",
-      "image": "https://drive.google.com/thumbnail?id=1MqmpP59fzjaLd2NF-Z-2Kkz0AmBa0qFG&sz=w1600"
+      "image": "https://lh3.googleusercontent.com/d/1MqmpP59fzjaLd2NF-Z-2Kkz0AmBa0qFG=w1600",
+      "id": "1MqmpP59fzjaLd2NF-Z-2Kkz0AmBa0qFG"
     },
     {
       "title": "Grafika k1",
-      "image": "https://drive.google.com/thumbnail?id=1fGrEy2gtZPDuxXsW4JdTBRf-HCQZb7c9&sz=w1600"
+      "image": "https://lh3.googleusercontent.com/d/1fGrEy2gtZPDuxXsW4JdTBRf-HCQZb7c9=w1600",
+      "id": "1fGrEy2gtZPDuxXsW4JdTBRf-HCQZb7c9"
     },
     {
       "title": "Menu",
-      "image": "https://drive.google.com/thumbnail?id=1FMfcnjFjW-LK6ftOjz3z3q9tsg4y3kg6&sz=w1600"
+      "image": "https://lh3.googleusercontent.com/d/1FMfcnjFjW-LK6ftOjz3z3q9tsg4y3kg6=w1600",
+      "id": "1FMfcnjFjW-LK6ftOjz3z3q9tsg4y3kg6"
     },
     {
       "title": "Mojito",
-      "image": "https://drive.google.com/thumbnail?id=1FOChvPmF0m6dFFa21vKl9EHBoG1R0QJU&sz=w1600"
+      "image": "https://lh3.googleusercontent.com/d/1FOChvPmF0m6dFFa21vKl9EHBoG1R0QJU=w1600",
+      "id": "1FOChvPmF0m6dFFa21vKl9EHBoG1R0QJU"
     },
     {
       "title": "Fotenie",
-      "image": "https://drive.google.com/thumbnail?id=1p9JpoQTbd36j8HMaDYNZ1hPvG9lFrVTg&sz=w1600"
+      "image": "https://lh3.googleusercontent.com/d/1p9JpoQTbd36j8HMaDYNZ1hPvG9lFrVTg=w1600",
+      "id": "1p9JpoQTbd36j8HMaDYNZ1hPvG9lFrVTg"
     },
     {
       "title": "Portfólio ukážka",
-      "image": "https://drive.google.com/thumbnail?id=11VwHA_mz_b7rf6sTLUtF7FlD7lCofYSI&sz=w1600"
+      "image": "https://lh3.googleusercontent.com/d/11VwHA_mz_b7rf6sTLUtF7FlD7lCofYSI=w1600",
+      "id": "11VwHA_mz_b7rf6sTLUtF7FlD7lCofYSI"
     }
   ]
 }
