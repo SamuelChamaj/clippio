@@ -13,8 +13,7 @@ var HOME_FOLDERS = [
 ];
 
 var PORTFOLIO_FOLDERS = [
-  { id: '1VEKAMonI08t7Yo_fKRAgoce0XF49qAh0', category: 'grafika' },
-  { id: '1WHV9yLnWAbPvmB_w8Y58e6vrB_2BmtYJ', category: 'foto' }
+  { id: '1fHtT6P9_YekZPNE89sCCxIOCo0xqJrs4', category: 'galeria' }
 ];
 
 function doGet(e) {

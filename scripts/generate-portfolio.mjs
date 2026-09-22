@@ -16,7 +16,7 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
-const FOLDER_ID = process.env.DRIVE_FOLDER_ID || '1VEKAMonI08t7Yo_fKRAgoce0XF49qAh0';
+const FOLDER_ID = process.env.DRIVE_FOLDER_ID || '1fHtT6P9_YekZPNE89sCCxIOCo0xqJrs4';
 const API_KEY = process.env.GOOGLE_API_KEY;
 
 if (!API_KEY) {
