@@ -8,18 +8,29 @@
     button.addEventListener('click', () => { location.href = assetUrl('kontakt/'); });
   });
 
+  /* Keep first paint of hero framed like a light scroll (not cropped too high). */
+  try {
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    if (window.scrollY < 2) window.scrollTo(0, 0);
+  } catch (e) {}
+
   document.querySelectorAll('[data-parallax-layers]').forEach((layers) => {
     const section = layers.closest('.parallax__header');
     let frame;
+    /* Baseline ~ one mouse-wheel tick of parallax so load matches desired framing */
+    const BASELINE = 0.12;
 
     const update = () => {
-      frame = undefined;
+      frame = null;
+      if (!section) return;
       const bounds = section.getBoundingClientRect();
-      const amount = Math.min(1, Math.max(0, -bounds.top / Math.max(1, bounds.height)));
+      const scrolled = Math.min(1, Math.max(0, -bounds.top / Math.max(1, bounds.height)));
+      const amount = Math.min(1, scrolled + BASELINE * Math.max(0, 1 - scrolled));
       layers.querySelectorAll('[data-parallax-layer]').forEach((layer) => {
         const level = Number(layer.dataset.parallaxLayer);
         const distances = { 1: -46, 2: -24, 3: -74, 4: 42 };
-        layer.style.transform = `translate3d(0, ${amount * distances[level]}px, 0)`;
+        const y = amount * (distances[level] || 0);
+        layer.style.transform = 'translate3d(0, ' + y + 'px, 0)';
       });
     };
 
