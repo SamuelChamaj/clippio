@@ -1,0 +1,20 @@
+# ai.txt – preferencie pre AI systémy
+# https://clippio.sk
+
+User-Agent: *
+Allow: /
+Contact: info@clippio.sk
+Preferred-Languages: sk, en
+Content-Signal: yes
+Sitemap: https://clippio.sk/sitemap.xml
+llms: https://clippio.sk/llms.txt
+
+# Stručný popis pre AI
+Site-Name: Clippio
+Owner: Samuel Chamaj
+Type: photographer, videographer, drone operator
+Region: Slovakia
+Services: photography, video production, aerial drone footage
+Pricing-Hint: photography and short video up to 50 EUR; drone work from 80 EUR
+Payment: invoice available
+Phone-Hours: 14:00-22:00

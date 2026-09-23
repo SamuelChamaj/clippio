@@ -1,0 +1,11 @@
+/* TEAM */
+Creator: Samuel Chamaj
+Site: Clippio
+Contact: info@clippio.sk
+Phone: +421 951 025 596
+Location: Slovakia
+
+/* SITE */
+Last update: 2026-09-23
+Language: Slovak
+Standards: HTML5, CSS3
