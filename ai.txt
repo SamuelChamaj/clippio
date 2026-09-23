@@ -15,6 +15,6 @@ Owner: Samuel Chamaj
 Type: photographer, videographer, drone operator
 Region: Slovakia
 Services: photography, video production, aerial drone footage
-Pricing-Hint: photography and short video from 50 EUR; drone work from 80 EUR
+Pricing-Hint: indicative/average from 50 EUR (photo, short video) and from 80 EUR (drone); can be less depending on technique, travel and scope
 Payment: invoice available
 Phone-Hours: 14:00-22:00

@@ -1,7 +1,9 @@
 Clippio – len upravené súbory (2026-09-23)
 ==========================================
 
-OPRAVA CIEN: Fotenie a natáčanie videí = od 50 € (nie do 50 €).
-Dron = od 80 € (bez zmeny).
+Ceny:
+- Fotenie / natáčanie: od 50 € (orientačná / priemerná – môže byť aj menej)
+- Dron: od 80 € (môže byť menej aj viac)
+- Všade: podľa techniky, cesty a rozsahu; platba na faktúru
 
 Nahraj so zachovaním ciest do koreňa webu.
