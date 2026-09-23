@@ -103,3 +103,13 @@
   background:radial-gradient(125% 125% at 50% 10%, #0F0F1166 50%, #3ca2fa33 100%);
 }
 
+
+/* Contact page enhancements */
+.contact-page__hours,.contact-page__note{display:flex;flex-direction:column;gap:.25rem;margin:0;color:inherit;text-decoration:none}
+.contact-page__hours span,.contact-page__note span{color:#f5f5f57a;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.contact-page__hours,.contact-page__note{font-size:1rem;font-weight:600;line-height:1.4}
+.contact-form__hint{display:block;color:#f5f5f57a;font-size:.78rem;font-weight:600;margin:.35rem 0 .5rem;line-height:1.4}
+.contact-form__intro{color:#f5f5f5b8;font-size:.95rem;line-height:1.55;margin:0 0 1.25rem}
+.contact-form__select-wrap select{width:100%;min-height:2.75rem;padding:.65rem 1rem;background:#0a0a0ac7;border:1px solid #ffffff42;border-radius:.75rem;color:#fff;font:inherit;appearance:auto}
+.contact-form__select-wrap select:focus{outline:2px solid #82c7ff;outline-offset:2px;border-color:#82c7ff}
+.contact-form__select-wrap select option{background:#111;color:#fff}
