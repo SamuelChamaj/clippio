@@ -132,8 +132,9 @@
     height:100dvh;
   }
   .parallax__title{
-    font-size:clamp(2.75rem,14vw,5.5rem);
+    font-size:clamp(3.75rem,20vw,7rem);
     margin-right:0;
+    letter-spacing:-0.02em;
   }
   .parallax__layer-img{
     object-fit:cover;
@@ -196,7 +197,7 @@
     font-size:.88rem;
   }
   .parallax__title{
-    font-size:clamp(2.4rem,13vw,4rem);
+    font-size:clamp(3.25rem,18vw,5.5rem);
   }
   .parallax__hero-copy h2{
     font-size:clamp(1.45rem,6vw,2rem);
