@@ -39,3 +39,9 @@ User-agent: CCBot
 Allow: /
 
 Sitemap: https://clippio.sk/sitemap.xml
+
+# Popis pre jazykové modely
+# https://clippio.sk/llms.txt
+# https://clippio.sk/llms-full.txt
+# https://clippio.sk/ai.txt
+

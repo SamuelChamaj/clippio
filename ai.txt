@@ -8,13 +8,20 @@ Preferred-Languages: sk, en
 Content-Signal: yes
 Sitemap: https://clippio.sk/sitemap.xml
 llms: https://clippio.sk/llms.txt
+llms-full: https://clippio.sk/llms-full.txt
 
 # Stručný popis pre AI
 Site-Name: Clippio
 Owner: Samuel Chamaj
+Invoice: Roman Chamaj, sole trader, ICO 44356846, DIC 1080190111, not a VAT payer
 Type: photographer, videographer, drone operator
 Region: Slovakia
-Services: photography, video production, aerial drone footage
-Pricing-Hint: indicative/average from 50 EUR (photo, short video) and from 80 EUR (drone); can be less depending on technique, travel and scope
+Address: Zlaté Moravce, Slovakia
+Billing-Address: Hosťovce 97, 951 91 Hosťovce, Slovakia
+Services: photography, promo video, aerial drone footage, weddings
+Packages: https://clippio.sk/baliky/
+Pricing-Hint: photo from 59 EUR, promo video from 59 EUR, drone solo from 79 EUR, drone add-on +25 EUR with another service, weddings from 249 EUR; exact quote before the date
 Payment: invoice available
 Phone-Hours: 14:00-22:00
+Drone: DJI Mini 3, Open A1/A3, insured about 200000 EUR; registration number is not published
+Services-Note: no standalone graphic-design service; video and drone samples currently on YouTube @Clippio_sk

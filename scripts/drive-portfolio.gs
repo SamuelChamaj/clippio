@@ -14,7 +14,7 @@ var HOME_FOLDERS = [
 ];
 
 var PORTFOLIO_FOLDERS = [
-  { id: '1fHtT6P9_YekZPNE89sCCxIOCo0xqJrs4', category: 'galeria' }
+  { id: '1WHV9yLnWAbPvmB_w8Y58e6vrB_2BmtYJ', category: 'galeria' }
 ];
 
 var VIDEO_FOLDERS = [
@@ -33,6 +33,16 @@ function doGet(e) {
     var folders = PORTFOLIO_FOLDERS;
     if (source === 'home') folders = HOME_FOLDERS;
     else if (source === 'video') folders = VIDEO_FOLDERS;
+
+    var folderParam = '';
+    try {
+      if (e && e.parameter && e.parameter.folder) {
+        folderParam = String(e.parameter.folder);
+      }
+    } catch (ignoreFolder) {}
+    if (folderParam === '1WHV9yLnWAbPvmB_w8Y58e6vrB_2BmtYJ') {
+      folders = [{ id: folderParam, category: 'galeria' }];
+    }
 
     var items = [];
     var seen = {};

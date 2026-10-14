@@ -4,6 +4,28 @@
   const root = new URL(document.querySelector('base')?.href || location.href);
   const assetUrl = (path) => new URL(path, root).href;
 
+  document.querySelectorAll('.site-nav').forEach((nav) => {
+    const toggle = nav.querySelector('.site-nav__toggle');
+    const panel = nav.querySelector('.site-nav__panel');
+    if (!toggle || !panel) return;
+    const setOpen = (open) => {
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      panel.hidden = !open;
+    };
+    toggle.addEventListener('click', () => {
+      setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+    });
+    panel.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => setOpen(false));
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') setOpen(false);
+    });
+    document.addEventListener('click', (event) => {
+      if (!nav.contains(event.target)) setOpen(false);
+    });
+  });
+
   document.querySelectorAll('.pc-contact-btn').forEach((button) => {
     button.addEventListener('click', () => { location.href = assetUrl('kontakt/'); });
   });
@@ -28,8 +50,8 @@
       const amount = Math.min(1, scrolled + BASELINE * Math.max(0, 1 - scrolled));
       layers.querySelectorAll('[data-parallax-layer]').forEach((layer) => {
         const level = Number(layer.dataset.parallaxLayer);
-        const distances = { 1: -40, 2: -20, 3: -60, 4: 80 };
-        const baseY = (level === 4) ? 28 : (level === 3 ? -12 : 0);
+        const distances = { 1: -90, 2: -45, 3: -140, 4: 0 };
+        const baseY = (level === 4) ? 42 : (level === 3 ? -12 : 0);
         const y = baseY + amount * (distances[level] || 0);
         layer.style.transform = 'translate3d(0, ' + y + 'px, 0)';
       });
@@ -44,34 +66,155 @@
     window.addEventListener('resize', requestUpdate);
   });
 
+  document.querySelectorAll('.contact-form__select-wrap select').forEach((select) => {
+    const wrap = select.parentElement;
+    if (!wrap || wrap.querySelector('.service-picker')) return;
+    select.classList.add('service-picker__native');
+    const picker = document.createElement('div');
+    picker.className = 'service-picker';
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'service-picker__button';
+    button.setAttribute('aria-haspopup', 'listbox');
+    button.setAttribute('aria-expanded', 'false');
+    const label = document.createElement('span');
+    const menu = document.createElement('ul');
+    menu.className = 'service-picker__menu';
+    menu.hidden = true;
+    menu.setAttribute('role', 'listbox');
+    const choices = [];
+    const paint = () => {
+      const current = select.options[select.selectedIndex];
+      const empty = !select.value;
+      label.textContent = empty ? 'Nevybrané' : (current ? current.textContent : '');
+      button.classList.toggle('is-placeholder', empty);
+      choices.forEach((choice) => {
+        const on = choice.dataset.value === select.value;
+        choice.classList.toggle('is-selected', on);
+        choice.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+    };
+    const close = () => {
+      menu.hidden = true;
+      button.setAttribute('aria-expanded', 'false');
+    };
+    Array.from(select.options).forEach((option) => {
+      if (!option.value) return;
+      const item = document.createElement('li');
+      const choice = document.createElement('button');
+      choice.type = 'button';
+      choice.dataset.value = option.value;
+      choice.setAttribute('role', 'option');
+      choice.textContent = option.textContent;
+      choice.addEventListener('click', () => {
+        select.value = option.value;
+        paint();
+        close();
+      });
+      choices.push(choice);
+      item.appendChild(choice);
+      menu.appendChild(item);
+    });
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const open = menu.hidden;
+      menu.hidden = !open;
+      button.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    document.addEventListener('click', (event) => {
+      if (!picker.contains(event.target)) close();
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') close();
+    });
+    button.appendChild(label);
+    picker.append(button, menu);
+    wrap.appendChild(picker);
+    paint();
+  });
+
   const form = document.querySelector('.contact-form');
   if (form) {
+    form.noValidate = true;
+    const isValidEmail = (value) => {
+      const email = value.trim();
+      if (!email || email.length > 254 || /\s/.test(email)) return false;
+      const match = email.match(/^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@([A-Za-z0-9-]+\.)+[A-Za-z]{2,}$/);
+      if (!match) return false;
+      const domain = email.slice(email.lastIndexOf('@') + 1);
+      if (domain.includes('..') || domain.startsWith('-') || domain.endsWith('-')) return false;
+      return true;
+    };
+    const showSent = () => {
+      let overlay = document.querySelector('.send-success');
+      if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.className = 'send-success';
+        overlay.hidden = true;
+        overlay.innerHTML = '<div class="send-success__card" role="dialog" aria-modal="true" aria-labelledby="send-success-title"><div class="send-success__mark" aria-hidden="true"></div><h2 id="send-success-title">Správa bola úspešne odoslaná</h2><button type="button" data-close>Zavrieť</button></div>';
+        document.body.appendChild(overlay);
+        const close = () => {
+          overlay.classList.remove('is-open');
+          overlay.hidden = true;
+        };
+        overlay.addEventListener('click', (event) => {
+          if (event.target === overlay || event.target.closest('[data-close]')) close();
+        });
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape' && !overlay.hidden) close();
+        });
+      }
+      const mark = overlay.querySelector('.send-success__mark');
+      mark.innerHTML = '<span class="send-success__ripple"></span><span class="send-success__ball"><svg viewBox="0 0 48 48" class="send-success__check"><path d="M14 25.2 21.2 32.4 34.5 16.8"/></svg></span>';
+      overlay.hidden = false;
+      overlay.classList.remove('is-open');
+      requestAnimationFrame(() => overlay.classList.add('is-open'));
+      overlay.querySelector('[data-close]').focus();
+    };
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
       const email = form.elements.email.value.trim();
-      const error = form.querySelector('.contact-form__error--form');
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        if (error) error.textContent = 'Skontroluj e-mailovú adresu.';
+      let status = form.querySelector('.contact-form__status');
+      if (!status) {
+        status = document.createElement('p');
+        status.className = 'contact-form__status';
+        status.setAttribute('role', 'status');
+        form.querySelector('button[type="submit"]').before(status);
+      }
+      const show = (message, kind) => {
+        status.textContent = message;
+        status.classList.toggle('is-error', kind === 'error');
+        status.classList.toggle('is-ok', kind === 'ok');
+      };
+      form.elements.email.setAttribute('aria-invalid', 'false');
+      if (!isValidEmail(email)) {
+        form.elements.email.setAttribute('aria-invalid', 'true');
+        show('E-mail je neplatný.', 'error');
+        form.elements.email.focus();
         return;
       }
       const payload = new FormData(form);
+      payload.set('email', email);
       payload.append('access_key', '0eb8f328-b1f0-473d-a939-370e901a7ac6');
       payload.append('subject', 'Nová správa z kontaktného formulára Clippio');
       payload.append('from_name', 'Clippio web');
       const submit = form.querySelector('button[type="submit"]');
       submit.disabled = true;
       submit.textContent = 'Odosielam…';
+      show('', '');
       try {
         const response = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: payload });
         const result = await response.json();
         if (!response.ok || !result.success) throw new Error();
         form.reset();
-        alert('Ďakujem za kontaktovanie. Budem sa snažiť odpovedať čo najskôr.');
+        show('', '');
+        showSent();
       } catch {
-        if (error) error.textContent = 'Správu sa nepodarilo odoslať. Skúste to znova alebo použite e-mail či telefón.';
+        show('Správu sa nepodarilo odoslať. Napíš na info@clippio.sk alebo zavolaj.', 'error');
       } finally {
         submit.disabled = false;
-        submit.textContent = 'Odoslať';
+        submit.textContent = 'Mám záujem';
       }
     });
   }
@@ -87,6 +230,33 @@
     m = s.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
     if (m) return m[1];
     return '';
+  }
+
+  const USE_LABELS = {
+    '11VwHA_mz_b7rf6sTLUtF7FlD7lCofYSI': 'Produkt · motocykel',
+    '1CFbYARp8PkMB1fmOtW3BeX8MDwlbSBxZ': 'Produkt · model',
+    '1RtOl18fOR1-oiv4e6v2_BQV5Gk38Hv71': 'Event · reportáž',
+    '1X3XziwE0JnXpb9oJ9qUuWmYVwdqLWMYx': 'Event · podujatie',
+    '1ebZImowBryIQPXmw3pj6UHE1-grjPANR': 'Produkt · vozidlo',
+    '1p9JpoQTbd36j8HMaDYNZ1hPvG9lFrVTg': 'Event · podujatie',
+    '1pfScwwjR1vCBJB-RrrHUtRJwYjgti-Cr': 'Produkt · model',
+    '1ylVh220WZZcz7XOM7UU6fYwN9Gw2krIS': 'Produkt · vozidlo',
+    '18orwPBnYEDFJH4bLb7F0A2Lxpm7BdKfr': 'Prevádzka · záhrada',
+    '1JjJHzqjBJx8VkBxW093kCmwCZd8FMhMo': 'Detail · príroda',
+    '12EQF1r8iMINQuTHicnoIiig4expeJV-v': 'Atmosféra · príroda'
+  };
+
+  function escapeHtml(value) {
+    return String(value)
+      .replace(/&/g, '\u0026amp;')
+      .replace(/</g, '\u0026lt;')
+      .replace(/>/g, '\u0026gt;')
+      .replace(/"/g, '\u0026quot;')
+      .replace(/'/g, '\u0026#39;');
+  }
+
+  function labelFor(item) {
+    return USE_LABELS[item.id] || item.title || 'Ukážka práce';
   }
 
   function driveImageUrls(item) {
@@ -129,7 +299,7 @@
         const id = extractDriveId(i.id || i.image || '');
         const urls = driveImageUrls({ id: id, image: i.image });
         return {
-          title: i.title || 'Ukážka práce Clippio',
+          title: USE_LABELS[id] || i.title || 'Ukážka práce Clippio',
           id: id,
           image: urls[0] || i.image,
           _urls: urls
@@ -140,7 +310,9 @@
   async function loadGallery() {
     const target = document.querySelector('.portfolio-gallery-loading, .gallery-empty');
     if (!target) return;
+    if (target.getAttribute('data-portfolio-source') === 'youtube' || target.closest('[data-portfolio-source="youtube"]')) return;
     const isHome = !!target.closest('#galeria') || (!!document.getElementById('galeria') && !document.querySelector('.portfolio-page'));
+    if (!target.classList.contains('portfolio-gallery-loading') && !isHome) return;
     const portfolioSource = (target.getAttribute('data-portfolio-source') || '').trim();
     try {
       let homeListUrl = '';
@@ -158,7 +330,13 @@
         }
       } catch (e) {}
       const sources = [];
-      if (portfolioSource === 'video') {
+      const fotenieFolder = '1WHV9yLnWAbPvmB_w8Y58e6vrB_2BmtYJ';
+      if (portfolioSource === 'fotenie' && driveListUrl) {
+        const url = new URL(driveListUrl);
+        url.searchParams.set('source', 'portfolio');
+        url.searchParams.set('folder', fotenieFolder);
+        sources.push(url.toString());
+      } else if (portfolioSource === 'video') {
         if (videoListUrl) sources.push(videoListUrl);
         sources.push(assetUrl('data/portfolio-video.json'));
       } else if (isHome && homeListUrl) {
@@ -181,7 +359,16 @@
           if (items.length) break;
         } catch (e) {}
       }
-      if (!items.length) return;
+      if (!items.length) {
+        const folder = portfolioSource === 'video' ? videoFolderId : '';
+        const driveHref = folder
+          ? 'https://drive.google.com/drive/folders/' + folder
+          : 'https://www.youtube.com/@Clippio_sk';
+        const driveLabel = folder ? 'Otvoriť ukážky na Google Drive' : 'Pozrieť YouTube';
+        target.className = 'gallery-empty';
+        target.innerHTML = 'Galériu sa nepodarilo načítať. <a href="' + assetUrl('kontakt/') + '">Napíš mi</a> a pošlem ukážky, alebo <a href="' + driveHref + '" target="_blank" rel="noopener noreferrer">' + driveLabel + '</a>.';
+        return;
+      }
       const wrap = document.createElement('div');
       wrap.className = 'portfolio-gallery-center';
       wrap.style.cssText = 'width:100%;display:flex;justify-content:center;';
@@ -193,7 +380,7 @@
         button.className = 'masonry-card portfolio-gallery__button';
         button.type = 'button';
         const img = document.createElement('img');
-        img.alt = item.title || ('Ukážka práce Clippio ' + (index + 1));
+        img.alt = labelFor(item) || ('Ukážka práce Clippio ' + (index + 1));
         img.loading = 'lazy';
         img.decoding = 'async';
         img.referrerPolicy = 'no-referrer';
@@ -318,7 +505,7 @@
       dialog.innerHTML = '<button class="portfolio-lightbox__close" type="button">Zavrieť</button>' +
         '<button class="portfolio-lightbox__nav portfolio-lightbox__nav--previous" type="button" aria-label="Predchádzajúci obrázok">‹</button>' +
         '<button class="portfolio-lightbox__nav portfolio-lightbox__nav--next" type="button" aria-label="Nasledujúci obrázok">›</button>' +
-        '<div class="portfolio-lightbox__image"><img alt="' + (item.title || 'Ukážka práce Clippio') + '" draggable="false" referrerpolicy="no-referrer"></div>' +
+        '<div class="portfolio-lightbox__image"><img alt="' + escapeHtml(labelFor(item)) + '" draggable="false" referrerpolicy="no-referrer"></div>' +
         '<p class="portfolio-lightbox__count">' + (index + 1) + ' / ' + items.length + '</p>';
       const lbImg = dialog.querySelector('.portfolio-lightbox__image img');
       if (lbImg) bindImageWithFallback(lbImg, urls);
