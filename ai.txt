@@ -25,3 +25,6 @@ Payment: invoice available
 Phone-Hours: 14:00-22:00
 Drone: DJI Mini 3, Open A1/A3, insured about 200000 EUR; registration number is not published
 Services-Note: no standalone graphic-design service; video and drone samples currently on YouTube @Clippio_sk
+
+Services-Overview: https://clippio.sk/co-robime/
+Additional-Capabilities: film production services, live streaming, special events production, wedding videography, real estate videography, video marketing, short-form video production, product presentation
