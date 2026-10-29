@@ -9,7 +9,7 @@
   <style>
     :root { color-scheme: dark; }
     body { background: #0a0a0a; color: #eee; font-family: system-ui, -apple-system, sans-serif; margin: 0; }
-    .login-box { max-width: 380px; margin: 8vh auto; background: #161616; padding: 2rem; border-radius: .8rem; }
+    .login-box { max-width: 380px; margin: 8vh auto; background: #161616; padding: 2rem; border-radius: .8rem; position: relative; z-index: 5; }
     .login-box h1 { margin-top: 0; font-size: 1.4rem; }
     label { display: block; margin: .8rem 0 .3rem; font-size: .85rem; font-weight: 600; }
     input, select, textarea { width: 100%; padding: .55rem .7rem; border-radius: .4rem; border: 1px solid #333; background: #111; color: #fff; box-sizing: border-box; }
@@ -38,7 +38,7 @@
     <input type="text" id="login-user" autocomplete="username">
     <label>Heslo</label>
     <input type="password" id="login-pass" autocomplete="current-password">
-    <button onclick="doLogin()" style="margin-top:1rem;width:100%">Prihlásiť</button>
+    <button type="button" id="login-btn" style="margin-top:1rem;width:100%;position:relative;z-index:10">Prihlásiť</button>
     <p class="note" style="margin-top:1rem">Predvolené: admin / clippio2026<br>(zmeň hneď po prvom prihlásení)</p>
   </div>
 
@@ -451,6 +451,11 @@
       document.getElementById('preview-profile').textContent = profile;
     }
     ['v-thumb','v-profile'].forEach(id => document.getElementById(id)?.addEventListener('input', updatePreview));
+
+    // Bind login
+    document.getElementById('login-btn')?.addEventListener('click', doLogin);
+    document.getElementById('login-pass')?.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+    document.getElementById('login-user')?.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
 
     // auto login check
     if (sessionStorage.getItem('clippio-admin')) {
