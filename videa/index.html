@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <base href="../">
+  <link rel="stylesheet" href="assets/css/styles.css?v=7">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Videá | Clippio</title>
+  <meta name="description" content="Videá z Instagramu, TikToku a YouTube – Clippio."/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://clippio.sk/videa"/>
+  <style>
+    .videa-filters { display: flex; gap: .5rem; flex-wrap: wrap; margin: 1rem 0 1.5rem; justify-content: center; }
+    .videa-filters button { background: #222; color: #ccc; border: none; padding: .4rem .8rem; border-radius: .4rem; cursor: pointer; }
+    .videa-filters button.active { background: #3ca2fa; color: #000; }
+    .videa-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; width: min(100%, 76rem); margin: 0 auto; }
+    .videa-card { position: relative; aspect-ratio: 9/16; border-radius: .9rem; overflow: hidden; background: #111; cursor: pointer; border: 1px solid rgba(255,255,255,.08); transition: transform .2s; }
+    .videa-card:hover { transform: translateY(-4px); }
+    .videa-card__meta { position: absolute; bottom: 0; left: 0; right: 0; padding: .55rem .65rem; background: linear-gradient(transparent, rgba(0,0,0,.85)); color: #fff; font-size: .82rem; display: flex; align-items: center; gap: .4rem; }
+    .videa-modal { position: fixed; inset: 0; background: rgba(0,0,0,.75); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 1rem; }
+    .videa-modal.open { display: flex; }
+    .videa-modal__box { background: #161616; border-radius: .8rem; max-width: 420px; width: 100%; max-height: 90vh; overflow: auto; }
+    .videa-modal__box img { width: 100%; aspect-ratio: 9/16; object-fit: cover; }
+    .videa-modal__content { padding: 1rem; }
+    .videa-modal__close { position: absolute; top: .5rem; right: .5rem; background: #0008; color: #fff; border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; }
+    .videa-card img { width: 100%; height: 100%; object-fit: cover; }
+    .videa-card__meta { position: absolute; bottom: 0; left: 0; right: 0; padding: .6rem; background: linear-gradient(transparent, rgba(0,0,0,.85)); color: #fff; font-size: .85rem; }
+  </style>
+</head>
+<body class="antialiased">
+  <nav class="site-nav" aria-label="Hlavné menu">
+    <a class="site-nav__brand" href="/">Clippio<span class="brand-dot">.</span></a>
+    <button class="site-nav__toggle" type="button" aria-expanded="false" aria-controls="site-nav-panel"><span class="site-nav__toggle-label">Menu</span><span class="site-nav__bars" aria-hidden="true"></span></button>
+    <div class="site-nav__panel" id="site-nav-panel" hidden>
+      <a href="/fotenie/">Fotenie</a><a href="/natacanie-videi/">Natáčanie videí</a><a href="/praca-s-dronom/">Práca s dronom</a><a href="/baliky/">Balíky</a><a href="/co-robime/">Čo robíme</a><a href="/portfolio/">Portfólio</a><a href="/videa/">Videá</a><a href="/kontakt/">Kontakt</a>
+    </div>
+  </nav>
+  <main class="portfolio-page" id="main-content">
+    <header class="portfolio-page__header">
+      <h1>Videá</h1>
+      <p>Ukážky z Instagramu, TikToku a YouTube.</p>
+    </header>
+    <div class="videa-filters" id="filters">
+      <button class="active" data-filter="all">Všetky</button>
+      <button data-filter="instagram">Instagram</button>
+      <button data-filter="tiktok">TikTok</button>
+      <button data-filter="youtube">YouTube</button>
+    </div>
+    <div id="videa-grid" class="videa-grid">Načítavam…</div>
+  </main>
+  <div id="videa-modal" class="videa-modal">
+    <div class="videa-modal__box">
+      <button class="videa-modal__close" onclick="closeModal()">×</button>
+      <img id="modal-img" src="" alt="">
+      <div class="videa-modal__content">
+        <div id="modal-profile" style="font-weight:700"></div>
+        <div id="modal-date" style="font-size:.85rem;opacity:.7;margin:.3rem 0"></div>
+        <div id="modal-social" style="margin:.6rem 0;white-space:pre-wrap"></div>
+        <div id="modal-custom" style="margin:.6rem 0;opacity:.9;white-space:pre-wrap"></div>
+        <a id="modal-link" href="#" target="_blank" rel="noopener" class="button" style="display:inline-block;margin-top:.5rem">Otvoriť video</a>
+      </div>
+    </div>
+  </div>
+  <script>
+    let allVideos = [];
+    async function load() {
+      try {
+        const res = await fetch('data/videos.json', { cache: 'no-store' });
+        const data = await res.json();
+        allVideos = (data.items || []).filter(v => v.status === 'published' && (v.destinations || []).includes('videa'));
+        render('all');
+      } catch(e) {
+        document.getElementById('videa-grid').textContent = 'Nepodarilo sa načítať videá.';
+      }
+    }
+    function render(filter) {
+      const grid = document.getElementById('videa-grid');
+      const list = filter === 'all' ? allVideos : allVideos.filter(v => v.platform === filter);
+      grid.innerHTML = '';
+      if (!list.length) { grid.textContent = 'Žiadne videá v tejto kategórii.'; return; }
+      list.forEach(v => {
+        const card = document.createElement('div');
+        card.className = 'videa-card';
+        card.innerHTML = `<img src="${v.thumbnail || ''}" alt="${v.profile || ''}" loading="lazy"><div class="videa-card__meta"><img src="${v.avatar || ''}" alt="" style="width:20px;height:20px;border-radius:50%;object-fit:cover;background:#333" onerror="this.style.display='none'"><span>${v.profile || ''}</span></div>`;
+        card.onclick = () => openModal(v);
+        grid.appendChild(card);
+      });
+    }
+    function openModal(v) {
+      document.getElementById('modal-img').src = v.thumbnail || '';
+      document.getElementById('modal-profile').textContent = v.profile || '';
+      document.getElementById('modal-date').textContent = v.date || '';
+      document.getElementById('modal-social').textContent = v.socialDescription || '';
+      document.getElementById('modal-custom').textContent = v.customDescription || '';
+      document.getElementById('modal-link').href = v.url || '#';
+      document.getElementById('videa-modal').classList.add('open');
+    }
+    function closeModal() {
+      document.getElementById('videa-modal').classList.remove('open');
+    }
+    document.getElementById('videa-modal').onclick = (e) => { if (e.target.id === 'videa-modal') closeModal(); };
+    document.getElementById('filters').addEventListener('click', e => {
+      if (e.target.tagName !== 'BUTTON') return;
+      document.querySelectorAll('#filters button').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      render(e.target.dataset.filter);
+    });
+    load();
+    document.querySelector('.site-nav__toggle')?.addEventListener('click', function() {
+      const panel = document.getElementById('site-nav-panel');
+      const exp = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', !exp);
+      panel.hidden = exp;
+    });
+  </script>
+<script src="assets/js/announcements.js"></script>
+</body>
+</html>

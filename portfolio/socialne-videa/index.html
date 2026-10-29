@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <base href="../../">
+  <link rel="stylesheet" href="assets/css/styles.css?v=7">
+  <meta charset="utf-8"/>
+  <meta name="referrer" content="strict-origin-when-cross-origin"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="theme-color" content="#000000"/>
+  <meta name="color-scheme" content="dark"/>
+  <title>Portfólio – Sociálne videá | Clippio</title>
+  <meta name="description" content="Portfólio videí z Instagramu a TikToku – Clippio."/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://clippio.sk/portfolio/socialne-videa"/>
+  <meta property="og:title" content="Sociálne videá | Clippio"/>
+  <meta property="og:description" content="Ukážky z Instagramu a TikToku."/>
+  <meta property="og:url" content="https://clippio.sk/portfolio/socialne-videa"/>
+  <meta property="og:image" content="https://clippio.sk/assets/images/clippio-logo.png"/>
+  <link rel="icon" href="assets/images/clippio-logo.png"/>
+  <link rel="apple-touch-icon" href="assets/images/clippio-logo.png"/>
+  <style>
+    .social-card { position: relative; cursor: pointer; border-radius: .6rem; overflow: hidden; background: #111; aspect-ratio: 9/16; max-height: 480px; }
+    .social-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .social-card__meta { position: absolute; left: 0; right: 0; bottom: 0; padding: .75rem .85rem; background: linear-gradient(transparent, rgba(0,0,0,.85)); color: #fff; text-align: left; }
+    .social-card__profile { font-weight: 800; font-size: .95rem; }
+    .social-card__date { font-size: .78rem; opacity: .85; margin-top: .15rem; }
+    .social-card__platform { position: absolute; top: .6rem; right: .6rem; background: rgba(0,0,0,.6); color: #fff; font-size: .7rem; font-weight: 700; padding: .2rem .45rem; border-radius: .3rem; text-transform: uppercase; }
+    .social-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; width: min(100%, 76rem); margin: 0 auto; }
+    .portfolio-page__intro { max-width: 40rem; margin: 0 auto 2rem; text-align: center; color: #ccc; }
+  </style>
+</head>
+<body class="antialiased">
+  <a class="skip-link" href="#main-content">Preskočiť na obsah</a>
+  <nav class="site-nav" aria-label="Hlavné menu">
+    <a class="site-nav__brand" href="/">Clippio<span class="brand-dot">.</span></a>
+    <button class="site-nav__toggle" type="button" aria-expanded="false" aria-controls="site-nav-panel">
+      <span class="site-nav__toggle-label">Menu</span>
+      <span class="site-nav__bars" aria-hidden="true"></span>
+    </button>
+    <div class="site-nav__panel" id="site-nav-panel" hidden>
+      <a href="/fotenie/">Fotenie</a>
+      <a href="/natacanie-videi/">Natáčanie videí</a>
+      <a href="/praca-s-dronom/">Práca s dronom</a>
+      <a href="/baliky/">Balíky</a>
+      <a href="/co-robime/">Čo robíme</a>
+      <a href="/portfolio/">Portfólio</a>
+      <a href="/kontakt/">Kontakt</a>
+    </div>
+  </nav>
+  <main class="portfolio-page" id="main-content">
+    <header class="portfolio-page__header">
+      <a class="portfolio-page__back" href="portfolio/" aria-label="Späť na portfólio">
+        <svg viewBox="0 0 24 24" aria-hidden="true" width="22" height="22"><path fill="none" stroke="currentColor" stroke-width="2" d="M15 18l-6-6 6-6"/></svg>
+      </a>
+      <h1>Sociálne videá</h1>
+      <p class="portfolio-page__intro">Ukážky z Instagramu a TikToku. Kliknutím sa otvorí príspevok v aplikácii alebo prehliadači.</p>
+    </header>
+    <div id="social-gallery" class="portfolio-gallery-loading">Načítavam…</div>
+  </main>
+  <!-- footer simplified / reuse if needed, but for brevity minimal -->
+  <footer class="hover-footer">
+    <div class="hover-footer__bottom">
+      <p>© 2026 Clippio. Všetky práva vyhradené.</p>
+    </div>
+  </footer>
+  <script>
+    async function loadSocialVideos() {
+      const container = document.getElementById('social-gallery');
+      try {
+        const res = await fetch('data/social-videos.json', { cache: 'no-store' });
+        if (!res.ok) throw new Error('No data');
+        const data = await res.json();
+        const items = data.items || [];
+        if (!items.length) {
+          container.className = 'gallery-empty';
+          container.innerHTML = 'Zatiaľ žiadne videá. Pridaj ich v <a href="sprava/">správe portfólia</a>.';
+          return;
+        }
+        const grid = document.createElement('div');
+        grid.className = 'social-grid';
+        items.forEach(item => {
+          const card = document.createElement('a');
+          card.className = 'social-card';
+          card.href = item.url || '#';
+          card.target = '_blank';
+          card.rel = 'noopener noreferrer';
+          card.innerHTML = `
+            <span class="social-card__platform">${(item.platform || '').toUpperCase()}</span>
+            <img src="${item.thumbnail || ''}" alt="${item.title || item.profile || 'Video'}" loading="lazy" referrerpolicy="no-referrer">
+            <div class="social-card__meta">
+              <div class="social-card__profile">${item.profile || ''}</div>
+              <div class="social-card__date">${item.date || ''}</div>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+        container.replaceWith(grid);
+      } catch (e) {
+        container.className = 'gallery-empty';
+        container.textContent = 'Nepodarilo sa načítať videá.';
+      }
+    }
+    loadSocialVideos();
+    // basic nav toggle
+    document.querySelector('.site-nav__toggle')?.addEventListener('click', function() {
+      const panel = document.getElementById('site-nav-panel');
+      const expanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', !expanded);
+      panel.hidden = expanded;
+    });
+  </script>
+</body>
+</html>

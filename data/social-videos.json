@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "id": "example-ig-1",
+      "platform": "instagram",
+      "url": "https://www.instagram.com/reel/EXAMPLE/",
+      "profile": "@clippio.sk",
+      "date": "2026-10-15",
+      "title": "Ukážka Reel",
+      "thumbnail": "https://lh3.googleusercontent.com/d/11VwHA_mz_b7rf6sTLUtF7FlD7lCofYSI=w800"
+    },
+    {
+      "id": "example-tt-1",
+      "platform": "tiktok",
+      "url": "https://www.tiktok.com/@clippio.sk/video/EXAMPLE",
+      "profile": "@clippio.sk",
+      "date": "2026-10-10",
+      "title": "Ukážka TikTok",
+      "thumbnail": "https://lh3.googleusercontent.com/d/1CFbYARp8PkMB1fmOtW3BeX8MDwlbSBxZ=w800"
+    }
+  ]
+}

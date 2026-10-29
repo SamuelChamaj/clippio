@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Admin | Clippio</title>
+  <meta name="robots" content="noindex, nofollow"/>
+  <link rel="stylesheet" href="../assets/css/styles.css?v=7">
+  <style>
+    :root { color-scheme: dark; }
+    body { background: #0a0a0a; color: #eee; font-family: system-ui, -apple-system, sans-serif; margin: 0; }
+    .login-box { max-width: 380px; margin: 8vh auto; background: #161616; padding: 2rem; border-radius: .8rem; }
+    .login-box h1 { margin-top: 0; font-size: 1.4rem; }
+    label { display: block; margin: .8rem 0 .3rem; font-size: .85rem; font-weight: 600; }
+    input, select, textarea { width: 100%; padding: .55rem .7rem; border-radius: .4rem; border: 1px solid #333; background: #111; color: #fff; box-sizing: border-box; }
+    button { background: #3ca2fa; color: #000; border: none; padding: .6rem 1.1rem; border-radius: .4rem; font-weight: 700; cursor: pointer; }
+    button.secondary { background: #333; color: #fff; }
+    button.danger { background: #c44; color: #fff; }
+    .app { display: none; max-width: 1100px; margin: 0 auto; padding: 1.5rem; }
+    .tabs { display: flex; gap: .5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .tabs button { background: #222; color: #ccc; }
+    .tabs button.active { background: #3ca2fa; color: #000; }
+    .card { background: #161616; border-radius: .6rem; padding: 1.2rem; margin-bottom: 1rem; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } }
+    .video-item { display: flex; gap: 1rem; align-items: flex-start; padding: .8rem 0; border-bottom: 1px solid #222; }
+    .video-item img { width: 72px; height: 128px; object-fit: cover; border-radius: .3rem; background: #222; }
+    .note { color: #aaa; font-size: .85rem; }
+    .preview-card { width: 180px; aspect-ratio: 9/16; background: #111; border-radius: .5rem; overflow: hidden; position: relative; }
+    .preview-card img { width: 100%; height: 100%; object-fit: cover; }
+    .preview-meta { position: absolute; bottom: 0; left: 0; right: 0; padding: .5rem; background: linear-gradient(transparent, #000); font-size: .75rem; }
+  </style>
+</head>
+<body>
+  <div id="login" class="login-box">
+    <h1>Prihlásenie do adminu</h1>
+    <label>Meno</label>
+    <input type="text" id="login-user" autocomplete="username">
+    <label>Heslo</label>
+    <input type="password" id="login-pass" autocomplete="current-password">
+    <button onclick="doLogin()" style="margin-top:1rem;width:100%">Prihlásiť</button>
+    <p class="note" style="margin-top:1rem">Predvolené: admin / clippio2026<br>(zmeň hneď po prvom prihlásení)</p>
+  </div>
+
+  <div id="app" class="app">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+      <h1 style="margin:0">Admin Clippio</h1>
+      <button class="secondary" onclick="logout()">Odhlásiť</button>
+    </div>
+    <div class="tabs">
+      <button class="active" data-tab="videos" onclick="showTab('videos')">Videá</button>
+      <button data-tab="categories" onclick="showTab('categories')">Kategórie</button>
+      <button data-tab="announcements" onclick="showTab('announcements')">Oznamy</button>
+      <button data-tab="settings" onclick="showTab('settings')">Nastavenia</button>
+    </div>
+
+    <div id="tab-videos">
+      <div class="card">
+        <h2>Pridať / upraviť video</h2>
+        <div class="grid-2">
+          <div>
+            <label>Platforma</label>
+            <select id="v-platform"><option value="instagram">Instagram</option><option value="tiktok">TikTok</option><option value="youtube">YouTube</option></select>
+            <label>Odkaz na video</label>
+            <input type="url" id="v-url" placeholder="https://..." onblur="tryAutoFill()">
+            <button type="button" class="secondary" onclick="tryAutoFill()" style="margin-top:.3rem">Skúsiť načítať thumbnail a avatar</button>
+            <label>Profil</label>
+            <input type="text" id="v-profile" placeholder="@clippio.sk">
+            <label>Dátum</label>
+            <input type="date" id="v-date">
+            <label>Thumbnail URL</label>
+            <input type="url" id="v-thumb" placeholder="URL prednej fotky">
+            <label>Profile picture URL</label>
+            <input type="url" id="v-avatar" placeholder="URL avatara">
+          </div>
+          <div>
+            <label>Kategórie (oddelené čiarkou)</label>
+            <input type="text" id="v-cats" placeholder="eventy, dron">
+            <label>Cieľové miesta</label>
+            <div style="display:flex;flex-direction:column;gap:.3rem;font-size:.9rem">
+              <label><input type="checkbox" id="v-dest-videa"> Nová stránka Videá</label>
+              <label><input type="checkbox" id="v-dest-video"> Portfólio videí</label>
+              <label><input type="checkbox" id="v-dest-dron"> Portfólio dron</label>
+              <label><input type="checkbox" id="v-dest-landing"> Úvodná stránka (karusel)</label>
+            </div>
+            <label>Status</label>
+            <select id="v-status"><option value="published">Publikované</option><option value="draft">Draft</option></select>
+            <label>Vlastný popis</label>
+            <textarea id="v-custom" rows="3" placeholder="Tvoj popisok"></textarea>
+          </div>
+        </div>
+        <div style="margin-top:1rem;display:flex;gap:1rem;align-items:flex-start">
+          <button onclick="saveVideo()">Uložiť video</button>
+          <div>
+            <div class="note">Náhľad karty</div>
+            <div class="preview-card" id="preview">
+              <img id="preview-img" src="" alt="">
+              <div class="preview-meta"><span id="preview-profile"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Zoznam videí</h2>
+        <div id="video-list"></div>
+      </div>
+    </div>
+
+    <div id="tab-categories" style="display:none">
+      <div class="card">
+        <h2>Kategórie</h2>
+        <div style="display:flex;gap:.5rem;margin-bottom:1rem">
+          <input type="text" id="new-cat" placeholder="Názov kategórie" style="flex:1">
+          <button onclick="addCategory()">Pridať</button>
+        </div>
+        <div id="cat-list"></div>
+      </div>
+    </div>
+
+    <div id="tab-announcements" style="display:none">
+      <div class="card">
+        <h2>Nový oznam</h2>
+        <label>Názov</label>
+        <input type="text" id="a-title">
+        <label>Popis</label>
+        <textarea id="a-body" rows="2"></textarea>
+        <label>Ikona / dôležitosť</label>
+        <select id="a-variant">
+          <option value="success">Success (✓)</option>
+          <option value="info">Info (ℹ)</option>
+          <option value="warning">Warning (⚠)</option>
+          <option value="error">Error (⛔)</option>
+        </select>
+        <label>Pozícia</label>
+        <select id="a-position">
+          <option value="top-right">Vpravo hore</option>
+          <option value="bottom-right">Vpravo dole</option>
+          <option value="top-left">Vľavo hore</option>
+          <option value="bottom-left">Vľavo dole</option>
+          <option value="top-center">Stred hore</option>
+          <option value="bottom-center">Stred dole</option>
+          <option value="center-modal">Stred – veľký (musí sa odkliknúť)</option>
+        </select>
+        <label>Kde zobraziť</label>
+        <select id="a-where">
+          <option value="all">Všade</option>
+          <option value="index">Úvodná stránka</option>
+          <option value="videa">Videá</option>
+          <option value="portfolio">Portfólio</option>
+          <option value="kontakt">Kontakt</option>
+        </select>
+        <button onclick="addAnnouncement()" style="margin-top:.8rem">Pridať oznam</button>
+      </div>
+      <div class="card">
+        <h2>Aktívne oznamy</h2>
+        <div id="ann-list"></div>
+      </div>
+    </div>
+
+    <div class="card">
+        <h2>Stiahnutie dát</h2>
+        <button onclick="downloadForGitHub()">Stiahnuť na nahratie do GitHub (zip)</button>
+        <button class="secondary" onclick="downloadSingle('videos')">Stiahnuť videos.json</button>
+        <button class="secondary" onclick="downloadSingle('announcements')">Stiahnuť announcements.json</button>
+        <p class="note" style="margin-top:.6rem">Zip rozbaľ a pretiahni priečinky <code>data</code> a <code>assets</code> do koreňa repozitára. Alebo stiahni len jednotlivé JSON a nahraď ich v priečinku <code>data/</code>.</p>
+      </div>
+      <div class="card">
+        <h2>Zmena hesla</h2>
+        <label>Aktuálne heslo</label>
+        <input type="password" id="old-pass">
+        <label>Nové heslo</label>
+        <input type="password" id="new-pass">
+        <label>Nové heslo znova</label>
+        <input type="password" id="new-pass2">
+        <button onclick="changePassword()" style="margin-top:1rem">Zmeniť heslo</button>
+        <p class="note" style="margin-top:.8rem">Heslo sa ukladá ako hash. Po zmene sa odhlás a prihlás znova.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+    const DEFAULT_USER = 'admin';
+    const DEFAULT_HASH = '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'; // SHA-256 of "clippio2026"
+
+    let categories = [];
+    let announcements = [];
+
+    function addCategory() {
+      const name = document.getElementById('new-cat').value.trim();
+      if (!name) return;
+      categories.push({ id: name.toLowerCase().replace(/\s+/g, '-'), name });
+      document.getElementById('new-cat').value = '';
+      renderCategories();
+    }
+
+    function renderCategories() {
+      const el = document.getElementById('cat-list');
+      el.innerHTML = categories.map((c, i) => `
+        <div style="display:flex;justify-content:space-between;padding:.4rem 0;border-bottom:1px solid #222">
+          <span>${c.name}</span>
+          <button class="danger" onclick="categories.splice(${i},1);renderCategories()">Zmazať</button>
+        </div>
+      `).join('') || '<p class="note">Žiadne kategórie.</p>';
+    }
+
+    function addAnnouncement() {
+      announcements.push({
+        id: Date.now(),
+        title: document.getElementById('a-title').value.trim(),
+        body: document.getElementById('a-body').value.trim(),
+        variant: document.getElementById('a-variant').value,
+        position: document.getElementById('a-position').value,
+        where: document.getElementById('a-where').value
+      });
+      document.getElementById('a-title').value = '';
+      document.getElementById('a-body').value = '';
+      renderAnnouncements();
+    }
+
+    function renderAnnouncements() {
+      const el = document.getElementById('ann-list');
+      el.innerHTML = announcements.map((a, i) => `
+        <div style="padding:.6rem 0;border-bottom:1px solid #222">
+          <strong>${a.title}</strong> <span style="opacity:.6">(${a.variant}, ${a.position}, ${a.where})</span>
+          <div style="font-size:.85rem">${a.body}</div>
+          <button class="danger" onclick="announcements.splice(${i},1);renderAnnouncements()">Zmazať</button>
+        </div>
+      `).join('') || '<p class="note">Žiadne oznamy.</p>';
+    }
+
+    async function sha256(str) {
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function doLogin() {
+      const user = document.getElementById('login-user').value.trim();
+      const pass = document.getElementById('login-pass').value;
+      const hash = await sha256(pass);
+      // For this stage we accept default. Later load from auth.json
+      if (user === DEFAULT_USER && hash === DEFAULT_HASH) {
+        sessionStorage.setItem('clippio-admin', '1');
+        document.getElementById('login').style.display = 'none';
+        document.getElementById('app').style.display = 'block';
+        loadVideos();
+      } else {
+        alert('Nesprávne meno alebo heslo');
+      }
+    }
+
+    function logout() {
+      sessionStorage.removeItem('clippio-admin');
+      location.reload();
+    }
+
+    function showTab(name) {
+      document.querySelectorAll('[id^="tab-"]').forEach(el => el.style.display = 'none');
+      document.getElementById('tab-' + name).style.display = 'block';
+      document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+    }
+
+    async function loadVideos() {
+      try {
+        const res = await fetch('../data/videos.json', { cache: 'no-store' });
+        const data = await res.json();
+        videos = data.items || [];
+      } catch(e) { videos = []; }
+      renderList();
+    }
+
+    function renderList() {
+      const el = document.getElementById('video-list');
+      el.innerHTML = videos.length ? '' : '<p class="note">Žiadne videá.</p>';
+      videos.forEach((v, i) => {
+        const div = document.createElement('div');
+        div.className = 'video-item';
+        div.innerHTML = `
+          <img src="${v.thumbnail || ''}" alt="" onerror="this.style.display='none'">
+          <div style="flex:1">
+            <strong>${v.profile || '—'} <span style="opacity:.6">(${v.platform})</span></strong>
+            <div style="font-size:.85rem;opacity:.7">${v.date || ''} · ${v.status || 'published'}</div>
+            <div style="font-size:.8rem">${(v.categories || []).join(', ')}</div>
+          </div>
+          <div>
+            <button class="secondary" onclick="editVideo(${i})">Upraviť</button>
+            <button class="danger" onclick="deleteVideo(${i})">Zmazať</button>
+            <button class="secondary" onclick="moveVideo(${i},-1)">↑</button>
+            <button class="secondary" onclick="moveVideo(${i},1)">↓</button>
+          </div>
+        `;
+        el.appendChild(div);
+      });
+    }
+
+    function editVideo(i) {
+      const v = videos[i];
+      editingId = i;
+      document.getElementById('v-platform').value = v.platform || 'instagram';
+      document.getElementById('v-url').value = v.url || '';
+      document.getElementById('v-profile').value = v.profile || '';
+      document.getElementById('v-date').value = v.date || '';
+      document.getElementById('v-thumb').value = v.thumbnail || '';
+      document.getElementById('v-avatar').value = v.avatar || '';
+      document.getElementById('v-cats').value = (v.categories || []).join(', ');
+      document.getElementById('v-dest-videa').checked = (v.destinations || []).includes('videa');
+      document.getElementById('v-dest-video').checked = (v.destinations || []).includes('video');
+      document.getElementById('v-dest-dron').checked = (v.destinations || []).includes('dron');
+      document.getElementById('v-dest-landing').checked = (v.destinations || []).includes('landing');
+      document.getElementById('v-status').value = v.status || 'published';
+      document.getElementById('v-custom').value = v.customDescription || '';
+      updatePreview();
+    }
+
+    function saveVideo() {
+      const dest = [];
+      if (document.getElementById('v-dest-videa').checked) dest.push('videa');
+      if (document.getElementById('v-dest-video').checked) dest.push('video');
+      if (document.getElementById('v-dest-dron').checked) dest.push('dron');
+      if (document.getElementById('v-dest-landing').checked) dest.push('landing');
+      const item = {
+        id: editingId !== null ? videos[editingId].id : 'v' + Date.now(),
+        platform: document.getElementById('v-platform').value,
+        url: document.getElementById('v-url').value.trim(),
+        profile: document.getElementById('v-profile').value.trim(),
+        date: document.getElementById('v-date').value,
+        thumbnail: document.getElementById('v-thumb').value.trim(),
+        avatar: document.getElementById('v-avatar').value.trim(),
+        categories: document.getElementById('v-cats').value.split(',').map(s => s.trim()).filter(Boolean),
+        destinations: dest,
+        status: document.getElementById('v-status').value,
+        customDescription: document.getElementById('v-custom').value.trim(),
+        socialDescription: window._lastSocial || ''
+      };
+      if (!item.url || !item.profile) { alert('Vyplň odkaz a profil'); return; }
+      if (editingId !== null) videos[editingId] = item;
+      else videos.unshift(item);
+      editingId = null;
+      renderList();
+      alert('Uložené lokálne. Stiahni balík a pretiahni priečinky do GitHubu.');
+      downloadForGitHub();
+    }
+
+
+    function downloadSingle(type) {
+      let data, name;
+      if (type === 'videos') {
+        data = { items: videos, categories: categories, profiles: [] };
+        name = 'videos.json';
+      } else {
+        data = { items: announcements };
+        name = 'announcements.json';
+      }
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = name;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    async function downloadForGitHub() {
+      if (typeof JSZip === 'undefined') { alert('JSZip sa nenačítal'); return; }
+      const zip = new JSZip();
+      const dataFolder = zip.folder('data');
+      dataFolder.file('videos.json', JSON.stringify({ items: videos, categories: categories, profiles: [] }, null, 2));
+      dataFolder.file('announcements.json', JSON.stringify({ items: announcements }, null, 2));
+      const assetsFolder = zip.folder('assets');
+      assetsFolder.file('.gitkeep', 'placeholder');
+      const blob = await zip.generateAsync({ type: 'blob' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'clippio-update.zip';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    function deleteVideo(i) {
+      if (confirm('Zmazať?')) { videos.splice(i, 1); renderList(); }
+    }
+
+    function moveVideo(i, dir) {
+      const j = i + dir;
+      if (j < 0 || j >= videos.length) return;
+      [videos[i], videos[j]] = [videos[j], videos[i]];
+      renderList();
+    }
+
+    function downloadVideos() {
+      const blob = new Blob([JSON.stringify({ items: videos, categories: [], profiles: [] }, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'videos.json';
+      a.click();
+    }
+
+    async function changePassword() {
+      const oldP = document.getElementById('old-pass').value;
+      const newP = document.getElementById('new-pass').value;
+      const newP2 = document.getElementById('new-pass2').value;
+      if (newP !== newP2) { alert('Nové heslá sa nezhodujú'); return; }
+      if (newP.length < 6) { alert('Heslo musí mať aspoň 6 znakov'); return; }
+      const oldHash = await sha256(oldP);
+      if (oldHash !== DEFAULT_HASH) { alert('Aktuálne heslo je nesprávne'); return; }
+      const newHash = await sha256(newP);
+      alert('Nový hash (ulož si ho a nahrad v data/auth.json):\n' + newHash);
+      // In full version this would write to auth.json via download
+    }
+
+    async function tryAutoFill() {
+      const url = document.getElementById('v-url').value.trim();
+      if (!url) return;
+      const platform = document.getElementById('v-platform').value;
+      let oembed = '';
+      if (platform === 'youtube' || url.includes('youtu')) {
+        oembed = 'https://www.youtube.com/oembed?url=' + encodeURIComponent(url) + '&format=json';
+      } else if (platform === 'tiktok' || url.includes('tiktok.com')) {
+        oembed = 'https://www.tiktok.com/oembed?url=' + encodeURIComponent(url);
+      } else if (platform === 'instagram' || url.includes('instagram.com')) {
+        oembed = 'https://www.instagram.com/oembed?url=' + encodeURIComponent(url);
+      }
+      if (!oembed) { alert('Pre túto platformu zatiaľ nie je automatické načítanie.'); return; }
+      try {
+        const res = await fetch(oembed);
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+        if (data.thumbnail_url && !document.getElementById('v-thumb').value) {
+          document.getElementById('v-thumb').value = data.thumbnail_url;
+        }
+        if (data.author_name && !document.getElementById('v-profile').value) {
+          document.getElementById('v-profile').value = data.author_name.startsWith('@') ? data.author_name : '@' + data.author_name;
+        }
+        if (data.author_url) {
+          // avatar often not in oembed, leave for manual
+        }
+        if (data.title) {
+          document.getElementById('v-custom').value = document.getElementById('v-custom').value || data.title;
+          // store as social description on save
+          window._lastSocial = data.title;
+        }
+        updatePreview();
+        alert('Načítané (thumbnail / profil). Avatar doplň ručne ak treba.');
+      } catch(e) {
+        alert('Automatické načítanie zlyhalo (platforma môže blokovať). Vyplň thumbnail a avatar ručne.');
+      }
+    }
+      const thumb = document.getElementById('v-thumb').value;
+      const profile = document.getElementById('v-profile').value;
+      document.getElementById('preview-img').src = thumb;
+      document.getElementById('preview-profile').textContent = profile;
+    }
+    ['v-thumb','v-profile'].forEach(id => document.getElementById(id)?.addEventListener('input', updatePreview));
+
+    // auto login check
+    if (sessionStorage.getItem('clippio-admin')) {
+      document.getElementById('login').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      loadVideos();
+    }
+  </script>
+</body>
+</html>
