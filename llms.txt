@@ -20,6 +20,7 @@ Presnú cenu potvrdí pred termínom podľa rozsahu. Jazyk webu: slovenčina. P�
 - [Práca s dronom](https://clippio.sk/praca-s-dronom/): DJI Mini 3, licencia Open A1/A3, poistenie približne 200 000 €. ADD-ON +25 € k inej službe, DRONE SOLO od 79 €, DRONE PROMO od 119 €. Podľa potreby si požičia lepší dron, s ktorým vie lietať. Registračné číslo na webe nie je.
 - [Balíky](https://clippio.sk/baliky/): Všetky balíky fotenia, videa, dronu a svadieb na jednej stránke.
 - [Portfólio](https://clippio.sk/portfolio/): Prehľad galérií.
+- [Videá](https://clippio.sk/videa/): Portfólio videí z Instagramu, TikToku a YouTube s filtrovaním podľa platformy.
 - [Portfólio – fotenie](https://clippio.sk/portfolio/fotenie/): Ukážky fotografií.
 - [Portfólio – natáčanie videí](https://clippio.sk/portfolio/natacanie-videi/): Ukážky videí na YouTube.
 - [Portfólio – dronové zábery](https://clippio.sk/portfolio/dronove-zabery/): Ukážky zatiaľ na YouTube (https://www.youtube.com/@Clippio_sk).
