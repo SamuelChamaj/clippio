@@ -1,0 +1,12 @@
+{
+  "items": [],
+  "categories": [
+    { "id": "eventy", "name": "Eventy", "color": "#3ca2fa" },
+    { "id": "svadba", "name": "Svadba", "color": "#eab308" },
+    { "id": "dron", "name": "Dron", "color": "#80eeb4" },
+    { "id": "bary", "name": "Bary", "color": "#8b5cf6" }
+  ],
+  "profiles": [
+    { "id": "clippio", "name": "@clippio.sk", "platform": "instagram", "avatar": "" }
+  ]
+}
