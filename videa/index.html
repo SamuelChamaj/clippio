@@ -65,9 +65,9 @@
     let allVideos = [];
     async function load() {
       try {
-        const res = await fetch('data/videos.json', { cache: 'no-store' });
+        const res = await fetch('https://script.google.com/macros/s/AKfycbx5iTkluCpUkxUXb9H6ZbcwjFw4HnqW6se75mh7ezBAO8JX81qqjSMUBP-4-1UHa6BelQ/exec', { cache: 'no-store' });
         const data = await res.json();
-        allVideos = (data.items || []).filter(v => v.status === 'published' && (v.destinations || []).includes('videa'));
+        allVideos = (data.videa || []).filter(v => (v.destinations || []).includes('videa') || (v.destinations || []).length === 0);
         render('all');
       } catch(e) {
         document.getElementById('videa-grid').textContent = 'Nepodarilo sa načítať videá.';

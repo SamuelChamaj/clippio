@@ -8,10 +8,10 @@
 
   let items = [];
   try {
-    const res = await fetch((document.querySelector('base')?.href || '/') + 'data/announcements.json', { cache: 'no-store' });
+    const res = await fetch('https://script.google.com/macros/s/AKfycbx5iTkluCpUkxUXb9H6ZbcwjFw4HnqW6se75mh7ezBAO8JX81qqjSMUBP-4-1UHa6BelQ/exec', { cache: 'no-store' });
     if (res.ok) {
       const data = await res.json();
-      items = data.items || [];
+      items = data.oznamy || [];
     }
   } catch(e) {}
 
