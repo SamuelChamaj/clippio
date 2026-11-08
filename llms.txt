@@ -16,9 +16,9 @@ Presnú cenu potvrdí pred termínom podľa rozsahu. Jazyk webu: slovenčina. P�
 
 - [Domov](https://clippio.sk/): Predstavenie, služby, proces spolupráce a galéria.
 - [Fotenie](https://clippio.sk/fotenie/): PHOTO MINI od 59 €, PHOTO BUSINESS od 89 €, PHOTO CONTENT od 139 €. Orientačná cena, konečná pred termínom.
-- [Natáčanie videí](https://clippio.sk/natacanie-videi/): PROMO START od 59 €, PROMO BUSINESS od 99 €, PROMO CONTENT od 149 €. Strih je v cene balíka.
+- [Natáčanie videí](https://clippio.sk/natacanie-videi/): Reels od 19 €, YouTube videá od 70 €, promo a reklamné videá od 70 €. Detailný cenník na /baliky/.
 - [Práca s dronom](https://clippio.sk/praca-s-dronom/): DJI Mini 3, licencia Open A1/A3, poistenie približne 200 000 €. ADD-ON +25 € k inej službe, DRONE SOLO od 79 €, DRONE PROMO od 119 €. Podľa potreby si požičia lepší dron, s ktorým vie lietať. Registračné číslo na webe nie je.
-- [Balíky](https://clippio.sk/baliky/): Všetky balíky fotenia, videa, dronu a svadieb na jednej stránke.
+- [Balíky](https://clippio.sk/baliky/): Cenník video tvorby – Reels, rozhovory, YouTube, propagačné a reklamné videá. Ceny pre pravidelných aj jednorazových klientov.
 - [Portfólio](https://clippio.sk/portfolio/): Prehľad galérií.
 - [Videá](https://clippio.sk/videa/): Portfólio videí z Instagramu, TikToku a YouTube s filtrovaním podľa platformy.
 - [Portfólio – fotenie](https://clippio.sk/portfolio/fotenie/): Ukážky fotografií.
