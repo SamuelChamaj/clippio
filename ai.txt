@@ -20,7 +20,7 @@ Address: Zlaté Moravce, Slovakia
 Billing-Address: Hosťovce 97, 951 91 Hosťovce, Slovakia
 Services: photography, promo video, aerial drone footage, weddings
 Packages: https://clippio.sk/baliky/
-Pricing-Hint: photo from 59 EUR, promo video from 59 EUR, drone solo from 79 EUR, drone add-on +25 EUR with another service, weddings from 249 EUR; exact quote before the date
+Pricing-Hint: photo from 59 EUR, Reels from 19 EUR (one-time from 22 EUR), YouTube/promo from 70 EUR, drone solo from 79 EUR, drone add-on +25 EUR, weddings from 249 EUR; discounted video prices for regular clients (min. 3 videos/month); exact quote before the date
 Payment: invoice available
 Phone-Hours: 14:00-22:00
 Drone: DJI Mini 3, Open A1/A3, insured about 200000 EUR; registration number is not published
