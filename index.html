@@ -16,7 +16,7 @@
   if (!track) return;
   let videos = [];
   try {
-    const res = await fetch('https://script.google.com/macros/s/AKfycbwgZwu0Nk3A68IFimLql6k6EQgogPEKJJZ_ni6jnJmyIyu5tLYPhtPATuzl9d4vwtJ4UA/exec?source=videa', { cache: 'no-store' });
+    const res = await fetch('https://script.google.com/macros/s/AKfycbyN9M2Gxom4oMv4p-sVyhiaiL9HFq0F3_sgxVh4AhYdEwjszPxRwv3Ebg5VqevpgIbLhA/exec?source=videa', { cache: 'no-store' });
     const data = await res.json();
     videos = data.videa || []; // Drive-based, all videos or filter as needed
   } catch(e) {}
