@@ -16,7 +16,7 @@
   if (!track) return;
   let videos = [];
   try {
-    const res = await fetch('https://script.google.com/macros/s/AKfycbyN9M2Gxom4oMv4p-sVyhiaiL9HFq0F3_sgxVh4AhYdEwjszPxRwv3Ebg5VqevpgIbLhA/exec?source=videa', { cache: 'no-store' });
+    const res = await fetch('https://script.google.com/macros/s/AKfycbwFVfIiYmjo64rO53zAm13-2hdlaiNSxfYaWOwMxMx4nBCvIpFPL1HonJscYK79fMJ6eQ/exec?source=videa', { cache: 'no-store' });
     const data = await res.json();
     videos = data.videa || []; // Drive-based, all videos or filter as needed
   } catch(e) {}
@@ -62,25 +62,37 @@
     if (!modal) {
       modal = document.createElement('div');
       modal.id = 'home-video-modal';
-      modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem';
-      modal.innerHTML = '<div style="position:relative;width:min(90vw,420px);background:#111;border-radius:16px;overflow:hidden"><button id="home-modal-close" style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,.6);color:#fff;border:0;width:32px;height:32px;border-radius:50%;cursor:pointer;z-index:2">×</button><div id="home-modal-player" style="aspect-ratio:9/16;background:#000"></div><div id="home-modal-info" style="padding:12px 14px;color:#fff"></div></div>';
+      modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem';
+      modal.innerHTML = `<div style="position:relative;width:min(92vw,400px);background:#111;border-radius:16px;overflow:hidden">
+        <button id="home-modal-close" style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,.7);color:#fff;border:0;width:34px;height:34px;border-radius:50%;cursor:pointer;z-index:3;font-size:18px">×</button>
+        <div id="home-modal-player" style="aspect-ratio:9/16;background:#000"></div>
+        <div id="home-modal-info" style="padding:12px 14px;color:#fff"></div>
+      </div>`;
       document.body.appendChild(modal);
-      modal.querySelector('#home-modal-close').onclick = () => modal.style.display = 'none';
-      modal.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
+      const close = () => {
+        const player = modal.querySelector('#home-modal-player');
+        if (player) player.innerHTML = '';
+        modal.style.display = 'none';
+      };
+      modal.querySelector('#home-modal-close').onclick = close;
+      modal.onclick = (e) => { if (e.target === modal) close(); };
     }
     const player = modal.querySelector('#home-modal-player');
     const info = modal.querySelector('#home-modal-info');
     if (v.embedUrl) {
-      player.innerHTML = `<iframe src="${v.embedUrl}" style="width:100%;height:100%;border:0" allow="autoplay" allowfullscreen></iframe>`;
+      player.innerHTML = `<iframe src="${v.embedUrl}" style="width:100%;height:100%;border:0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
     } else {
-      player.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#888">Náhľad nedostupný</div>`;
+      player.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#666">Náhľad nedostupný</div>';
     }
+    const ig = v.social || '';
+    const tt = v.socialTiktok || '';
     info.innerHTML = `
       <div style="display:flex;align-items:center;gap:10px">
-        ${v.avatar ? `<img src="${v.avatar}" style="width:36px;height:36px;border-radius:50%;object-fit:cover">` : ''}
-        <div>
-          <div style="font-weight:700">${v.profile || v.folder || ''}</div>
-          ${v.social ? `<a href="${v.social}" target="_blank" rel="noopener" style="color:#3ca2fa;font-size:13px">Otvoriť profil</a>` : ''}
+        <img src="${v.avatar || ''}" alt="" style="width:38px;height:38px;border-radius:50%;object-fit:cover;background:#333;border:1px solid #444" onerror="this.style.display='none'">
+        <div style="flex:1;font-weight:700">${v.profile || ''}</div>
+        <div style="display:flex;gap:8px;align-items:center">
+          ${ig ? `<a href="${ig}" target="_blank" rel="noopener" aria-label="Instagram" style="color:#fff;display:flex"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2Zm0 2A3.8 3.8 0 0 0 4 7.8v8.4A3.8 3.8 0 0 0 7.8 20h8.4a3.8 3.8 0 0 0 3.8-3.8V7.8A3.8 3.8 0 0 0 16.2 4H7.8Zm8.7 2.1a1.4 1.4 0 1 1 0 2.8 1.4 1.4 0 0 1 0-2.8ZM12 7.2a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6Zm0 2a2.8 2.8 0 1 0 0 5.6 2.8 2.8 0 0 0 0-5.6Z"/></svg></a>` : ''}
+          ${tt ? `<a href="${tt}" target="_blank" rel="noopener" aria-label="TikTok" style="color:#fff;display:flex"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 2c.3 2.4 1.7 3.9 4 4.1v3.1a7.1 7.1 0 0 1-4-1.2v6.5a6.3 6.3 0 1 1-6.3-6.3c.4 0 .8 0 1.2.1v3.3a3 3 0 1 0 1.8 2.8V2h3.3Z"/></svg></a>` : ''}
         </div>
       </div>`;
     modal.style.display = 'flex';

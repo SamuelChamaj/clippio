@@ -65,7 +65,7 @@
     let allVideos = [];
     async function load() {
       try {
-        const res = await fetch('https://script.google.com/macros/s/AKfycbyN9M2Gxom4oMv4p-sVyhiaiL9HFq0F3_sgxVh4AhYdEwjszPxRwv3Ebg5VqevpgIbLhA/exec?source=videa', { cache: 'no-store' });
+        const res = await fetch('https://script.google.com/macros/s/AKfycbwFVfIiYmjo64rO53zAm13-2hdlaiNSxfYaWOwMxMx4nBCvIpFPL1HonJscYK79fMJ6eQ/exec?source=videa', { cache: 'no-store' });
         const data = await res.json();
         allVideos = data.videa || data.items || [];
         // Drive-based: no destinations filter needed
