@@ -65,9 +65,10 @@
     let allVideos = [];
     async function load() {
       try {
-        const res = await fetch('https://script.google.com/macros/s/AKfycbx5iTkluCpUkxUXb9H6ZbcwjFw4HnqW6se75mh7ezBAO8JX81qqjSMUBP-4-1UHa6BelQ/exec', { cache: 'no-store' });
+        const res = await fetch('https://script.google.com/macros/s/AKfycbwgZwu0Nk3A68IFimLql6k6EQgogPEKJJZ_ni6jnJmyIyu5tLYPhtPATuzl9d4vwtJ4UA/exec?source=videa', { cache: 'no-store' });
         const data = await res.json();
-        allVideos = (data.videa || []).filter(v => (v.destinations || []).includes('videa') || (v.destinations || []).length === 0);
+        allVideos = data.videa || data.items || [];
+        // Drive-based: no destinations filter needed
         render('all');
       } catch(e) {
         document.getElementById('videa-grid').textContent = 'Nepodarilo sa načítať videá.';
@@ -81,7 +82,15 @@
       list.forEach(v => {
         const card = document.createElement('div');
         card.className = 'videa-card';
-        card.innerHTML = `<img src="${v.thumbnail || ''}" alt="${v.profile || ''}" loading="lazy"><div class="videa-card__meta"><img src="${v.avatar || ''}" alt="" style="width:20px;height:20px;border-radius:50%;object-fit:cover;background:#333" onerror="this.style.display='none'"><span>${v.profile || ''}</span></div>`;
+        const thumb = v.thumbnail || v.avatar || '';
+        card.innerHTML = `
+          <div style="position:relative;background:#111;aspect-ratio:9/16;display:flex;align-items:center;justify-content:center;overflow:hidden">
+            ${thumb ? `<img src="${thumb}" alt="${v.title || v.profile || ''}" loading="lazy" style="width:100%;height:100%;object-fit:cover">` : `<span style="color:#666;font-size:.9rem">${v.title || 'Video'}</span>`}
+          </div>
+          <div class="videa-card__meta" style="display:flex;align-items:center;gap:.5rem;padding:.6rem .5rem;font-size:.85rem">
+            ${v.avatar ? `<img src="${v.avatar}" alt="" style="width:22px;height:22px;border-radius:50%;object-fit:cover;background:#333" onerror="this.style.display='none'">` : ''}
+            <span>${v.profile || v.folder || ''}</span>
+          </div>`;
         card.onclick = () => openModal(v);
         grid.appendChild(card);
       });
@@ -90,9 +99,13 @@
       document.getElementById('modal-img').src = v.thumbnail || '';
       document.getElementById('modal-profile').textContent = v.profile || '';
       document.getElementById('modal-date').textContent = v.date || '';
-      document.getElementById('modal-social').textContent = v.socialDescription || '';
-      document.getElementById('modal-custom').textContent = v.customDescription || '';
-      document.getElementById('modal-link').href = v.url || '#';
+      document.getElementById('modal-social').textContent = v.social || v.socialDescription || '';
+      document.getElementById('modal-custom').textContent = v.title || v.customDescription || '';
+      document.getElementById('modal-link').href = v.social || v.url || '#';
+      if (v.socialTiktok) {
+        const extra = document.getElementById('modal-social');
+        if (extra) extra.textContent += (extra.textContent ? ' · ' : '') + 'TikTok';
+      }
       document.getElementById('videa-modal').classList.add('open');
     }
     function closeModal() {

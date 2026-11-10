@@ -16,9 +16,9 @@
   if (!track) return;
   let videos = [];
   try {
-    const res = await fetch('https://script.google.com/macros/s/AKfycbx5iTkluCpUkxUXb9H6ZbcwjFw4HnqW6se75mh7ezBAO8JX81qqjSMUBP-4-1UHa6BelQ/exec', { cache: 'no-store' });
+    const res = await fetch('https://script.google.com/macros/s/AKfycbwgZwu0Nk3A68IFimLql6k6EQgogPEKJJZ_ni6jnJmyIyu5tLYPhtPATuzl9d4vwtJ4UA/exec?source=videa', { cache: 'no-store' });
     const data = await res.json();
-    videos = (data.videa || []).filter(v => (v.destinations || []).includes('landing'));
+    videos = data.videa || []; // Drive-based, all videos or filter as needed
   } catch(e) {}
   if (!videos.length) {
     document.getElementById('video-carousel-section').style.display = 'none';
