@@ -13,7 +13,7 @@
     .videa-filters { display: flex; gap: .5rem; flex-wrap: wrap; margin: 1rem 0 1.5rem; justify-content: center; }
     .videa-filters button { background: #222; color: #ccc; border: none; padding: .4rem .8rem; border-radius: .4rem; cursor: pointer; }
     .videa-filters button.active { background: #3ca2fa; color: #000; }
-    .videa-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; width: min(100%, 76rem); margin: 0 auto; }
+    .videa-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; width: min(100%, 76rem); margin: 0 auto; }
     .videa-card { position: relative; aspect-ratio: 9/16; border-radius: .9rem; overflow: hidden; background: #111; cursor: pointer; border: 1px solid rgba(255,255,255,.08); transition: transform .2s; }
     .videa-card:hover { transform: translateY(-4px); }
     .videa-card__meta { position: absolute; bottom: 0; left: 0; right: 0; padding: .55rem .65rem; background: linear-gradient(transparent, rgba(0,0,0,.85)); color: #fff; font-size: .82rem; display: flex; align-items: center; gap: .4rem; }
@@ -42,8 +42,8 @@
     </header>
     <div class="videa-filters" id="filters">
       <button class="active" data-filter="all">Všetky</button>
-      <button data-filter="instagram">Instagram</button>
-      <button data-filter="tiktok">TikTok</button>
+      <button data-filter="short">Krátke videá</button>
+      <button data-filter="youtube">YouTube</button>
       <button data-filter="youtube">YouTube</button>
     </div>
     <div id="videa-grid" class="videa-grid">Načítavam…</div>
@@ -76,7 +76,11 @@
     }
     function render(filter) {
       const grid = document.getElementById('videa-grid');
-      const list = filter === 'all' ? allVideos : allVideos.filter(v => v.platform === filter);
+      const list = filter === 'all' ? allVideos : allVideos.filter(v => {
+          if (filter === 'youtube') return (v.platform || '').includes('youtube');
+          if (filter === 'short') return !(v.platform || '').includes('youtube');
+          return v.platform === filter;
+        });
       grid.innerHTML = '';
       if (!list.length) { grid.textContent = 'Žiadne videá v tejto kategórii.'; return; }
       list.forEach(v => {
@@ -126,13 +130,23 @@
         const iframe = document.getElementById('modal-iframe');
         if (iframe) iframe.style.display = 'none';
       }
-      document.getElementById('modal-profile').textContent = v.profile || '';
+      const profileEl = document.getElementById('modal-profile');
+      if (profileEl) {
+        profileEl.innerHTML = `
+          <div style="display:flex;align-items:center;gap:.7rem;margin-bottom:.4rem">
+            ${v.avatar ? `<img src="${v.avatar}" alt="" style="width:40px;height:40px;border-radius:50%;object-fit:cover;border:1px solid #333">` : ''}
+            <div>
+              <div style="font-weight:700">${v.profile || v.folder || 'Video'}</div>
+              ${v.social ? `<a href="${v.social}" target="_blank" rel="noopener" style="font-size:.85rem;color:#3ca2fa">Profil</a>` : ''}
+            </div>
+          </div>`;
+      }
       document.getElementById('modal-date').textContent = v.date || '';
       const socialEl = document.getElementById('modal-social');
       if (socialEl) {
         let html = '';
-        if (v.social) html += `<a href="${v.social}" target="_blank" rel="noopener" style="color:#3ca2fa;margin-right:.8rem">Instagram</a>`;
-        if (v.socialTiktok) html += `<a href="${v.socialTiktok}" target="_blank" rel="noopener" style="color:#3ca2fa">TikTok</a>`;
+        if (v.social) html += `<a href="${v.social}" target="_blank" rel="noopener" style="color:#3ca2fa;margin-right:.8rem">Krátke videá</a>`;
+        if (v.socialTiktok) html += `<a href="${v.socialTiktok}" target="_blank" rel="noopener" style="color:#3ca2fa">YouTube</a>`;
         socialEl.innerHTML = html || (v.socialDescription || '');
       }
       document.getElementById('modal-custom').textContent = v.title || v.customDescription || '';
