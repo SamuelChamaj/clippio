@@ -2,7 +2,7 @@
 <section id="video-carousel-section" style="padding:4rem 1rem 3rem;text-align:center;background:#000">
   <h2 style="margin:0 0 .4rem;font-size:2rem;font-weight:800;letter-spacing:-.02em">Videá</h2>
   <p style="color:#aaa;margin:0 0 2rem;font-size:1.05rem">Najnovšie ukážky z Instagramu, TikToku a YouTube.</p>
-  <div id="video-carousel" style="position:relative;height:620px;display:flex;align-items:center;justify-content:center;overflow:hidden;perspective:1000px">
+  <div id="video-carousel" style="position:relative;height:500px;display:flex;align-items:center;justify-content:center;overflow:hidden;perspective:1000px">
     <div id="carousel-track" style="position:relative;width:100%;height:100%"></div>
     <button id="carousel-prev" aria-label="Predchádzajúce" style="position:absolute;left:.75rem;top:50%;transform:translateY(-50%);background:rgba(22,22,22,.7);color:#fff;border:1px solid #333;border-radius:50%;width:44px;height:44px;cursor:pointer;z-index:20;backdrop-filter:blur(4px)">‹</button>
     <button id="carousel-next" aria-label="Ďalšie" style="position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:rgba(22,22,22,.7);color:#fff;border:1px solid #333;border-radius:50%;width:44px;height:44px;cursor:pointer;z-index:20;backdrop-filter:blur(4px)">›</button>
@@ -33,21 +33,57 @@
       if (pos > Math.floor(videos.length / 2)) pos -= videos.length;
       const isCenter = pos === 0;
       const isAdj = Math.abs(pos) === 1;
-      const el = document.createElement('a');
-      el.href = 'javascript:void(0)';
-      
-      el.rel = 'noopener';
-      el.style.cssText = `position:absolute;width:320px;height:620px;transition:all .6s ease;left:50%;top:50%;margin-left:-160px;margin-top:-280px;transform:translateX(${pos * 42}%) scale(${isCenter ? 1 : isAdj ? 0.82 : 0.65}) rotateY(${pos * -12}deg);z-index:${isCenter ? 10 : isAdj ? 5 : 1};opacity:${isCenter ? 1 : isAdj ? 0.5 : 0};filter:${isCenter ? 'none' : 'blur(4px)'};visibility:${Math.abs(pos) > 1 ? 'hidden' : 'visible'};border-radius:1.1rem;overflow:hidden;border:1px solid rgba(255,255,255,.12);box-shadow:0 12px 40px rgba(0,0,0,.5)`;
-      const thumb = v.thumbnail || v.avatar || '';
+      const el = document.createElement('div');
+      el.style.cssText = `position:absolute;width:260px;height:462px;transition:all .5s ease;left:50%;top:50%;margin-left:-130px;margin-top:-231px;transform:translateX(${pos * 38}%) scale(${isCenter ? 1 : isAdj ? 0.85 : 0.7}) rotateY(${pos * -8}deg);z-index:${isCenter ? 10 : isAdj ? 5 : 1};opacity:${isCenter ? 1 : isAdj ? 0.6 : 0};filter:${isCenter ? 'none' : 'blur(3px)'};visibility:${Math.abs(pos) > 1 ? 'hidden' : 'visible'};border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.15);box-shadow:0 8px 30px rgba(0,0,0,.4);cursor:pointer;background:#111`;
+      const thumb = v.thumbnail || '';
       const avatar = v.avatar || '';
       el.innerHTML = `
-        ${thumb ? `<img src="${thumb}" alt="" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">` : ''}
-        <div style="position:absolute;bottom:0;left:0;right:0;padding:.7rem .8rem;background:linear-gradient(transparent,rgba(0,0,0,.9));display:flex;align-items:center;gap:.5rem;font-size:.9rem;color:#fff">
-          ${avatar ? `<img src="${avatar}" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover;background:#333;border:1px solid #444" onerror="this.style.display='none'">` : ''}
-          <span style="font-weight:600">${v.profile || v.folder || 'Video'}</span>
+        <div style="width:100%;height:100%;position:relative;background:#111">
+          <img src="${thumb}" alt="" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.src='';this.style.background='#1a1a1a'">
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none">
+            <div style="width:56px;height:56px;border-radius:50%;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,.5)">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+          <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 14px;background:linear-gradient(transparent,rgba(0,0,0,.9));display:flex;align-items:center;gap:10px;color:#fff">
+            <img src="${avatar}" alt="" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid #fff;background:#333;flex-shrink:0" onerror="this.style.background='#444'">
+            <div style="flex:1;min-width:0">
+              <div style="font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${v.profile || 'Video'}</div>
+              <div style="font-size:11px;opacity:.75">${v.title || ''}</div>
+            </div>
+          </div>
         </div>`;
+      el.onclick = () => openVideoModal(v);
       track.appendChild(el);
     });
+  }
+  function openVideoModal(v) {
+    let modal = document.getElementById('home-video-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'home-video-modal';
+      modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem';
+      modal.innerHTML = '<div style="position:relative;width:min(90vw,420px);background:#111;border-radius:16px;overflow:hidden"><button id="home-modal-close" style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,.6);color:#fff;border:0;width:32px;height:32px;border-radius:50%;cursor:pointer;z-index:2">×</button><div id="home-modal-player" style="aspect-ratio:9/16;background:#000"></div><div id="home-modal-info" style="padding:12px 14px;color:#fff"></div></div>';
+      document.body.appendChild(modal);
+      modal.querySelector('#home-modal-close').onclick = () => modal.style.display = 'none';
+      modal.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
+    }
+    const player = modal.querySelector('#home-modal-player');
+    const info = modal.querySelector('#home-modal-info');
+    if (v.embedUrl) {
+      player.innerHTML = `<iframe src="${v.embedUrl}" style="width:100%;height:100%;border:0" allow="autoplay" allowfullscreen></iframe>`;
+    } else {
+      player.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#888">Náhľad nedostupný</div>`;
+    }
+    info.innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px">
+        ${v.avatar ? `<img src="${v.avatar}" style="width:36px;height:36px;border-radius:50%;object-fit:cover">` : ''}
+        <div>
+          <div style="font-weight:700">${v.profile || v.folder || ''}</div>
+          ${v.social ? `<a href="${v.social}" target="_blank" rel="noopener" style="color:#3ca2fa;font-size:13px">Otvoriť profil</a>` : ''}
+        </div>
+      </div>`;
+    modal.style.display = 'flex';
   }
   function next() { idx = (idx + 1) % videos.length; render(); }
   function prev() { idx = (idx - 1 + videos.length) % videos.length; render(); }
