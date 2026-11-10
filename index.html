@@ -2,7 +2,7 @@
 <section id="video-carousel-section" style="padding:4rem 1rem 3rem;text-align:center;background:#000">
   <h2 style="margin:0 0 .4rem;font-size:2rem;font-weight:800;letter-spacing:-.02em">Videá</h2>
   <p style="color:#aaa;margin:0 0 2rem;font-size:1.05rem">Najnovšie ukážky z Instagramu, TikToku a YouTube.</p>
-  <div id="video-carousel" style="position:relative;height:500px;display:flex;align-items:center;justify-content:center;overflow:hidden;perspective:1000px">
+  <div id="video-carousel" style="position:relative;height:580px;display:flex;align-items:center;justify-content:center;overflow:hidden;perspective:1000px">
     <div id="carousel-track" style="position:relative;width:100%;height:100%"></div>
     <button id="carousel-prev" aria-label="Predchádzajúce" style="position:absolute;left:.75rem;top:50%;transform:translateY(-50%);background:rgba(22,22,22,.7);color:#fff;border:1px solid #333;border-radius:50%;width:44px;height:44px;cursor:pointer;z-index:20;backdrop-filter:blur(4px)">‹</button>
     <button id="carousel-next" aria-label="Ďalšie" style="position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:rgba(22,22,22,.7);color:#fff;border:1px solid #333;border-radius:50%;width:44px;height:44px;cursor:pointer;z-index:20;backdrop-filter:blur(4px)">›</button>
@@ -34,7 +34,7 @@
       const isCenter = pos === 0;
       const isAdj = Math.abs(pos) === 1;
       const el = document.createElement('div');
-      el.style.cssText = `position:absolute;width:260px;height:462px;transition:all .5s ease;left:50%;top:50%;margin-left:-130px;margin-top:-231px;transform:translateX(${pos * 38}%) scale(${isCenter ? 1 : isAdj ? 0.85 : 0.7}) rotateY(${pos * -8}deg);z-index:${isCenter ? 10 : isAdj ? 5 : 1};opacity:${isCenter ? 1 : isAdj ? 0.6 : 0};filter:${isCenter ? 'none' : 'blur(3px)'};visibility:${Math.abs(pos) > 1 ? 'hidden' : 'visible'};border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.15);box-shadow:0 8px 30px rgba(0,0,0,.4);cursor:pointer;background:#111`;
+      el.style.cssText = `position:absolute;width:300px;height:533px;transition:all .5s ease;left:50%;top:50%;margin-left:-150px;margin-top:-266px;transform:translateX(${pos * 38}%) scale(${isCenter ? 1 : isAdj ? 0.85 : 0.7}) rotateY(${pos * -8}deg);z-index:${isCenter ? 10 : isAdj ? 5 : 1};opacity:${isCenter ? 1 : isAdj ? 0.6 : 0};filter:${isCenter ? 'none' : 'blur(3px)'};visibility:${Math.abs(pos) > 1 ? 'hidden' : 'visible'};border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.15);box-shadow:0 8px 30px rgba(0,0,0,.4);cursor:pointer;background:#111`;
       const thumb = v.thumbnail || '';
       const avatar = v.avatar || '';
       el.innerHTML = `
